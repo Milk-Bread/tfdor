@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crrn.tfdor.dao.UserDao">
+    <!-- 登陆 -->
+    <select id="loginCheck" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
+        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,roleSeq,c.createTime,c.channelId,c.channelName
+        from UserInfo u,channel c
+        WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
+    </select>
+    <!-- 角色查询 -->
+    <select id="roleQuery" parameterType="java.lang.String" resultType="java.util.Map">
+        select roleSeq,roleName,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime from role where 1=1
+        <if test="_parameter!=null and _parameter!=''">
+            AND ROLENAME = #{roleName}
+        </if>
+    </select>
+
+    <insert id="addRole" parameterType="java.util.Map" keyProperty="roleSeq" useGeneratedKeys="true" >
+        INSERT INTO ROLE(RoleName,CreateTime) VALUES (#{roleName},now())
+    </insert>
+
+    <insert id="addRolemenurelate" parameterType="java.util.Map">
+        INSERT INTO ROLEMENURELATE(channelId,roleSeq,menuId) VALUES (#{channelId},#{roleSeq},#{menuId})
+    </insert>
+</mapper>

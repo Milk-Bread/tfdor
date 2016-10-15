@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crrn.tfdor.dao.MenuDao">
+    <!-- 加载菜单 -->
+    <select id="getMenu" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.manage.Menu">
+        SELECT DISTINCTROW m.MENUID,m.MENUNAME,m.PARENTID,m.ORDERID,m.TRANSID,m.CREATETIME
+        FROM MENU m,role r,rolemenurelate u
+        WHERE u.MenuId = m.MenuId and r.RoleSeq = u.RoleSeq and m.PARENTID = #{parentId}
+        <if test="roleSeq != null">
+            and r.roleSeq = #{roleSeq}
+        </if>
+        ORDER BY ORDERID ASC
+    </select>
+</mapper>
