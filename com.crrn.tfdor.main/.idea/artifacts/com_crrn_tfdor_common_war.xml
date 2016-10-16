@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="com.crrn.tfdor.common:war">
-    <output-path>$PROJECT_DIR$/com.crrn.tfdor.common/target</output-path>
-    <root id="archive" name="com.crrn.tfdor.common-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="com.crrn.tfdor.common:war exploded" />
-    </root>
-  </artifact>
-</component>
