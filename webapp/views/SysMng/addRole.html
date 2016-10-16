@@ -1,0 +1,39 @@
+<div ng-controller="addRoleCtrl">
+    <div style="width: 50%;margin-left:40px;">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th width="40%" class="text-center">角色名称</th>
+                <td width="60%" class="text-left"><input type="text" name="roleName" ng-model="roleName"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th class="text-center">选择权限</th>
+                <td class="text-left">
+                    <ul class="list-group" style="margin-bottom: 0px;" ng-repeat="menu in menuList">
+                        <li class="list-group-item" style="padding: 4px 15px;">
+                            <input type="checkbox" id="{{menu.menuIdOne}}" name="{{menu.menuIdOne}}"
+                                   ng-click="cheAll(menu.menuIdOne,menu.menuTwo)"/>&nbsp;&nbsp;<div style="width: 90%;cursor: pointer;" class="FR" ng-click="show(menu.menuIdOne);">{{menu.menuOne}}</div>
+                        </li>
+                        <li class="list-group-item" style="padding: 1px 15px;display: none;" id="aa{{menu.menuIdOne}}">
+                            <ul class="list-group" style="margin-bottom: 0px;" style="padding-left: 20px;">
+                                <li class="list-group-item" style="padding: 4px 15px;" ng-repeat="var in menu.menuTwo">
+                                    <input type="checkbox" id="{{var.id}}" name="{{var.id}}"
+                                           ng-click="chk(var.id,menu.menuIdOne,menu.menuTwo)"/>&nbsp;&nbsp;{{var.name}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="doId();">确 认</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

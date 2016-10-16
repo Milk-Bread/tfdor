@@ -23,6 +23,11 @@
                 templateUrl: 'views/SysMng/roleManager.html',
                 dependencies: ['controllers/SysMng/roleManager'],
                 allowAnonymous: true
+            },'Main.addRole': {
+                url: '/addRole',
+                templateUrl: 'views/SysMng/addRole.html',
+                dependencies: ['controllers/SysMng/addRole'],
+                allowAnonymous: true
             },'Main.QrCodeManager': {
                 url: '/QrCodeManager',
                 templateUrl: 'views/Marketing/qrcodeManager.html',

@@ -1,43 +1,37 @@
 <div ng-controller="mainCtrl" class="mainCtrl">
-	<!--<header class="main-top">-->
-		<!--<div class="main-header-div-left FL">后台管理系统</div>-->
-		<!--<div class="main-header-div-center FL">中间的服务</div>-->
-		<!--<div class="main-header-div-right FL">-->
-			<!--<ul class="main-userbar">-->
-				<!--<li>超级管理员</li>-->
-				<!--<li>admin</li>-->
-				<!--<li>换肤</li>-->
-				<!--<li><button class="btn btn-large btn-link" type="button"  ng-click="logout();">退出</button></li>-->
-			<!--</ul>-->
-		<!--</div>-->
-	<!--</header>-->
-
-	<header class="navbar navbar-default" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" ui-sref="Main">后台管理系统</a>
-			</div>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a><time></time></a></li>
-				<li><a>当前用户:{{userName}}</a></li>
-				<li>&nbsp;</li>
-				<li><a ng-click="logout();" href="#">注销</a></li>
-			</ul>
-		</div>
-	</header>
-	<section class="menu">
-		<article class="accordion">
-			<details class="link"  ng-repeat="menu in menuList">
-			   <summary ng-click="menuOne(menu.menuOne);">{{menu.menuOne}}</summary>
-			   <ul class="submenu" ng-repeat="var in menu.menuTwo">
-					<li><a ui-sref=".{{var.url}}" ng-click="menuTwo(var.name);">{{var.name}}</a></li>
-				</ul>
-			</details>
-		</article>
-	</section>
-	<aside class="aside">
-		<nav ng-show="menuOne1 != null">您当前位置： {{menuOne1}}<span ng-show="menuTwo1 != null">=></span>{{menuTwo1}}</span></nav>
-		<!-- 主要内容 -->
-		<div ui-view></div>
-	</aside>
+    <header class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" ui-sref="Main">后台管理系统</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>
+                    <time></time>
+                </a></li>
+                <li><a>当前用户: {{userName}}</a></li>
+                <li>&nbsp;</li>
+                <li><a><button class="btn btn-danger btn-xs" ng-click="logout();">注销</button></a></li>
+            </ul>
+        </div>
+    </header>
+    <section class="menu">
+        <article class="accordion">
+            <details class="link" ng-repeat="menu in menuList">
+                <summary ng-click="menuOne(menu.menuOne);">{{menu.menuOne}}</summary>
+                <ul class="submenu" ng-repeat="var in menu.menuTwo">
+                    <li><a ui-sref=".{{var.url}}" ng-click="menuTwo(var.name);">{{var.name}}</a></li>
+                </ul>
+            </details>
+        </article>
+    </section>
+    <aside class="aside">
+        <ol class="breadcrumb" ng-show="menuOne1 != null">
+            <li>您当前位置:</li>
+            <li><a href="">{{menuOne1}}</a></li>
+            <li ng-show="menuTwo1 != null"><a href="">{{menuTwo1}}</a></li>
+            <li ng-show="menuThree1 != null" class="active">{{menuThree1}}</li>
+        </ol>
+        <!-- 主要内容 -->
+        <div ui-view></div>
+    </aside>
 </div>

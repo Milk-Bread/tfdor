@@ -8,7 +8,9 @@ define(['app', 'service'], function (app) {
 				$scope.roleList = data;
 			},4000);
 	    };
-
+		$scope.addRole = function(){
+			$state.go("Main.addRole");
+		};
 		$scope.init();
 	});
 });

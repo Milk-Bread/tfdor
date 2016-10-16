@@ -20,9 +20,3 @@ define([ 'routes', 'loader', 'angularAMD', 'ui-bootstrap','angular-sanitize', 'b
 	});
 	return angularAMD.bootstrap(app);
 });
-/**定义User对象**/
-var _USER = {
-		userId:null,
-		userName:null,
-		sex:null
-};
