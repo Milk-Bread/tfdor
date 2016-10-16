@@ -1,0 +1,36 @@
+*:focus {outline: none} 
+/** 设置默认字体 **/
+body,button, input, select, textarea /* for ie */ {
+    font: 12px/1.5 tahoma, \5b8b\4f53, sans-serif;
+	line-height: 1.428571429;
+	color: #333333;
+	background-color: #ffffff;
+}
+
+a:hover,
+a:focus {
+  color: #2a6496;
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+/* 重置 HTML5 元素 */
+article, aside, details, figcaption, figure, footer,header, menu, nav, section,summary, time, mark, audio, video {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+/*向左浮动*/
+.FL {
+	float: left;
+}
+/*向右浮动*/
+.FR {
+	float: right;
+}

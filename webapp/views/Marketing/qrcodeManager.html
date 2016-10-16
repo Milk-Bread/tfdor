@@ -1,0 +1,23 @@
+<div ng-controller="qrCodeManager">
+    <div class="table-responsive">
+        <table
+                class="table table-striped table-bordered table-hover table-condensed">
+            <tr>
+                <td class="text-right">ID</td>
+                <td class="text-center">二维码类型</td>
+                <td class="text-center">二维码状态</td>
+                <td class="text-center">创建时间</td>
+                <td class="text-center">使用时间</td>
+            </tr>
+            <section class="qrcodeimg">
+                <tr ng-repeat="qrcodeimg in qrcodeimgList">
+                    <td class="text-right">{{qrcodeimg.sceneId}}</td>
+                    <td class="text-center">{{qrcodeimg.actionName}}</td>
+                    <td class="text-center">{{qrcodeimg.state}}</td>
+                    <td class="text-center">{{qrcodeimg.createTime}}</td>
+                    <td class="text-center">{{qrcodeimg.updateTime}}</td>
+                </tr>
+            </section>
+        </table>
+    </div>
+</div>
