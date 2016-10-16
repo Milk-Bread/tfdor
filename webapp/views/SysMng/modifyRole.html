@@ -11,7 +11,7 @@
             <tr>
                 <th class="text-center">选择权限</th>
                 <td class="text-left">
-                    <ul class="list-group" style="margin-bottom: 0px;" ng-repeat="menu in menuList">
+                    <ul class="list-group" style="margin-bottom: 0px;" ng-repeat="menu in menuListM">
                         <li class="list-group-item" style="padding: 4px 15px;">
                             <input type="checkbox" id="{{menu.menuIdOne}}" name="{{menu.menuIdOne}}"
                                    ng-click="cheAll(menu.menuIdOne,menu.menuTwo)"/>&nbsp;&nbsp;<div style="width: 90%;cursor: pointer;" class="FR" ng-click="show(menu.menuIdOne);">{{menu.menuOne}}</div>

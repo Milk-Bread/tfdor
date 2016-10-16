@@ -4,8 +4,34 @@
 define(['app', 'service'], function (app) {
     app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
+            $scope.roleName = $stateParams.roleName;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
-                $scope.roleList = data;
+                $scope.menuListM = data;
+                var param = {
+                    roleSeq:$stateParams.roleSeq
+                };
+                service.post2SRV("lodeMenu.do",param,function(data1, status){
+                    for (var key in data) {
+                        for(var key1 in data1){
+                            var menuOneId = data[key].menuIdOne;
+                            if(menuOneId == data1[key1].menuIdOne){
+                                $scope.roleArr.push(menuOneId);
+                                document.getElementById(menuOneId).checked = true;
+                            }
+                            var menuTwo = data[key].menuTwo;
+                            for(var key3 in menuTwo){
+                                var menuTwo2 = data1[key1].menuTwo;
+                                for(var key4 in menuTwo2){
+                                    var id = menuTwo[key3].id;
+                                    if(id == menuTwo2[key4].id){
+                                        $scope.roleArr.push(id);
+                                        document.getElementById(id).checked = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }, 4000);
         };
         $scope.roleArr = [];//定义数组用于存放前端选中权限
@@ -26,7 +52,6 @@ define(['app', 'service'], function (app) {
                     document.getElementById(list[key].id).checked = false;
                 }
             }
-            console.log($scope.roleArr);
         };
 
         $scope.chk = function (id, menuTwoChecked, list) {//单选或者多选
@@ -49,7 +74,6 @@ define(['app', 'service'], function (app) {
             if ($('#' + id).is(':checked') == true) {
                 $scope.roleArr.push(id);
             }
-            console.log($scope.roleArr);
         };
 
         $scope.remote = function (array, obj) {

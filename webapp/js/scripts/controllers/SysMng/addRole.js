@@ -26,7 +26,6 @@ define(['app', 'service'], function (app) {
                     document.getElementById(list[key].id).checked = false;
                 }
             }
-            console.log($scope.roleArr);
         };
 
         $scope.chk = function (id, menuTwoChecked, list) {//单选或者多选
@@ -49,7 +48,6 @@ define(['app', 'service'], function (app) {
             if ($('#' + id).is(':checked') == true) {
                 $scope.roleArr.push(id);
             }
-            console.log($scope.roleArr);
         };
 
         $scope.remote = function (array, obj) {
@@ -75,10 +73,9 @@ define(['app', 'service'], function (app) {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(",")
             }
-            console.log(formData);
-            service.post2SRV("addRole.do", formData, function (data, status) {
-                $state.go("Main.RoleManager");
-            }, 4000);
+            //service.post2SRV("addRole.do", formData, function (data, status) {
+            //    $state.go("Main.RoleManager");
+            //}, 4000);
         }
         $scope.init();
     });

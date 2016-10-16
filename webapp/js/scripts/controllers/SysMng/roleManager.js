@@ -11,6 +11,9 @@ define(['app', 'service'], function (app) {
 		$scope.addRole = function(){
 			$state.go("Main.addRole");
 		};
+		$scope.modifyRole = function(obj,name){
+			$state.go("Main.modifyRole",{"roleSeq":obj,"roleName":name});
+		};
 		$scope.init();
 	});
 });
