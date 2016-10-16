@@ -19,15 +19,15 @@ public class UserInfo extends BaseCodeModel {
   /** 密码 **/
   private String password;
   /** 性别 **/
-  private char sex;
+  private String sex;
   /** 年龄 **/
   private Integer age;
   /** 证件类型 **/
-  private char idType;
+  private String idType;
   /** 证件号码 **/
-  private char idNo;
+  private String idNo;
   /** 手机 **/
-  private char mobilePhone;
+  private String mobilePhone;
   /** 电话 **/
   private String phone;
   /** 渠道ID **/
@@ -115,46 +115,6 @@ public class UserInfo extends BaseCodeModel {
     this.password = password;
   }
 
-  public char getSex() {
-    return sex;
-  }
-
-  public void setSex(char sex) {
-    this.sex = sex;
-  }
-
-  public Integer getAge() {
-    return age;
-  }
-
-  public void setAge(Integer age) {
-    this.age = age;
-  }
-
-  public char getIdType() {
-    return idType;
-  }
-
-  public void setIdType(char idType) {
-    this.idType = idType;
-  }
-
-  public char getIdNo() {
-    return idNo;
-  }
-
-  public void setIdNo(char idNo) {
-    this.idNo = idNo;
-  }
-
-  public char getMobilePhone() {
-    return mobilePhone;
-  }
-
-  public void setMobilePhone(char mobilePhone) {
-    this.mobilePhone = mobilePhone;
-  }
-
   public String getPhone() {
     return phone;
   }
@@ -177,5 +137,45 @@ public class UserInfo extends BaseCodeModel {
 
   public void setAddr(String addr) {
     this.addr = addr;
+  }
+
+  public String getSex() {
+    return sex;
+  }
+
+  public void setSex(String sex) {
+    this.sex = sex;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+
+  public String getIdType() {
+    return idType;
+  }
+
+  public void setIdType(String idType) {
+    this.idType = idType;
+  }
+
+  public String getIdNo() {
+    return idNo;
+  }
+
+  public void setIdNo(String idNo) {
+    this.idNo = idNo;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public void setMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
   }
 }

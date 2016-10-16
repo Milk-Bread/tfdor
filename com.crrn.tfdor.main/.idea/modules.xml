@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.common/com.crrn.tfdor.common.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.common/com.crrn.tfdor.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.dao/com.crrn.tfdor.dao.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.dao/com.crrn.tfdor.dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.domain/com.crrn.tfdor.domain.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.domain/com.crrn.tfdor.domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.main.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.service.manage/com.crrn.tfdor.service.manage.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.service.manage/com.crrn.tfdor.service.manage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.service.wechat/com.crrn.tfdor.service.wechat.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.service.wechat/com.crrn.tfdor.service.wechat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.crrn.tfdor.utils/com.crrn.tfdor.utils.iml" filepath="$PROJECT_DIR$/com.crrn.tfdor.utils/com.crrn.tfdor.utils.iml" />
+    </modules>
+  </component>
+</project>

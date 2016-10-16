@@ -37,8 +37,8 @@ public class BeanUtils {
             if ((!(bw.isWritableProperty(name))) || (!(bw.isReadableProperty(name)))) continue;
             Class class0 = pd.getPropertyType();
             if (Enum.class.isAssignableFrom(class0)) {
-                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                Object value = map.get(convertedName);
+//                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                Object value = map.get(name);
                 if (value == null) continue;
                 if (value.getClass() == class0) {
                     bw.setPropertyValue(name, value);
@@ -49,8 +49,8 @@ public class BeanUtils {
                     bw.setPropertyValue(name, v);
                 }
             } else {
-                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                Object value = map.get(convertedName);
+//                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                Object value = map.get(name);
                 if (value == null) continue;
                 bw.setPropertyValue(name, value);
             }
@@ -66,8 +66,8 @@ public class BeanUtils {
             if ((!(bw.isWritableProperty(name))) || (!(bw.isReadableProperty(name)))) continue;
             Class class0 = pd.getPropertyType();
             if (Enum.class.isAssignableFrom(class0)) {
-                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                Object value = map.get(convertedName);
+//                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                Object value = map.get(name);
                 if (value == null) continue;
                 if (value.getClass() == class0) {
                     bw.setPropertyValue(name, value);
@@ -78,8 +78,8 @@ public class BeanUtils {
                     bw.setPropertyValue(name, v);
                 }
             } else {
-                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                Object value = map.get(convertedName);
+//                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                Object value = map.get(name);
                 if (value == null) continue;
                 bw.setPropertyValue(name, value);
             }
@@ -101,8 +101,8 @@ public class BeanUtils {
                 if (object == null) {
                     continue;
                 }
-                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-                dataMap.put(convertedName, object);
+//                String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                dataMap.put(name, object);
             }
             return dataMap;
         } catch (Exception e1) {
@@ -147,16 +147,16 @@ public class BeanUtils {
                     if (object == null) {
                         continue;
                     }
-                    String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+//                    String convertedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
                     Class class0 = object.getClass();
                     if ((class0.getName().startsWith("java")) || (Enum.class.isAssignableFrom(class0))) {
-                        dataMap.put(convertedName, object);
+                        dataMap.put(name, object);
                     } else {
                         Map subMap = bean2MapRecurse(object);
                         if (subMap == null) continue;
                         for (Iterator it = subMap.entrySet().iterator(); it.hasNext();) {
                             Map.Entry entry = (Map.Entry) it.next();
-                            dataMap.put(convertedName + "_" + entry.getKey(), entry.getValue());
+                            dataMap.put(name + "_" + entry.getKey(), entry.getValue());
                         }
                     }
                 }
