@@ -101,19 +101,26 @@ public class UserController {
     @ResponseBody
     public Object lodeMenu(HttpServletRequest request) {
     	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuList");
+        String roleSeqStr = request.getParameter("roleSeq");
+        Integer roleSeq = null;
+        if(roleSeqStr == null || "".equals(roleSeqStr)){
+            roleSeq = user.getRoleSeq();
+        }else {
+            roleSeq = Integer.valueOf(roleSeqStr);
+        }
+        List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuList"+roleSeq);
         if (_menuList == null) {
             String parentId = "00000000";
             List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
             // 查询主菜单
-            List<Menu> zuMenu = menuService.getMenu(parentId, user.getRoleSeq());
+            List<Menu> zuMenu = menuService.getMenu(parentId, roleSeq);
             for (Menu menu : zuMenu) {
                 Map<String, Object> menuMap = new HashMap<String, Object>();
                 menuMap.put("menuOne", menu.getMenuName());
                 menuMap.put("menuIdOne", menu.getMenuId());
                 parentId = menu.getMenuId();
                 // 查子菜单
-                List<Menu> ziMenu = menuService.getMenu(parentId, user.getRoleSeq());
+                List<Menu> ziMenu = menuService.getMenu(parentId, roleSeq);
                 List<Map<String, Object>> menu2List = new ArrayList<Map<String, Object>>();
                 for (Menu menu2 : ziMenu) {
                     Map<String, Object> map = new HashMap<String, Object>();
@@ -125,7 +132,7 @@ public class UserController {
                 menuMap.put("menuTwo", menu2List);
                 menuList.add(menuMap);
             }
-            request.getSession().setAttribute("_menuList", menuList);
+            request.getSession().setAttribute("_menuList"+roleSeq, menuList);
             return menuList;
         } else {
             return _menuList;

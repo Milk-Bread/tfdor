@@ -10,8 +10,8 @@
     </select>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
-        select r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime from role r
-        where r.channelId = #{channelId}
+        select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime from role r,channel c
+        where c.channelId = r.channelId and r.channelId = #{channelId}
         <if test="roleName != null and roleName != '' ">
             AND ROLENAME = #{roleName}
         </if>
