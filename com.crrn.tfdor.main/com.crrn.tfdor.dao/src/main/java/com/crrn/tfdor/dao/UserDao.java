@@ -19,10 +19,10 @@ public interface UserDao {
   /**
    * Description:登陆校验
    * @Version1.0 2016-07-25 10:39:42 by chepeiqing (chepeiqing@icloud.com)
-   * @param roleName
+   * @param param
    * @return
    */
-  public List<Map<String, Object>> roleQuery(String roleName);
+  public List<Map<String, Object>> roleQuery(Map<String, Object> param);
 
   /**
    * 新增角色

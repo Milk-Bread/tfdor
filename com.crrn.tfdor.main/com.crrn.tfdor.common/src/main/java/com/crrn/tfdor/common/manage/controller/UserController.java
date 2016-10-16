@@ -150,7 +150,7 @@ public class UserController {
     }
 
     /**
-     * Description: 根据用户角色加载菜单
+     * Description: 根据用户角色和渠道加载菜单
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -159,7 +159,12 @@ public class UserController {
     @ResponseBody
     public Object roleQuery(HttpServletRequest request) {
         String roleName = (String) request.getParameter("roleName");
-        List<Map<String, Object>> roleList = userService.roleQuery(roleName);
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        String channel = user.getChannel().getChannelId();
+        Map<String, Object> param = new HashMap<>();
+        param.put("roleName",roleName);
+        param.put("channelId",channel);
+        List<Map<String, Object>> roleList = userService.roleQuery(param);
         String sessionId = request.getRequestedSessionId();
         System.err.println(sessionId);
         return roleList;

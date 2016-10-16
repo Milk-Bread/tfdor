@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService {
     /**
      * Description:角色查询
      *
-     * @param roleName
+     * @param param
      * @return
      * @Version1.0 2016-07-25 10:39:42 by chepeiqing (chepeiqing@icloud.com)
      */
     @Override
-    public List<Map<String, Object>> roleQuery(String roleName) {
-        return userDao.roleQuery(roleName);
+    public List<Map<String, Object>> roleQuery(Map<String, Object> param) {
+        return userDao.roleQuery(param);
     }
 
     /**
@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> roleMap = new HashMap<>();
         roleMap.put("roleName",roleName);
         roleMap.put("roleSeq","");
+        roleMap.put("channelId",role.get("channelId"));
         userDao.addRole(roleMap);
         String menuStr = (String) role.get("roleArr");
         String[] menuArr = menuStr.split(",");
@@ -56,7 +57,6 @@ public class UserServiceImpl implements UserService {
             Map<String, Object> map = new HashMap<>();
             map.put("roleSeq",roleMap.get("roleSeq"));
             map.put("menuId",str);
-            map.put("channelId", role.get("channelId"));
             userDao.addRolemenurelate(map);
         }
     }

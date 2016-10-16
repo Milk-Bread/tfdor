@@ -83,6 +83,7 @@ alter table QrcodeImg comment '二维码表';
 create table Role
 (
    RoleSeq              INTEGER not null auto_increment,
+   ChannelId            VARCHAR(20) not null,
    RoleName             VARCHAR(30) not null,
    CreateTime           TIMESTAMP not null,
    primary key (RoleSeq)
@@ -100,7 +101,6 @@ create table RoleMenuRelate
 (
    RoleSeq              INTEGER not null,
    MenuId               varchar(20) not null,
-   channelId            varchar(20),
    primary key (RoleSeq, MenuId)
 )
 auto_increment = 1000
@@ -167,7 +167,7 @@ alter table RoleMenuRelate add constraint FK_Reference_2 foreign key (RoleSeq)
 alter table RoleMenuRelate add constraint FK_Reference_3 foreign key (MenuId)
       references Menu (MenuId) on delete restrict on update restrict;
 
-alter table RoleMenuRelate add constraint FK_Reference_4 foreign key (channelId)
+alter table Role add constraint FK_Reference_4 foreign key (channelId)
       references channel (channelId) on delete restrict on update restrict;
 
 alter table UserInfo add constraint FK_Reference_1 foreign key (RoleSeq)

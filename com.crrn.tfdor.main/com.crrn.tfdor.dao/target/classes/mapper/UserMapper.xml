@@ -9,18 +9,19 @@
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
     <!-- 角色查询 -->
-    <select id="roleQuery" parameterType="java.lang.String" resultType="java.util.Map">
-        select roleSeq,roleName,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime from role where 1=1
-        <if test="_parameter!=null and _parameter!=''">
+    <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
+        select r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime from role r
+        where r.channelId = #{channelId}
+        <if test="roleName != null and roleName != '' ">
             AND ROLENAME = #{roleName}
         </if>
     </select>
 
     <insert id="addRole" parameterType="java.util.Map" keyProperty="roleSeq" useGeneratedKeys="true" >
-        INSERT INTO ROLE(RoleName,CreateTime) VALUES (#{roleName},now())
+        INSERT INTO ROLE(channelId,RoleName,CreateTime) VALUES (#{channelId},#{roleName},now())
     </insert>
 
     <insert id="addRolemenurelate" parameterType="java.util.Map">
-        INSERT INTO ROLEMENURELATE(channelId,roleSeq,menuId) VALUES (#{channelId},#{roleSeq},#{menuId})
+        INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
     </insert>
 </mapper>
