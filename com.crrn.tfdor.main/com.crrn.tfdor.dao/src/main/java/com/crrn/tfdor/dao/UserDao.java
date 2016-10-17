@@ -25,6 +25,13 @@ public interface UserDao {
   public List<Map<String, Object>> roleQuery(Map<String, Object> param);
 
   /**
+   * 渠道查询
+   * @param param
+   * @return
+   */
+  public List<Map<String,Object>> queryChannel(Map<String, Object> param);
+
+  /**
    * 新增角色
    * @param map
    * @return
@@ -36,4 +43,14 @@ public interface UserDao {
    * @param map
    */
   public void addRolemenurelate(Map<String, Object> map);
+
+  /**
+   * 删除角色菜单关联
+   */
+  public void deleteRolemenurelate(Map<String, Object> map);
+
+  /**
+   * 修改角色
+   */
+  public void modifyRole(Map<String, Object> map);
 }

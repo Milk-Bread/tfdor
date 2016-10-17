@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:p="http://www.springframework.org/schema/p"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:mvc="http://www.springframework.org/schema/mvc"
-  xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
  
  	<!-- 配置注解支持 -->
 	<mvc:annotation-driven /> 
@@ -56,12 +55,20 @@
 	</bean>
 	<!-- 统一异常处理 -->
 	<bean class="com.crrn.tfdor.utils.handlerexception.HandlerException"/>
-	
+
 	<!-- 扫描controller（controller层注入） -->
 	<context:component-scan base-package="com.crrn.tfdor.common.manage.controller"/>
 	<context:component-scan base-package="com.crrn.tfdor.common.wechat.controller"/>
-    <!-- 自动扫描注解的bean -->
-    <context:component-scan base-package="com.crrn.tfdor.service.manage.impl" />
-    <context:component-scan base-package="com.crrn.tfdor.service.wechat.core" /> 
-    <context:component-scan base-package="com.crrn.tfdor.service.wechat.impl" /> 
+	<!-- 自动扫描注解的bean -->
+	<context:component-scan base-package="com.crrn.tfdor.service.manage.impl" />
+	<context:component-scan base-package="com.crrn.tfdor.service.wechat.core" />
+	<context:component-scan base-package="com.crrn.tfdor.service.wechat.impl" />
+
+	<!-- 事务管理配置 注意:必须跟services放同一个配置文件(不然不会加强事务修饰) -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
+	<tx:annotation-driven transaction-manager="txManager" />
 </beans>

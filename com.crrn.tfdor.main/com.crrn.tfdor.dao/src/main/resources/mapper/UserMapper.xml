@@ -24,4 +24,23 @@
     <insert id="addRolemenurelate" parameterType="java.util.Map">
         INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
     </insert>
+
+    <delete id="deleteRolemenurelate" parameterType="java.util.Map">
+        delete from ROLEMENURELATE where roleSeq = #{roleSeq}
+    </delete>
+
+    <update id="modifyRole" parameterType="java.util.Map">
+        update role set roleName = #{roleName}
+        <if test="channelId != null and channelId != ''">
+            ,channelId = #{channelId}
+        </if>
+        WHERE roleSeq = #{roleSeq}
+    </update>
+
+    <select id="queryChannel" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT channelId,channelName from channel where 1 = 1
+        <if test="channelId != null and channelId != ''">
+            and channelId = #{channelId}
+        </if>
+    </select>
 </mapper>

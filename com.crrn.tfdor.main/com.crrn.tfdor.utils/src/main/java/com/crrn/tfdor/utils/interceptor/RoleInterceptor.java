@@ -24,6 +24,7 @@ public class RoleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String action = request.getRequestURL().toString();
+//        request.getRequestDispatcher("").forward(request,response);
         if (action.indexOf("login.do") > 0) {
             return true;
         } else {
@@ -44,7 +45,8 @@ public class RoleInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+//        System.out.println(request.getParts());
+//        System.out.println();
     }
 
     @Override

@@ -162,20 +162,52 @@ public class UserController {
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "roleQuery.do", method = RequestMethod.POST)
+    @RequestMapping(value = "queryRole.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object roleQuery(HttpServletRequest request) {
+    public Object queryRole(HttpServletRequest request) {
         String roleName = (String) request.getParameter("roleName");
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         String channel = user.getChannel().getChannelId();
         Map<String, Object> param = new HashMap<>();
         param.put("roleName",roleName);
         param.put("channelId",channel);
-        List<Map<String, Object>> roleList = userService.roleQuery(param);
+        List<Map<String, Object>> roleList = userService.queryRole(param);
         String sessionId = request.getRequestedSessionId();
-        System.err.println(sessionId);
         return roleList;
     }
 
+
+    /**
+     * Description: 修改角色
+     * @param request
+     * @return
+     * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "modifyRole.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyRole(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleName", request.getParameter("roleName"));
+        map.put("roleSeq", request.getParameter("roleSeq"));
+        map.put("roleArr", request.getParameter("roleArr"));
+        map.put("channelId", request.getParameter("channelId"));
+        userService.modifyRole(map);
+        //更新role菜单缓存
+        request.getSession().removeAttribute("_menuList"+request.getParameter("roleSeq"));
+    }
+
+    /**
+     * Description: 查询渠道
+     * @param request
+     * @return
+     * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "queryChannel.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryChannel(HttpServletRequest request){
+        Map<String, Object> param = new HashMap<String,Object>();
+        param.put("channelId",request.getParameter("channelId"));
+        return userService.queryChannel(param);
+    }
 
 }
