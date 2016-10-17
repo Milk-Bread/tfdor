@@ -4,7 +4,7 @@ define(['app', 'service'], function (app) {
 			var formData = {
 				"roleName" : $scope.roleName
 			};
-			service.post2SRV("roleQuery.do", formData,function(data,status) {
+			service.post2SRV("queryRole.do", formData,function(data,status) {
 				$scope.roleList = data;
 			},4000);
 	    };

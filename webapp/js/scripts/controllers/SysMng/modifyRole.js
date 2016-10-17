@@ -97,10 +97,12 @@ define(['app', 'service'], function (app) {
             }
             var formData = {
                 "roleName": $scope.roleName,
-                "roleArr": $scope.roleArr.join(",")
+                "roleArr": $scope.roleArr.join(","),
+                "roleSeq":$stateParams.roleSeq,
+                "channelId":null
             }
             console.log(formData);
-            service.post2SRV("addRole.do", formData, function (data, status) {
+            service.post2SRV("modifyRole.do", formData, function (data, status) {
                 $state.go("Main.RoleManager");
             }, 4000);
         }

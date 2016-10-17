@@ -116,7 +116,6 @@ create table UserInfo
 (
    UserSeq              INTEGER not null auto_increment,
    RoleSeq              INTEGER,
-   cha_channelId        varchar(20),
    UserId               VARCHAR(18),
    UserName             VARCHAR(18),
    Password             VARCHAR(50),
@@ -126,7 +125,7 @@ create table UserInfo
    IdNo                 char(18),
    MobilePhone          char(11),
    Phone                VARCHAR(24),
-   ChannelId            char(4),
+   ChannelId            char(20),
    CreateTime           timestamp,
    Addr                 VARCHAR(500),
    primary key (UserSeq)
