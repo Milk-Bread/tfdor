@@ -40,4 +40,9 @@ public interface UserService {
    * @return
    */
   public List<Map<String,Object>> queryChannel(Map<String, Object> param);
+
+    /**
+     *  添加用户
+     */
+    public void addUser(UserInfo userInfo);
 }

@@ -57,4 +57,10 @@ public interface UserDao {
    * 修改角色
    */
   public void modifyRole(Map<String, Object> map);
+
+  /**
+   *  添加用户
+   * @param userInfo
+   */
+  public void addUser(UserInfo userInfo);
 }
