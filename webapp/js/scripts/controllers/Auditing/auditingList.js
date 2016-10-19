@@ -4,7 +4,7 @@ define(['app', 'service'], function (app) {
             service.post2SRV("auditingList.do", null, function (data, status) {
                 $scope.auditingList = data;
             }, 4000);
-        }
+        };
         $scope.init();
     });
 });

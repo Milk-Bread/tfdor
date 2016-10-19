@@ -5,6 +5,24 @@ define([ 'routes', 'loader', 'angularAMD', 'ui-bootstrap','angular-sanitize', 'b
 			$templateCache.removeAll();
 		});
 	}]);
+	app.filter('sysCode',function() {
+		return function(code,type) {
+			var messages = {};
+			messages["auditingState"] = {
+				"I": "待审核",
+				"S": "审核通过",
+				"F": "审核不通过"
+			};
+			if (type) {
+			    var sysCodeCon = messages;
+			    var msg = sysCodeCon[type][code];
+			    if (msg) {
+			        return msg;
+			    }
+			}
+			return code;
+		};
+	});
 	app.config(function($stateProvider, $urlRouterProvider) {
 		// 配置路由
 		if (config.routes != undefined) {
