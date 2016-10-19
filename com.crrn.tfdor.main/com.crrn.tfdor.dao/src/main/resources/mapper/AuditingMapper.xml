@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crrn.tfdor.dao.AuditingDao">
+    <!-- 加载菜单 -->
+    <insert id="addAuditing" parameterType="java.util.Map">
+        INSERT INTO Auditing(auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,createTime,state)
+        VALUES (#{auditingTrans},#{auditingName},#{auditingData},#{promoterSeq},#{promoter},#{auditPersonSeq},#{auditPerson},now(),'I')
+    </insert>
+    <!-- 查询复合人 -->
+    <select id="queryAuditPerson" parameterType="java.util.Map" resultType="java.util.Map">
+        select u.userSeq,u.userName,u.roleSeq from userinfo u,rolemenurelate rm
+        where u.RoleSeq = rm.RoleSeq and rm.MenuId = 'CheckQuery'
+        and u.ChannelId = #{channelId} and u.userSeq != #{userSeq}
+    </select>
+    <!-- 查询复合记录 -->
+    <select id="auditingList" parameterType="java.util.Map" resultType="java.util.Map">
+        select auditingSeq,auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        state FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state = #{state}
+    </select>
+</mapper>

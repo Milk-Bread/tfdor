@@ -1,6 +1,8 @@
 package com.crrn.tfdor.domain.manage;
 
-public class CheckModel extends BaseCodeModel {
+import java.io.Serializable;
+
+public class CheckModel extends BaseCodeModel implements Serializable {
     private String signature;
     private Long timestamp;
     private Long nonce;

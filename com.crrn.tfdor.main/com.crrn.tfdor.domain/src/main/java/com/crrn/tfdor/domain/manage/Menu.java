@@ -1,5 +1,6 @@
 package com.crrn.tfdor.domain.manage;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
  * All Rights Reserved.
  * @version 1.0 2016年8月1日 下午1:19:02 by chepeiqing (chepeiqing@icloud.com)
  */
-public class Menu extends BaseCodeModel {
+public class Menu extends BaseCodeModel implements Serializable {
   /** 菜单ID **/
   private String menuId;
   /** 菜单名称 **/

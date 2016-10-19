@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
         roleMap.put("roleSeq",role.get("roleSeq"));
         roleMap.put("channelId",role.get("channelId"));
         userDao.modifyRole(roleMap);
-        int a = 1/0;
         userDao.deleteRolemenurelate(role);
         String menuStr = (String) role.get("roleArr");
         String[] menuArr = menuStr.split(",");

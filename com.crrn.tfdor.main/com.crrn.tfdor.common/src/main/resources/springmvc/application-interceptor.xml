@@ -19,7 +19,9 @@
  		<mvc:interceptor>
  			<mvc:mapping path="/*.do"/>
 	 		<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
- 			<bean class="com.crrn.tfdor.utils.interceptor.RoleInterceptor"/>
+ 			<bean class="com.crrn.tfdor.utils.interceptor.RoleInterceptor">
+				<property name="auditing" ref="auditing"/>
+			</bean>
  		</mvc:interceptor>
-	</mvc:interceptors> 
+	</mvc:interceptors>
 </beans>

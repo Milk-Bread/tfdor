@@ -350,7 +350,7 @@ public class Util {
      */
     public static JSONObject mapToJson(Map<String, Object> map) {
         JSONObject json = JSONObject.fromObject(map);
-        logger.debug("http request:===>" + json);
+        logger.debug("JSON:===>" + json);
         return json;
     }
 

@@ -12,6 +12,13 @@
 			<value>30000</value>
 		</property>
 	</bean>
-
-
+	<!-- 配置需要复合的交易ID -->
+	<bean id="auditing" class="com.crrn.tfdor.utils.interceptor.AuditingInterceptor">
+		<property name="auditignList">
+			<list>
+				<value>addRole.do</value>
+				<value>modifyRole.do</value>
+			</list>
+		</property>
+	</bean>
 </beans>
