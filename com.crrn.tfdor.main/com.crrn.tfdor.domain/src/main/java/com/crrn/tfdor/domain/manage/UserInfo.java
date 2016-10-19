@@ -179,4 +179,6 @@ public class UserInfo extends BaseCodeModel implements Serializable {
   public void setMobilePhone(String mobilePhone) {
     this.mobilePhone = mobilePhone;
   }
+
+
 }

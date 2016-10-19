@@ -49,4 +49,35 @@
             and channelId = #{channelId}
         </if>
     </select>
+
+    <insert id="addUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" keyProperty="userSeq" useGeneratedKeys="true">
+        INSERT INTO UserInfo(
+              roleSeq,
+              userId,
+              userName,
+              password,
+              sex,
+              age,
+              idType,
+              idNo,
+              mobilePhone,
+              phone,
+              channelId,
+              CreateTime,
+              addr)
+        VALUES (
+              #{roleSeq},
+              #{userId},
+              #{userName},
+              #{password},
+              #{sex},
+              #{age},
+              #{idType},
+              #{idNo},
+              #{mobilePhone},
+              #{phone},
+              #{channel.channelId},
+              now(),
+              #{addr})
+    </insert>
 </mapper>

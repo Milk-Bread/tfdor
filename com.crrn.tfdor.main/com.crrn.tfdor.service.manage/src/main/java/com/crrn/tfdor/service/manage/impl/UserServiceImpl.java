@@ -110,5 +110,18 @@ public class UserServiceImpl implements UserService {
         return userDao.queryChannel(param);
     }
 
+    /**
+     * 添加用户
+     *
+     * @param userInfo
+     * @return
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void addUser(UserInfo userInfo) {
+        userDao.addUser(userInfo);
+
+    }
+
 
 }

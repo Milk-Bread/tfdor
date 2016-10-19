@@ -222,4 +222,34 @@ public class UserController {
         return userService.queryChannel(param);
     }
 
+    /**
+     * Description: 添加用户
+     * @param request
+     * @return
+     * @Version1.0 2016年10月19日 下午10:19:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "addUser.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void addUser(HttpServletRequest request) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(request.getParameter("userId"));
+        userInfo.setUserName(request.getParameter("userName"));
+        String passwordAes = EncodeUtil.aesEncrypt("88888888");
+        userInfo.setPassword(passwordAes);
+        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
+        userInfo.setSex(request.getParameter("sex"));
+        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
+        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
+        userInfo.setPhone(request.getParameter("phone"));
+        userInfo.setIdType("00");
+        userInfo.setIdNo(request.getParameter("idNo"));
+        userInfo.setAddr(request.getParameter("addr"));
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        String channelId = user.getChannel().getChannelId();
+        Channel channel = new Channel();
+        channel.setChannelId(channelId);
+        userInfo.setChannel(channel);
+        userService.addUser(userInfo);
+    }
+
 }
