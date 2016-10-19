@@ -60,4 +60,13 @@ public class UserServiceImpl implements UserService {
             userDao.addRolemenurelate(map);
         }
     }
+
+    /**
+     *  查询用户列表
+     * @param user
+     */
+    @Override
+    public List<UserInfo> queryUserInfo(UserInfo user) {
+        return userDao.queryUserInfo(user);
+    }
 }

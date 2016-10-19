@@ -9,15 +9,13 @@
                 <td class="text-center">创建时间</td>
                 <td class="text-center">使用时间</td>
             </tr>
-            <section class="qrcodeimg">
-                <tr ng-repeat="qrcodeimg in qrcodeimgList">
-                    <td class="text-right">{{qrcodeimg.sceneId}}</td>
-                    <td class="text-center">{{qrcodeimg.actionName}}</td>
-                    <td class="text-center">{{qrcodeimg.state}}</td>
-                    <td class="text-center">{{qrcodeimg.createTime}}</td>
-                    <td class="text-center">{{qrcodeimg.updateTime}}</td>
-                </tr>
-            </section>
+            <tr ng-repeat="qrcodeimg in qrcodeimgList">
+                <td class="text-right">{{qrcodeimg.sceneId}}</td>
+                <td class="text-center">{{qrcodeimg.actionName}}</td>
+                <td class="text-center">{{qrcodeimg.state}}</td>
+                <td class="text-center">{{qrcodeimg.createTime}}</td>
+                <td class="text-center">{{qrcodeimg.updateTime}}</td>
+            </tr>
         </table>
     </div>
 </div>

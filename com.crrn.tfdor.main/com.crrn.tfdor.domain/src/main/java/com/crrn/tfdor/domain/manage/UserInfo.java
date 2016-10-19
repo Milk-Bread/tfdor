@@ -37,7 +37,7 @@ public class UserInfo extends BaseCodeModel {
   /** 角色ID **/
   private Integer roleSeq;
   /** 创建时间 **/
-  private Timestamp creteTime;
+  private String createTime;
   /** 登陆标志 **/
   public boolean logout;
   private String sessionId;
@@ -67,12 +67,12 @@ public class UserInfo extends BaseCodeModel {
     this.logout = logout;
   }
 
-  public Timestamp getCreteTime() {
-    return creteTime;
+  public String getCreateTime() {
+    return createTime;
   }
 
-  public void setCreteTime(Timestamp creteTime) {
-    this.creteTime = creteTime;
+  public void setCreateTime(String createTime) {
+    this.createTime = createTime;
   }
 
   public Integer getRoleSeq() {

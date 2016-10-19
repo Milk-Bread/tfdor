@@ -1,5 +1,7 @@
 package com.crrn.tfdor.service.manage;
 
+import com.crrn.tfdor.domain.manage.UserInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +21,9 @@ public interface UserService {
    * @return
    */
   public void addRole(Map<String, Object> role);
+
+  /**
+   *  查询用户列表
+   */
+  public List<UserInfo> queryUserInfo(UserInfo user);
 }

@@ -1,27 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crrn.tfdor.dao.UserDao">
     <!-- 登陆 -->
     <select id="loginCheck" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
-        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,roleSeq,c.createTime,c.channelId,c.channelName,c.state
+        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,c.channelId,c.channelName,c.state
         from UserInfo u,channel c
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
-        select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime from role r,channel c
+        select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
+        from role r,channel c
         where c.channelId = r.channelId and r.channelId = #{channelId}
         <if test="roleName != null and roleName != '' ">
             AND ROLENAME = #{roleName}
         </if>
     </select>
 
-    <insert id="addRole" parameterType="java.util.Map" keyProperty="roleSeq" useGeneratedKeys="true" >
+    <insert id="addRole" parameterType="java.util.Map" keyProperty="roleSeq" useGeneratedKeys="true">
         INSERT INTO ROLE(channelId,RoleName,CreateTime) VALUES (#{channelId},#{roleName},now())
     </insert>
 
     <insert id="addRolemenurelate" parameterType="java.util.Map">
         INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
     </insert>
+    <select id="queryUserInfo" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="com.crrn.tfdor.domain.manage.UserInfo">
+        SELECT UserSeq,RoleSeq,cha_channelId,UserId,UserName,
+	    password,Sex,Age,IdType,IdNo,MobilePhone,Phone,ChannelId,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,Addr
+	    from userinfo;
+    </select>
 </mapper>

@@ -177,5 +177,17 @@ public class UserController {
         return roleList;
     }
 
+    /**
+     * Description: 根据用户角色和渠道查询用户信息
+     * @param request
+     * @return
+     * @Version1.0 2016年10月17日 下午3:49:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "queryUserInfo.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryUserInfo(HttpServletRequest request) {
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        return userService.queryUserInfo(user);
+    }
 
 }
