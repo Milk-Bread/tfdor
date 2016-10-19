@@ -1,6 +1,8 @@
 package com.crrn.tfdor.domain.wechat;
 
-public class AccessToken {
+import java.io.Serializable;
+
+public class AccessToken  implements Serializable {
     private String accessToken;
     private int expiresin;
 

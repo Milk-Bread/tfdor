@@ -20,11 +20,25 @@ import com.crrn.tfdor.utils.CHECKMSG;
  */
 public class RoleInterceptor implements HandlerInterceptor {
     private static Logger logger = LoggerFactory.getLogger(RoleInterceptor.class);
-
+    private AuditingInterceptor auditing;
+    /**
+     * 在Controller方法前进行拦截
+     *     如果返回false
+     *          从当前拦截器往回执行所有拦截器的afterCompletion方法,再退出拦截器链.
+     *     如果返回true
+     *          执行下一个拦截器,直到所有拦截器都执行完毕.再运行被拦截的Controller.
+     *          然后进入拦截器链,从最后一个拦截器往回运行所有拦截器的postHandle方法.
+     *          接着依旧是从最后一个拦截器往回执行所有拦截器的afterCompletion方法.
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String action = request.getRequestURL().toString();
-        if (action.indexOf("login.do") > 0) {
+        String action = request.getParameter("actionName");
+        if (action.equals("login.do")) {
             return true;
         } else {
         	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
@@ -39,16 +53,28 @@ public class RoleInterceptor implements HandlerInterceptor {
             }
         }
         logger.debug("TransAction:==>" + action);
-        return true;
+        return auditing.auditing(request, response);
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
     }
 
+    /**
+     * 在Controller方法后进行拦截
+     * 当有拦截器抛出异常时,会从当前拦截器往回执行所有拦截器的afterCompletion方 法
+     * @param request
+     * @param response
+     * @param handler
+     * @param ex
+     * @throws Exception
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
+    }
+
+    public void setAuditing(AuditingInterceptor auditing) {
+        this.auditing = auditing;
     }
 }

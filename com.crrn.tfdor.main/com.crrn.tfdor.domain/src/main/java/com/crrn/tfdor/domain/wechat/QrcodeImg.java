@@ -1,9 +1,11 @@
 package com.crrn.tfdor.domain.wechat;
 
+import java.io.Serializable;
+
 /**
  * Created by pengyuming on 16/10/12.
  */
-public class QrcodeImg {
+public class QrcodeImg implements Serializable {
 
     private String qrcodeSeq;
 

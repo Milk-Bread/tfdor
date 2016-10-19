@@ -28,6 +28,14 @@
                 </td>
             </tr>
             <tr>
+                <td class="text-center">指定符合人</td>
+                <td>
+                    <select class="form-control btn-sm" ng-model="person" ng-options="x.userName for x in auditPerson">
+                        <option value="">选择复合人</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>
                     <button type="button" class="btn btn-info btn-sm" ng-click="doId();">确 认</button>

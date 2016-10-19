@@ -1,5 +1,5 @@
 define([ 'app'], function(app) {
-	app.service('service',function($http,cfpLoadingBar,$state){
+	app.service('service',function($http,cfpLoadingBar,$state,$rootScope){
 		this.getUser = function(){
 			return angular.fromJson(sessionStorage.getItem("_USER"));
 		};

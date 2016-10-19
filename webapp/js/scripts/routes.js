@@ -3,37 +3,37 @@
         defaultRoute: '/Login',
         routes: {
             'Login': {
-                url: '/Login',
+            	url: '/Login',
                 templateUrl: 'views/Login/login.html',
                 dependencies: ['controllers/Login/login'],
                 allowAnonymous: true
             },
             'Main': {
-                url: '/Main',
+            	url: '/Main',
                 templateUrl: 'views/Main/main.html',
                 dependencies: ['controllers/Main/main'],
                 allowAnonymous: true
-            }, 'Main.UserManager': {
-                url: '/UserManager',
+            },'Main.UserManager': {
+            	url: '/UserManager',
                 templateUrl: 'views/SysMng/userManager.html',
                 dependencies: ['controllers/SysMng/userManager'],
                 allowAnonymous: true
-            }, 'Main.RoleManager': {
-                url: '/RoleManager',
+            },'Main.RoleManager': {
+            	url: '/RoleManager',
                 templateUrl: 'views/SysMng/roleManager.html',
                 dependencies: ['controllers/SysMng/roleManager'],
                 allowAnonymous: true
-            }, 'Main.addRole': {
+            },'Main.addRole': {
                 url: '/addRole',
                 templateUrl: 'views/SysMng/addRole.html',
                 dependencies: ['controllers/SysMng/addRole'],
                 allowAnonymous: true
-            }, 'Main.modifyRole': {
+            },'Main.modifyRole': {
                 url: '/modifyRole/:roleSeq/:roleName',
                 templateUrl: 'views/SysMng/modifyRole.html',
                 dependencies: ['controllers/SysMng/modifyRole'],
                 allowAnonymous: true
-            }, 'Main.QrCodeManager': {
+            },'Main.QrCodeManager': {
                 url: '/QrCodeManager',
                 templateUrl: 'views/Marketing/qrcodeManager.html',
                 dependencies: ['controllers/Marketing/qrcodeManager'],
@@ -42,6 +42,11 @@
                 url: '/addUser',
                 templateUrl: 'views/SysMng/addUser.html',
                 dependencies: ['controllers/SysMng/addUser'],
+                allowAnonymous: true
+            },'Main.CheckQuery': {
+                url: '/CheckQuery',
+                templateUrl: 'views/Auditing/auditingList.html',
+                dependencies: ['controllers/Auditing/auditingList'],
                 allowAnonymous: true
             }
         }

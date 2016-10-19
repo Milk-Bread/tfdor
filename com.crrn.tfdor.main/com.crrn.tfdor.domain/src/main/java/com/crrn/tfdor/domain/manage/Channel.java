@@ -1,12 +1,13 @@
 package com.crrn.tfdor.domain.manage;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * 渠道
  * @author chepeiqing
  */
-public class Channel {
+public class Channel implements Serializable {
 	public String channelId;
 	public String channelName;
 	public String state;
