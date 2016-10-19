@@ -18,7 +18,27 @@ drop table if exists Menu;
 drop table if exists QrcodeImg;
 drop table if exists Role;
 drop table if exists channel;
+drop table if exists Auditing;
 
+
+
+
+create table Auditing(
+   auditingSeq integer not null auto_increment comment '审核表序列',
+   auditingTrans varchar(50)  comment '审核交易',
+   auditingName  varchar(100) comment '审核交易名称',
+   auditingData  BLOB not null comment '审核交易请求数据',
+   promoterSeq integer not null comment '审核发起人Seq',
+   promoter varchar(20) not null comment '审核发起人',
+   auditPersonSeq integer not null comment '指定审核人SEQ',
+   auditPerson varchar(20) not null comment '审核人名称',
+   createTime timestamp comment '创建时间',
+   updateTime timestamp comment '修改时间（审核时间）',
+   state char(1) comment '审核状态，I－待审核，S－审核通过，F－审核拒绝',
+   remarks varchar(100) comment '备注',
+   primary key (auditingSeq)
+)DEFAULT CHARSET= UTF8 ENGINE = InnoDB;
+alter table Auditing comment '审核表';
 /*==============================================================*/
 /* Table: AccessToken                                           */
 /*==============================================================*/

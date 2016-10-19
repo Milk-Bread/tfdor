@@ -3,7 +3,7 @@ define(['app', 'service'], function (app) {
         $scope.init = function () {
             var user = service.getUser();
             if(user != null){
-                $scope.userName = user.userName;
+                $scope._userName = user.userName;
             }
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.menuList = data;
