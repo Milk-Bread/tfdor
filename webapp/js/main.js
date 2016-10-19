@@ -18,6 +18,7 @@ require.config({
 		'bootstrap':'../lib/angular-plugins/bootstrap/bootstrap.min',
 		'angular-sanitize':'../lib/angular-plugins/angular-sanitize.min',
 		'service':'../scripts/service/common/service'
+		//'sysCodeConfig':'../scripts/service/common/sysCodeConfig'
 	},
 
 	shim : {

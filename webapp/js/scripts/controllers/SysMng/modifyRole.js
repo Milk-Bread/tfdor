@@ -33,6 +33,9 @@ define(['app', 'service'], function (app) {
                     }
                 });
             }, 4000);
+            service.post2SRV("queryAuditPerson.do",null,function(data, status){
+                $scope.auditPerson = data;
+            },4000);
         };
         $scope.roleArr = [];//定义数组用于存放前端选中权限
 
@@ -88,17 +91,23 @@ define(['app', 'service'], function (app) {
 
         $scope.doId = function () {
             if ($scope.roleName == null || $scope.roleName == '') {
-                showError("角色名称错误", "请输入角色名称");
+                showError("错误提示", "请输入角色名称");
                 return;
             }
             if ($scope.roleArr == null || $scope.roleArr.length == 0) {
-                showError("权限选择错误", "请选择权限");
+                showError("错误提示", "请选择权限");
+                return;
+            }
+            if ($scope.person == null || $scope.person == '') {
+                showError("错误提示", "请选择复合人");
                 return;
             }
             var formData = {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(","),
                 "roleSeq":$stateParams.roleSeq,
+                "auditPersonSeq":$scope.person.userSeq,//复合人Seq
+                "auditPerson":$scope.person.userName,//复合人名称
                 "channelId":null
             }
             console.log(formData);

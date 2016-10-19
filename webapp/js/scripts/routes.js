@@ -38,6 +38,11 @@
                 templateUrl: 'views/Marketing/qrcodeManager.html',
                 dependencies: ['controllers/Marketing/qrcodeManager'],
                 allowAnonymous: true
+            },'Main.CheckQuery': {
+                url: '/CheckQuery',
+                templateUrl: 'views/Auditing/auditingList.html',
+                dependencies: ['controllers/Auditing/auditingList'],
+                allowAnonymous: true
             }
         }
     };

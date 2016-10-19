@@ -7,6 +7,10 @@ define(['app', 'service'], function (app) {
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.roleList = data;
             }, 4000);
+            //查询复合人
+            service.post2SRV("queryAuditPerson.do",null,function(data, status){
+                $scope.auditPerson = data;
+            },4000);
         };
         $scope.roleArr = [];//定义数组用于存放前端选中权限
 
@@ -69,13 +73,19 @@ define(['app', 'service'], function (app) {
                 showError("权限选择错误", "请选择权限");
                 return;
             }
+            if ($scope.person == null || $scope.person == '') {
+                showError("错误提示", "请选择复合人");
+                return;
+            }
             var formData = {
                 "roleName": $scope.roleName,
-                "roleArr": $scope.roleArr.join(",")
+                "roleArr": $scope.roleArr.join(","),
+                "auditPersonSeq":$scope.person.userSeq,//复合人Seq
+                "auditPerson":$scope.person.userName//复合人名称
             }
-            //service.post2SRV("addRole.do", formData, function (data, status) {
-            //    $state.go("Main.RoleManager");
-            //}, 4000);
+            service.post2SRV("addRole.do", formData, function (data, status) {
+                $state.go("Main.RoleManager");
+            }, 4000);
         }
         $scope.init();
     });
