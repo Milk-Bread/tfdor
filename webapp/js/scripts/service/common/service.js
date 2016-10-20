@@ -68,6 +68,12 @@ define([ 'app'], function(app) {
 		    };
 		    XMLHttpR.send(null);
 		};
+		this.getDate = function (){
+			return angular.fromJson(sessionStorage.getItem("paramData"));
+		}
+		this.setData = function (data){
+			sessionStorage.setItem("paramData",angular.toJson(data));
+		}
 	});
 });
 var time;
