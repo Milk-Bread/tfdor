@@ -1,4 +1,4 @@
-<div ng-controller="audiListCtrl">
+<div ng-controller="audiDetailsCtrl">
     <div class="table-responsive" style="margin-top: 10px;">
         <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -12,12 +12,12 @@
             </thead>
             <tbody>
             <tr ng-repeat="row in auditingList">
-                <td class="text-center"><a href="" style="cursor: pointer" ng-click="gotoDetails(row);">{{row.auditingName}}</a></td>
+                <td class="text-center"><a href="" ng-click="">{{row.auditingName}}</a></td>
                 <td class="text-center">{{row.promoter}}</td>
                 <td class="text-center">{{row.createTime}}</td>
                 <td class="text-center">{{row.state | sysCode : 'auditingState'}}</td>
                 <td class="text-center">
-                    <button class="btn btn-primary btn-xs" ng-click="agree(row);">同意</button>
+                    <button class="btn btn-primary btn-xs">同意</button>
                     <button class="btn btn-danger btn-xs">拒绝</button>
                 </td>
             </tr>

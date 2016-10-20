@@ -48,6 +48,11 @@
                 templateUrl: 'views/Auditing/auditingList.html',
                 dependencies: ['controllers/Auditing/auditingList'],
                 allowAnonymous: true
+            },'Main.audiDetails': {
+                url: '/audiDetails',
+                templateUrl: 'views/Auditing/auditingDetails.html',
+                dependencies: ['controllers/Auditing/auditingDetails'],
+                allowAnonymous: true
             }
         }
     };
