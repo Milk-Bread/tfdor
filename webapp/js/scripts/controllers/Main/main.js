@@ -1,4 +1,4 @@
-define(['app', 'service'], function (app) {
+define(['app', 'service','sysCode'], function (app) {
     app.controller('mainCtrl', function (service, $scope, $location, $state, $stateParams,$rootScope) {
         $scope.init = function () {
             var user = service.getUser();

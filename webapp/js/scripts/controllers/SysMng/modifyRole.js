@@ -1,7 +1,7 @@
 /**
  * Created by chepeiqing on 16/10/13.
  */
-define(['app', 'service'], function (app) {
+define(['app', 'service','sysCode'], function (app) {
     app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
             $scope.roleName = $stateParams.roleName;

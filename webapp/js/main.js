@@ -33,10 +33,10 @@ require.config({
 		'ui-bootstrap' : [ 'angular'],
 		'blockUI' : [ 'angular'],
 		'loading-bar':['angular'],
-        'angular-sanitize' : [ 'angular' ],
-        'service':['jquery','angular'],
-		'bootstrap':['jquery'],
-		'sysCode':['angular']
+		'angular-sanitize' : [ 'angular' ],
+		'sysCode':['angular'],
+		'service':['jquery','angular'],
+		'bootstrap':['jquery']
 		//'translate':['angular']
 	},
 	urlArgs : "v=" + new Date().getTime(),

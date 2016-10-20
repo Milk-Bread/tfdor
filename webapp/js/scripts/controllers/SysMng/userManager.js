@@ -1,4 +1,4 @@
-define(['app', 'service'], function (app) {
+define(['app', 'service','sysCode'], function (app) {
 	app.controller('userMngCtrl', function (service,$scope,$location,$state,$stateParams) {
 		service.post2SRV("queryUserInfo.do", null,function(data,status) {
 			console.log(data);

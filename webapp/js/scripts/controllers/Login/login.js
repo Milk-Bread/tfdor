@@ -1,4 +1,4 @@
-define(['app', 'service'], function (app) {
+define(['app', 'service','sysCode'], function (app) {
 	app.controller('LoginCtrl', function (service,$scope,$location,$state,$rootScope) {
     	$scope.doIt = function(){
     		var userId = $scope.userId;
