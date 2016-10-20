@@ -49,7 +49,7 @@
                 dependencies: ['controllers/Auditing/auditingList'],
                 allowAnonymous: true
             },'Main.modifyUser': {
-                url: '/modifyUser/:userInfo',
+                url: '/modifyUser',
                 templateUrl: 'views/SysMng/modifyUser.html',
                 dependencies: ['controllers/SysMng/modifyUser'],
                 allowAnonymous: true

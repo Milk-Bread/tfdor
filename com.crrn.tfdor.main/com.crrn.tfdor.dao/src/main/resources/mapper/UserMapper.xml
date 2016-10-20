@@ -89,7 +89,7 @@
              IdNo = #{idNo},
              MobilePhone = #{mobilePhone},
              Phone = #{phone},
-            <if test="channelId != null and channelId != ''">
+            <if test="channel.channelId != null and channel.channelId != ''">
                 channelId = #{channel.channelId},
             </if>
              Addr = #{addr}

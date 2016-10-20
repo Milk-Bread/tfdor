@@ -285,7 +285,7 @@ public class UserController {
         Channel channel = new Channel();
         channel.setChannelId(channelId);
         userInfo.setChannel(channel);
-        userService.addUser(userInfo);
+        userService.modifyUser(userInfo);
     }
 
 }

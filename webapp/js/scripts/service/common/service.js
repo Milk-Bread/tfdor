@@ -68,7 +68,7 @@ define([ 'app'], function(app) {
 		    };
 		    XMLHttpR.send(null);
 		};
-		this.getDate = function (){
+		this.getData = function (){
 			return angular.fromJson(sessionStorage.getItem("paramData"));
 		}
 		this.setData = function (data){
