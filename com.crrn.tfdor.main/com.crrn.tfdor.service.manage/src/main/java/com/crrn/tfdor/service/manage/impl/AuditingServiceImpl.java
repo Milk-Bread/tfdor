@@ -52,5 +52,15 @@ public class AuditingServiceImpl implements AuditingService {
         return auditingDao.auditingList(param);
     }
 
+    /**
+     * 修改审核流水记录
+     *
+     * @param param
+     */
+    @Override
+    public void modifyAuditing(Map<String, Object> param) {
+        auditingDao.modifyAuditing(param);
+    }
+
 
 }

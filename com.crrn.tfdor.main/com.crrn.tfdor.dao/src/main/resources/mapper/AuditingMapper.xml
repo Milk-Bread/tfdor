@@ -18,4 +18,8 @@
         select auditingSeq,auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,
         state FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state = #{state}
     </select>
+
+    <select id="modifyAuditing" parameterType="java.util.Map">
+        UPDATE Auditing SET state = #{state},updateTime = now() where auditingSeq = #{auditingSeq}
+    </select>
 </mapper>

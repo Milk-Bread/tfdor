@@ -31,4 +31,10 @@ public interface AuditingService {
      * @return
      */
     public List<Map<String,Object>> auditingList(Map<String, Object> param);
+
+    /**
+     * 修改审核流水记录
+     * @param param
+     */
+    public void modifyAuditing(Map<String, Object> param);
 }
