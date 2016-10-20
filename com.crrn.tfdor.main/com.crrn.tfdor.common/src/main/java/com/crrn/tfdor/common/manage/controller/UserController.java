@@ -84,7 +84,7 @@ public class UserController {
     @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
     public void logout(HttpServletRequest request) {
-    	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         user.setLogout(true);
         //清除Session的所有信息
         request.getSession().invalidate();
@@ -93,6 +93,7 @@ public class UserController {
 
     /**
      * Description: 根据用户角色加载菜单
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -100,15 +101,15 @@ public class UserController {
     @RequestMapping(value = "lodeMenu.do", method = RequestMethod.POST)
     @ResponseBody
     public Object lodeMenu(HttpServletRequest request) {
-    	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         String roleSeqStr = request.getParameter("roleSeq");
         Integer roleSeq = null;
-        if(roleSeqStr == null || "".equals(roleSeqStr)){
+        if (roleSeqStr == null || "".equals(roleSeqStr)) {
             roleSeq = user.getRoleSeq();
-        }else {
+        } else {
             roleSeq = Integer.valueOf(roleSeqStr);
         }
-        List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuList"+roleSeq);
+        List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuList" + roleSeq);
         if (_menuList == null) {
             String parentId = "00000000";
             List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
@@ -132,7 +133,7 @@ public class UserController {
                 menuMap.put("menuTwo", menu2List);
                 menuList.add(menuMap);
             }
-            request.getSession().setAttribute("_menuList"+roleSeq, menuList);
+            request.getSession().setAttribute("_menuList" + roleSeq, menuList);
             return menuList;
         } else {
             return _menuList;
@@ -141,6 +142,7 @@ public class UserController {
 
     /**
      * Description: 新增角色
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -158,6 +160,7 @@ public class UserController {
 
     /**
      * Description: 根据用户角色和渠道加载菜单
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -169,8 +172,8 @@ public class UserController {
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         String channel = user.getChannel().getChannelId();
         Map<String, Object> param = new HashMap<>();
-        param.put("roleName",roleName);
-        param.put("channelId",channel);
+        param.put("roleName", roleName);
+        param.put("channelId", channel);
         List<Map<String, Object>> roleList = userService.queryRole(param);
         String sessionId = request.getRequestedSessionId();
         return roleList;
@@ -178,6 +181,7 @@ public class UserController {
 
     /**
      * Description: 根据用户角色和渠道查询用户信息
+     *
      * @param request
      * @return
      * @Version1.0 2016年10月17日 下午3:49:50 by pengyuming (pengym_27@163.com)
@@ -191,13 +195,14 @@ public class UserController {
 
     /**
      * Description: 修改角色
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
      */
     @RequestMapping(value = "modifyRole.do", method = RequestMethod.POST)
     @ResponseBody
-    public void modifyRole(HttpServletRequest request){
+    public void modifyRole(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("roleName", request.getParameter("roleName"));
         map.put("roleSeq", request.getParameter("roleSeq"));
@@ -205,25 +210,27 @@ public class UserController {
         map.put("channelId", request.getParameter("channelId"));
         userService.modifyRole(map);
         //更新role菜单缓存
-        request.getSession().removeAttribute("_menuList"+request.getParameter("roleSeq"));
+        request.getSession().removeAttribute("_menuList" + request.getParameter("roleSeq"));
     }
 
     /**
      * Description: 查询渠道
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
      */
     @RequestMapping(value = "queryChannel.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryChannel(HttpServletRequest request){
-        Map<String, Object> param = new HashMap<String,Object>();
-        param.put("channelId",request.getParameter("channelId"));
+    public Object queryChannel(HttpServletRequest request) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("channelId", request.getParameter("channelId"));
         return userService.queryChannel(param);
     }
 
     /**
      * Description: 添加用户
+     *
      * @param request
      * @return
      * @Version1.0 2016年10月19日 下午10:19:50 by pengyuming (pengym_27@163.com)
@@ -236,6 +243,35 @@ public class UserController {
         userInfo.setUserName(request.getParameter("userName"));
         String passwordAes = EncodeUtil.aesEncrypt("88888888");
         userInfo.setPassword(passwordAes);
+        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
+        userInfo.setSex(request.getParameter("sex"));
+        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
+        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
+        userInfo.setPhone(request.getParameter("phone"));
+        userInfo.setIdType("00");
+        userInfo.setIdNo(request.getParameter("idNo"));
+        userInfo.setAddr(request.getParameter("addr"));
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        String channelId = user.getChannel().getChannelId();
+        Channel channel = new Channel();
+        channel.setChannelId(channelId);
+        userInfo.setChannel(channel);
+        userService.addUser(userInfo);
+    }
+
+    /**
+     * Description: 添加用户
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年10月19日 下午10:19:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "modifyUser.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyUser(HttpServletRequest request) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserSeq(Integer.valueOf(request.getParameter("userSeq")));
+        userInfo.setUserName(request.getParameter("userName"));
         userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
         userInfo.setSex(request.getParameter("sex"));
         userInfo.setAge(Integer.valueOf(request.getParameter("age")));

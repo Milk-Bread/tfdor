@@ -8,5 +8,9 @@ define(['app', 'service','sysCode'], function (app) {
 		$scope.addUser = function(){
 			$state.go("Main.addUser");
 		}
+		$scope.modifyUser = function(obj){
+			$state.go("Main.modifyUser",{"userInfo":obj});
+		};
+		$scope.init();
 	});
 });
