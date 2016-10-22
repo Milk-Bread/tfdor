@@ -80,4 +80,20 @@
               now(),
               #{addr})
     </insert>
+    <update id="modifyUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" >
+        UPDATE USERINFO
+            SET RoleSeq = #{roleSeq},
+             UserName = #{userName},
+             Sex = #{sex},
+             Age = #{age},
+             IdNo = #{idNo},
+             MobilePhone = #{mobilePhone},
+             Phone = #{phone},
+            <if test="channel.channelId != null and channel.channelId != ''">
+                channelId = #{channel.channelId},
+            </if>
+             Addr = #{addr}
+            WHERE
+	          UserSeq = #{userSeq};
+    </update>
 </mapper>

@@ -4,12 +4,12 @@ INSERT INTO channel (channelId, channelName, createTime, updateTime, state) VALU
 
 --创建角色--内置最高权限角色
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
---初始化用户 密码 a88888888
+--初始化用户 密码 88888888
 insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId)
-values('chepeiqing','车培清','m87Ez6gqjrCXl97T2nPBrw==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
+values('admin1','admin1','6+exnvC5D+ydvlsiSizl4g==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
 
 insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId)
-values('pengyuming','彭宇明','m87Ez6gqjrCXl97T2nPBrw==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
+values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
 
 
 --创建菜单

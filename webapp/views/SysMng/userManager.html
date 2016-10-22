@@ -39,12 +39,12 @@
 				<td class="text-center">{{userInfo.userName}}</td>
 				<td class="text-center">{{userInfo.sex | sysCode:'sex'}}</td>
 				<td class="text-center">{{userInfo.age}}</td>
-				<td class="text-center">{{userInfo.channelId}}</td>
+				<td class="text-center">{{userInfo.channel.channelId}}</td>
 				<td class="text-center">{{userInfo.addr}}</td>
 				<td class="text-center">{{userInfo.createTime}}</td>
                 <td class="text-center">
-                    <button class="btn btn-primary btn-xs" ng-if="row.roleName != 'Admin'" ng-click="menuThree('修改用户');modifyRole(row.roleSeq,row.roleName);">修改</button>
-                    <button class="btn btn-danger btn-xs" ng-if="row.roleName != 'Admin'">删除</button>
+                    <button class="btn btn-primary btn-xs" ng-if="roleName != 'Admin'" ng-click="menuThree('修改用户');modifyUser(userInfo);">修改</button>
+                    <button class="btn btn-danger btn-xs" ng-if="roleName != 'Admin'">删除</button>
                 </td>
 			</tr>
 		</table>

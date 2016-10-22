@@ -45,4 +45,9 @@ public interface UserService {
      *  添加用户
      */
     public void addUser(UserInfo userInfo);
+
+  /**
+   *  修改用户
+   */
+  public void modifyUser(UserInfo userInfo);
 }

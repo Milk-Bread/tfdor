@@ -48,6 +48,11 @@
                 templateUrl: 'views/Auditing/auditingList.html',
                 dependencies: ['controllers/Auditing/auditingList'],
                 allowAnonymous: true
+            },'Main.modifyUser': {
+                url: '/modifyUser',
+                templateUrl: 'views/SysMng/modifyUser.html',
+                dependencies: ['controllers/SysMng/modifyUser'],
+                allowAnonymous: true
             },'Main.audiDetails': {
                 url: '/audiDetails',
                 templateUrl: 'views/Auditing/auditingDetails.html',

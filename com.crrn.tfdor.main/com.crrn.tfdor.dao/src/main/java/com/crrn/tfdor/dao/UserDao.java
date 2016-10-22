@@ -63,4 +63,10 @@ public interface UserDao {
    * @param userInfo
    */
   public void addUser(UserInfo userInfo);
+
+  /**
+   *  修改用户
+   * @param userInfo
+   */
+  public void modifyUser(UserInfo userInfo);
 }

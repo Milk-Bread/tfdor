@@ -123,5 +123,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     *  修改用户
+     * @param userInfo
+     */
+    @Override
+    public void modifyUser(UserInfo userInfo) {
+        userDao.modifyUser(userInfo);
+    }
+
 
 }
