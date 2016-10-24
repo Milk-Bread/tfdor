@@ -19,7 +19,9 @@
 				<value>addRole.do</value>
 				<value>modifyRole.do</value>
 				<value>modifyUser.do</value>
-				<!--<value>addUser.do</value>-->
+				<value>addUser.do</value>
+				<value>addChannel.do</value>
+				<value>modifyChannel.do</value>
 			</list>
 		</property>
 	</bean>
