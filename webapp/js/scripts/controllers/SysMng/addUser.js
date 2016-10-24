@@ -71,6 +71,7 @@ define(['app', 'service','sysCode'], function (app) {
                 "auditPerson":$scope.person.userName//复合人名称
             }
             service.post2SRV("addUser.do", formData, function (data, status) {
+                alert("提交成功,请等待审核");
                 $state.go("Main.UserManager");
             }, 4000);
         }

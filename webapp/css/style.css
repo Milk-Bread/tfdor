@@ -264,6 +264,43 @@ a,img {
 	float: left;
 	border-radius:4px;
 }
+.menu .list-group{
+	margin-bottom: 0px;
+}
+
+.menu .list-group li{
+	padding: 12px 15px;
+	max-width: 360px;
+	margin: 0px auto;
+	background: #FFF;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-family: '微软雅黑';
+}
+
+.menu .list-group .oneli:hover{
+	padding: 12px 15px;
+	max-width: 360px;
+	margin: 0px auto;
+	background: #F8F8F8;
+	color: #b63b4d;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-family: '微软雅黑';
+}
+
+.menu .list-group .twoli:hover{
+	background: #F8F8F8;
+	color: #b63b4d;
+}
+
+
+.menu .list-group li div{
+	font-size: 15px;
+}
+
 
 .mainCtrl {
 	position: absolute;
