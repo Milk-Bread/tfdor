@@ -27,7 +27,7 @@ create table Auditing(
    auditingSeq integer not null auto_increment comment '审核表序列',
    auditingTrans varchar(50)  comment '审核交易',
    auditingName  varchar(100) comment '审核交易名称',
-   auditingData  BLOB not null comment '审核交易请求数据',
+   auditingData  varchar(1024) not null comment '审核交易请求数据',
    promoterSeq integer not null comment '审核发起人Seq',
    promoter varchar(20) not null comment '审核发起人',
    auditPersonSeq integer not null comment '指定审核人SEQ',
@@ -45,7 +45,7 @@ alter table Auditing comment '审核表';
 create table AccessToken
 (
    tokenSeq             integer not null auto_increment,
-   channelId            VARCHAR(20) not null,
+   channelId            varchar(20),
    accessToken          varchar(512) not null,
    invalidTime          varchar(5) not null,
    createTime           timestamp,
@@ -81,8 +81,8 @@ alter table Menu comment '菜单表';
 create table QrcodeImg
 (
    qrcodeSeq            integer not null,
-   channelId            varchar(20),
-   appId                varchar(30) not null,
+   channelId            varchar(20) not null,
+   appId                varchar(20) not null,
    actionName           varchar(20) not null,
    sceneId              varchar(50) not null,
    ticket               varchar(100) not null,
@@ -93,7 +93,8 @@ create table QrcodeImg
    createTime           timestamp,
    updateTime           timestamp,
    primary key (qrcodeSeq)
-);
+)DEFAULT CHARSET= UTF8
+ENGINE = InnoDB;
 
 alter table QrcodeImg comment '二维码表';
 
@@ -163,9 +164,9 @@ create table channel
 (
    channelId            varchar(20) not null,
    channelName          varchar(50) not null,
-   appId                varchar(30) not null,
-   wxToken              varchar(50) not null,
-   AppSecret            varchar(100) not null,
+   appId                varchar(20) not null,
+   wxToken              varchar(20) not null,
+   appSecret            varchar(100) not null,
    createTime           timestamp not null,
    updateTime           timestamp,
    state                char(1) comment '渠道状态  N-正常，C-销户，S-停用',
@@ -195,7 +196,7 @@ alter table Role add constraint FK_Reference_4 foreign key (channelId)
 alter table UserInfo add constraint FK_Reference_1 foreign key (RoleSeq)
       references Role (RoleSeq) on delete restrict on update restrict;
 
-alter table UserInfo add constraint FK_Reference_5 foreign key (cha_channelId)
+alter table UserInfo add constraint FK_Reference_5 foreign key (channelId)
       references channel (channelId) on delete restrict on update restrict;
 
 
