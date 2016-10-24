@@ -45,7 +45,7 @@ alter table Auditing comment '审核表';
 create table AccessToken
 (
    tokenSeq             integer not null auto_increment,
-   channelId            varchar(20),
+   channelId            VARCHAR(20) not null,
    accessToken          varchar(512) not null,
    invalidTime          varchar(5) not null,
    createTime           timestamp,
@@ -82,7 +82,7 @@ create table QrcodeImg
 (
    qrcodeSeq            integer not null,
    channelId            varchar(20),
-   appId                varchar(20) not null,
+   appId                varchar(30) not null,
    actionName           varchar(20) not null,
    sceneId              varchar(50) not null,
    ticket               varchar(100) not null,
@@ -163,6 +163,9 @@ create table channel
 (
    channelId            varchar(20) not null,
    channelName          varchar(50) not null,
+   appId                varchar(30) not null,
+   wxToken              varchar(50) not null,
+   AppSecret            varchar(100) not null,
    createTime           timestamp not null,
    updateTime           timestamp,
    state                char(1) comment '渠道状态  N-正常，C-销户，S-停用',
