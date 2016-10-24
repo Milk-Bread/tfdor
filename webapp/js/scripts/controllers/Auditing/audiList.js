@@ -5,11 +5,11 @@ define(['app', 'service', 'sysCode'], function (app) {
                 $scope.auditingList = data;
             }, 4000);
         };
-        $scope.init();
+
 
         $scope.gotoDetails = function (obj) {
             service.setData(obj);
-            $scope.go("Main.audiDetails");
+            $state.go("Main.audiDetails");
         };
         $scope.agree = function (obj) {
             var formData = angular.fromJson(obj.auditingData);
@@ -20,8 +20,16 @@ define(['app', 'service', 'sysCode'], function (app) {
                 $scope.init();
             }, 4000);
         };
-        $scope.refuse = function () {
-
+        $scope.refuse = function (obj) {
+            var formData = angular.fromJson(obj.auditingData);
+            formData["auditingTrans"] = obj.auditingTrans;
+            formData["auditingSeq"] = obj.auditingSeq;
+            service.post2SRV("audiRefuse.do", formData, function (data, status) {
+                alert("复合成功");
+                $scope.init();
+            }, 4000);
         };
+
+        $scope.init();
     });
 });

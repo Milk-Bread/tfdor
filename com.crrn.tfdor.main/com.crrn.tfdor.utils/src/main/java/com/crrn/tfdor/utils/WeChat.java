@@ -11,7 +11,7 @@ public class WeChat {
     /**
      * 获取access_token号
      **/
-    public static String TOKEN = "https://api.weixin.qq.com/cgi-bin/token";
+    public static String ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token";
     /**
      * 创建二维码ticket（永久/临时）
      **/

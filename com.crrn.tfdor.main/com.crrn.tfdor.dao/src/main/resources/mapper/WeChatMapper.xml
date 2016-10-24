@@ -7,11 +7,11 @@
 		INSERT INTO AccessToken(accessToken,invalidTime,createTime,updateTime) VALUES(#{accessToken},#{invalidTime},now(),now())
 	</insert>
    	<!-- 删除过期的accesstoken -->
-   	<delete id="dAccessToken">
-   		DELETE FROM AccessToken
+   	<delete id="dAccessToken" parameterType="java.lang.String">
+   		DELETE FROM AccessToken where channelId = #{channelId}
    	</delete>
-   	<select id="qAccessToken" resultType="java.util.HashMap">
-   		SELECT tokenSeq,accessToken,invalidTime,createTime,updateTime from AccessToken
+   	<select id="qAccessToken" resultType="java.util.HashMap" parameterType="java.lang.String">
+   		SELECT tokenSeq,accessToken,invalidTime,createTime,updateTime from AccessToken where channelId = #{channelId}
    	</select>
 	<select id="iQrcodeimg" parameterType="java.util.HashMap">
 		INSERT INTO qrcodeimg (actionName, appId, sceneId, ticket, url, qrcodeName, state, preservation,createTime, updateTime)
@@ -20,4 +20,8 @@
 	<select id="qQrcodeimg" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg">
 		SELECT actionName,appId,createTime,preservation,qrcodeName,qrcodeSeq,sceneId,state,ticket,updateTime,url FROM qrcodeimg
 	</select>
+	<select id="qChannel" resultType="com.crrn.tfdor.domain.manage.Channel" parameterType="java.lang.String">
+		select * from channel where channelId = #{channelId}
+	</select>
+
 </mapper>

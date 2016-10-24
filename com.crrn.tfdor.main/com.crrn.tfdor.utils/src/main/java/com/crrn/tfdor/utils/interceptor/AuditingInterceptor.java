@@ -35,8 +35,9 @@ public class AuditingInterceptor {
 
     public boolean auditing(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getRequestURI();
+        String actionName = request.getParameter("actionName");
         for (String actn : getAuditignList()) {
-            if (action.indexOf(actn) > 0) {
+            if (action.indexOf(actn) > 0 && !"audiAgree.do".equals(actionName)) {
                 logger.debug(actn + "交易需复合,提交复合模版");
                 String acName = propertyConfigurer.getMessage(actn);
                 UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");

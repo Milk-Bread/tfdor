@@ -84,10 +84,10 @@ define(['app', 'service','sysCode'], function (app) {
             if (index >= 0) {
                 array.splice(index, 1);
             }
-        }
+        };
         $scope.show = function (id) {
             $('#aa' + id).slideToggle(500);
-        }
+        };
 
         $scope.doId = function () {
             if ($scope.roleName == null || $scope.roleName == '') {

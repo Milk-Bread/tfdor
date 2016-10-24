@@ -20,6 +20,6 @@
     </select>
 
     <select id="modifyAuditing" parameterType="java.util.Map">
-        UPDATE Auditing SET state = #{state},updateTime = now() where auditingSeq = #{auditingSeq}
+        UPDATE Auditing SET state = #{state},updateTime = now(),remarks = #{remarks} where auditingSeq = #{auditingSeq}
     </select>
 </mapper>

@@ -45,8 +45,8 @@
                 allowAnonymous: true
             },'Main.CheckQuery': {
                 url: '/CheckQuery',
-                templateUrl: 'views/Auditing/auditingList.html',
-                dependencies: ['controllers/Auditing/auditingList'],
+                templateUrl: 'views/Auditing/audiList.html',
+                dependencies: ['controllers/Auditing/audiList'],
                 allowAnonymous: true
             },'Main.modifyUser': {
                 url: '/modifyUser',
@@ -55,8 +55,13 @@
                 allowAnonymous: true
             },'Main.audiDetails': {
                 url: '/audiDetails',
-                templateUrl: 'views/Auditing/auditingDetails.html',
-                dependencies: ['controllers/Auditing/auditingDetails'],
+                templateUrl: 'views/Auditing/audiDetails.html',
+                dependencies: ['controllers/Auditing/audiDetails'],
+                allowAnonymous: true
+            },'Main.CheckResultQuery': {
+                url: '/CheckResultQuery',
+                templateUrl: 'views/Auditing/audiResultList.html',
+                dependencies: ['controllers/Auditing/audiResultList'],
                 allowAnonymous: true
             }
         }

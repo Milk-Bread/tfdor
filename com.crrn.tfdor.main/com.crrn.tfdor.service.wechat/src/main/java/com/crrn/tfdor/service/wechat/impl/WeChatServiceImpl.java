@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.crrn.tfdor.domain.manage.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,14 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     @Override
-    public void dAccessToken() {
-        weChatDao.dAccessToken();
+    public void dAccessToken(String channelId) {
+        weChatDao.dAccessToken(channelId);
     }
 
     @Override
-    public Map<String, Object> qAccessToken() throws ParseException {
+    public Map<String, Object> qAccessToken(String channelId) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Map<String, Object> accessMap = weChatDao.qAccessToken();
+        Map<String, Object> accessMap = weChatDao.qAccessToken(channelId);
         if (accessMap == null) {
             return null;
         }
@@ -57,6 +58,17 @@ public class WeChatServiceImpl implements WeChatService {
             accessMap.put("effective", false);
         }
         return accessMap;
+    }
+
+    /**
+     * 查询渠道信息
+     *
+     * @param channelId
+     * @return
+     */
+    @Override
+    public Channel qChannel(String channelId) {
+        return null;
     }
 
     @Override

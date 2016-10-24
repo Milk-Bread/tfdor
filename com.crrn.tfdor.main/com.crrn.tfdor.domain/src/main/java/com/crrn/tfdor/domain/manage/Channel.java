@@ -10,8 +10,37 @@ import java.sql.Timestamp;
 public class Channel implements Serializable {
 	public String channelId;
 	public String channelName;
+	public String appId;
+	public String wxToken;
+	public String appSecret;
 	public String state;
 	public String createTime;
+
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public String getWxToken() {
+		return wxToken;
+	}
+
+	public void setWxToken(String wxToken) {
+		this.wxToken = wxToken;
+	}
+
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
 	public String getChannelId() {
 		return channelId;
 	}
@@ -35,5 +64,18 @@ public class Channel implements Serializable {
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Channel{" +
+				"channelId='" + channelId + '\'' +
+				", channelName='" + channelName + '\'' +
+				", appId='" + appId + '\'' +
+				", wxToken='" + wxToken + '\'' +
+				", appSecret='" + appSecret + '\'' +
+				", state='" + state + '\'' +
+				", createTime='" + createTime + '\'' +
+				'}';
 	}
 }

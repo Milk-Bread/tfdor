@@ -1,18 +1,33 @@
 <div ng-controller="audiDetailsCtrl">
-    <div class="table-responsive" style="margin-top: 10px;">
+    <div class="table-responsive" style="margin-top: 10px;width: 50%;margin-left:40px;">
         <table class="table table-striped table-bordered table-hover">
-            <thead>
-            <tr>
-                <th width="20%" class="text-center">待审核交易</th>
-                <th width="20%" class="text-center">审核发起人</th>
+            <tr ng-repeat="(key,value) in audiData">
+                <th width="50%" class="text-center">{{key | sysCode: 'auditingData'}}</th>
+                <th width="50%" class="text-left" ng-if="key != 'roleArr'">{{value | sysCode : 'auditingData' | sysCode:'sex'}}</th>
+                <th width="50%" class="text-left" ng-if="key == 'roleArr'">
+                    <ul class="list-group" style="margin-bottom: 0px;" ng-repeat="menu in menuListA">
+                        <li class="list-group-item" style="padding: 4px 15px;">
+                            <input type="checkbox" id="{{menu.menuIdOne}}" name="{{menu.menuIdOne}}" ng-disabled="true" ng-click="cheAll(menu.menuIdOne,menu.menuTwo)"/>&nbsp;&nbsp;
+                            <div style="width: 89%;cursor: pointer;" class="FR" ng-click="show(menu.menuIdOne);">{{menu.menuOne}}</div>
+                        </li>
+                        <li class="list-group-item" style="padding: 1px 15px;display: none;" id="aa{{menu.menuIdOne}}">
+                            <ul class="list-group" style="margin-bottom: 0px;" style="padding-left: 20px;">
+                                <li class="list-group-item" style="padding: 4px 15px;" ng-repeat="var in menu.menuTwo">
+                                    <input type="checkbox" id="{{var.id}}" name="{{var.id}}"  ng-disabled="true"
+                                           ng-click="chk(var.id,menu.menuIdOne,menu.menuTwo)"/>&nbsp;&nbsp;{{var.name}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </th>
             </tr>
-            </thead>
-            <tbody>
             <tr>
-                <td class="text-center"><a href="" ng-click=""></a></td>
-                <td class="text-center"></td>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="agree();">同意</button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="refuse();">拒绝</button>
+                </td>
             </tr>
-            </tbody>
         </table>
     </div>
 </div>

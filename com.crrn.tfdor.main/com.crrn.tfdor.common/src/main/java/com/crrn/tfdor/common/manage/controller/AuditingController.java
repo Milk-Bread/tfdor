@@ -15,10 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author chepeiqing
@@ -81,7 +78,7 @@ public class AuditingController {
     }
 
     /**
-     * 查询可以复合的人
+     * 查询待审核记录
      * @param request
      * @param response
      * @return
@@ -106,13 +103,49 @@ public class AuditingController {
     @ResponseBody
     public void audiAgree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("auditingTrans");
-        request.getRequestDispatcher(action).forward(request,response);
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("state", "S");
-        param.put("state", request.getParameter("auditingSeq"));
+        param.put("remarks", "同意");
+        param.put("auditingSeq", request.getParameter("auditingSeq"));
+        auditingService.modifyAuditing(param);
+        request.getRequestDispatcher(action).forward(request,response);
+    }
+
+    /**
+     * 拒绝
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "audiRefuse.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void audiRefuse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("auditingTrans");
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("state", "F");
+        param.put("remarks", request.getParameter("remarks")==null?"不同意":request.getParameter("remarks"));
+        param.put("auditingSeq", request.getParameter("auditingSeq"));
         auditingService.modifyAuditing(param);
     }
 
-
+    /**
+     * 查询审核记录
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "audiResultList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object audiResultList(HttpServletRequest request, HttpServletResponse response){
+        UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("auditPersonSeq", userinfo.getUserSeq());
+        map.put("state", "S");
+        List<Map<String,Object>> list= new ArrayList<Map<String,Object>>();
+        list.addAll(auditingService.auditingList(map));
+        map.put("state", "F");
+        list.addAll(auditingService.auditingList(map));
+        return list;
+    }
 
 }

@@ -7,7 +7,15 @@ public class CheckModel extends BaseCodeModel implements Serializable {
     private Long timestamp;
     private Long nonce;
     private String echostr;
+    private String channelId;
 
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
+    }
 
     public String getSignature() {
         return signature;
@@ -43,6 +51,12 @@ public class CheckModel extends BaseCodeModel implements Serializable {
 
     @Override
     public String toString() {
-        return "CheckModel{" + "signature='" + signature + '\'' + ", timestamp=" + timestamp + ", nonce=" + nonce + ", echostr='" + echostr + '\'' + '}';
+        return "CheckModel{" +
+                "signature='" + signature + '\'' +
+                ", timestamp=" + timestamp +
+                ", nonce=" + nonce +
+                ", echostr='" + echostr + '\'' +
+                ", channelId='" + channelId + '\'' +
+                '}';
     }
 }

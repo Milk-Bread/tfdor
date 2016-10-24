@@ -10,6 +10,9 @@
         <if test="roleSeq != null">
             and r.roleSeq = #{roleSeq}
         </if>
+        <if test="channelId != null">
+            and r.channelId = #{channelId}
+        </if>
         ORDER BY ORDERID ASC
     </select>
 </mapper>

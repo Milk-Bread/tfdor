@@ -18,6 +18,7 @@
 			<list>
 				<value>addRole.do</value>
 				<value>modifyRole.do</value>
+				<value>modifyUser.do</value>
 				<!--<value>addUser.do</value>-->
 			</list>
 		</property>

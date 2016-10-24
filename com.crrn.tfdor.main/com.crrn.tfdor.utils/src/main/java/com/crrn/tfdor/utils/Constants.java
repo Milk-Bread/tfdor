@@ -15,13 +15,13 @@ public class Constants {
     /**
      * 微信AppId号
      **/
-    public static String APPID = "wx31c2d36e8e7b78ca";
-//    public static String APPID = "wx67c2134f4935acfb";
+//    public static String APPID = "wx31c2d36e8e7b78ca";
+    public static String APPID = "wx67c2134f4935acfb";
     /**
      * 微信AppSecret号
      **/
-    public static String APPSECRET = "d50cd4f047c2cd474a021332bc1a1268";
-//    public static String APPSECRET = "b9d81b13ac888108be2c96723d1a9169";
+//    public static String APPSECRET = "d50cd4f047c2cd474a021332bc1a1268";
+    public static String APPSECRET = "b9d81b13ac888108be2c96723d1a9169";
     /**
      * 获取access_token填写client_credential
      **/

@@ -19,11 +19,8 @@ public class TokenService {
 
     /**
      * 微信开发者验证
-     * @param wxAccount
-     * @param signature
-     * @param timestamp
-     * @param nonce
-     * @param echostr
+     * @param wxToken
+     * @param tokenModel
      * @return
      */
     @Transactional
@@ -40,7 +37,6 @@ public class TokenService {
             String digest = Util.encode("SHA1", bigStr).toLowerCase();
             // 确认请求来至微信
             if (digest.equals(signature)) {
-                // 最好此处将echostr存起来，以后每次校验消息来源都需要用到
                 logger.debug("微信开发者校验成功，echostr：" + echostr);
                 return echostr;
             }

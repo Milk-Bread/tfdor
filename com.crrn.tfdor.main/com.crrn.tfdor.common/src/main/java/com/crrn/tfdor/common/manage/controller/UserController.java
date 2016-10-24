@@ -58,7 +58,7 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
-        String passwordaes = EncodeUtil.aesEncrypt(password);
+        String passwordaes = EncodeUtil.aesEncrypt(userId+password);
         Map<String, Object> userMap = userService.loginCheck(userId, passwordaes);
         if (userMap == null) {
             throw new RuntimeException(CHECKMSG.USER_DOES_NOT_EXIST);
@@ -111,34 +111,35 @@ public class UserController {
         }
         List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuList" + roleSeq);
         if (_menuList == null) {
-            String parentId = "00000000";
-            List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
-            // 查询主菜单
-            List<Menu> zuMenu = menuService.getMenu(parentId, roleSeq);
-            for (Menu menu : zuMenu) {
-                Map<String, Object> menuMap = new HashMap<String, Object>();
-                menuMap.put("menuOne", menu.getMenuName());
-                menuMap.put("menuIdOne", menu.getMenuId());
-                parentId = menu.getMenuId();
-                // 查子菜单
-                List<Menu> ziMenu = menuService.getMenu(parentId, roleSeq);
-                List<Map<String, Object>> menu2List = new ArrayList<Map<String, Object>>();
-                for (Menu menu2 : ziMenu) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("name", menu2.getMenuName());
-                    map.put("url", menu2.getTransId());
-                    map.put("id", menu2.getMenuId());
-                    menu2List.add(map);
-                }
-                menuMap.put("menuTwo", menu2List);
-                menuList.add(menuMap);
-            }
+            List<Map<String, Object>> menuList = menuService.getMenu(roleSeq);
             request.getSession().setAttribute("_menuList" + roleSeq, menuList);
             return menuList;
         } else {
             return _menuList;
         }
     }
+
+    /**
+     * Description: 根据渠道查询菜单
+     * @param request
+     * @return
+     * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "lodeAudiMenu.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object lodeAudiMenu(HttpServletRequest request) {
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        String channelId = user.getChannel().getChannelId();
+        List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuListChannel");
+        if (_menuList == null) {
+            List<Map<String, Object>> menuList = menuService.getAudiMenu(channelId);
+            request.getSession().setAttribute("_menuListChannel" , menuList);
+            return menuList;
+        } else {
+            return _menuList;
+        }
+    }
+
 
     /**
      * Description: 新增角色
