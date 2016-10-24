@@ -22,13 +22,14 @@ insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `Creat
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RoleManager','角色管理','SystemSettings',1,'RoleManager',now());
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('UserManager','用户管理','SystemSettings',2,'UserManager',now());
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('PasswordManager','密码管理','SystemSettings',3,'PasswordManager',now());
-
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('ChannelManager','渠道管理','SystemSettings',4,'ChannelManager',now());
 
 --授权 --Admin
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'SystemSettings');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RoleManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'UserManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'PasswordManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'ChannelManager');
 
 -----------------------------
 --*********任务中心*********--

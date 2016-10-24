@@ -127,10 +127,41 @@ public class UserServiceImpl implements UserService {
      *  修改用户
      * @param userInfo
      */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyUser(UserInfo userInfo) {
         userDao.modifyUser(userInfo);
     }
 
+    /**
+     *  添加渠道
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void addChannel(Map<String, Object> map) {
+        userDao.addChannel(map);
+    }
+
+    /**
+     *  修改渠道信息
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void modifyChannel(Map<String, Object> map) {
+        userDao.modifyChannel(map);
+    }
+
+
+    /**
+     * 删除渠道信息
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void deleteChannel(Map<String, Object> map) {
+        userDao.deleteChannel(map);
+    }
 
 }

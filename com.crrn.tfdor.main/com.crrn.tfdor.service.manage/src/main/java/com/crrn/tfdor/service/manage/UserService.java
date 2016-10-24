@@ -50,4 +50,22 @@ public interface UserService {
    *  修改用户
    */
   public void modifyUser(UserInfo userInfo);
+
+  /**
+   *  添加渠道
+   * @param map
+   */
+  public void addChannel(Map<String, Object> map);
+
+  /**
+   *  修改渠道信息
+   * @param map
+   */
+  public void modifyChannel(Map<String, Object> map);
+
+  /**
+   * 删除渠道信息
+   * @param map
+   */
+  public void deleteChannel(Map<String, Object> map);
 }

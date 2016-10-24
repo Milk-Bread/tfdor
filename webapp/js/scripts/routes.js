@@ -63,6 +63,21 @@
                 templateUrl: 'views/Auditing/audiResultList.html',
                 dependencies: ['controllers/Auditing/audiResultList'],
                 allowAnonymous: true
+            },'Main.ChannelManager': {
+                url: '/ChannelManager',
+                templateUrl: 'views/SysMng/channelManager.html',
+                dependencies: ['controllers/SysMng/channelManager'],
+                allowAnonymous: true
+            },'Main.addChannel': {
+                url: '/addChannel',
+                templateUrl: 'views/SysMng/addChannel.html',
+                dependencies: ['controllers/SysMng/addChannel'],
+                allowAnonymous: true
+            },'Main.modifyChannel': {
+                url: '/modifyChannel',
+                templateUrl: 'views/SysMng/modifyChannel.html',
+                dependencies: ['controllers/SysMng/modifyChannel'],
+                allowAnonymous: true
             }
         }
     };

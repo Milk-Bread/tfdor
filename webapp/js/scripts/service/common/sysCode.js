@@ -11,6 +11,11 @@ define(['app'], function (app) {
                 "M": "男",
                 "W": "女"
             };
+            messages["channelState"] = {
+                "N": "正常",
+                "C": "销户",
+                "S": "停用"
+            };
             messages["auditingData"] = {
                 "actionName": "交易名称",
                 "roleName": "权限名称",

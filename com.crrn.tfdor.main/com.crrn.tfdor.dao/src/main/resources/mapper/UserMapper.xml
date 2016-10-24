@@ -27,7 +27,7 @@
     </insert>
     <select id="queryUserInfo" parameterType="com.crrn.tfdor.domain.manage.UserInfo"
             resultType="com.crrn.tfdor.domain.manage.UserInfo">
-        SELECT UserSeq,RoleSeq,cha_channelId,UserId,UserName,
+        SELECT UserSeq,RoleSeq,UserId,UserName,
 	    password,Sex,Age,IdType,IdNo,MobilePhone,Phone,ChannelId,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,Addr
 	    from userinfo;
     </select>
@@ -44,7 +44,9 @@
     </update>
 
     <select id="queryChannel" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT channelId,channelName from channel where 1 = 1
+        SELECT channelId,channelName,appId,wxToken,appSecret,
+          DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
+          DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
         <if test="channelId != null and channelId != ''">
             and channelId = #{channelId}
         </if>
@@ -96,4 +98,22 @@
             WHERE
 	          UserSeq = #{userSeq};
     </update>
+    <insert id="addChannel" parameterType="java.util.Map">
+        INSERT INTO channel(channelId,channelName,appId,wxToken,appSecret,createTime,state)
+                VALUES (#{channelId},#{channelName},#{appId},#{wxToken},#{appSecret},now(),#{state})
+    </insert>
+    <update id="modifyChannel" parameterType="java.util.Map">
+        UPDATE channel
+                SET channelName = #{channelName},
+                    appId = #{appId},
+                    wxToken = #{wxToken},
+                    appSecret = #{appSecret},
+                    updateTime = now(),
+                    state = #{state}
+                WHERE
+                    channelId = #{channelId}
+    </update>
+    <delete id="deleteChannel" parameterType="java.util.Map">
+        DELETE FROM channel WHERE channelId = #{channelId}
+    </delete>
 </mapper>

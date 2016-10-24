@@ -289,4 +289,59 @@ public class UserController {
         userService.modifyUser(userInfo);
     }
 
+    /**
+     * Description: 添加渠道
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "addChannel.do" , method = RequestMethod.POST)
+    @ResponseBody
+    public void addChannel(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("channelName", request.getParameter("channelName"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("state", request.getParameter("state"));
+        userService.addChannel(map);
+    }
+
+    /**
+     * Description: 添加渠道
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "modifyChannel.do" , method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyChannel(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("channelName", request.getParameter("channelName"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("state", request.getParameter("state"));
+        userService.modifyChannel(map);
+    }
+
+    /**
+     * Description: 添加渠道
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "deleteChannel.do" , method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteChannel(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        userService.deleteChannel(map);
+    }
+
 }
