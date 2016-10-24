@@ -1,6 +1,9 @@
 define(['app', 'service', 'sysCode'], function (app) {
     app.controller('audiDetailsCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
+            if(service.getData().result == true){
+                $scope.result = false;
+            }
             var auditingData = $scope.getAudiData();
             $scope.audiData = auditingData;
             var roleArr = auditingData.roleArr;
@@ -13,7 +16,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                     angular.forEach(roleId, function (value, index) {
                         document.getElementById(value).checked = true;
                     });
-                }, 1000);
+                }, 500);
             }
         };
         $scope.show = function (id) {
