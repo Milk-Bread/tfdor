@@ -18,6 +18,9 @@ define(['app'], function (app) {
             };
             messages["auditingData"] = {
                 "actionName": "交易名称",
+                "state":"状态",
+                "channelName":"渠道名称",
+                "wxToken":"微信token",
                 "roleName": "权限名称",
                 "roleArr":"功能菜单",
                 "channelId":"所属渠道",
@@ -31,6 +34,8 @@ define(['app'], function (app) {
                 "createTime":"交易日期",
                 "modifyRole.do":"角色修改",
                 "modifyUser.do":"用户信息修改",
+                "addChannel.do":"添加渠道",
+                "modifyChannel.do":"修改渠道",
                 "addRole.do":"新增角色",
                 "addr":"地址",
                 "age":"年龄",
