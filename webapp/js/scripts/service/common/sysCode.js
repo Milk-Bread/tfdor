@@ -31,6 +31,7 @@ define(['app'], function (app) {
                 "createTime":"交易日期",
                 "modifyRole.do":"角色修改",
                 "modifyUser.do":"用户信息修改",
+                "addRole.do":"新增角色",
                 "addr":"地址",
                 "age":"年龄",
                 "idNo":"身份证"

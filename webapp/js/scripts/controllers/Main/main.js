@@ -28,7 +28,12 @@ define(['app', 'service','sysCode'], function (app) {
                 $state.go("Login");
             }, 4000);
         }
-
+        $scope.show = function (id) {
+            if($('#aa' + id).css('display') == 'none'){
+                $('.groupLi').slideUp(500);
+                $('#aa' + id).slideDown(500);
+            }
+        }
         $scope.init();
     });
 });

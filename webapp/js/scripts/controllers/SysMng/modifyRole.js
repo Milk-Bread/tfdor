@@ -112,6 +112,7 @@ define(['app', 'service','sysCode'], function (app) {
             }
             console.log(formData);
             service.post2SRV("modifyRole.do", formData, function (data, status) {
+                alert("提交成功,请等待审核");
                 $state.go("Main.RoleManager");
             }, 4000);
         }
