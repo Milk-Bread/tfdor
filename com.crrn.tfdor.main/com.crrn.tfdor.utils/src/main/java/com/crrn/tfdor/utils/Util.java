@@ -2,7 +2,10 @@ package com.crrn.tfdor.utils;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.net.URLDecoder;
+import java.net.UnknownHostException;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -46,7 +49,7 @@ public class Util {
         }
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-            messageDigest.update(str.getBytes());
+            messageDigest.update(str.getBytes("UTF-8"));
             return getFormattedText(messageDigest.digest());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -61,17 +64,7 @@ public class Util {
      * @return String
      */
     public static String encodeByMD5(String str) {
-        if (str == null) {
-            return null;
-        }
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM);
-            messageDigest.update(str.getBytes());
-            return getFormattedText(messageDigest.digest());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        return encode(ALGORITHM, str);
     }
 
     /**
@@ -319,27 +312,30 @@ public class Util {
     /**
      * get请求参数组装
      *
-     * @param map
+     * @param param
      * @return
      */
-    public static String getUrlParamsByMap(Map<String, Object> map) {
-        if (map == null) {
-            return "";
-        }
-        StringBuffer sb = new StringBuffer();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (Dict.TRANS_NAME.equals(entry.getKey())) {
-                continue;
+    public static String getUrlParamsByMap(Map<String, Object> param) {
+        if (param != null && param.isEmpty()) {
+            Set es = param.entrySet();//所有参与传参的参数按照accsii排序(升序)
+            StringBuffer sb = new StringBuffer();
+            Iterator it = es.iterator();
+            while (it.hasNext()) {
+                Map.Entry entry = (Map.Entry) it.next();
+                String k = (String) entry.getKey();
+                Object v = entry.getValue();
+                if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
+                    sb.append(k + "=" + v + "&");
+                }
             }
-            sb.append(entry.getKey() + "=" + entry.getValue());
-            sb.append("&");
+            String strParam = sb.toString();
+            if (strParam.endsWith("&")) {
+                strParam = strParam.substring(0, strParam.lastIndexOf("&"));
+            }
+            logger.debug("http request:===>" + strParam);
+            return strParam;
         }
-        String s = sb.toString();
-        if (s.endsWith("&")) {
-            s = s.substring(0, s.lastIndexOf("&"));
-        }
-        logger.debug("http request:===>" + s);
-        return s;
+        return null;
     }
 
     /**
@@ -365,7 +361,7 @@ public class Util {
         DataInputStream in = null;
         try {
             out.writeBytes("--" + Constants.BOUNDARY + "\r\n");
-            out.writeBytes("Content-Disposition: form-data; name=\"media\"; filename=\"" + file.getName() + "\";filelength=" + file.length() + "\r\n");
+            out.writeBytes("Content-Disposition: form-data; name='media'; filename='" + file.getName() + "';filelength=" + file.length() + "\r\n");
             out.writeBytes("Content-Type: application/octet-stream\r\n\r\n");
             in = new DataInputStream(new FileInputStream(file));
             int bytes = 0;
@@ -385,5 +381,46 @@ public class Util {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 微信请求签名
+     *
+     * @param param
+     * @return
+     */
+    public static String getSignature(String key, Map<String, Object> param) {
+        String strParam = getUrlParamsByMap(param);
+        if (strParam == null) {
+            return null;
+        }
+        strParam = strParam + "&key=" + key;
+        // SHA1加密
+        String digest = encodeByMD5(strParam).toUpperCase();
+        logger.debug("微信签名：" + digest);
+        return digest;
+    }
+
+    /**
+     * 获取服务器IP地址
+     * @return
+     */
+    public static String getLocalIP() {
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        byte[] ipAddr = addr.getAddress();
+        String ipAddrStr = "";
+        for (int i = 0; i < ipAddr.length; i++) {
+            if (i > 0) {
+                ipAddrStr += ".";
+            }
+            ipAddrStr += ipAddr[i] & 0xFF;
+        }
+        return ipAddrStr;
     }
 }

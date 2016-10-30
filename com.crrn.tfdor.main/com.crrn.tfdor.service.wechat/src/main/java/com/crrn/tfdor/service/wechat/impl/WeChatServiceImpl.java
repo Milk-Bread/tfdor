@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,5 +187,26 @@ public class WeChatServiceImpl implements WeChatService {
         item.add(itMap);
         articles.put("item", item);
         msgMap.put("Articles", articles);
+    }
+
+    /**
+     * 微信普通红包
+     * @param msgMap
+     * @param param
+     */
+    private void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param){
+        msgMap.put("nonce_str","");//随机字符串 随机字符串，不长于32位
+        msgMap.put("mch_billno","");//商户订单号 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。 接口根据商户订单号支持重入，如出现超时可再调用。
+        msgMap.put("mch_id","");//商户号
+        msgMap.put("wxappid","");//微信分配的公众账号ID（企业号corpid即为此appId）。接口传入的所有appid应该为公众号的appid（在mp.weixin.qq.com申请的）
+        msgMap.put("send_name","");//商户名称
+        msgMap.put("re_openid","");//接受红包的用户 用户在wxappid下的openid
+        msgMap.put("total_amount","");//付款金额，单位分
+        msgMap.put("total_num","1");//红包发放总人数 total_num=1
+        msgMap.put("wishing","");//红包祝福语
+        msgMap.put("client_ip", Util.getLocalIP());//调用接口的机器Ip地址
+        msgMap.put("act_name","");//活动名称  例：猜灯谜抢红包活动
+        msgMap.put("remark","");//备注信息   猜越多得越多，快来抢！
+        msgMap.put("sign", Util.getSignature("key", msgMap));//签名
     }
 }

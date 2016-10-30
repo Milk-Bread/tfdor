@@ -242,7 +242,7 @@ public class UserController {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(request.getParameter("userId"));
         userInfo.setUserName(request.getParameter("userName"));
-        String passwordAes = EncodeUtil.aesEncrypt("88888888");
+        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId")+"88888888");
         userInfo.setPassword(passwordAes);
         userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
         userInfo.setSex(request.getParameter("sex"));

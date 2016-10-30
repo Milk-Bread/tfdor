@@ -42,4 +42,16 @@ public class WeChat {
      * 新增图文素材
      */
     public  static String ADD_NEWS="https://api.weixin.qq.com/cgi-bin/material/add_news";
+
+    /**
+     * 微信支付地址
+     */
+    public static interface PAY{
+        /**
+         * 微信普通红包
+         */
+        public static String SENDREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+
+
+    }
 }
