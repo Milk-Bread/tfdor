@@ -1,10 +1,8 @@
 package com.crrn.tfdor.service.wechat.core;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -104,12 +102,54 @@ public class Transformer {
             return "";
         }
         logger.debug("WeChat response message start");
-        XStream xstream = new XStream();
-        xstream.alias("xml", Map.class);
-        xstream.registerConverter(new MapEntryConverter());
-        String respXml = xstream.toXML(map);
-        logger.debug("WeChat response message :==>\r\n" + respXml);
+        StringBuffer sb = new StringBuffer();
+        sb.append("<xml>");
+        mapToXml(sb, map);
+        sb.append("</xml>");
+//        XStream xstream = new XStream();
+//        xstream.alias("xml", Map.class);
+//        xstream.registerConverter(new MapEntryConverter());
+//        String respXml = xstream.toXML(map);
+        logger.debug("WeChat response message :==>\r\n" + sb.toString());
         logger.debug("WeChat response message end");
-        return respXml;
+        return sb.toString();
     }
+
+    private void mapToXml(StringBuffer sb,Map<String, Object> map){
+        Set set = map.keySet();
+        for (Iterator it = set.iterator(); it.hasNext();) {
+            String key = (String) it.next();
+            Object keyValue = map.get(key);
+            if (null == keyValue)
+                keyValue = "";
+            if (keyValue instanceof ArrayList) {
+                ArrayList list = (ArrayList) map.get(key);
+                sb.append("<").append(key).append(">").append("\n");
+                for (int i = 0; i < list.size(); i++) {
+                    HashMap hm = (HashMap) list.get(i);
+                    mapToXml(sb, map);
+                }
+                sb.append("</").append(key).append(">").append("\n");
+            } else {
+                if (keyValue instanceof HashMap) {
+                    sb.append("<").append(key).append(">").append("\n");
+                    mapToXml(sb, (HashMap) keyValue);
+                    sb.append("</").append(key).append(">").append("\n");
+                } else {
+                    sb.append("<").append(key).append(">");
+                    Pattern patternInt = Pattern.compile("[0-9]*(\\.?)[0-9]*");
+                    Pattern patternFloat = Pattern.compile("[0-9]+");
+                    if (!patternInt.matcher(keyValue.toString()).matches() || !patternFloat.matcher(keyValue.toString()).matches()) {
+                        sb.append("<![CDATA[");
+                    }
+                    sb.append(keyValue.toString());
+                    if (!patternInt.matcher(keyValue.toString()).matches() || !patternFloat.matcher(keyValue.toString()).matches()) {
+                        sb.append("]]>");
+                    }
+                    sb.append("</").append(key).append(">").append("\n");
+                }
+            }
+        }
+    }
+
 }

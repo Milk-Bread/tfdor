@@ -36,4 +36,16 @@ public abstract interface Transport extends Service {
      * @throws Exception
      */
     public abstract Object addMaterial(Map<String, Object> sendParam, String type) throws Exception;
+
+
+    /**
+     * 微信支付
+     * @param mchId
+     * @param sendParam
+     * @return
+     * @throws Exception
+     */
+    public abstract Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception;
+
+
 }

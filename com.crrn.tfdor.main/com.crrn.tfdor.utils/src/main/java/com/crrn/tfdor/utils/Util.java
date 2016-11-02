@@ -16,6 +16,7 @@ import org.aspectj.weaver.ast.And;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -108,7 +109,8 @@ public class Util {
         if (uuid.length() > length) {
             uuid = uuid.substring(0, length);
         } else if (uuid.length() < length) {
-            for (int i = 0; i < length - uuid.length(); i++) {
+            int j = uuid.length();
+            for (int i = 0; i < length - j; i++) {
                 uuid = uuid + Math.round(Math.random() * 9);
             }
         }
@@ -119,6 +121,21 @@ public class Util {
         }
     }
 
+    /**
+     * 生成订单号
+     *
+     * @param mchId
+     * @param length
+     * @return
+     */
+    public static String getOrderId(String mchId, int length) {
+        String orderid = mchId + getCurrentDate();
+        int j = orderid.length();
+        for (int i = 0; i < length - j; i++) {
+            orderid = orderid + Math.round(Math.random() * 9);
+        }
+        return orderid;
+    }
 
     /**
      * 判断输入的字符串参数是否为空
@@ -316,8 +333,9 @@ public class Util {
      * @return
      */
     public static String getUrlParamsByMap(Map<String, Object> param) {
-        if (param != null && param.isEmpty()) {
-            Set es = param.entrySet();//所有参与传参的参数按照accsii排序(升序)
+        SortedMap<String, String> sort = new TreeMap<String, String>((HashMap) param);
+        if (param != null && !param.isEmpty()) {
+            Set es = sort.entrySet();//所有参与传参的参数按照accsii排序(升序)
             StringBuffer sb = new StringBuffer();
             Iterator it = es.iterator();
             while (it.hasNext()) {
@@ -403,6 +421,7 @@ public class Util {
 
     /**
      * 获取服务器IP地址
+     *
      * @return
      */
     public static String getLocalIP() {
@@ -422,5 +441,11 @@ public class Util {
             ipAddrStr += ipAddr[i] & 0xFF;
         }
         return ipAddrStr;
+    }
+
+
+
+    public static void main(String [] argo){
+        System.out.println(getOrderId("1402828602",28));
     }
 }

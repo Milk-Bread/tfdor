@@ -28,6 +28,7 @@ public class AuditingServiceImpl implements AuditingService {
      */
     @Override
     public void addAuditing(Map<String, Object> param) {
+
         auditingDao.addAuditing(param);
     }
 

@@ -58,7 +58,7 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
-        String passwordaes = EncodeUtil.aesEncrypt(userId+password);
+        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
         Map<String, Object> userMap = userService.loginCheck(userId, passwordaes);
         if (userMap == null) {
             throw new RuntimeException(CHECKMSG.USER_DOES_NOT_EXIST);
@@ -121,6 +121,7 @@ public class UserController {
 
     /**
      * Description: 根据渠道查询菜单
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -133,7 +134,7 @@ public class UserController {
         List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuListChannel");
         if (_menuList == null) {
             List<Map<String, Object>> menuList = menuService.getAudiMenu(channelId);
-            request.getSession().setAttribute("_menuListChannel" , menuList);
+            request.getSession().setAttribute("_menuListChannel", menuList);
             return menuList;
         } else {
             return _menuList;
@@ -242,7 +243,7 @@ public class UserController {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(request.getParameter("userId"));
         userInfo.setUserName(request.getParameter("userName"));
-        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId")+"88888888");
+        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + "88888888");
         userInfo.setPassword(passwordAes);
         userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
         userInfo.setSex(request.getParameter("sex"));
@@ -296,7 +297,7 @@ public class UserController {
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "addChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "addChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void addChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
@@ -316,7 +317,7 @@ public class UserController {
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "modifyChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "modifyChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void modifyChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
@@ -336,7 +337,7 @@ public class UserController {
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "deleteChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "deleteChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void deleteChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();

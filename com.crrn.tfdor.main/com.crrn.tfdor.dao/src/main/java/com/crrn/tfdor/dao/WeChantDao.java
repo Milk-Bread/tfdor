@@ -52,4 +52,17 @@ public interface WeChantDao {
      * @return
      */
     public List<QrcodeImg> qQrcodeimg();
+
+    /**
+     * 查询二维码使用情况
+     * @param map
+     * @return
+     */
+    public QrcodeImg qQrcodeimgByTicket(Map<String, Object> map);
+
+    /**
+     * 修改二维码状态
+     * @param map
+     */
+    public void uQrcodeImg(Map<String, Object> map);
 }

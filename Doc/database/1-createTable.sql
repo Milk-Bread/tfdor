@@ -80,7 +80,7 @@ alter table Menu comment '菜单表';
 /*==============================================================*/
 create table QrcodeImg
 (
-   qrcodeSeq            integer not null,
+   qrcodeSeq            integer not null auto_increment,
    channelId            varchar(20) not null,
    appId                varchar(20) not null,
    actionName           varchar(20) not null,

@@ -49,4 +49,6 @@ public interface WeChatService {
      * @param map
      */
     public void iQrcodeimg(Map<String, Object> map);
+
+    public void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param);
 }

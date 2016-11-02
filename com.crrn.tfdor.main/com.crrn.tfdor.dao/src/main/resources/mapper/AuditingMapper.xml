@@ -22,4 +22,8 @@
     <select id="modifyAuditing" parameterType="java.util.Map">
         UPDATE Auditing SET state = #{state},updateTime = now(),remarks = #{remarks} where auditingSeq = #{auditingSeq}
     </select>
+
+    <select id="queryAuditing" parameterType="java.util.Map">
+        select * from Auditing where auditingTrans = #{auditingTrans} and state = 'I'
+    </select>
 </mapper>

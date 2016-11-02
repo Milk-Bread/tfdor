@@ -48,4 +48,9 @@ public class Dict {
      * 图片类型-永久
      */
     public static String QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
+
+    /**
+     * 微信支付相关报文
+     */
+    public static String PAY_XML = "PAY_XML";
 }

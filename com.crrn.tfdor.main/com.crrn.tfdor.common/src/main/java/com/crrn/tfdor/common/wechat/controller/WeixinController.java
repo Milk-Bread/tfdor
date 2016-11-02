@@ -76,6 +76,7 @@ public class WeixinController {
         //验证微信消息
         tokenService.validate(channel.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
+        map.put("channelId", tokenModel.getChannelId());
         Map<String, Object> msgMap = weChatService.msgType(map);
         String respXml = transformer.former(msgMap);
         response.getWriter().write(respXml);
@@ -104,6 +105,7 @@ public class WeixinController {
                 sendParam = new HashMap<String, Object>();
                 sendParam.put("accessToken", resp.get("access_token"));
                 sendParam.put("invalidTime", resp.get("expires_in"));
+                sendParam.put("channelId", channelId);
                 accessToken = (String) resp.get("access_token");
                 if (accessToken != null) {
                     weChatService.dAccessToken(channelId);
@@ -151,6 +153,7 @@ public class WeixinController {
             map.putAll(ticket);
             map.putAll(scene);
             map.putAll(respTicket);
+            map.put("channelId", channelId);
             map.put("action_name", Dict.QR_LIMIT_SCENE);
             map.put("appId", Constants.APPID);
             map.put("preservation",Constants.PATH_QRCODE_IMAGE);
@@ -250,7 +253,19 @@ public class WeixinController {
         return respMap;
     }
 
-
+    @RequestMapping(value = "pay", method = RequestMethod.POST)
+    @ResponseBody
+    public Object pay(HttpServletRequest request) throws Exception {
+//        Map<String, Object> sendParam = new HashMap<String, Object>();
+//        weChatService.sendRedPack(sendParam,null);
+//        String respXml = transformer.former(sendParam);
+//        Map<String, Object> payParam = new HashMap<String, Object>();
+//        payParam.put(Dict.PAY_XML,respXml);
+//        payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);
+//        String str =  (String)transport.weChatPay("1402828602",payParam);
+//        logger.debug(str);
+        return null;
+    }
 
 }
 

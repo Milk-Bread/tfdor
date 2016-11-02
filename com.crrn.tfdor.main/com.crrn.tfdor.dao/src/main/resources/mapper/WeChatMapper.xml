@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crrn.tfdor.dao.WeChantDao">
 	<!-- 插入AccessToken表 -->
 	<insert id="iAccessToken" parameterType="java.util.HashMap">
-		INSERT INTO AccessToken(accessToken,invalidTime,createTime,updateTime) VALUES(#{accessToken},#{invalidTime},now(),now())
+		INSERT INTO AccessToken(accessToken,channelId,invalidTime,createTime,updateTime) VALUES(#{accessToken},#{channelId},#{invalidTime},now(),now())
 	</insert>
    	<!-- 删除过期的accesstoken -->
    	<delete id="dAccessToken" parameterType="java.lang.String">
@@ -14,12 +14,22 @@
    		SELECT tokenSeq,accessToken,invalidTime,createTime,updateTime from AccessToken where channelId = #{channelId}
    	</select>
 	<select id="iQrcodeimg" parameterType="java.util.HashMap">
-		INSERT INTO qrcodeimg (actionName, appId, sceneId, ticket, url, qrcodeName, state, preservation,createTime, updateTime)
-		VALUES (#{action_name},#{appId}, #{scene_id}, #{ticket}, #{url}, #{Name}, 'I',#{preservation}, now(), now())
+		INSERT INTO qrcodeimg (actionName, appId, sceneId, ticket, url, qrcodeName, state, preservation,createTime, updateTime,channelId)
+		VALUES (#{action_name},#{appId}, #{scene_id}, #{ticket}, #{url}, #{Name}, 'I',#{preservation}, now(), now(),#{channelId})
 	</select>
 	<select id="qQrcodeimg" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg">
 		SELECT actionName,appId,createTime,preservation,qrcodeName,qrcodeSeq,sceneId,state,ticket,updateTime,url FROM qrcodeimg
+
 	</select>
+
+	<select id="qQrcodeimgByTicket" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg" parameterType="java.util.HashMap">
+		SELECT actionName,appId,createTime,preservation,qrcodeName,qrcodeSeq,sceneId,state,ticket,updateTime,url FROM qrcodeimg
+		WHERE channelId = #{channelId} and ticket = #{Ticket} and state = 'I'
+	</select>
+
+	<update id="uQrcodeImg" parameterType="java.util.HashMap">
+		UPDATE qrcodeimg SET state = #{state},updateTime = now() WHERE ticket = #{Ticket}
+	</update>
 	<select id="qChannel" resultType="com.crrn.tfdor.domain.manage.Channel" parameterType="java.lang.String">
 		select * from channel where channelId = #{channelId}
 	</select>
