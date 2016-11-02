@@ -16,6 +16,24 @@ define(['app'], function (app) {
                 "C": "销户",
                 "S": "停用"
             };
+            messages["qrCodeState"] = {
+                "I": "未使用",
+                "S": "使用成功",
+                "F": "使用失败"
+            }
+
+            messages["qrCodeType"] = {
+                "QR_LIMIT_SCENE": "永久二维码"
+            }
+            messages["redPackType"] = {
+                "1":"普通红包",
+                "2":"裂变红包"
+            }
+             messages["amountType"] = {
+                "1":"固定金额",
+                "2":"随机金额"
+            }
+
             messages["auditingData"] = {
                 "actionName": "交易名称",
                 "state":"状态",

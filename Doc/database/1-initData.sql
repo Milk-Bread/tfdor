@@ -53,9 +53,11 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'CheckResultQuery');
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('MarketingManager','营销推广','00000000',3,'',now());
 -- 二级菜单
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('QrCodeManager','二维码管理','MarketingManager',1,'QrCodeManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RedEnvelopeManager','红包管理','MarketingManager',1,'RedEnvelopeManager',now());
 --授权 Admin
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MarketingManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'QrCodeManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedEnvelopeManager');
 
 
 
