@@ -60,3 +60,8 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'QrCodeManager');
 
 
 
+
+-- 红包初始化
+INSERT INTO redpack (channelId,redPackType, amountType, totalAmount, wishing, actName, remark, createTime, updateTime) 
+VALUES ('tfdor','1', '1', '1', '祝万事如意', '扫码关注送红包活动', '扫码送红包', now(),now());
+

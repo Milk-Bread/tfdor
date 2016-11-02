@@ -19,6 +19,40 @@ drop table if exists QrcodeImg;
 drop table if exists Role;
 drop table if exists channel;
 drop table if exists Auditing;
+drop table if exists RedPack;
+drop table if exists CreateQrcodeImg;
+
+
+
+create table CreateQrcodeImg
+(
+   CreateQISeq            integer not null auto_increment comment '序列',
+   channelId            varchar(20) not null comment '渠道',
+   bigenDate                varchar(20) not null comment '二维码生效时间',
+   endDate           timestamp not null comment '二维码失效时间',
+   number              timestamp not null comment '二维码数量',
+   createTime        timestamp,
+   primary key (CreateQISeq)
+)DEFAULT CHARSET= UTF8
+ENGINE = InnoDB;
+alter table CreateQrcodeImg comment '二维码生成配置表';
+
+create table RedPack(
+   redPackSeq           integer not null auto_increment comment 'Seq',
+   redPackType         char(1) not null comment '红包种类 1-普通红包，2-裂变红包' ,
+   amountType          varchar(20) not null comment '金额类型 1-固定金额、2-随机金额',
+   totalAmount         varchar(20) not null comment '红包金额  1-200，当type是随机金额时 totalAmount为一个区间例如：1-3（元）',
+   wishing              varchar(50) not null comment '红包祝福语',
+   actName              varchar(50) not null comment '活动名称',
+   channelId            varchar(20) not null,
+   remark               varchar(100) not null comment '备注',
+   createTime           timestamp,
+   updateTime           timestamp,
+   primary key (redPackSeq)
+)DEFAULT CHARSET= UTF8
+ENGINE = InnoDB;
+
+alter table RedPack comment '红包配置表';
 
 
 
