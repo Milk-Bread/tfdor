@@ -1,5 +1,6 @@
 package com.crrn.tfdor.service.wechat.impl;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,6 +29,7 @@ import com.crrn.tfdor.service.wechat.WeChatService;
 import com.crrn.tfdor.utils.Dict;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class WeChatServiceImpl implements WeChatService {
@@ -82,7 +84,7 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     @Override
-    public Map<String, Object> msgType(Map<String, Object> param) {
+    public Map<String, Object> msgType(Map<String, Object> param, HttpServletResponse response) {
         logger.debug("Enter a message distribution......");
         String msgType = (String) param.get(Dict.MSGTYPE);
         Map<String, Object> msgMap = new HashMap<>();
@@ -92,32 +94,28 @@ public class WeChatServiceImpl implements WeChatService {
             String event = (String) param.get(Dict.EVENT);
             if (Event.subscribe.toString().equals(event)) {//事件类型为未关注扫码
                 logger.debug("事件类型为未关注扫码");
+                param.put("Content","你好！欢迎关注涂盟");
+                msgTypeByText(msgMap, param);
+                String respXml = transformer.former(msgMap);
+                logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 QrcodeImg qrcodeimg = weChatDao.qQrcodeimgByTicket(param);
                 if(qrcodeimg != null) {
                     logger.debug("二维码第一次使用");
-                    Map<String, Object> payParam = new HashMap<String, Object>();
+                    msgMap.clear();
                     sendRedPack(msgMap, param);
-                    String respXml = transformer.former(msgMap);
-                    payParam.put(Dict.PAY_XML, respXml);
-                    payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);
-                    try {
-                        String str = (String) transport.weChatPay("1402828602", payParam);
-                        param.put("state","S");
-                        weChatDao.uQrcodeImg(param);
-                    } catch (Exception e) {
-                        param.put("state","F");
-                        weChatDao.uQrcodeImg(param);
-                        e.printStackTrace();
-                    }
                 }
-//                msgTypeByImage(msgMap, param);
             } else if (Event.unsubscribe.toString().equals(event)) {
                 logger.debug("事件类型为取消关注");
 
             } else if (Event.SCAN.toString().equals(event)) {
                 logger.debug("事件类型为扫码(已经关注)");
-//                msgTypeByImage(msgMap, param);
-//                msgTypeByNews(msgMap, param);
+                logger.debug(">>>>>>>>微信红包准备中～～～～～～");
+                QrcodeImg qrcodeimg = weChatDao.qQrcodeimgByTicket(param);
+                if(qrcodeimg != null) {
+                    logger.debug("二维码第一次使用");
+                    msgMap.clear();
+                    sendRedPack(msgMap, param);
+                }
             } else if (Event.VIEW.toString().equals(event)) {
                 logger.debug("事件类型为点击菜单跳转链接时的事件推送");
 
@@ -163,21 +161,40 @@ public class WeChatServiceImpl implements WeChatService {
         weChatDao.iQrcodeimg(map);
     }
 
+
+    /**
+     * 微信现金红包
+     * @param msgMap
+     * @param param
+     */
     @Override
     public void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param) {
-        msgMap.put("nonce_str",Util.getSysJournalNo(32,true));//"10000000000000000000000000000002");//随机字符串 随机字符串，不长于32位
-        msgMap.put("mch_billno",Util.getOrderId("1402828602",28));//"1402828602201611020000000000");//商户订单号 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。 接口根据商户订单号支持重入，如出现超时可再调用。
+        msgMap.put("nonce_str",Util.getOrderId("1402828602",32));//随机字符串 随机字符串，不长于32位
+        msgMap.put("mch_billno",Util.getOrderId("1402828602",28));//商户订单号 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。 接口根据商户订单号支持重入，如出现超时可再调用。
         msgMap.put("mch_id","1402828602");//商户号
         msgMap.put("wxappid","wxe7ae25efff1772cb");//微信分配的公众账号ID（企业号corpid即为此appId）。接口传入的所有appid应该为公众号的appid（在mp.weixin.qq.com申请的）
         msgMap.put("send_name","涂盟新型建材厂");//商户名称
-        msgMap.put("re_openid",param.get("FromUserName"));//"oDPnjw9suWoFzYWZT451sFFdifCo");//接受红包的用户 用户在wxappid下的openid
+        msgMap.put("re_openid",param.get("FromUserName"));//接受红包的用户 用户在wxappid下的openid
         msgMap.put("total_amount",Util.moneyYuanToFenByRound("1"));//付款金额，单位分
         msgMap.put("total_num","1");//红包发放总人数 total_num=1
         msgMap.put("wishing","祝万事如意");//红包祝福语
         msgMap.put("client_ip", Util.getLocalIP());//调用接口的机器Ip地址
-        msgMap.put("act_name","扫码关注送红包活动");//活动名称  例：猜灯谜抢红包活动
-        msgMap.put("remark","扫码");//备注信息   猜越多得越多，快来抢！
+        msgMap.put("act_name","扫码关注送红包活动");//活动名称
+        msgMap.put("remark","扫码");//备注信息
         msgMap.put("sign", Util.getSignature("SDDSD88922323TFDOR8892323KJUIJKJ", msgMap));//签名
+        Map<String, Object> payParam = new HashMap<String, Object>();
+        String respXml = transformer.former(msgMap);
+        payParam.put(Dict.PAY_XML, respXml);
+        payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);//现金红包接口名称
+        try {
+            Map<String, Object> resp = (Map<String, Object>) transport.weChatPay("1402828602", payParam);
+            param.put("state","S");
+            weChatDao.uQrcodeImg(param);
+        } catch (Exception e) {
+            param.put("state","F");
+            weChatDao.uQrcodeImg(param);
+            e.printStackTrace();
+        }
     }
 
 

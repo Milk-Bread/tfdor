@@ -16,9 +16,11 @@ import org.aspectj.weaver.ast.And;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.dom4j.*;
 import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.validation.ValidationException;
@@ -443,9 +445,69 @@ public class Util {
         return ipAddrStr;
     }
 
+    /**
+     * 解析xml报文
+     *
+     * @param xmlString
+     * @return
+     */
+    public static Map<String, Object> parse(String xmlString) throws DocumentException {
+        logger.debug("WeChat request message start");
+
+        Document document = DocumentHelper.parseText(xmlString);
+        Element rootElement = document.getRootElement();
+        // 处理接收消息
+        Map<String, Object> map = new HashMap<String, Object>();
+        Element root = document.getRootElement();
+        logger.debug("WeChat request message:===>\r\n" + document.asXML());
+        // 得到根元素的所有子节点
+        List<Element> elementList = root.elements();
+        // 将解析结果存储在HashMap中
+        // 遍历所有子节点
+        xmlToMap(map, elementList);
+        logger.debug("WeChat request message map:===>" + map);
+        logger.debug("WeChat request message end");
+        return map;
+    }
+
+    /**
+     * 递归解析xml报文
+     *
+     * @param map
+     * @param elementList
+     */
+    public static void xmlToMap(Map<String, Object> map, List<Element> elementList) {
+        for (Element e : elementList) {
+            List<Element> element = e.elements();
+            if (element.size() == 0) {
+                map.put(e.getName(), e.getText());
+                logger.debug("WeChat request message param ===>" + e.getName() + ":" + e.getText());
+            } else {
+                logger.debug("WeChat request message param ===>" + e.getName());
+                List<Map<String, Object>> list = new ArrayList<>();
+                Map<String, Object> map1 = new HashMap<>();
+                for (Element e1 : element) {
+                    List<Element> element1 = e1.elements();
+                    if (element1.size() == 0) {
+                        logger.debug("WeChat request message param ===>" + e1.getName() + ":" + e1.getText());
+                        map1.put(e1.getName(), e1.getText());
+                    } else {
+                        Map<String, Object> map2 = new HashMap<>();
+                        xmlToMap(map2, element1);
+                        list.add(map2);
+                        map1.put(e1.getName(), list);
+                    }
+                }
+                map.put(e.getName(), map1);
+            }
+        }
+    }
 
 
-    public static void main(String [] argo){
-        System.out.println(getOrderId("1402828602",28));
+    public static void main(String [] argo) throws DocumentException {
+
+
+//        System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
+//        System.out.println(getOrderId("1402828602",28));
     }
 }

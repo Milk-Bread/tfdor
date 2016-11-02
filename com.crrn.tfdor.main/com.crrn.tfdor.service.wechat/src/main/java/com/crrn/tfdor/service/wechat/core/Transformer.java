@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import com.crrn.tfdor.utils.Util;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
@@ -46,7 +48,7 @@ public class Transformer {
             List<Element> elementList = root.elements();
             // 将解析结果存储在HashMap中
             // 遍历所有子节点
-            xmlToMap(map, elementList);
+            Util.xmlToMap(map, elementList);
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -57,38 +59,6 @@ public class Transformer {
         return map;
     }
 
-    /**
-     * 递归解析xml报文
-     *
-     * @param map
-     * @param elementList
-     */
-    private static void xmlToMap(Map<String, Object> map, List<Element> elementList) {
-        for (Element e : elementList) {
-            List<Element> element = e.elements();
-            if (element.size() == 0) {
-                map.put(e.getName(), e.getText());
-                logger.debug("WeChat request message param ===>" + e.getName() + ":" + e.getText());
-            } else {
-                logger.debug("WeChat request message param ===>" + e.getName());
-                List<Map<String, Object>> list = new ArrayList<>();
-                Map<String, Object> map1 = new HashMap<>();
-                for (Element e1 : element) {
-                    List<Element> element1 = e1.elements();
-                    if (element1.size() == 0) {
-                        logger.debug("WeChat request message param ===>" + e1.getName() + ":" + e1.getText());
-                        map1.put(e1.getName(), e1.getText());
-                    } else {
-                        Map<String, Object> map2 = new HashMap<>();
-                        xmlToMap(map2, element1);
-                        list.add(map2);
-                        map1.put(e1.getName(), list);
-                    }
-                }
-                map.put(e.getName(), map1);
-            }
-        }
-    }
 
     /**
      * 组装返回xml
@@ -106,18 +76,14 @@ public class Transformer {
         sb.append("<xml>");
         mapToXml(sb, map);
         sb.append("</xml>");
-//        XStream xstream = new XStream();
-//        xstream.alias("xml", Map.class);
-//        xstream.registerConverter(new MapEntryConverter());
-//        String respXml = xstream.toXML(map);
         logger.debug("WeChat response message :==>\r\n" + sb.toString());
         logger.debug("WeChat response message end");
         return sb.toString();
     }
 
-    private void mapToXml(StringBuffer sb,Map<String, Object> map){
+    private void mapToXml(StringBuffer sb, Map<String, Object> map) {
         Set set = map.keySet();
-        for (Iterator it = set.iterator(); it.hasNext();) {
+        for (Iterator it = set.iterator(); it.hasNext(); ) {
             String key = (String) it.next();
             Object keyValue = map.get(key);
             if (null == keyValue)

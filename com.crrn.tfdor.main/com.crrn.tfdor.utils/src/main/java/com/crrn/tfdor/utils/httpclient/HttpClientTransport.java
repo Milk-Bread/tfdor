@@ -253,7 +253,11 @@ public class HttpClientTransport implements Transport {
         String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
         logger.debug(jsonStr);
         EntityUtils.consume(entity);
-        return jsonStr;
+        Map<String, Object> resp = Util.parse(jsonStr);
+        if(!"SUCCESS".equals(resp.get("return_code")) || null == resp.get("result_code") || !"SUCCESS".equals(resp.get("result_code"))){
+            throw new RuntimeException(resp.get("return_msg").toString());
+        }
+        return resp;
     }
 
     /**

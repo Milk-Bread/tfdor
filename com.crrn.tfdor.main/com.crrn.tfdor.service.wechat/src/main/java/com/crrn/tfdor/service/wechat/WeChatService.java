@@ -7,6 +7,8 @@ import java.util.Map;
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.wechat.QrcodeImg;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface WeChatService {
 
     /**
@@ -43,12 +45,17 @@ public interface WeChatService {
      * @param param
      * @return
      */
-    public Map<String, Object> msgType(Map<String, Object> param);
+    public Map<String, Object> msgType(Map<String, Object> param, HttpServletResponse response);
     /**
      * Description:记录生成的二维码
      * @param map
      */
     public void iQrcodeimg(Map<String, Object> map);
 
+    /**
+     * 微信现金红包
+     * @param msgMap
+     * @param param
+     */
     public void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param);
 }

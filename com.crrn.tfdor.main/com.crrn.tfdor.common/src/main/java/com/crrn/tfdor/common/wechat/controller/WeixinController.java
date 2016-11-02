@@ -69,7 +69,7 @@ public class WeixinController {
      */
     @RequestMapping(value = "wechat", method = RequestMethod.POST)
     @ResponseBody
-    public void acceptMessage(HttpServletRequest request, HttpServletResponse response,CheckModel tokenModel) throws ParseException, IOException {
+    public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws ParseException, IOException {
         logger.debug("微信request param name" + request.getParameterNames());
         logger.debug("微信request param value" + request.getParameterMap().toString());
         Channel channel = weChatService.qChannel(tokenModel.getChannelId());
@@ -77,7 +77,7 @@ public class WeixinController {
         tokenService.validate(channel.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
         map.put("channelId", tokenModel.getChannelId());
-        Map<String, Object> msgMap = weChatService.msgType(map);
+        Map<String, Object> msgMap = weChatService.msgType(map, response);
         String respXml = transformer.former(msgMap);
         response.getWriter().write(respXml);
     }
@@ -129,10 +129,10 @@ public class WeixinController {
      */
     @RequestMapping(value = "createQrcodeImg", method = RequestMethod.POST)
     @ResponseBody
-    public void creatQrcodeImage(HttpServletRequest request,String channelId) throws Exception {
+    public void creatQrcodeImage(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         for (int i = 0; i < 10; i++) {
-            String id = Util.getSysJournalNo(5,true);
+            String id = Util.getSysJournalNo(5, true);
             // 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久,QR_LIMIT_STR_SCENE为永久的字符串参数值
             sendParam.put("action_name", Dict.QR_LIMIT_SCENE);
             Map<String, Object> action_info = new HashMap<>();
@@ -144,9 +144,9 @@ public class WeixinController {
             sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
             // 生成二维码ticket
             Map<String, Object> respTicket = (Map<String, Object>) transport.sendPost(sendParam);
-            Map<String ,Object> ticket = new HashMap<>();
+            Map<String, Object> ticket = new HashMap<>();
             ticket.put("ticket", respTicket.get("ticket"));
-            ticket.put("Name", Util.getCurrentDate()+id);
+            ticket.put("Name", Util.getCurrentDate() + id);
             ticket.put(Dict.TRANS_NAME, WeChat.SHOW_QRCODE);
             transport.sendGet(ticket);
             Map<String, Object> map = new HashMap<>();
@@ -156,7 +156,7 @@ public class WeixinController {
             map.put("channelId", channelId);
             map.put("action_name", Dict.QR_LIMIT_SCENE);
             map.put("appId", Constants.APPID);
-            map.put("preservation",Constants.PATH_QRCODE_IMAGE);
+            map.put("preservation", Constants.PATH_QRCODE_IMAGE);
             weChatService.iQrcodeimg(map);
         }
     }
@@ -176,9 +176,9 @@ public class WeixinController {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.BATCHGET_MATERIAL);
         sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
-        sendParam.put("offset",0);
-        sendParam.put("count",20);
-        sendParam.put("type","image");
+        sendParam.put("offset", 0);
+        sendParam.put("count", 20);
+        sendParam.put("type", "image");
         Map map = (Map) transport.sendPost(sendParam);
         return map;
     }
@@ -193,7 +193,7 @@ public class WeixinController {
     @RequestMapping(value = "addMaterial", method = RequestMethod.POST)
     public
     @ResponseBody
-    Object addMaterial(HttpServletRequest request,String channelId) throws Exception {
+    Object addMaterial(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.ADD_MATERIAL);
         sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
@@ -213,11 +213,11 @@ public class WeixinController {
      */
     @RequestMapping(value = "delMaterial", method = RequestMethod.POST)
     @ResponseBody
-    public Object delMaterial(HttpServletRequest request,String channelId) throws Exception {
+    public Object delMaterial(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.DEL_MATERIAL);
         sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
-        sendParam.put("media_id",request.getParameter("mediaId"));
+        sendParam.put("media_id", request.getParameter("mediaId"));
         Map respMap = (Map) transport.sendPost(sendParam);
         logger.debug(respMap.toString());
         return respMap;
@@ -233,21 +233,21 @@ public class WeixinController {
      */
     @RequestMapping(value = "addNews", method = RequestMethod.POST)
     @ResponseBody
-    public Object addNews(HttpServletRequest request,String channelId) throws Exception {
+    public Object addNews(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.ADD_NEWS);
         sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
-        List<Map<String,Object>> articles = new ArrayList<>();
+        List<Map<String, Object>> articles = new ArrayList<>();
         Map<String, Object> news = new HashMap<String, Object>();
-        news.put("title","关注微信抢红包");
-        news.put("thumb_media_id","7W8JfIKXWeS1_QS7ynY4Keklmv2QV1fhWD6uDOI6oiE");
-        news.put("author","微信");
-        news.put("digest","没有");
-        news.put("show_cover_pic",1);
-        news.put("content","我们都是突然长大。那个瞬间，在无可挽回的事实前，学会了从容不迫；在大势所趋时，学会了不动声色。开始保守地给予，迅速地放弃，游刃有余地周旋。在那些众口一辞的节日里，将最好的情感夹杂在寻常祝福中，试图蒙蔽隐秘的初衷。——姬霄");
-        news.put("content_source_url","www.baidu.com");
+        news.put("title", "关注微信抢红包");
+        news.put("thumb_media_id", "7W8JfIKXWeS1_QS7ynY4Keklmv2QV1fhWD6uDOI6oiE");
+        news.put("author", "微信");
+        news.put("digest", "没有");
+        news.put("show_cover_pic", 1);
+        news.put("content", "我们都是突然长大。那个瞬间，在无可挽回的事实前，学会了从容不迫；在大势所趋时，学会了不动声色。开始保守地给予，迅速地放弃，游刃有余地周旋。在那些众口一辞的节日里，将最好的情感夹杂在寻常祝福中，试图蒙蔽隐秘的初衷。——姬霄");
+        news.put("content_source_url", "www.baidu.com");
         articles.add(news);
-        sendParam.put("articles",articles);
+        sendParam.put("articles", articles);
         Map respMap = (Map) transport.sendPost(sendParam);
         logger.debug(respMap.toString());
         return respMap;
