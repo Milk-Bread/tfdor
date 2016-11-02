@@ -1,0 +1,29 @@
+<div ng-controller="redEnvelopeMngCtrl">
+	<div class="table-responsive" style="margin-top: 10px;">
+		<table
+			class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<td class="text-center">ID</td>
+				<td class="text-center">红包类型</td>
+				<td class="text-center">金额类型</td>
+				<td class="text-center">红包金额</td>
+				<td class="text-center">红包祝福语</td>
+				<td class="text-center">活动名称</td>
+				<td class="text-center">备注</td>
+				<td class="text-center">创建时间</td>
+                <th class="text-center">修改时间</th>
+			</tr>
+			<tr ng-repeat="redPack in redPackList">
+				<td class="text-center">{{redPack.redPackSeq}}</td>
+				<td class="text-center">{{redPack.redPackType | sysCode:'redPackType'}}</td>
+				<td class="text-center">{{redPack.amountType  | sysCode:'amountType'}}</td>
+				<td class="text-center">{{redPack.totalAmount | number:2}}</td>
+				<td class="text-center">{{redPack.wishing}}</td>
+				<td class="text-center">{{redPack.actName}}</td>
+				<td class="text-center">{{redPack.remark}}</td>
+				<td class="text-center">{{redPack.createTime}}</td>
+				<td class="text-center">{{redPack.updateTime}}</td>
+			</tr>
+		</table>
+	</div>
+</div>

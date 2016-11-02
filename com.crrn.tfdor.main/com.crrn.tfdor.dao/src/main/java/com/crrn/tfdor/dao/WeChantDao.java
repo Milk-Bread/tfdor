@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.wechat.QrcodeImg;
+import com.crrn.tfdor.domain.wechat.RedPackBean;
 
 /**
  * Description:微信相关表数据库操作
@@ -65,4 +66,11 @@ public interface WeChantDao {
      * @param map
      */
     public void uQrcodeImg(Map<String, Object> map);
+
+    /**
+     *  查询红包列表
+     * @param map
+     * @return
+     */
+    public List<RedPackBean> queryRedPack(Map<String, Object> map);
 }

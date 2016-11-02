@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crrn.tfdor.service.manage.MarketingService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Description: 核心控制器
  * Copyright (c) TLC.
@@ -38,5 +41,18 @@ public class MarketingController {
     @ResponseBody
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
         return marketingService.qQrcodeimg();
+    }
+
+
+    /**
+     *  查询红包列表
+     * @return
+     */
+    @RequestMapping(value = "queryRedPack.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryRedPack(HttpServletRequest request) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        return marketingService.queryRedPack(map);
     }
 }

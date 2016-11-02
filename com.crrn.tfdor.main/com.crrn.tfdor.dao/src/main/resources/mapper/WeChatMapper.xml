@@ -34,4 +34,11 @@
 		select * from channel where channelId = #{channelId}
 	</select>
 
+	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
+		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
+				DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
+          		DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime
+				FROM redpack  WHERE channelId = #{channelId}
+	</select>
+
 </mapper>
