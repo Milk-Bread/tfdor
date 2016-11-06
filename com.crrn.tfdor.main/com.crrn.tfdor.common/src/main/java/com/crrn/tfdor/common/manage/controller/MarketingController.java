@@ -40,7 +40,9 @@ public class MarketingController {
     @RequestMapping(value = "getQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
-        return marketingService.qQrcodeimg();
+        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
+        Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        return marketingService.qQrcodeimg(pageNo,pageSize);
     }
 
 

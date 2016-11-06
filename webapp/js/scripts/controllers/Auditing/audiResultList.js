@@ -6,7 +6,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             }, 4000);
         };
         $scope.gotoDetails = function (obj) {
-            obj["result"] = true;
+            obj["result"] = false;
             service.setData(obj);
             $state.go("Main.audiDetails");
         };

@@ -129,15 +129,17 @@ public class WeixinController {
      */
     @RequestMapping(value = "createQrcodeImg", method = RequestMethod.POST)
     @ResponseBody
-    public void creatQrcodeImage(HttpServletRequest request, String channelId) throws Exception {
+    public void createQrcodeImage(HttpServletRequest request, String channelId) throws Exception {
+        Channel channel = weChatService.qChannel(channelId);
         Map<String, Object> sendParam = new HashMap<String, Object>();
-        for (int i = 0; i < 10; i++) {
-            String id = Util.getSysJournalNo(5, true);
+        for (int i = 0; i < 2; i++) {
+            String id = Util.getSysJournalNo(15, false);
             // 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久,QR_LIMIT_STR_SCENE为永久的字符串参数值
-            sendParam.put("action_name", Dict.QR_LIMIT_SCENE);
+            sendParam.put("action_name", Dict.QR_LIMIT_STR_SCENE);
             Map<String, Object> action_info = new HashMap<>();
             Map<String, Object> scene = new HashMap<>();
-            scene.put("scene_id", id);
+//            scene.put("scene_id", Util.getSysJournalNo(4, true));
+            scene.put("scene_str", id);
             action_info.put("scene", scene);
             sendParam.put("action_info", action_info);
             sendParam.put(Dict.TRANS_NAME, WeChat.CREAT_QRCODE_IMAGE);
@@ -155,7 +157,8 @@ public class WeixinController {
             map.putAll(respTicket);
             map.put("channelId", channelId);
             map.put("action_name", Dict.QR_LIMIT_SCENE);
-            map.put("appId", Constants.APPID);
+            map.put("appId", channel.getAppId());
+            map.put("scene_id", id);
             map.put("preservation", Constants.PATH_QRCODE_IMAGE);
             weChatService.iQrcodeimg(map);
         }

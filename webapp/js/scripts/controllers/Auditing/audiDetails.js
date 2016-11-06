@@ -1,8 +1,11 @@
 define(['app', 'service', 'sysCode'], function (app) {
     app.controller('audiDetailsCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
-            if(service.getData().result == true){
+            console.log(service.getData());
+            if(service.getData().result == false){
                 $scope.result = false;
+            }else{
+                $scope.result = true;
             }
             var auditingData = $scope.getAudiData();
             $scope.audiData = auditingData;

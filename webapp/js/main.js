@@ -12,14 +12,14 @@ require.config({
 		'ueditorAll' : '../lib/ueditor/ueditor.all.min',
 		'wdatePicker' : '../lib/My97DatePicker/WdatePicker',
 		'blockUI':'../lib/angular-plugins/angular-block-ui/angular-block-ui.min',
-		//'translate':'../lib/angular-plugins/angular-translate/angular-translate.min',
 		'loading-bar':'../lib/angular-plugins/angular-loading-bar/loading-bar.min',
 		'ngload':'../lib/angular-plugins/ngload',
 		'ui-bootstrap':'../lib/angular-plugins/angular-ui-bootstrap/ui-bootstrap-tpls-0.12.1.min',
 		'bootstrap':'../lib/angular-plugins/bootstrap/bootstrap.min',
 		'angular-sanitize':'../lib/angular-plugins/angular-sanitize.min',
 		'service':'../scripts/service/common/service',
-		'sysCode':'../scripts/service/common/sysCode'
+		'sysCode':'../scripts/service/common/sysCode',
+		'paging':'../scripts/service/common/directive'
 	},
 
 	shim : {
@@ -36,12 +36,12 @@ require.config({
 		'angular-sanitize' : [ 'angular' ],
 		'sysCode':['angular'],
 		'service':['jquery','angular'],
-		'bootstrap':['jquery']
-		//'translate':['angular']
+		'bootstrap':['jquery'],
+		'paging':['angular']
 	},
 	urlArgs : "v=" + new Date().getTime(),
 	// 启动程序 js/scripts/app.js
-	deps : [ 'app' ]
+	deps : [ 'app','paging' ]
 });
 
 

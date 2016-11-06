@@ -96,10 +96,9 @@ public class WeChatServiceImpl implements WeChatService {
                 logger.debug("事件类型为未关注扫码");
                 param.put("Content","你好！欢迎关注涂盟");
                 msgTypeByText(msgMap, param);
-                String respXml = transformer.former(msgMap);
-                logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 QrcodeImg qrcodeimg = weChatDao.qQrcodeimgByTicket(param);
                 if(qrcodeimg != null) {
+                    logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                     logger.debug("二维码第一次使用");
                     msgMap.clear();
                     sendRedPack(msgMap, param);
@@ -109,11 +108,10 @@ public class WeChatServiceImpl implements WeChatService {
 
             } else if (Event.SCAN.toString().equals(event)) {
                 logger.debug("事件类型为扫码(已经关注)");
-                logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 QrcodeImg qrcodeimg = weChatDao.qQrcodeimgByTicket(param);
                 if(qrcodeimg != null) {
+                    logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                     logger.debug("二维码第一次使用");
-                    msgMap.clear();
                     sendRedPack(msgMap, param);
                 }
             } else if (Event.VIEW.toString().equals(event)) {

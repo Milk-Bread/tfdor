@@ -26,12 +26,13 @@ drop table if exists CreateQrcodeImg;
 
 create table CreateQrcodeImg
 (
-   CreateQISeq            integer not null auto_increment comment '序列',
-   channelId            varchar(20) not null comment '渠道',
-   bigenDate                varchar(20) not null comment '二维码生效时间',
-   endDate           timestamp not null comment '二维码失效时间',
-   number              timestamp not null comment '二维码数量',
-   createTime        timestamp,
+   CreateQISeq        integer not null auto_increment comment '序列',
+   channelId          varchar(20) not null comment '渠道',
+   bigenDate          varchar(20) comment '二维码生效时间',
+   endDate            varchar(20) comment '二维码失效时间',
+   number             integer not null comment '二维码数量',
+   createTime         timestamp default '0000-00-00 00:00:00',
+   updateTime         timestamp default now() on update now(),
    primary key (CreateQISeq)
 )DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
@@ -46,8 +47,8 @@ create table RedPack(
    actName              varchar(50) not null comment '活动名称',
    channelId            varchar(20) not null,
    remark               varchar(100) not null comment '备注',
-   createTime           timestamp,
-   updateTime           timestamp,
+   createTime           timestamp default '0000-00-00 00:00:00',
+   updateTime           timestamp default now() on update now(),
    primary key (redPackSeq)
 )DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
@@ -82,8 +83,8 @@ create table AccessToken
    channelId            varchar(20),
    accessToken          varchar(512) not null,
    invalidTime          varchar(5) not null,
-   createTime           timestamp,
-   updateTime           timestamp,
+   createTime           timestamp default '0000-00-00 00:00:00',
+   updateTime           timestamp default now() on update now(),
    primary key (tokenSeq)
 )
 DEFAULT CHARSET= UTF8
@@ -115,6 +116,7 @@ alter table Menu comment '菜单表';
 create table QrcodeImg
 (
    qrcodeSeq            integer not null auto_increment,
+   CreateQISeq          integer not null,
    channelId            varchar(20) not null,
    appId                varchar(20) not null,
    actionName           varchar(20) not null,
@@ -124,8 +126,8 @@ create table QrcodeImg
    qrcodeName           varchar(50),
    preservation         varchar(50),
    state                char(1) not null comment '二维码状态：I-初始状态，S-使用成功，F-使用失败',
-   createTime           timestamp,
-   updateTime           timestamp,
+   createTime           timestamp default '0000-00-00 00:00:00',
+   updateTime           timestamp default now() on update now(),
    primary key (qrcodeSeq)
 )DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
@@ -201,8 +203,8 @@ create table channel
    appId                varchar(20) not null,
    wxToken              varchar(20) not null,
    appSecret            varchar(100) not null,
-   createTime           timestamp not null,
-   updateTime           timestamp,
+   createTime           timestamp default '0000-00-00 00:00:00',
+   updateTime           timestamp default now() on update now(),
    state                char(1) comment '渠道状态  N-正常，C-销户，S-停用',
    primary key (channelId)
 )
@@ -233,6 +235,9 @@ alter table UserInfo add constraint FK_Reference_1 foreign key (RoleSeq)
 alter table UserInfo add constraint FK_Reference_5 foreign key (channelId)
       references channel (channelId) on delete restrict on update restrict;
 
+alter table RedPack add constraint FK_Reference_7 foreign key (channelId)
+      references channel (channelId) on delete restrict on update restrict;
 
-
+alter table QrcodeImg add constraint FK_Reference_8 foreign key (CreateQISeq)
+      references CreateQrcodeImg (CreateQISeq) on delete restrict on update restrict;
 

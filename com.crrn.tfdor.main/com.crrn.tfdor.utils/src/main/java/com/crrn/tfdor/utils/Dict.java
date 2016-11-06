@@ -45,9 +45,14 @@ public class Dict {
      */
     public static String FILEOBJ = "fileObj";
     /**
-     * 图片类型-永久
+     * 图片类型-永久 数字
      */
     public static String QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
+
+    /**
+     * 图片类型-永久 字符串
+     */
+    public static String QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
 
     /**
      * 微信支付相关报文

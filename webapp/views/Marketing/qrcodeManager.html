@@ -17,5 +17,13 @@
                 <td class="text-center">{{qrcodeimg.updateTime}}</td>
             </tr>
         </table>
+        <!--
+            pageNo：当前页
+            pages：总页数
+            total：数据总条数
+            init：分页查询方法
+            display：分页显示页码 默认7，单数
+        -->
+        <paging page-no="pageNo" pages="pages" total="total" do-it="init();" display="7"></paging>
     </div>
 </div>
