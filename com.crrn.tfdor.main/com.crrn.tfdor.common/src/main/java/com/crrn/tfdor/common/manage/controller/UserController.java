@@ -262,7 +262,7 @@ public class UserController {
     }
 
     /**
-     * Description: 添加用户
+     * Description: 修改用户
      *
      * @param request
      * @return
