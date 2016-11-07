@@ -16,13 +16,13 @@
     </header>
     <section class="menu">
         <ul class="list-group" ng-repeat="menu in menuList">
-            <li class="list-group-item oneli" ng-click=showMain(menu.menuIdOne);>
-                <div style="cursor: pointer;" ng-click="menuOne(menu.menuOne);">{{menu.menuOne}}</div>
+            <li class="list-group-item oneli" ng-click="menuOne(menu.menuOne);showMain(menu.menuIdOne);" style="cursor: pointer;">
+                <div>{{menu.menuOne}}</div>
             </li>
             <li class="list-group-item groupLi" style="padding: 0px 0px;display: none;" id="mainId{{menu.menuIdOne}}">
                 <ul class="list-group" style="padding: 0px;">
-                    <li class="list-group-item twoli" style="padding: 10px 15px; border-top:0px;border-left:0px;border-right:0px;cursor: pointer" ng-repeat="var in menu.menuTwo">
-                        <div ui-sref=".{{var.url}}" ng-click="menuTwo(var.name);"  style="padding-left: 20px;">{{var.name}}</div>
+                    <li class="list-group-item twoli" style="padding: 10px 15px; border-top:0px;border-left:0px;border-right:0px;cursor: pointer" ng-click="menuTwo(var.name);" ui-sref=".{{var.url}}" ng-repeat="var in menu.menuTwo">
+                        <div style="padding-left: 20px;">{{var.name}}</div>
                     </li>
                 </ul>
             </li>

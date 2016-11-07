@@ -6,7 +6,7 @@ body,button, input, select, textarea /* for ie */ {
 	color: #333333;
 	background-color: #ffffff;
 }
-
+*html body{height:100%}
 a:hover,
 a:focus {
   color: #2a6496;
