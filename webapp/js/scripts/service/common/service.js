@@ -18,6 +18,7 @@ define([ 'app'], function(app) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transFn
             };
+			$(".mask").show();
 			cfpLoadingBar.start();
 	        $http.post(
 	        	action,
@@ -25,6 +26,7 @@ define([ 'app'], function(app) {
 	        	postCfg
 	        ).success(function(data,header,config,status){
 				cfpLoadingBar.complete();
+				$(".mask").hide();
 		    	if(data._exceptionCode != null || data._exceptionCode == 'false'){
 		    		showError("错误提示",""+data._exceptionMsg);
 					if(data._exceptionCode == "please.log.in.again"){
@@ -35,6 +37,7 @@ define([ 'app'], function(app) {
 	        	}
 		    }).error(function(data,header,config,status){
 				cfpLoadingBar.complete();
+				$(".mask").hide();
 		    	var errorStr = "网络错误";
 	        	if(data._exceptionMsg != null && data._exceptionMsg != undefined && data._exceptionMsg != ''){
 	        		errorStr = data._exceptionMsg;
