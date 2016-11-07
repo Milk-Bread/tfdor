@@ -116,4 +116,8 @@
     <delete id="deleteChannel" parameterType="java.util.Map">
         DELETE FROM channel WHERE channelId = #{channelId}
     </delete>
+
+    <delete id="deleteUser" parameterType="java.util.Map">
+        DELETE FROM userInfo WHERE userSeq = #{userSeq}
+    </delete>
 </mapper>

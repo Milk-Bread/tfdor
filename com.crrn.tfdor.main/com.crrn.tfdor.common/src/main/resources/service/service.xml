@@ -22,6 +22,7 @@
 				<value>addUser.do</value>
 				<value>addChannel.do</value>
 				<value>modifyChannel.do</value>
+				<value>deleteUser.do</value>
 			</list>
 		</property>
 	</bean>

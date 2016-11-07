@@ -8,18 +8,17 @@
  */
 package com.crrn.tfdor.utils.aes;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
+import com.crrn.tfdor.utils.Util;
+import org.apache.commons.codec.binary.Base64;
+import org.dom4j.DocumentException;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.crrn.tfdor.utils.Util;
-import org.apache.commons.codec.binary.Base64;
-import org.dom4j.DocumentException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * 提供接收和推送给公众平台消息的加解密接口(UTF8编码的字符串).

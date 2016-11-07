@@ -78,11 +78,19 @@
                 templateUrl: 'views/SysMng/modifyChannel.html',
                 dependencies: ['controllers/SysMng/modifyChannel'],
                 allowAnonymous: true
+
             },'Main.RedEnvelopeManager': {
                 url: '/RedEnvelopeManager',
                 templateUrl: 'views/Marketing/redEnvelopeManager.html',
                 dependencies: ['controllers/Marketing/redEnvelopeManager'],
                 allowAnonymous: true
+
+            },'Main.deleteUser': {
+                url: '/deleteUser',
+                templateUrl: 'views/SysMng/deleteUser.html',
+                dependencies: ['controllers/SysMng/deleteUser'],
+                allowAnonymous: true
+
             }
         }
     };

@@ -1,16 +1,15 @@
 package com.crrn.tfdor.service.manage.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.crrn.tfdor.dao.UserDao;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -162,6 +161,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteChannel(Map<String, Object> map) {
         userDao.deleteChannel(map);
+    }
+
+    /**
+     * 删除用户信息
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void deleteUser(Map<String, Object> map) {
+        userDao.deleteUser(map);
     }
 
 }

@@ -68,4 +68,10 @@ public interface UserService {
    * @param map
    */
   public void deleteChannel(Map<String, Object> map);
+
+  /**
+   * 删除用户信息
+   * @param map
+   */
+  public void deleteUser(Map<String, Object> map);
 }

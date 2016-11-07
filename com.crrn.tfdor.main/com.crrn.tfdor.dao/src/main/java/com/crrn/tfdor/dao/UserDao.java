@@ -1,9 +1,9 @@
 package com.crrn.tfdor.dao;
 
+import com.crrn.tfdor.domain.manage.UserInfo;
+
 import java.util.List;
 import java.util.Map;
-
-import com.crrn.tfdor.domain.manage.UserInfo;
 
 
 public interface UserDao {
@@ -87,4 +87,10 @@ public interface UserDao {
    * @param map
    */
   public void deleteChannel(Map<String, Object> map);
+
+  /**
+   * 删除用户信息
+   * @param map
+   */
+  public void deleteUser(Map<String, Object> map);
 }

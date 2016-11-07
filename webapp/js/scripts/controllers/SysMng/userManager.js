@@ -13,6 +13,22 @@ define(['app', 'service', 'sysCode'], function (app) {
             service.setData(obj);
             $state.go("Main.modifyUser", null);
         };
+
+        $scope.deleteChannel = function (obj) {
+            service.setData(obj);
+            $state.go("Main.deleteChannel", null);
+        };
+
+        $scope.deleteUser = function (obj) {
+            service.setData(obj);
+            $state.go("Main.deleteUser", null);
+        }
+
+        $scope.deleteRole = function (obj) {
+            service.setData(obj);
+            $state.go("Main.deleteUser", null);
+        }
+
         $scope.init();
     });
 });

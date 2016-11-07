@@ -44,7 +44,7 @@
 				<td class="text-center">{{channelInfo.state | sysCode:'channelState'}}</td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-xs" ng-if="channelInfo.roleSeq != '1'" ng-click="menuThree('修改用户');modifyChannel(channelInfo);">修改</button>
-                    <button class="btn btn-danger btn-xs" ng-if="channelInfo.roleSeq != '1'" ng-click="menuThree('修改用户');deleteChannel(channelInfo);">删除</button>
+                    <button class="btn btn-danger btn-xs" ng-if="channelInfo.roleSeq != '1'" ng-click="menuThree('删除用户');deleteChannel(channelInfo);">删除</button>
                 </td>
 			</tr>
 		</table>

@@ -57,7 +57,9 @@ define(['app'], function (app) {
                 "addRole.do":"新增角色",
                 "addr":"地址",
                 "age":"年龄",
-                "idNo":"身份证"
+                "idNo":"身份证",
+                "deleteUser.do":"删除用户"
+                // "deleteRole.do":"删除角色"
             };
             if (type) {
                 var sysCodeCon = messages;
