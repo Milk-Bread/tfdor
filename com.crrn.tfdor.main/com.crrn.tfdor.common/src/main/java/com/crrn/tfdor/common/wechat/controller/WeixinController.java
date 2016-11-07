@@ -1,6 +1,7 @@
 package com.crrn.tfdor.common.wechat.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.utils.aes.AesException;
+import com.crrn.tfdor.utils.aes.WXBizMsgCrypt;
+import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,17 +73,34 @@ public class WeixinController {
      */
     @RequestMapping(value = "wechat", method = RequestMethod.POST)
     @ResponseBody
-    public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws ParseException, IOException {
+    public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws ParseException, IOException, AesException, DocumentException {
         logger.debug("微信request param name" + request.getParameterNames());
         logger.debug("微信request param value" + request.getParameterMap().toString());
         Channel channel = weChatService.qChannel(tokenModel.getChannelId());
         //验证微信消息
         tokenService.validate(channel.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
-        map.put("channelId", tokenModel.getChannelId());
-        Map<String, Object> msgMap = weChatService.msgType(map, response);
-        String respXml = transformer.former(msgMap);
-        response.getWriter().write(respXml);
+        if (Dict.ENCRYPT_AES.equals(tokenModel.getEncrypt_type())) {//安全模式
+            //微信消息解密工具类
+            WXBizMsgCrypt ct = new WXBizMsgCrypt(channel.getWxToken(), channel.getEncodingAesKey(), channel.getAppId());
+            //解密
+            Map<String, Object> decryMap = ct.decryptMsg(tokenModel.getMsg_signature(), tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString(), (String) map.get("fromXML"));
+            decryMap.put("channelId", tokenModel.getChannelId());
+            Map<String, Object> msgMap = weChatService.msgType(decryMap, response);
+            //微信返回消息
+            String respXml = transformer.former(msgMap);
+            //微信返回消息加密
+            String respXmlEncryp = ct.encryptMsg(respXml, tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString());
+            logger.debug("安全模式返回报文：" + respXmlEncryp);
+            //返回微信数据
+            response.getWriter().write(respXmlEncryp);
+        } else {//明文模式
+            Map<String, Object> msgMap = weChatService.msgType(map, response);
+            //微信返回消息
+            String respXml = transformer.former(msgMap);
+            //返回微信数据
+            response.getWriter().write(respXml);
+        }
     }
 
     /**

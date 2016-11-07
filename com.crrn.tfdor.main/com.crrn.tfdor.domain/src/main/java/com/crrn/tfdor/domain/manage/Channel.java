@@ -8,14 +8,23 @@ import java.sql.Timestamp;
  * @author chepeiqing
  */
 public class Channel implements Serializable {
-	public String channelId;
-	public String channelName;
-	public String appId;
-	public String wxToken;
-	public String appSecret;
-	public String state;
-	public String createTime;
+	private String channelId;
+	private String channelName;
+	private String appId;
+	private String wxToken;
+	private String appSecret;
+	private String state;
+	private String createTime;
+	private String encodingAesKey;
 
+
+	public String getEncodingAesKey() {
+		return encodingAesKey;
+	}
+
+	public void setEncodingAesKey(String encodingAesKey) {
+		this.encodingAesKey = encodingAesKey;
+	}
 
 	public String getAppId() {
 		return appId;

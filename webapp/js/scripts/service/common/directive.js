@@ -16,14 +16,14 @@ define(['app'], function (app) {
             + '</div>', //自定义标签要显示的内容
             scope: {
                 pages: '=',
-                total:'=',
+                total: '=',
                 pageNo: '=',
                 pageSize: '@',
                 doIt: '&'
             },
             link: function (scope, elem, attrs) {
                 var visiblePageSize = Number(angular.isDefined(scope.display) ? scope.display : 7);
-                if(visiblePageSize%2==0){
+                if (visiblePageSize % 2 == 0) {
                     visiblePageSize++;
                 }
                 scope.pageChange = function (page) {
@@ -47,7 +47,7 @@ define(['app'], function (app) {
                         low = 1;
                         high = scope.pages;
                     } else {
-                        v = Math.ceil(visiblePageSize / 2)-1;
+                        v = Math.ceil(visiblePageSize / 2) - 1;
                         low = Math.max(scope.pageNo - v, 1);
                         high = Math.min(low + visiblePageSize - 1, scope.pages);
                         if (scope.pages - high < v) {
@@ -57,8 +57,9 @@ define(['app'], function (app) {
                     for (; low <= high; low++) {
                         scope.pagenums.push(low);
                     }
-                        scope.doIt();
+                    scope.doIt();
                 }
+
                 scope.$watch('pages+pageNo', function () {
                     build();
                 });

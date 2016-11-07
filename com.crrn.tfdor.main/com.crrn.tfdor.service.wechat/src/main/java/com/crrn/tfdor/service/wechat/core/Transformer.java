@@ -49,12 +49,12 @@ public class Transformer {
             // 将解析结果存储在HashMap中
             // 遍历所有子节点
             Util.xmlToMap(map, elementList);
+            map.put("fromXML",document.asXML());
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.debug("WeChat request message map:===>" + map);
         logger.debug("WeChat request message end");
         return map;
     }

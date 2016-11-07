@@ -203,6 +203,7 @@ create table channel
    appId                varchar(20) not null,
    wxToken              varchar(20) not null,
    appSecret            varchar(100) not null,
+   encodingAesKey       varchar(100) not null;
    createTime           timestamp default '0000-00-00 00:00:00',
    updateTime           timestamp default now() on update now(),
    state                char(1) comment '渠道状态  N-正常，C-销户，S-停用',

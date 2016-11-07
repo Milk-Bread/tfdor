@@ -58,4 +58,9 @@ public class Dict {
      * 微信支付相关报文
      */
     public static String PAY_XML = "PAY_XML";
+
+    /**
+     * 加密方式
+     */
+    public static String ENCRYPT_AES = "aes";
 }

@@ -72,7 +72,7 @@ public class AuditingController {
     public Object queryAuditPerson(HttpServletRequest request, HttpServletResponse response){
         UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("channelId",userinfo.getChannel().channelId);
+        map.put("channelId",userinfo.getChannel().getChannelId());
         map.put("userSeq",userinfo.getUserSeq());
         return auditingService.queryAuditPerson(map);
     }
