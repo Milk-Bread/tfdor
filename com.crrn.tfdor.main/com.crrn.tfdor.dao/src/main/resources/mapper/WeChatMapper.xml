@@ -41,4 +41,12 @@
 				FROM redpack  WHERE channelId = #{channelId}
 	</select>
 
+	<select id="qCreateQrcodeImg" parameterType="java.util.HashMap" resultType="java.util.List">
+		select cl.channelId,cl.channelName,c.createQISeq,c.mchId,c.bigenDate,c.actionName,c.endDate,c.number,
+		c.preservation,c.createTime,DATE_FORMAT(c.updateTime,'%Y-%m-%d %H:%i:%s') updateTime,m.mchName
+		from CreateQrcodeImg c,Merchant m,channel cl  WHERE m.mchId = c.mchId and m.channelId = cl.channelId
+		<if test="channelId != null and channelId != ''">
+			AND cl.channelId = #{channelId}
+		</if>
+	</select>
 </mapper>

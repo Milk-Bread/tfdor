@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
 import com.crrn.tfdor.domain.wechat.QrcodeImg;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
 
@@ -54,6 +55,12 @@ public interface WeChantDao {
      */
     public List<QrcodeImg> qQrcodeimg();
 
+    /**
+     * 二维码生成配置表查询
+     * @param map
+     * @return
+     */
+    public List<Map<String,Object>> qCreateQrcodeImg(Map<String, Object> map);
     /**
      * 查询二维码使用情况
      * @param map

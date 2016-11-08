@@ -63,4 +63,9 @@ public class Dict {
      * 加密方式
      */
     public static String ENCRYPT_AES = "aes";
+
+    /**
+     * 内置渠道ID
+     */
+    public static String BUILT_IN_CHANNEL = "tfdor";
 }

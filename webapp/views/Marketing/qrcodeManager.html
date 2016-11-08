@@ -1,20 +1,55 @@
 <div ng-controller="qrCodeManager">
     <div class="table-responsive">
-        <table
-                class="table table-striped table-bordered table-hover table-condensed">
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr ng-if="channelId == 'tfdor'">
+                    <th width="45%" class="text-right">渠道名称</th>
+                    <td class="text-left">
+                        <input type="text" placeholder="输入渠道名称" name="channelName" ng-model="channelName"/></td>
+                </tr>
+                <tr>
+                    <th width="45%" class="text-right">二维码生效时间</th>
+                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="bigenDate" ng-model="bigenDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="45%" class="text-right">二维码失效时间</th>
+                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="endDate" ng-model="endDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'bigenDate\')}'})"/>
+                    </td>
+                </tr>
+            </thead>
             <tr>
-                <td class="text-center">ID</td>
-                <td class="text-center">二维码类型</td>
-                <td class="text-center">二维码状态</td>
-                <td class="text-center">创建时间</td>
-                <td class="text-center">使用时间</td>
+                <th class="text-right"></th>
+                <td class="text-left">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="init();">查 询</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-info btn-sm" ng-click="menuThree('生成二维码');addRole();">生成二维码
+                    </button>
+                </td>
             </tr>
-            <tr ng-repeat="qrcodeimg in qrcodeimgList">
-                <td class="text-center">{{qrcodeimg.sceneId}}</td>
-                <td class="text-center">{{qrcodeimg.actionName | sysCode:'qrCodeType'}}</td>
-                <td class="text-center">{{qrcodeimg.state | sysCode:'qrCodeState'}}</td>
-                <td class="text-center">{{qrcodeimg.createTime}}</td>
-                <td class="text-center">{{qrcodeimg.updateTime}}</td>
+        </table>
+    </div>
+    <div class="table-responsive" style="margin-top: 10px;">
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <tr>
+                <td class="text-center" ng-if="channelId == 'tfdor'">渠道名称</td>
+                <td class="text-center">商户ID</td>
+                <td class="text-center">商户名称</td>
+                <td class="text-center">二维码类型</td>
+                <td class="text-center">二维码生效时间</td>
+                <td class="text-center">二维码失效时间</td>
+                <td class="text-center">二维码数量</td>
+                <td class="text-center">创建时间</td>
+            </tr>
+            <tr ng-repeat="img in List">
+                <td class="text-center" ng-if="channelId == 'tfdor'">{{img.channelName}}</td>
+                <td class="text-center">{{img.mchId}}</td>
+                <td class="text-center">{{img.mchName}}</td>
+                <td class="text-center">{{img.actionName | sysCode:'actionName'}}</td>
+                <td class="text-center">{{img.bigenDate}}</td>
+                <td class="text-center">{{img.endDate}}</td>
+                <td class="text-center">{{img.number}}</td>
+                <td class="text-center">{{img.createTime}}</td>
             </tr>
         </table>
         <!--

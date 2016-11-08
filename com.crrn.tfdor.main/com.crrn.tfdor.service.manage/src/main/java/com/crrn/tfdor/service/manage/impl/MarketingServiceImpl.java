@@ -28,6 +28,23 @@ public class MarketingServiceImpl implements MarketingService {
 		return page;
 	}
 
+	/**
+	 * 二维码生成配置表查询
+	 * @param map
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	@Override
+	public PageInfo<Map<String,Object>> qCreateQrcodeImg(Map<String, Object> map,Integer pageNo, Integer pageSize) {
+		//分页开始
+		PageHelper.startPage(pageNo, pageSize);
+		List<Map<String,Object>> list = weChatDao.qCreateQrcodeImg(map);
+		//用PageInfo对结果进行包装
+		PageInfo<Map<String,Object>> page = new PageInfo<Map<String,Object>>(list);
+		return page;
+	}
+
 	@Override
 	public List<RedPackBean> queryRedPack(Map<String, Object> map) {
 		return weChatDao.queryRedPack(map);

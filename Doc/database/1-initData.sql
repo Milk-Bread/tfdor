@@ -1,5 +1,5 @@
 --创建内置渠道
-INSERT INTO channel (channelId, channelName, createTime, updateTime, state, appId, wxToken, appSecret) VALUES ('tfdor', '内置渠道', now(), now(), 'N', 'wx67c2134f4935acfb', 'wx66ba812ba25ec00a', 'b9d81b13ac888108be2c96723d1a9169');
+INSERT INTO channel (channelId, channelName, createTime, updateTime, state, appId, wxToken, appSecret,encodingAesKey) VALUES ('tfdor', '内置渠道', now(), now(), 'N', 'wx67c2134f4935acfb', 'wx66ba812ba25ec00a', 'b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0');
 
 
 --创建角色--内置最高权限角色

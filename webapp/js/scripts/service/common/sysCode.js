@@ -22,7 +22,7 @@ define(['app'], function (app) {
                 "F": "使用失败"
             }
 
-            messages["qrCodeType"] = {
+            messages["actionName"] = {
                 "QR_LIMIT_SCENE": "永久二维码"
             }
             messages["redPackType"] = {

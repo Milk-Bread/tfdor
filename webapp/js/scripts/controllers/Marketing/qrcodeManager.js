@@ -7,18 +7,19 @@ define(['app', 'service','sysCode'], function (app) {
         $scope.pageNo = 1;
         //每页显示数量
         $scope.pageSize = 10;
+        $scope.channelId = service.getUser().channel.channelId;
         $scope.init = function() {
             var formData = {
                 pageNo:$scope.pageNo,
                 pageSize:$scope.pageSize
             };
-            service.post2SRV("getQrcodeImg.do", formData, function (data, status) {
+            service.post2SRV("qCreateQrcodeImg.do", formData, function (data, status) {
                 //记录总条数
                 $scope.total = data.total;
                 //总页数
                 $scope.pages = data.pages;
                 //数据list
-                $scope.qrcodeimgList = data.list;
+                $scope.List = data.list;
             }, 1000);
         }
         $scope.init();
