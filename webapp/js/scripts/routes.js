@@ -83,6 +83,16 @@
                 templateUrl: 'views/Marketing/redEnvelopeManager.html',
                 dependencies: ['controllers/Marketing/redEnvelopeManager'],
                 allowAnonymous: true
+            },'Main.BusinessManager': {
+                url: '/BusinessManager',
+                templateUrl: 'views/SysMng/businessManager.html',
+                dependencies: ['controllers/SysMng/businessManager'],
+                allowAnonymous: true
+            },'Main.addBusiness': {
+                url: '/addBusiness',
+                templateUrl: 'views/SysMng/addBusiness.html',
+                dependencies: ['controllers/SysMng/addBusiness'],
+                allowAnonymous: true
             }
         }
     };
