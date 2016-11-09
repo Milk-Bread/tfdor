@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public List<Map<String,Object>> queryUserInfo(Map<String,Object> user) {
+    public List<Map<String, Object>> queryUserInfo(Map<String, Object> user) {
         return userDao.queryUserInfo(user);
     }
 
@@ -136,7 +136,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  修改用户
+     * 修改用户
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -146,7 +147,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  添加渠道
+     * 添加渠道
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -156,7 +158,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  修改渠道信息
+     * 修改渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -168,6 +171,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 删除渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -179,6 +183,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询商户信息
+     *
      * @param map
      */
     @Override
@@ -197,6 +202,7 @@ public class UserServiceImpl implements UserService {
      */
     /**
      * 删除渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -206,7 +212,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  修改商户
+     * 修改商户
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)

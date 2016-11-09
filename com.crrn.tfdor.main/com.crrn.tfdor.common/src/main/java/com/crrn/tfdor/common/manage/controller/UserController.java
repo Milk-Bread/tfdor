@@ -66,11 +66,11 @@ public class UserController {
         }
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
-        if(!"N".equals(channel.getState())){//用户状态不正确
+        if (!"N".equals(channel.getState())) {//用户状态不正确
             throw new RuntimeException(CHECKMSG.USER_STATUS_IS_NOT_CORRECT);
         }
         Map<String, Object> bumap = new HashMap<String, Object>();
-        bumap.put("channelId",channel.getChannelId());
+        bumap.put("channelId", channel.getChannelId());
         userService.modifyUserinfo(userMap);
 //        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
 //        if(listBu != null) {
