@@ -93,6 +93,16 @@
                 templateUrl: 'views/SysMng/addBusiness.html',
                 dependencies: ['controllers/SysMng/addBusiness'],
                 allowAnonymous: true
+            },'Main.businessDetail': {
+                url: '/businessDetail',
+                templateUrl: 'views/SysMng/businessDetail.html',
+                dependencies: ['controllers/SysMng/businessDetail'],
+                allowAnonymous: true
+            },'Main.modifyBusiness': {
+                url: '/modifyBusiness',
+                templateUrl: 'views/SysMng/modifyBusiness.html',
+                dependencies: ['controllers/SysMng/modifyBusiness'],
+                allowAnonymous: true
             }
         }
     };

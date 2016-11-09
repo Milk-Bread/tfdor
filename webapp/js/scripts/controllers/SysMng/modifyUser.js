@@ -67,18 +67,22 @@ define(['app', 'service','sysCode'], function (app) {
             if ($scope.sex == null) {
                 $scope.sex = 'M';
             }
+            if ($scope.customerType == null) {
+                $scope.customerType = '1';
+            }
 
             var formData = {
                 "userSeq": $scope.userInfo.userSeq,
                 "userId": $scope.userId,    // 账号
                 "userName": $scope.userName,   // 用户名
-                "roleId": $scope.role.roleSeq,  // 角色
+                "roleSeq": $scope.role.roleSeq,  // 角色
                 "age": $scope.age,  // 年龄
                 "idNo": $scope.idNo,    // 身份证
                 "mobilePhone": $scope.mobilePhone,  // 手机号码
                 "phone": $scope.phone,  // 联系电话
                 "addr": $scope.addr,    // 地址
                 "sex" : $scope.sex,
+                "customerType" : $scope.customerType,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName//复合人名称
             }
