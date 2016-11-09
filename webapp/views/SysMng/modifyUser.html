@@ -46,6 +46,13 @@
                 <td width="60%" class="text-left"><input type="text" name="addr" ng-model="addr"></td>
             </tr>
             <tr>
+                <th width="40%" class="text-center">用户类型</th>
+                <td width="60%" class="text-left">
+                    <input type="radio" name="customerType" value="1" ng-checked="true" required ng-model="sex">&nbsp;管理员 &nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="customerType" value="2" ng-model="sex">&nbsp;操作员
+                </td>
+            </tr>
+            <tr>
                 <td class="text-center">指定符合人</td>
                 <td>
                     <select class="form-control  btn-sm" ng-model="person" ng-options="x.userName for x in auditPerson">

@@ -52,14 +52,12 @@ public interface UserDao {
     /**
      * 查询用户列表
      */
-    public List<UserInfo> queryUserInfo(UserInfo user);
-
-    /**
-     * 新增角色菜单关联
-     *
-     * @param map
-     */
-    public void addRolemenurelate(Map<String, Object> map);
+    public List<Map<String,Object>> queryUserInfo(Map<String,Object> map);
+  /**
+   * 新增角色菜单关联
+   * @param map
+   */
+  public void addRolemenurelate(Map<String, Object> map);
 
     /**
      * 删除角色菜单关联
@@ -71,19 +69,17 @@ public interface UserDao {
      */
     public void modifyRole(Map<String, Object> map);
 
-    /**
-     * 添加用户
-     *
-     * @param userInfo
-     */
-    public void addUser(UserInfo userInfo);
+  /**
+   *  添加用户
+   * @param param
+   */
+  public void addUser(Map<String, Object> param);
 
-    /**
-     * 修改用户
-     *
-     * @param userInfo
-     */
-    public void modifyUser(UserInfo userInfo);
+  /**
+   *  修改用户
+   * @param map
+   */
+  public void modifyUser(Map<String, Object> map);
 
     /**
      * 添加渠道
@@ -113,10 +109,16 @@ public interface UserDao {
      */
     public List<Map<String, Object>> queryBusiness(Map<String, Object> map);
 
-    /**
-     * 添加商户信息
-     *
-     * @param map
-     */
-    public void addBusiness(Map<String, Object> map);
+  /**
+   *  添加商户信息
+   * @param map
+   */
+  public void addBusiness(Map<String, Object> map);
+
+  /**
+   *  修改商户
+   * @param map
+   */
+  public void modifyBusiness(Map<String, Object> map);
+
 }

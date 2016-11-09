@@ -38,11 +38,10 @@ public interface UserService {
      * @return
      */
     public void addRole(Map<String, Object> role);
-
     /**
-     * 查询用户列表
-     */
-    public List<UserInfo> queryUserInfo(UserInfo user);
+       *  查询用户列表
+       */
+      public List<Map<String,Object>> queryUserInfo(Map<String,Object> map);
 
     /**
      * 修改角色
@@ -63,12 +62,12 @@ public interface UserService {
     /**
      * 添加用户
      */
-    public void addUser(UserInfo userInfo);
+    public void addUser(Map<String, Object> param);
 
-    /**
-     * 修改用户
-     */
-    public void modifyUser(UserInfo userInfo);
+  /**
+   *  修改用户
+   */
+  public void modifyUser(Map<String, Object> map);
 
     /**
      * 添加渠道
@@ -98,10 +97,15 @@ public interface UserService {
      */
     public List<Map<String, Object>> queryBusiness(Map<String, Object> map);
 
-    /**
-     * 添加商户信息
-     *
-     * @param map
-     */
-    public void addBusiness(Map<String, Object> map);
+  /**
+   *  添加商户信息
+   * @param map
+   */
+  public void addBusiness(Map<String, Object> map);
+
+  /**
+   *  修改商户
+   * @param map
+   */
+  public void modifyBusiness(Map<String, Object> map);
 }

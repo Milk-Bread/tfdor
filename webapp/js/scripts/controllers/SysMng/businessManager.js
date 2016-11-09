@@ -12,11 +12,13 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.addBusiness = function () {
             $state.go("Main.addBusiness");
         }
-        $scope.gotoDetails = function () {
-
+        $scope.gotoDetails = function (obj) {
+            service.setData(obj);
+            $state.go("Main.businessDetail");
         }
         $scope.modifyBusiness = function (obj) {
             service.setData(obj);
+            $state.go("Main.modifyBusiness");
         };
         $scope.deleteBusiness = function (obj) {
 
