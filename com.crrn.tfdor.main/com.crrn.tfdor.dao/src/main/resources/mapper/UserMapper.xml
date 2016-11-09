@@ -9,7 +9,7 @@
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
     <update id="modifyUserinfo" parameterType="java.util.Map">
-        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now() where UserSeq = #{UserSeq}
+        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now() where UserSeq = #{userSeq}
     </update>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
