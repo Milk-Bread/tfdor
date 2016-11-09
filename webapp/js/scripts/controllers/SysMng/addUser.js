@@ -16,7 +16,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.userId == null || $scope.userId == '') {
                 showError("账号错误", "请输入账号");
                 return;

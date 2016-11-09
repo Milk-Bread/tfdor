@@ -64,7 +64,7 @@ define(['app', 'service','sysCode'], function (app) {
             $('#aa' + id).slideToggle(500);
         }
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.roleName == null || $scope.roleName == '') {
                 showError("角色名称错误", "请输入角色名称");
                 return;

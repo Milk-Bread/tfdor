@@ -23,5 +23,9 @@ define(['app', 'service','sysCode'], function (app) {
             }, 1000);
         }
         $scope.init();
+
+        $scope.addQrcode = function (){
+            $state.go("Main.addQrcode");
+        }
     });
 });

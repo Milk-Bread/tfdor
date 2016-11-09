@@ -10,7 +10,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.channelId == null || $scope.channelId == '') {
                 showError("错误提示", "请输入渠道ID");
                 return;
@@ -21,6 +21,10 @@ define(['app', 'service','sysCode'], function (app) {
             }
             if ($scope.state == null) {
                 $scope.state = 'N';
+            }
+            if ($scope.person == null || $scope.person == '') {
+                showError("错误提示", "请选择复合人");
+                return;
             }
             var formData = {
                 "channelId": $scope.channelId,

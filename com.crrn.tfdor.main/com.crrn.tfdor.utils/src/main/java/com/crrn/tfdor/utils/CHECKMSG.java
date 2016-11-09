@@ -24,4 +24,18 @@ public class CHECKMSG {
      * 请重新登录
      */
     public static final String PLEASE_LOG_IN_AGAIN = "please.log.in.again";
+    /**
+     * 用户状态不正确
+     */
+    public static final String USER_STATUS_IS_NOT_CORRECT = "user.status.is.not.correct";
+
+    /**
+     * 请求参数非法
+     */
+    public static final String ILLEGAL_REQUEST_PARAMETERS = "illegal.request.parameters";
+
+    /**
+     * 二维码类型错误
+     */
+    public static final String QR_CODE_TYPE_ERROR = "qr.code.type.error";
 }

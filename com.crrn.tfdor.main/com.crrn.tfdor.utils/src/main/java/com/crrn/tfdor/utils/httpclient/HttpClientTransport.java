@@ -81,7 +81,7 @@ public class HttpClientTransport implements Transport {
                     byte[] data = new byte[1024];
                     int len = 0;
                     FileOutputStream fileOutputStream = null;
-                    fileOutputStream = new FileOutputStream(Constants.PATH_QRCODE_IMAGE + "/" + sendParam.get("Name") + ".jpg");
+                    fileOutputStream = new FileOutputStream(sendParam.get("preservation") + "/" + sendParam.get("qrcodeName") + ".jpg");
                     while ((len = inputStream.read(data)) != -1) {
                         fileOutputStream.write(data, 0, len);
                     }
@@ -112,7 +112,6 @@ public class HttpClientTransport implements Transport {
                 e2.printStackTrace();
             }
         }
-        logger.debug(result);
         return Util.getResponseParam(result);
     }
 

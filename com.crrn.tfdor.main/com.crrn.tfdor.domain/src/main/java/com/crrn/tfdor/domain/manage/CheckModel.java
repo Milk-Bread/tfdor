@@ -9,7 +9,7 @@ public class CheckModel extends BaseCodeModel implements Serializable {
     private Long timestamp;
     private Long nonce;
     private String echostr;
-    private String channelId;
+    private String appId;
 
     public String getEncrypt_type() {
         return encrypt_type;
@@ -27,12 +27,12 @@ public class CheckModel extends BaseCodeModel implements Serializable {
         this.msg_signature = msg_signature;
     }
 
-    public String getChannelId() {
-        return channelId;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getSignature() {
@@ -76,7 +76,7 @@ public class CheckModel extends BaseCodeModel implements Serializable {
                 ", timestamp=" + timestamp +
                 ", nonce=" + nonce +
                 ", echostr='" + echostr + '\'' +
-                ", channelId='" + channelId + '\'' +
+                ", appId='" + appId + '\'' +
                 '}';
     }
 }

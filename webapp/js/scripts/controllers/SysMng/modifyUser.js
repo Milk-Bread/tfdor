@@ -31,7 +31,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.userName == null || $scope.userName == '') {
                 showError("用户名称错误", "请输入用户名称");
                 return;

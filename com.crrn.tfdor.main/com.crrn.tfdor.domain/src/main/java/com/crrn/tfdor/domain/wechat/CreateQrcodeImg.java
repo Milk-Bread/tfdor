@@ -13,10 +13,28 @@ public class CreateQrcodeImg {
     private String bigenDate;
     private String actionName;
     private String endDate;
-    private String number;
+    private Integer number;
     private String preservation;
+    private String expireSeconds;
     private String createTime;
     private String updateTime;
+    private String state;
+
+    public String getExpireSeconds() {
+        return expireSeconds;
+    }
+
+    public void setExpireSeconds(String expireSeconds) {
+        this.expireSeconds = expireSeconds;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getCreateQISeq() {
         return createQISeq;
@@ -58,11 +76,11 @@ public class CreateQrcodeImg {
         this.endDate = endDate;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

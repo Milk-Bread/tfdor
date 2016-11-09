@@ -41,7 +41,7 @@ require.config({
 	},
 	urlArgs : "v=" + new Date().getTime(),
 	// 启动程序 js/scripts/app.js
-	deps : [ 'app','paging' ]
+	deps : [ 'app','paging','wdatePicker' ]
 });
 
 

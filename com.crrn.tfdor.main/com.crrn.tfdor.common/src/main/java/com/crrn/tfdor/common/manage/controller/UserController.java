@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.crrn.tfdor.domain.manage.Merchant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,6 +66,16 @@ public class UserController {
         }
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
+        if(!"N".equals(channel.getChannelId())){//账户状态不正确
+            throw new RuntimeException(CHECKMSG.USER_STATUS_IS_NOT_CORRECT);
+        }
+        Map<String, Object> bumap = new HashMap<>();
+        bumap.put("channelId",user.getChannel());
+        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
+        if(listBu!= null) {
+            List<Merchant> merchantList = BeanUtils.listMap2ListBean(listBu, Merchant.class);
+            user.setMerchantList(merchantList);
+        }
         user.setChannel(channel);
         // 创建session
         request.getSession(true);

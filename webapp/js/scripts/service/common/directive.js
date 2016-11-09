@@ -3,7 +3,7 @@ define(['app'], function (app) {
         return {
             replace: true,   //template会覆盖掉自定义标签
             restrict: 'AE', //指令
-            template: '<div class="text-right" style="width:95%;">'
+            template: '<div class="text-right" style="width:95%;" ng-if="isNone">'
             + '<ul class="pagination" style="margin:0px 0px 50px 0px;">'
             + '<li class="disabled"><a href="javascript:void(0);">总共：{{pages}}页</a></li>'
             + '<li class="disabled"><a href="javascript:void(0);">{{total}}条记录</a></li>'
@@ -22,6 +22,11 @@ define(['app'], function (app) {
                 doIt: '&'
             },
             link: function (scope, elem, attrs) {
+                if(angular.isDefined(scope.page) && scope.page > 0){
+                    scope.isNone = true;
+                }else{
+                    scope.isNone = false;
+                }
                 var visiblePageSize = Number(angular.isDefined(scope.display) ? scope.display : 7);
                 if (visiblePageSize % 2 == 0) {
                     visiblePageSize++;

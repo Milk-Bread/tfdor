@@ -9,12 +9,12 @@
                 </tr>
                 <tr>
                     <th width="45%" class="text-right">二维码生效时间</th>
-                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="bigenDate" ng-model="bigenDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="beginDate" ng-model="beginDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                     </td>
                 </tr>
                 <tr>
                     <th width="45%" class="text-right">二维码失效时间</th>
-                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="endDate" ng-model="endDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'bigenDate\')}'})"/>
+                    <td class="text-left"><input type="text" class="Wdate" placeholder="选择二维码失效时间" id="endDate" ng-model="endDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDate\')}'})"/>
                     </td>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                 <td class="text-left">
                     <button type="button" class="btn btn-info btn-sm" ng-click="init();">查 询</button>
                     &nbsp;
-                    <button type="button" class="btn btn-info btn-sm" ng-click="menuThree('生成二维码');addRole();">生成二维码
+                    <button type="button" class="btn btn-info btn-sm" ng-click="menuThree('生成二维码');addQrcode();">生成二维码
                     </button>
                 </td>
             </tr>
@@ -40,16 +40,18 @@
                 <td class="text-center">二维码失效时间</td>
                 <td class="text-center">二维码数量</td>
                 <td class="text-center">创建时间</td>
+                <td class="text-center">状态</td>
             </tr>
             <tr ng-repeat="img in List">
                 <td class="text-center" ng-if="channelId == 'tfdor'">{{img.channelName}}</td>
                 <td class="text-center">{{img.mchId}}</td>
                 <td class="text-center">{{img.mchName}}</td>
                 <td class="text-center">{{img.actionName | sysCode:'actionName'}}</td>
-                <td class="text-center">{{img.bigenDate}}</td>
+                <td class="text-center">{{img.beginDate}}</td>
                 <td class="text-center">{{img.endDate}}</td>
                 <td class="text-center">{{img.number}}</td>
                 <td class="text-center">{{img.createTime}}</td>
+                <td class="text-center">{{img.state | sysCode:'qrcodeState' }}</td>
             </tr>
         </table>
         <!--

@@ -38,7 +38,7 @@ public class MarketingController {
      *
      * @return
      * @throws Exception
-     * @Version1.0 2016年10月10日 下午4:37:49 by pengyuming (pengym_27@163.com)
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
     @RequestMapping(value = "qCreateQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
@@ -80,5 +80,19 @@ public class MarketingController {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         return marketingService.queryRedPack(map);
+    }
+
+    /**
+     * Description: 查询带参数微信二维码
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "addQrcode.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addQrcode(HttpServletRequest request){
+
+        return null;
     }
 }

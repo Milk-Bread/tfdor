@@ -39,8 +39,8 @@ create table Auditing(
    promoter varchar(20) not null comment '审核发起人',
    auditPersonSeq integer not null comment '指定审核人SEQ',
    auditPerson varchar(20) not null comment '审核人名称',
-   createTime timestamp comment '创建时间',
-   updateTime timestamp comment '修改时间（审核时间）',
+   createTime timestamp default '0000-00-00 00:00:00' comment '创建时间',
+   updateTime timestamp default now() on update now() comment '修改时间（审核时间）',
    state char(1) comment '审核状态，I－待审核，S－审核通过，F－审核拒绝',
    remarks varchar(100) comment '备注',
    primary key (auditingSeq)
@@ -109,6 +109,7 @@ create table UserInfo
    UserId               VARCHAR(18),
    UserName             VARCHAR(18),
    Password             VARCHAR(50),
+   customerType         char(1) comment '用户类型，1-管理员，2-操作员'
    Sex                  char(1),
    Age                  INTEGER(3),
    IdType               char(2),
@@ -116,7 +117,9 @@ create table UserInfo
    MobilePhone          char(11),
    Phone                VARCHAR(24),
    ChannelId            char(20),
-   CreateTime           timestamp,
+   loginCount           integer comment '登陆次数',
+   lastLoginTime        timestamp default now() on update now() comment '最后登陆时间',
+   CreateTime           timestamp default '0000-00-00 00:00:00',
    Addr                 VARCHAR(500),
    primary key (UserSeq)
 )
@@ -171,12 +174,14 @@ alter table Merchant comment '商户表';
 /*==============================================================*/
 create table CreateQrcodeImg(
    CreateQISeq        integer not null auto_increment comment '序列',
-   mchId          varchar(20) not null comment '商户ID',
-   bigenDate          varchar(20) comment '二维码生效时间',
+   mchId              varchar(20) not null comment '商户ID',
+   beginDate          varchar(20) comment '二维码生效时间',
    actionName         varchar(20) not null comment '二维码类型',
    endDate            varchar(20) comment '二维码失效时间',
+   expireSeconds      varchar(20) comment '临时二维码有效时间（天 1-30）',
    number             integer not null comment '二维码数量',
-   preservation         varchar(50)  comment '二维码保存路径',
+   preservation       varchar(50)  comment '二维码保存路径',
+   state              char(1) not null comment '二维码状态 1-正常，2-关闭',
    createTime         timestamp default '0000-00-00 00:00:00',
    updateTime         timestamp default now() on update now(),
    primary key (CreateQISeq)

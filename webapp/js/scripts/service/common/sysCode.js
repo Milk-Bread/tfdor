@@ -29,9 +29,13 @@ define(['app'], function (app) {
                 "1":"普通红包",
                 "2":"裂变红包"
             }
-             messages["amountType"] = {
+            messages["amountType"] = {
                 "1":"固定金额",
                 "2":"随机金额"
+            }
+            messages["qrcodeState"] = {
+                "1":"正常",
+                "2":"停用"
             }
 
             messages["auditingData"] = {

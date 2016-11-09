@@ -23,7 +23,8 @@ define([ 'app'], function(app) {
 	        $http.post(
 	        	action,
 	        	formData,
-	        	postCfg
+	        	postCfg,
+				timeOut
 	        ).success(function(data,header,config,status){
 				cfpLoadingBar.complete();
 				$(".mask").hide();

@@ -17,7 +17,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.channelName == null || $scope.channelName == '') {
                 showError("错误提示", "请输入渠道名称");
                 return;

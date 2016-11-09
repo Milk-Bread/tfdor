@@ -20,7 +20,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.channel == null || $scope.channel == 0) {
                 showError("错误提示", "请选择渠道");
                 return;
