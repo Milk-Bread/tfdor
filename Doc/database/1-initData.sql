@@ -1,15 +1,16 @@
 --创建内置渠道
-INSERT INTO channel (channelId, channelName, createTime, updateTime, state, appId, wxToken, appSecret,encodingAesKey) VALUES ('tfdor', '内置渠道', now(), now(), 'N', 'wx67c2134f4935acfb', 'wx66ba812ba25ec00a', 'b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0');
-
+INSERT INTO channel (channelId, channelName, createTime, updateTime, state) VALUES ('tfdor', '内置渠道', now(), now(), 'N');
+--创建渠道下的商户
+INSERT INTO Merchant(cmchId,channelId,mchName,appId,wxToken,appSecret,encodingAesKey,signatureKey,state,createTime,updateTime) VALUES('1402828602','tfdor','涂盟新型建材厂','wx67c2134f4935acfb','wx66ba812ba25ec00a','b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0','SDDSD88922323TFDOR8892323KJUIJKJ','N',now(),now());
 
 --创建角色--内置最高权限角色
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
 --初始化用户 密码 88888888
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId)
-values('admin1','admin1','6+exnvC5D+ydvlsiSizl4g==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
+insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType)
+values('admin1','admin1','6+exnvC5D+ydvlsiSizl4g==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1');
 
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId)
-values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor');
+insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType)
+values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1');
 
 
 -----------------------------
@@ -19,10 +20,11 @@ values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150
 --一级菜单
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('SystemSettings','系统设置','00000000',1,'',now());
 --二级菜单
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RoleManager','角色管理','SystemSettings',1,'RoleManager',now());
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('UserManager','用户管理','SystemSettings',2,'UserManager',now());
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('PasswordManager','密码管理','SystemSettings',3,'PasswordManager',now());
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('ChannelManager','渠道管理','SystemSettings',4,'ChannelManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('ChannelManager','渠道管理','SystemSettings',1,'ChannelManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('BusinessManager','商户管理','SystemSettings',2,'BusinessManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RoleManager','角色管理','SystemSettings',3,'RoleManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('UserManager','用户管理','SystemSettings',4,'UserManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('PasswordManager','密码管理','SystemSettings',5,'PasswordManager',now());
 
 --授权 --Admin
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'SystemSettings');
@@ -30,6 +32,7 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RoleManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'UserManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'PasswordManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'ChannelManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'BusinessManager');
 
 -----------------------------
 --*********任务中心*********--
@@ -58,6 +61,10 @@ insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `Creat
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MarketingManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'QrCodeManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedEnvelopeManager');
+
+
+
+
 
 
 

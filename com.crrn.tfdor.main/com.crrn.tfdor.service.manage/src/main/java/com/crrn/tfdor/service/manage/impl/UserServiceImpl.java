@@ -27,6 +27,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 修改用户登陆次数
+     *
+     * @param map
+     */
+    @Override
+    public void modifyUserinfo(Map<String, Object> map) {
+        userDao.modifyUserinfo(map);
+    }
+
+    /**
      * Description:角色查询
      *
      * @param param

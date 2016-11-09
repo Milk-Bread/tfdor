@@ -117,7 +117,7 @@ create table UserInfo
    MobilePhone          char(11),
    Phone                VARCHAR(24),
    ChannelId            char(20),
-   loginCount           integer comment '登陆次数',
+   loginCount           integer default 0 comment '登陆次数',
    lastLoginTime        timestamp default now() on update now() comment '最后登陆时间',
    CreateTime           timestamp default '0000-00-00 00:00:00',
    Addr                 VARCHAR(500),

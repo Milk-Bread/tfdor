@@ -4,7 +4,6 @@
 define(['app', 'service', 'sysCode'], function (app) {
     app.controller('addQrcodeCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.isMerch = false;
-        $scope.appId = null;
         $scope.init = function () {
             //查询复合人
             service.post2SRV("queryAuditPerson.do", null, function (data, status) {
@@ -15,7 +14,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "channelId": service.getUser().channel.channelId
             };
             service.post2SRV("queryBusiness.do", formData, function (data, status) {
-                if (data.size > 1) {
+                if (data.length > 1) {
                     $scope.isMerch = true;
                     $scope.merchantList = data;
                 } else {
@@ -53,6 +52,11 @@ define(['app', 'service', 'sysCode'], function (app) {
                 showError("错误提示", "请选择复合人");
                 return;
             }
+            $scope.appId = $scope.merchant.appId;
+            if($scope.merchant == null || $scope.merchant == ''){
+                showError("错误提示", "请选择生成二维码的商户");
+                return;
+            }
             var formData = {
                 "actionName": $scope.actionName,
                 "expireSeconds": $scope.expireSeconds,
@@ -63,8 +67,9 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "appId": $scope.appId,
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq
                 "auditPerson": $scope.person.userName//复合人名称
-            }
-            service.post2SRV("addQrcode.do", formData, function (data, status) {
+            };
+            return;
+            service.post2SRV("createQrcodeImg.do", formData, function (data, status) {
                 $state.go("Main.qrcodeMagager");
             }, 4000);
         }

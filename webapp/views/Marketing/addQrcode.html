@@ -9,17 +9,17 @@
                     <input type="radio" name="actionName" ng-model="actionName" value="QR_SCENE">&nbsp;零时二维码
                 </td>
             </tr>
-            <tr ng-if="isMerch">
+            <tr ng-show="isMerch">
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>选择商户</th>
                 <td width="60%" class="text-left">
-                    <select class="form-control  btn-sm" style="height: 19px;width:80%;" ng-model="merch" ng-options="x.mchName for x in merchatList">
+                    <select class="form-control btn-sm" style="height: 19px;width:80%;" ng-model="merchant" ng-options="merchant.mchName for merchant in merchantList">
                         <option value="">请选择商户</option>
                     </select>
                 </td>
             </tr>
             <tr ng-if="actionName == 'QR_SCENE'">
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>有效时间(天)</th>
-                <td width="60%" class="text-left"><input type="number" style="width: 80%" name="expireSeconds" ng-model="expireSeconds"></td>
+                <td width="60%" class="text-left"><input type="number" style="width: 80%" ng-model="expireSeconds"></td>
             </tr>
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>二维码生效时间</th>
@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>生成二维码数量</th>
-                <td width="60%" class="text-left"><input type="number" style="width: 80%" name="number" ng-model="number" placeholder="请填写生成二维码数量"></td>
+                <td width="60%" class="text-left"><input type="number" style="width: 80%" ng-model="number" placeholder="请填写生成二维码数量"></td>
             </tr>
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>状态</th>

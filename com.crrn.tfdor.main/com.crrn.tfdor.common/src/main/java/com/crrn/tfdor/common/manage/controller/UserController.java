@@ -66,16 +66,17 @@ public class UserController {
         }
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
-        if(!"N".equals(channel.getChannelId())){//账户状态不正确
+        if(!"N".equals(channel.getState())){//用户状态不正确
             throw new RuntimeException(CHECKMSG.USER_STATUS_IS_NOT_CORRECT);
         }
-        Map<String, Object> bumap = new HashMap<>();
-        bumap.put("channelId",user.getChannel());
-        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
-        if(listBu!= null) {
-            List<Merchant> merchantList = BeanUtils.listMap2ListBean(listBu, Merchant.class);
-            user.setMerchantList(merchantList);
-        }
+        Map<String, Object> bumap = new HashMap<String, Object>();
+        bumap.put("channelId",channel.getChannelId());
+        userService.modifyUserinfo(userMap);
+//        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
+//        if(listBu != null) {
+//            List<Merchant> merchantList = BeanUtils.listMap2ListBean(listBu, Merchant.class);
+//            user.setMerchantList(merchantList);
+//        }
         user.setChannel(channel);
         // 创建session
         request.getSession(true);
