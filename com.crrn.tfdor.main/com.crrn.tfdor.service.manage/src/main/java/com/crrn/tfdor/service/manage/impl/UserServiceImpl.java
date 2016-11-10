@@ -1,11 +1,20 @@
 package com.crrn.tfdor.service.manage.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.crrn.tfdor.dao.UserDao;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +32,16 @@ public class UserServiceImpl implements UserService {
         user.setUserId(userId);
         user.setPassword(password);
         return userDao.loginCheck(user);
+    }
+
+    /**
+     * 修改用户登陆次数
+     *
+     * @param map
+     */
+    @Override
+    public void modifyUserinfo(Map<String, Object> map) {
+        userDao.modifyUserinfo(map);
     }
 
     /**
@@ -68,7 +87,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public List<UserInfo> queryUserInfo(UserInfo user) {
+    public List<Map<String, Object>> queryUserInfo(Map<String, Object> user) {
         return userDao.queryUserInfo(user);
     }
 
@@ -112,28 +131,30 @@ public class UserServiceImpl implements UserService {
     /**
      * 添加用户
      *
-     * @param userInfo
+     * @param param
      * @return
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void addUser(UserInfo userInfo) {
-        userDao.addUser(userInfo);
+    public void addUser(Map<String, Object> param) {
+        userDao.addUser(param);
 
     }
 
     /**
-     *  修改用户
-     * @param userInfo
+     * 修改用户
+     *
+     * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void modifyUser(UserInfo userInfo) {
-        userDao.modifyUser(userInfo);
+    public void modifyUser(Map<String, Object> map) {
+        userDao.modifyUser(map);
     }
 
     /**
-     *  添加渠道
+     * 添加渠道
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -143,7 +164,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  修改渠道信息
+     * 修改渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -155,6 +177,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 删除渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -167,6 +190,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询商户信息
+     *
      * @param map
      */
     @Override
@@ -188,7 +212,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 删除用户信息
+     * 删除渠道信息
+     *
      * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -198,4 +223,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 修改商户
+     *
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void modifyBusiness(Map<String, Object> map) {
+        userDao.modifyBusiness(map);
+    }
 }

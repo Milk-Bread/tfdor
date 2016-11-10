@@ -29,7 +29,7 @@
                 dependencies: ['controllers/SysMng/addRole'],
                 allowAnonymous: true
             },'Main.modifyRole': {
-                url: '/modifyRole/:roleSeq/:roleName',
+                url: '/modifyRole',
                 templateUrl: 'views/SysMng/modifyRole.html',
                 dependencies: ['controllers/SysMng/modifyRole'],
                 allowAnonymous: true
@@ -98,6 +98,26 @@
                 url: '/addBusiness',
                 templateUrl: 'views/SysMng/addBusiness.html',
                 dependencies: ['controllers/SysMng/addBusiness'],
+                allowAnonymous: true
+            },'Main.addQrcode': {
+                url: '/addQrcode',
+                templateUrl: 'views/Marketing/addQrcode.html',
+                dependencies: ['controllers/Marketing/addQrcode'],
+                allowAnonymous: true
+            },'Main.businessDetail': {
+                url: '/businessDetail',
+                templateUrl: 'views/SysMng/businessDetail.html',
+                dependencies: ['controllers/SysMng/businessDetail'],
+                allowAnonymous: true
+            },'Main.modifyBusiness': {
+                url: '/modifyBusiness',
+                templateUrl: 'views/SysMng/modifyBusiness.html',
+                dependencies: ['controllers/SysMng/modifyBusiness'],
+                allowAnonymous: true
+            },'Main.qrCodeImg': {
+                url: '/qrCodeImg',
+                templateUrl: 'views/Marketing/qrcodeImg.html',
+                dependencies: ['controllers/Marketing/qrcodeImg'],
                 allowAnonymous: true
             }
         }

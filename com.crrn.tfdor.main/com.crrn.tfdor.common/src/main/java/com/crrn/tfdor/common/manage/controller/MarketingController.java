@@ -6,7 +6,16 @@ package com.crrn.tfdor.common.manage.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.Util;
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crrn.tfdor.service.manage.MarketingService;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +33,7 @@ import java.util.Map;
  * Description: 核心控制器
  * Copyright (c) TLC.
  * All Rights Reserved.
+ *
  * @version 1.0 2016年10月12日 下午22:14:05 by pengyuming
  */
 @Controller
@@ -35,26 +48,77 @@ public class MarketingController {
      *
      * @return
      * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "qCreateQrcodeImg.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object qCreateQrcodeImg(HttpServletRequest request) throws Exception {
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        Map<String, Object> param = new HashMap<String, Object>();
+        if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
+            param.put("channelId", user.getChannel().getChannelId());
+        }else if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+            param.put("channelId", request.getParameter("channelId"));
+        }
+        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
+        Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        param.put("beginDate",request.getParameter("beginDate"));
+        param.put("endDate",request.getParameter("endDate"));
+        return marketingService.qCreateQrcodeImg(param, pageNo, pageSize);
+    }
+
+    /**
+     * Description: 查询带参数微信二维码
+     *
+     * @return
+     * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by pengyuming (pengym_27@163.com)
      */
     @RequestMapping(value = "getQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
-        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
-        Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
-        return marketingService.qQrcodeimg(pageNo,pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
+        map.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
+        map.put("createQISeq",request.getParameter("createQISeq"));
+        map.put("state",request.getParameter("state"));
+        return marketingService.qQrcodeimg(map);
     }
 
 
     /**
-     *  查询红包列表
+     * 查询红包列表
+     *
      * @return
      */
     @RequestMapping(value = "queryRedPack.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryRedPack(HttpServletRequest request) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("channelId", request.getParameter("channelId"));
-        return marketingService.queryRedPack(map);
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        Map<String, Object> param = new HashMap<String, Object>();
+        if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+            param.put("channelId", request.getParameter("channelId"));
+        }
+        param.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
+        param.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
+        return marketingService.queryRedPack(param);
+    }
+
+    /**
+     * Description: 下载二维码
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "downloadsZip.do")
+    public ResponseEntity<byte[]> downloadsZip(HttpServletRequest request) throws IOException {
+        String preservation = request.getParameter("preservation");
+        String zipPath = Util.zipCompressorByAnt(preservation);
+        File file = new File(zipPath);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", file.getName());
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
     }
 }

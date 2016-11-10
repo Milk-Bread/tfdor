@@ -8,6 +8,9 @@
         from UserInfo u,channel c
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
+    <update id="modifyUserinfo" parameterType="java.util.Map">
+        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now() where UserSeq = #{userSeq}
+    </update>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
         select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
@@ -25,11 +28,18 @@
     <insert id="addRolemenurelate" parameterType="java.util.Map">
         INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
     </insert>
-    <select id="queryUserInfo" parameterType="com.crrn.tfdor.domain.manage.UserInfo"
-            resultType="com.crrn.tfdor.domain.manage.UserInfo">
-        SELECT UserSeq,RoleSeq,UserId,UserName,
-	    password,Sex,Age,IdType,IdNo,MobilePhone,Phone,ChannelId,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,Addr
-	    from userinfo;
+    <select id="queryUserInfo" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        SELECT u.userSeq,u.roleSeq,u.userId,u.userName,
+	    u.password,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelName,
+	    DATE_FORMAT(u.createTime,'%Y-%m-%d %H:%i:%s') createTime,u.addr
+	    from userinfo u ,channel c WHERE u.channelId = c.channelId
+	    <if test="userName != null and userName != ''">
+            AND u.UserName = #{userName}
+        </if>
+        <if test="channelId != null and channelId != ''">
+            AND u.channelId = #{channelId}
+        </if>
     </select>
     <delete id="deleteRolemenurelate" parameterType="java.util.Map">
         delete from ROLEMENURELATE where roleSeq = #{roleSeq}
@@ -52,7 +62,7 @@
         </if>
     </select>
 
-    <insert id="addUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" keyProperty="userSeq"
+    <insert id="addUser" parameterType="java.util.Map" keyProperty="userSeq"
             useGeneratedKeys="true">
         INSERT INTO UserInfo(
               roleSeq,
@@ -67,7 +77,8 @@
               phone,
               channelId,
               CreateTime,
-              addr)
+              addr,
+              customerType)
         VALUES (
               #{roleSeq},
               #{userId},
@@ -79,11 +90,12 @@
               #{idNo},
               #{mobilePhone},
               #{phone},
-              #{channel.channelId},
+              #{channelId},
               now(),
-              #{addr})
+              #{addr},
+              #{customerType})
     </insert>
-    <update id="modifyUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo">
+    <update id="modifyUser" parameterType="java.util.Map">
         UPDATE USERINFO
         SET RoleSeq = #{roleSeq},
         UserName = #{userName},
@@ -92,6 +104,7 @@
         IdNo = #{idNo},
         MobilePhone = #{mobilePhone},
         Phone = #{phone},
+        customerType = #{customerType},
         <if test="channel.channelId != null and channel.channelId != ''">
             channelId = #{channel.channelId},
         </if>
@@ -119,7 +132,8 @@
         DELETE FROM userInfo WHERE userSeq = #{userSeq}
     </delete>
     <select id="queryBusiness" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT m.mchId, m.mchName, c.channelName, DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
+        SELECT m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
+        DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
         DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
         FROM merchant m, channel c WHERE m.channelId = c.channelId
         <if test="channelId != null and channelId != 'tfdor'">
@@ -140,7 +154,7 @@
               updateTime,
               state)
         VALUES (
-              #{cmchId},
+              #{mchId},
               #{channelId},
               #{mchName},
               #{appId},
@@ -152,4 +166,17 @@
               now(),
               #{state})
     </insert>
+    <update id="modifyBusiness" parameterType="java.util.Map">
+        UPDATE merchant
+        SET channelId = #{channelId},
+        appId = #{appId},
+        wxToken = #{wxToken},
+        appSecret = #{appSecret},
+        encodingAesKey = #{encodingAesKey},
+        signatureKey = #{signatureKey},
+        updateTime = now(),
+        state = #{state}
+        WHERE
+        mchId = #{mchId};
+    </update>
 </mapper>

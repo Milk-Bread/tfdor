@@ -12,7 +12,8 @@ define(['app', 'service','sysCode'], function (app) {
 			$state.go("Main.addRole");
 		};
 		$scope.modifyRole = function(obj,name){
-			$state.go("Main.modifyRole",{"roleSeq":obj,"roleName":name});
+			service.setData({"roleSeq":obj,"roleName":name});
+			$state.go("Main.modifyRole");
 		};
 		$scope.init();
 	});

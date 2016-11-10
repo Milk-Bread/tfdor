@@ -39,14 +39,13 @@
 				<td class="text-center">{{userInfo.userName}}</td>
 				<td class="text-center">{{userInfo.sex | sysCode:'sex'}}</td>
 				<td class="text-center">{{userInfo.age}}</td>
-				<td class="text-center">{{userInfo.channel.channelId}}</td>
+				<td class="text-center">{{userInfo.channelName}}</td>
 				<td class="text-center">{{userInfo.addr}}</td>
 				<td class="text-center">{{userInfo.createTime}}</td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-xs" ng-if="userInfo.roleSeq != '1'" ng-click="menuThree('修改用户');modifyUser(userInfo);">修改</button>
-					<button class="btn btn-primary btn-xs" ng-if="userInfo.roleSeq != '1'" ng-click="menuThree('删除用户');deleteUser(userInfo);">删除</button>
-
-				</td>
+                    <button class="btn btn-danger btn-xs" ng-if="userInfo.roleSeq != '1' && userInfo.userSeq != loginUserSeq">删除</button>
+                </td>
 			</tr>
 		</table>
 	</div>

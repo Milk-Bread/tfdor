@@ -20,19 +20,24 @@ define(['app'], function (app) {
                 "I": "未使用",
                 "S": "使用成功",
                 "F": "使用失败"
-            }
+            };
 
-            messages["qrCodeType"] = {
-                "QR_LIMIT_SCENE": "永久二维码"
-            }
+            messages["actionName"] = {
+                "QR_LIMIT_STR_SCENE": "永久二维码",
+                "QR_SCENE": "临时二维码"
+            };
             messages["redPackType"] = {
                 "1":"普通红包",
                 "2":"裂变红包"
-            }
-             messages["amountType"] = {
+            };
+            messages["amountType"] = {
                 "1":"固定金额",
                 "2":"随机金额"
-            }
+            };
+            messages["CQState"] = {
+                "1":"正常",
+                "2":"停用"
+            };
 
             messages["auditingData"] = {
                 "actionName": "交易名称",

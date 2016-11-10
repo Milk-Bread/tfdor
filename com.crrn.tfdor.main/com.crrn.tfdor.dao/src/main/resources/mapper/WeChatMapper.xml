@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crrn.tfdor.dao.WeChantDao">
 	<!-- 插入AccessToken表 -->
 	<insert id="iAccessToken" parameterType="java.util.HashMap">
-		INSERT INTO AccessToken(accessToken,channelId,invalidTime,createTime,updateTime) VALUES(#{accessToken},#{channelId},#{invalidTime},now(),now())
+		INSERT INTO AccessToken(accessToken,mchId,invalidTime,createTime,updateTime) VALUES(#{accessToken},#{mchId},#{invalidTime},now(),now())
 	</insert>
-   	<!-- 删除过期的accesstoken -->
-   	<delete id="dAccessToken" parameterType="java.lang.String">
-   		DELETE FROM AccessToken where channelId = #{channelId}
-   	</delete>
-   	<select id="qAccessToken" resultType="java.util.HashMap" parameterType="java.lang.String">
-   		SELECT tokenSeq,accessToken,invalidTime,createTime,updateTime from AccessToken where channelId = #{channelId}
-   	</select>
+	<!-- 删除过期的accesstoken -->
+	<delete id="dAccessToken" parameterType="java.lang.String">
+		DELETE FROM AccessToken where mchId = #{mchId}
+	</delete>
+	<select id="qAccessToken" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT tokenSeq,accessToken,invalidTime,a.createTime,a.updateTime from AccessToken a,Merchant m where m.mchId = a.mchId and m.appId = #{appId}
+	</select>
 	<select id="iQrcodeimg" parameterType="java.util.HashMap">
-		INSERT INTO qrcodeimg (actionName, appId, sceneId, ticket, url, qrcodeName, state, preservation,createTime, updateTime,channelId)
-		VALUES (#{action_name},#{appId}, #{scene_id}, #{ticket}, #{url}, #{Name}, 'I',#{preservation}, now(), now(),#{channelId})
+		INSERT INTO qrcodeimg (CreateQISeq, mchId, sceneStr, ticket, url, qrcodeName, state, createTime, updateTime)
+		VALUES (#{createQISeq},#{mchId}, #{sceneStr}, #{ticket}, #{url}, #{qrcodeName}, 'I', now(), now())
 	</select>
-	<select id="qQrcodeimg" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg">
-		SELECT actionName,appId,createTime,preservation,qrcodeName,qrcodeSeq,sceneId,state,ticket,updateTime,url FROM qrcodeimg
-
-	</select>
-
-	<select id="qQrcodeimgByTicket" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg" parameterType="java.util.HashMap">
-		SELECT actionName,appId,createTime,preservation,qrcodeName,qrcodeSeq,sceneId,state,ticket,updateTime,url FROM qrcodeimg
-		WHERE channelId = #{channelId} and ticket = #{Ticket} and state = 'I'
+	<select id="qQrcodeimg" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg" parameterType="java.lang.String">
+		SELECT * FROM qrcodeimg where CreateQISeq = #{createQISeq}
+		<if test="state != null and state != ''">
+			AND state = #{state}
+		</if>
 	</select>
 
 	<update id="uQrcodeImg" parameterType="java.util.HashMap">
@@ -36,9 +33,35 @@
 
 	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
 		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
-				DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
-          		DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime
-				FROM redpack  WHERE channelId = #{channelId}
+		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
+		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime
+		FROM redpack r,merchant m  WHERE m.mchId = r.mchId
+		<if test="channelId != null and channelId != ''">
+			and m.channelId = #{channelId}
+		</if>
 	</select>
 
+	<select id="qCreateQrcodeImg" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select cl.channelId,cl.channelName,c.createQISeq,c.mchId,c.beginDate,c.actionName,c.endDate,c.number,
+		c.preservation,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(c.updateTime,'%Y-%m-%d %H:%i:%s') updateTime,m.mchName,c.state,c.expireSeconds
+		from CreateQrcodeImg c,Merchant m,channel cl  WHERE m.mchId = c.mchId and m.channelId = cl.channelId
+		<if test="channelId != null and channelId != ''">
+			AND cl.channelId = #{channelId}
+		</if>
+		<if test="beginDate != null and beginDate != ''">
+			AND DATE_FORMAT(beginDate,'%Y-%m-%d') <![CDATA[>=]]> #{beginDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND DATE_FORMAT(endDate,'%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+		</if>
+	</select>
+
+	<insert id="iCreateQrcodeImage" parameterType="com.crrn.tfdor.domain.wechat.CreateQrcodeImg" keyProperty="createQISeq"  useGeneratedKeys="true">
+		INSERT INTO createqrcodeimg (mchId, beginDate, actionName, endDate, expireSeconds, number, preservation, state, createTime, updateTime)
+		VALUES (#{mchId}, #{beginDate}, #{actionName}, #{endDate}, #{expireSeconds}, #{number}, #{preservation}, #{state}, now(), now());
+	</insert>
+
+	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
+		select * FROM merchant where appId = #{appId}
+	</select>
 </mapper>

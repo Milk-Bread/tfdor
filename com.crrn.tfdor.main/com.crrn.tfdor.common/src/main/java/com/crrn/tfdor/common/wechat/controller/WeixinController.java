@@ -1,7 +1,6 @@
 package com.crrn.tfdor.common.wechat.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.domain.manage.Merchant;
+import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
 import com.crrn.tfdor.utils.aes.AesException;
 import com.crrn.tfdor.utils.aes.WXBizMsgCrypt;
 import org.dom4j.DocumentException;
@@ -59,8 +60,8 @@ public class WeixinController {
     @ResponseBody
     public String validate(CheckModel tokenModel) throws ParseException, IOException {
         logger.debug("微信token校验" + tokenModel.toString());
-        Channel channel = weChatService.qChannel(tokenModel.getChannelId());
-        return tokenService.validate(channel.getWxToken(), tokenModel);
+        Merchant merch = weChatService.qMerchant(tokenModel.getAppId());
+        return tokenService.validate(merch.getWxToken(), tokenModel);
     }
 
     /**
@@ -76,16 +77,16 @@ public class WeixinController {
     public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws ParseException, IOException, AesException, DocumentException {
         logger.debug("微信request param name" + request.getParameterNames());
         logger.debug("微信request param value" + request.getParameterMap().toString());
-        Channel channel = weChatService.qChannel(tokenModel.getChannelId());
+        Merchant merch = weChatService.qMerchant(tokenModel.getAppId());
         //验证微信消息
-        tokenService.validate(channel.getWxToken(), tokenModel);
+        tokenService.validate(merch.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
         if (Dict.ENCRYPT_AES.equals(tokenModel.getEncrypt_type())) {//安全模式
             //微信消息解密工具类
-            WXBizMsgCrypt ct = new WXBizMsgCrypt(channel.getWxToken(), channel.getEncodingAesKey(), channel.getAppId());
+            WXBizMsgCrypt ct = new WXBizMsgCrypt(merch.getWxToken(), merch.getEncodingAesKey(), merch.getAppId());
             //解密
             Map<String, Object> decryMap = ct.decryptMsg(tokenModel.getMsg_signature(), tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString(), (String) map.get("fromXML"));
-            decryMap.put("channelId", tokenModel.getChannelId());
+            decryMap.put("channelId", merch.getAppId());
             Map<String, Object> msgMap = weChatService.msgType(decryMap, response);
             //微信返回消息
             String respXml = transformer.former(msgMap);
@@ -103,43 +104,6 @@ public class WeixinController {
         }
     }
 
-    /**
-     * Description: 获取access_token号
-     *
-     * @return access_token
-     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
-     */
-    @RequestMapping(value = "getAccessToken", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAccessToken(String channelId) {
-        Map<String, Object> sendParam = new HashMap<String, Object>();
-        String accessToken = "";
-        try {
-            Map<String, Object> access = weChatService.qAccessToken(channelId);
-            if (access == null || false == (Boolean) access.get("effective")) {
-                Channel channel = weChatService.qChannel(channelId);
-                sendParam.put(Dict.GRANT_TYPE, Constants.CLIENT_CREDENTIAL);
-                sendParam.put(Dict.APPID, channel.getAppId());
-                sendParam.put(Dict.SECRET, channel.getAppSecret());
-                sendParam.put(Dict.TRANS_NAME, WeChat.ACCESS_TOKEN);
-                Map<String, Object> resp = (Map<String, Object>) transport.sendGet(sendParam);
-                sendParam = new HashMap<String, Object>();
-                sendParam.put("accessToken", resp.get("access_token"));
-                sendParam.put("invalidTime", resp.get("expires_in"));
-                sendParam.put("channelId", channelId);
-                accessToken = (String) resp.get("access_token");
-                if (accessToken != null) {
-                    weChatService.dAccessToken(channelId);
-                    weChatService.iAccessToken(sendParam);
-                }
-            } else {
-                accessToken = (String) access.get("accessToken");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return accessToken;
-    }
 
     /**
      * Description: 生成带参数微信二维码
@@ -148,41 +112,14 @@ public class WeixinController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "createQrcodeImg", method = RequestMethod.POST)
+    @RequestMapping(value = "createQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
-    public void createQrcodeImage(HttpServletRequest request, String channelId) throws Exception {
-        Channel channel = weChatService.qChannel(channelId);
-        Map<String, Object> sendParam = new HashMap<String, Object>();
-        for (int i = 0; i < 2; i++) {
-            String id = Util.getSysJournalNo(15, false);
-            // 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久,QR_LIMIT_STR_SCENE为永久的字符串参数值
-            sendParam.put("action_name", Dict.QR_LIMIT_STR_SCENE);
-            Map<String, Object> action_info = new HashMap<>();
-            Map<String, Object> scene = new HashMap<>();
-//            scene.put("scene_id", Util.getSysJournalNo(4, true));
-            scene.put("scene_str", id);
-            action_info.put("scene", scene);
-            sendParam.put("action_info", action_info);
-            sendParam.put(Dict.TRANS_NAME, WeChat.CREAT_QRCODE_IMAGE);
-            sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
-            // 生成二维码ticket
-            Map<String, Object> respTicket = (Map<String, Object>) transport.sendPost(sendParam);
-            Map<String, Object> ticket = new HashMap<>();
-            ticket.put("ticket", respTicket.get("ticket"));
-            ticket.put("Name", Util.getCurrentDate() + id);
-            ticket.put(Dict.TRANS_NAME, WeChat.SHOW_QRCODE);
-            transport.sendGet(ticket);
-            Map<String, Object> map = new HashMap<>();
-            map.putAll(ticket);
-            map.putAll(scene);
-            map.putAll(respTicket);
-            map.put("channelId", channelId);
-            map.put("action_name", Dict.QR_LIMIT_SCENE);
-            map.put("appId", channel.getAppId());
-            map.put("scene_id", id);
-            map.put("preservation", Constants.PATH_QRCODE_IMAGE);
-            weChatService.iQrcodeimg(map);
-        }
+    public void createQrcodeImage(HttpServletRequest request,CreateQrcodeImg createQrcodeImg) throws Exception {
+        String appId = request.getParameter("appId");
+        Merchant mch = weChatService.qMerchant(appId);
+        createQrcodeImg.setPreservation(Constants.PATH_QRCODE_IMAGE+"/"+mch.getMchId()+"/"+Util.getCurrentTime());
+        createQrcodeImg.setMchId(mch.getMchId());
+        weChatService.addQrcode(createQrcodeImg,appId);
     }
 
 
@@ -193,13 +130,13 @@ public class WeixinController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "getBatchGetMaterial", method = RequestMethod.POST)
+    @RequestMapping(value = "getBatchGetMaterial.do", method = RequestMethod.POST)
     public
     @ResponseBody
     Object getBatchGetMaterial(String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.BATCHGET_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
         sendParam.put("offset", 0);
         sendParam.put("count", 20);
         sendParam.put("type", "image");
@@ -214,13 +151,13 @@ public class WeixinController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "addMaterial", method = RequestMethod.POST)
+    @RequestMapping(value = "addMaterial.do", method = RequestMethod.POST)
     public
     @ResponseBody
     Object addMaterial(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.ADD_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
         sendParam.put(Dict.FILEOBJ, request.getParameter(Dict.FILEOBJ));
         String type = request.getParameter("type");
         Map respMap = (Map) transport.addMaterial(sendParam, type);
@@ -235,12 +172,12 @@ public class WeixinController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "delMaterial", method = RequestMethod.POST)
+    @RequestMapping(value = "delMaterial.do", method = RequestMethod.POST)
     @ResponseBody
     public Object delMaterial(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.DEL_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
         sendParam.put("media_id", request.getParameter("mediaId"));
         Map respMap = (Map) transport.sendPost(sendParam);
         logger.debug(respMap.toString());
@@ -255,12 +192,12 @@ public class WeixinController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "addNews", method = RequestMethod.POST)
+    @RequestMapping(value = "addNews.do", method = RequestMethod.POST)
     @ResponseBody
     public Object addNews(HttpServletRequest request, String channelId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.ADD_NEWS);
-        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
         List<Map<String, Object>> articles = new ArrayList<>();
         Map<String, Object> news = new HashMap<String, Object>();
         news.put("title", "关注微信抢红包");

@@ -1,5 +1,22 @@
 package com.crrn.tfdor.common.manage.controller;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.crrn.tfdor.domain.manage.Merchant;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.MenuService;
@@ -61,6 +78,17 @@ public class UserController {
         }
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
+        if (!"N".equals(channel.getState())) {//用户状态不正确
+            throw new RuntimeException(CHECKMSG.USER_STATUS_IS_NOT_CORRECT);
+        }
+        Map<String, Object> bumap = new HashMap<String, Object>();
+        bumap.put("channelId", channel.getChannelId());
+        userService.modifyUserinfo(userMap);
+//        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
+//        if(listBu != null) {
+//            List<Merchant> merchantList = BeanUtils.listMap2ListBean(listBu, Merchant.class);
+//            user.setMerchantList(merchantList);
+//        }
         user.setChannel(channel);
         // 创建session
         request.getSession(true);
@@ -187,8 +215,9 @@ public class UserController {
     @RequestMapping(value = "queryUserInfo.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryUserInfo(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        return userService.queryUserInfo(user);
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        return userService.queryUserInfo(map);
     }
 
     /**
@@ -236,25 +265,24 @@ public class UserController {
     @RequestMapping(value = "addUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void addUser(HttpServletRequest request) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(request.getParameter("userId"));
-        userInfo.setUserName(request.getParameter("userName"));
+
         String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + "88888888");
-        userInfo.setPassword(passwordAes);
-        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
-        userInfo.setSex(request.getParameter("sex"));
-        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
-        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
-        userInfo.setPhone(request.getParameter("phone"));
-        userInfo.setIdType("00");
-        userInfo.setIdNo(request.getParameter("idNo"));
-        userInfo.setAddr(request.getParameter("addr"));
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channelId = user.getChannel().getChannelId();
-        Channel channel = new Channel();
-        channel.setChannelId(channelId);
-        userInfo.setChannel(channel);
-        userService.addUser(userInfo);
+
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId", request.getParameter("userId"));
+        param.put("userName", request.getParameter("userName"));
+        param.put("password", passwordAes);
+        param.put("roleSeq", request.getParameter("roleSeq"));
+        param.put("sex", request.getParameter("sex"));
+        param.put("age", request.getParameter("age"));
+        param.put("mobilePhone", request.getParameter("mobilePhone"));
+        param.put("phone", request.getParameter("phone"));
+        param.put("idType", "00");
+        param.put("idNo", request.getParameter("idNo"));
+        param.put("addr", request.getParameter("addr"));
+        param.put("channelId", request.getParameter("channelId"));
+        param.put("customerType", request.getParameter("customerType"));
+        userService.addUser(param);
     }
 
     /**
@@ -267,23 +295,20 @@ public class UserController {
     @RequestMapping(value = "modifyUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void modifyUser(HttpServletRequest request) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserSeq(Integer.valueOf(request.getParameter("userSeq")));
-        userInfo.setUserName(request.getParameter("userName"));
-        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
-        userInfo.setSex(request.getParameter("sex"));
-        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
-        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
-        userInfo.setPhone(request.getParameter("phone"));
-        userInfo.setIdType("00");
-        userInfo.setIdNo(request.getParameter("idNo"));
-        userInfo.setAddr(request.getParameter("addr"));
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channelId = user.getChannel().getChannelId();
-        Channel channel = new Channel();
-        channel.setChannelId(channelId);
-        userInfo.setChannel(channel);
-        userService.modifyUser(userInfo);
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId", request.getParameter("userId"));
+        param.put("userName", request.getParameter("userName"));
+        param.put("roleSeq", request.getParameter("roleSeq"));
+        param.put("sex", request.getParameter("sex"));
+        param.put("age", request.getParameter("age"));
+        param.put("mobilePhone", request.getParameter("mobilePhone"));
+        param.put("phone", request.getParameter("phone"));
+        param.put("idNo", request.getParameter("idNo"));
+        param.put("addr", request.getParameter("addr"));
+        param.put("channelId", request.getParameter("channelId"));
+        param.put("customerType", request.getParameter("customerType"));
+
+        userService.modifyUser(param);
     }
 
     /**
@@ -381,7 +406,7 @@ public class UserController {
         map.put("appId", request.getParameter("appId"));
         map.put("wxToken", request.getParameter("wxToken"));
         map.put("appSecret", request.getParameter("appSecret"));
-        map.put("cmchId", request.getParameter("cmchId"));
+        map.put("mchId", request.getParameter("mchId"));
         map.put("mchName", request.getParameter("mchName"));
         map.put("signatureKey", request.getParameter("signatureKey"));
         map.put("encodingAesKey", request.getParameter("encodingAesKey"));
@@ -389,4 +414,25 @@ public class UserController {
         userService.addBusiness(map);
     }
 
+    /**
+     * Description: 添加商户
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "modifyBusiness.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyBusiness(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("mchId", request.getParameter("mchId"));
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("signatureKey", request.getParameter("signatureKey"));
+        map.put("encodingAesKey", request.getParameter("encodingAesKey"));
+        map.put("state", request.getParameter("state"));
+        userService.modifyBusiness(map);
+    }
 }

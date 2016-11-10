@@ -10,7 +10,7 @@ define([ 'app'], function(app) {
 			if(formData == null || formData == ''){
 				formData = {};
 			}
-			formData["actionName"] = action;
+			formData["transName"] = action;
             transFn = function(formData) {
             	return $.param(formData);
             },
@@ -23,12 +23,13 @@ define([ 'app'], function(app) {
 	        $http.post(
 	        	action,
 	        	formData,
-	        	postCfg
+	        	postCfg,
+				timeOut
 	        ).success(function(data,header,config,status){
 				cfpLoadingBar.complete();
 				$(".mask").hide();
 		    	if(data._exceptionCode != null || data._exceptionCode == 'false'){
-		    		showError("错误提示",""+data._exceptionMsg);
+		    		showError("错误提示："+data._exceptionMsg);
 					if(data._exceptionCode == "please.log.in.again"){
 						$state.go("Login");
 					}
@@ -42,7 +43,7 @@ define([ 'app'], function(app) {
 	        	if(data._exceptionMsg != null && data._exceptionMsg != undefined && data._exceptionMsg != ''){
 	        		errorStr = data._exceptionMsg;
 	        	}
-	        	showError("错误提示",errorStr+action);
+	        	showError("错误提示："+errorStr+action);
 				if(data._exceptionCode == "please.log.in.again"){
 					$state.go("Login");
 				}
@@ -80,15 +81,14 @@ define([ 'app'], function(app) {
 	});
 });
 var time;
-var showError = function(title,intro){
+var showError = function(intro){
 	clearTimeout(time);
-	$("#popTitle a").html(title);
-	$("#popIntro").html(intro);
-	$('#pop').slideDown(1000);
+	$("#intro").html(intro);
+	$('#errorDiv').slideDown(700);
 	time = setTimeout(function(){
-		$('#pop').fadeOut(400);
+		$('#errorDiv').fadeOut(400);
 	},5000);
 };
 function closePop(){
-	$('#pop').fadeOut(500);
+	$('#errorDiv').fadeOut(500);
 }

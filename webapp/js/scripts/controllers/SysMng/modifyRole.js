@@ -4,11 +4,11 @@
 define(['app', 'service','sysCode'], function (app) {
     app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
-            $scope.roleName = $stateParams.roleName;
+            $scope.roleName = service.getData().roleName;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.menuListM = data;
                 var param = {
-                    roleSeq:$stateParams.roleSeq
+                    roleSeq:service.getData().roleSeq
                 };
                 service.post2SRV("lodeMenu.do",param,function(data1, status){
                     for (var key in data) {
@@ -89,17 +89,17 @@ define(['app', 'service','sysCode'], function (app) {
             $('#aa' + id).slideToggle(500);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.roleName == null || $scope.roleName == '') {
-                showError("错误提示", "请输入角色名称");
+                showError("错误提示：请输入角色名称");
                 return;
             }
             if ($scope.roleArr == null || $scope.roleArr.length == 0) {
-                showError("错误提示", "请选择权限");
+                showError("错误提示：请选择权限");
                 return;
             }
             if ($scope.person == null || $scope.person == '') {
-                showError("错误提示", "请选择复合人");
+                showError("错误提示：请选择复合人");
                 return;
             }
             var formData = {
