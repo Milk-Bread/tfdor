@@ -3,12 +3,12 @@ define(['app', 'service','sysCode'], function (app) {
     	$scope.doIt = function(){
     		var userId = $scope.userId;
     		if(userId == undefined || userId == ''){
-    			showError("用户名错误","请输入你的用户名");
+    			showError("用户名错误,请输入你的用户名");
     			return;
     		}
     		var password = $scope.password;
     		if(password == undefined || password == ''){
-    			showError("密码错误","请输入你的密码");
+    			showError("密码错误,请输入你的密码");
     			return;
     		}
     		var formData = {

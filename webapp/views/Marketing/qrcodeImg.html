@@ -5,7 +5,12 @@
                 <tr>
                     <th width="45%" class="text-right">状态</th>
                     <td class="text-left">
-                        <input type="text" placeholder="输入状态" ng-model="state"/>
+                        <select ng-model="state">
+                            <option value="">全部</option>
+                            <option value="I">未使用</option>
+                            <option value="S">已使用</option>
+                            <option value="F">使用失败</option>
+                        </select>
                     </td>
                 </tr>
             </thead>

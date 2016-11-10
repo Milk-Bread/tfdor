@@ -66,15 +66,15 @@ define(['app', 'service','sysCode'], function (app) {
 
         $scope.doIt = function () {
             if ($scope.roleName == null || $scope.roleName == '') {
-                showError("角色名称错误", "请输入角色名称");
+                showError("角色名称错误,请输入角色名称");
                 return;
             }
             if ($scope.roleArr == null || $scope.roleArr.length == 0) {
-                showError("权限选择错误", "请选择权限");
+                showError("权限选择错误,请选择权限");
                 return;
             }
             if ($scope.person == null || $scope.person == '') {
-                showError("错误提示", "请选择复合人");
+                showError("错误提示,请选择复合人");
                 return;
             }
             var formData = {

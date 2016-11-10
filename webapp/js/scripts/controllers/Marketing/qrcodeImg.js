@@ -11,7 +11,8 @@ define(['app', 'service','sysCode'], function (app) {
             var formData = {
                 pageNo:$scope.pageNo,
                 pageSize:$scope.pageSize,
-                createQISeq:service.getData().createQISeq
+                createQISeq:service.getData().createQISeq,
+                state:$scope.state
             };
             $scope.preservation = service.getData().preservation;
             service.post2SRV("getQrcodeImg.do", formData, function (data, status) {
@@ -23,6 +24,5 @@ define(['app', 'service','sysCode'], function (app) {
                 $scope.List = data.list;
             }, 1000);
         };
-        $scope.init();
     });
 });

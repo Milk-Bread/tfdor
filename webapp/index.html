@@ -20,17 +20,11 @@
 <body>
 <div id="loading-bar-container"></div>
 <div ui-view></div>
-<div id="pop">
-    <div id="popHead"><a id="popClose" title="关闭" onclick="closePop();">关闭</a>
-        <span>温馨提示</span>
-    </div>
-    <div id="popContent">
-        <dl>
-            <dt id="popTitle"><a href="javascript:void(0);" target="_blank">这里是标题</a></dt>
-            <dd id="popIntro">这里是内容简介</dd>
-        </dl>
-        <p id="popMore"><a href="javascript:void(0);" target="_blank">&nbsp;</a></p>
-    </div>
+<div class="alert alert-danger alert-dismissable" id="errorDiv" style="position:fixed;z-index: auto;top: 20px;right:10px;display:none">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="closePop();">
+        &times;
+    </button>
+    <div id="intro" style="width:300px"></div>
 </div>
 <!-- loading 遮罩 -->
 <div class="mask"></div>

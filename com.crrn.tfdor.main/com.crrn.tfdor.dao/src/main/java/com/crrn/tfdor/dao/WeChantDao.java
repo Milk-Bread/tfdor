@@ -61,7 +61,7 @@ public interface WeChantDao {
      *
      * @return
      */
-    public List<QrcodeImg> qQrcodeimg(String createQISeq);
+    public List<QrcodeImg> qQrcodeimg(Map<String, Object> param);
 
     /**
      * 二维码生成配置表查询

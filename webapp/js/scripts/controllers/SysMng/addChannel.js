@@ -12,18 +12,18 @@ define(['app', 'service','sysCode'], function (app) {
 
         $scope.doIt = function () {
             if ($scope.channelId == null || $scope.channelId == '') {
-                showError("错误提示", "请输入渠道ID");
+                showError("错误提示：请输入渠道ID");
                 return;
             }
             if ($scope.channelName == null || $scope.channelName == '') {
-                showError("错误提示", "请输入渠道名称");
+                showError("错误提示：请输入渠道名称");
                 return;
             }
             if ($scope.state == null) {
                 $scope.state = 'N';
             }
             if ($scope.person == null || $scope.person == '') {
-                showError("错误提示", "请选择复合人");
+                showError("错误提示：请选择复合人");
                 return;
             }
             var formData = {

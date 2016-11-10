@@ -38,7 +38,8 @@ define(['app'], function (app) {
                 function build() {
                     if(angular.isDefined(scope.pages) && scope.pages > 0){
                         scope.isNone = true;
-                    }else{
+                    }else if(scope.isNone != false){
+                        showError("温馨提示：查无记录");
                         scope.isNone = false;
                     }
                     var low, high, v;
@@ -65,7 +66,6 @@ define(['app'], function (app) {
                     }
                     scope.doIt();
                 }
-
                 scope.$watch('pages+pageNo', function () {
                     build();
                 });

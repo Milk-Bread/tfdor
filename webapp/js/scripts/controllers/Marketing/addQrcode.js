@@ -28,35 +28,34 @@ define(['app', 'service', 'sysCode'], function (app) {
                 $scope.actionName = 'QR_LIMIT_STR_SCENE';
             } else if('QR_SCENE' == $scope.actionName){
                 if ($scope.expireSeconds == null || $scope.expireSeconds == '') {
-                    showError("错误提示", "请输入有效时间");
+                    showError("错误提示：请输入有效时间");
                     return;
                 }
             }
-            console.log($scope.beginDate);
+            if($scope.merchant == null || $scope.merchant == '' || $scope.merchant == undefined){
+                showError("错误提示：请选择生成二维码的商户");
+                return;
+            }
             if ($("#beginDate").val() == null || $("#beginDate").val() == '') {
-                showError("错误提示", "请选择二维码生效时间");
+                showError("错误提示：请选择二维码生效时间");
                 return;
             }
             if ($("#endDate").val() == null || $("#endDate").val() == '') {
-                showError("错误提示", "请选择二维码失效时间");
+                showError("错误提示：请选择二维码失效时间");
                 return;
             }
             if ($scope.number == null || $scope.number == '') {
-                showError("错误提示", "请二维码数量");
+                showError("错误提示：请二维码数量");
                 return;
             }
             if ($scope.state == null) {
                 $scope.state = '1';
             }
             if ($scope.person == null || $scope.person == '') {
-                showError("错误提示", "请选择复合人");
+                showError("错误提示：请选择复合人");
                 return;
             }
             $scope.appId = $scope.merchant.appId;
-            if($scope.merchant == null || $scope.merchant == ''){
-                showError("错误提示", "请选择生成二维码的商户");
-                return;
-            }
             var formData = {
                 "actionName": $scope.actionName,
                 "expireSeconds": $scope.expireSeconds,
@@ -68,7 +67,6 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq
                 "auditPerson": $scope.person.userName//复合人名称
             };
-            console.log(formData);
             service.post2SRV("createQrcodeImg.do", formData, function (data, status) {
                 $state.go("Main.QrCodeManager");
             }, 4000);

@@ -57,9 +57,13 @@ public class MarketingController {
         Map<String, Object> param = new HashMap<String, Object>();
         if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", user.getChannel().getChannelId());
+        }else if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+            param.put("channelId", request.getParameter("channelId"));
         }
         Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
+        param.put("beginDate",request.getParameter("beginDate"));
+        param.put("endDate",request.getParameter("endDate"));
         return marketingService.qCreateQrcodeImg(param, pageNo, pageSize);
     }
 
@@ -73,10 +77,12 @@ public class MarketingController {
     @RequestMapping(value = "getQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
-        Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
-        Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
-        String createQISeq = request.getParameter("createQISeq");
-        return marketingService.qQrcodeimg(createQISeq,pageNo, pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
+        map.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
+        map.put("createQISeq",request.getParameter("createQISeq"));
+        map.put("state",request.getParameter("state"));
+        return marketingService.qQrcodeimg(map);
     }
 
 

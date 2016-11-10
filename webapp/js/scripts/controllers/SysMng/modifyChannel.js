@@ -19,7 +19,7 @@ define(['app', 'service','sysCode'], function (app) {
 
         $scope.doIt = function () {
             if ($scope.channelName == null || $scope.channelName == '') {
-                showError("错误提示", "请输入渠道名称");
+                showError("错误提示：请输入渠道名称");
                 return;
             }
             if ($scope.state == null) {
