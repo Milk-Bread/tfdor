@@ -33,9 +33,12 @@
 
 	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
 		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
-		DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
-		DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime
-		FROM redpack  WHERE channelId = #{channelId}
+		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
+		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime
+		FROM redpack r,merchant m  WHERE m.mchId = r.mchId
+		<if test="channelId != null and channelId != ''">
+			and m.channelId = #{channelId}
+		</if>
 	</select>
 
 	<select id="qCreateQrcodeImg" parameterType="java.util.HashMap" resultType="java.util.HashMap">

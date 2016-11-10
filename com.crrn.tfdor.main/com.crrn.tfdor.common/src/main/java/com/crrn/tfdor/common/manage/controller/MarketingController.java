@@ -94,9 +94,14 @@ public class MarketingController {
     @RequestMapping(value = "queryRedPack.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryRedPack(HttpServletRequest request) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("channelId", request.getParameter("channelId"));
-        return marketingService.queryRedPack(map);
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        Map<String, Object> param = new HashMap<String, Object>();
+        if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+            param.put("channelId", request.getParameter("channelId"));
+        }
+        param.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
+        param.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
+        return marketingService.queryRedPack(param);
     }
 
     /**

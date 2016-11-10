@@ -30,6 +30,9 @@ define(['app', 'service', 'sysCode'], function (app) {
                 if ($scope.expireSeconds == null || $scope.expireSeconds == '') {
                     showError("错误提示：请输入有效时间");
                     return;
+                }else if($scope.expireSeconds <= 0 && $scope.expireSeconds >= 30){
+                    showError("错误提示：最大仅支持30天，请输入0至30之间到数字");
+                    return;
                 }
             }
             if($scope.merchant == null || $scope.merchant == '' || $scope.merchant == undefined){

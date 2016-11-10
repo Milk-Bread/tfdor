@@ -46,8 +46,11 @@ public class MarketingServiceImpl implements MarketingService {
 	}
 
 	@Override
-	public List<RedPackBean> queryRedPack(Map<String, Object> map) {
-		return weChatDao.queryRedPack(map);
+	public PageInfo<RedPackBean> queryRedPack(Map<String, Object> param) {
+		//分页开始
+		PageHelper.startPage((Integer)param.get("pageNo"), (Integer) param.get("pageSize"));
+		PageInfo<RedPackBean> page = new PageInfo<RedPackBean>(weChatDao.queryRedPack(param));
+		return page;
 	}
 
 }
