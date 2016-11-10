@@ -13,7 +13,7 @@ public interface MarketingService {
      *  Description:查询生成的二维码
      * @return
      */
-    public PageInfo<QrcodeImg> qQrcodeimg(Integer pageNo,Integer pageSize);
+    public PageInfo<QrcodeImg> qQrcodeimg(String createQISeq,Integer pageNo,Integer pageSize);
 
     /**
      * 二维码生成配置表查询

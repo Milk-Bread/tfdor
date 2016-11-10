@@ -43,7 +43,7 @@ public class WeChatServiceImpl implements WeChatService {
     private Transformer transformer;
 
     @Override
-    public String getAccessToken(String appId) throws ParseException {
+    public String getAccessToken(String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         String accessToken = "";
         try {
@@ -69,6 +69,7 @@ public class WeChatServiceImpl implements WeChatService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
         return accessToken;
     }
@@ -262,7 +263,7 @@ public class WeChatServiceImpl implements WeChatService {
             Map<String, Object> action_info = new HashMap<>();
             Map<String, Object> scene = new HashMap<>();
             if(Dict.QR_SCENE.equals(crQimg.getActionName())){
-                sendParam.put("expire_seconds",crQimg.getExpireSeconds());
+                sendParam.put("expire_seconds",Integer.valueOf(crQimg.getExpireSeconds())*24*60*60);
                 scene.put("scene_id",sceneStr);
             }else if(Dict.QR_LIMIT_STR_SCENE.equals(crQimg.getActionName())){
                 scene.put("scene_str", sceneStr);
@@ -272,7 +273,7 @@ public class WeChatServiceImpl implements WeChatService {
             action_info.put("scene", scene);
             sendParam.put("action_info", action_info);
             sendParam.put(Dict.TRANS_NAME, WeChat.CREAT_QRCODE_IMAGE);
-            sendParam.put(Dict.ACCESS_TOKEN, weChatDao.qAccessToken(appId));
+            sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
             // 生成二维码ticket
             Map<String, Object> respTicket = (Map<String, Object>) transport.sendPost(sendParam);
             Map<String, Object> ticket = new HashMap<String, Object>();

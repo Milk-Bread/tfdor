@@ -10,7 +10,7 @@ define([ 'app'], function(app) {
 			if(formData == null || formData == ''){
 				formData = {};
 			}
-			formData["actionName"] = action;
+			formData["transName"] = action;
             transFn = function(formData) {
             	return $.param(formData);
             },

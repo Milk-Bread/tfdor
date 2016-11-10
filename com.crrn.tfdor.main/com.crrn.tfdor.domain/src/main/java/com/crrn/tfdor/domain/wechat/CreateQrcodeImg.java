@@ -10,7 +10,7 @@ package com.crrn.tfdor.domain.wechat;
 public class CreateQrcodeImg {
     private String createQISeq;
     private String mchId;
-    private String bigenDate;
+    private String beginDate;
     private String actionName;
     private String endDate;
     private Integer number;
@@ -52,12 +52,12 @@ public class CreateQrcodeImg {
         this.mchId = mchId;
     }
 
-    public String getBigenDate() {
-        return bigenDate;
+    public String getBeginDate() {
+        return beginDate;
     }
 
-    public void setBigenDate(String bigenDate) {
-        this.bigenDate = bigenDate;
+    public void setBeginDate(String beginDate) {
+        this.beginDate = beginDate;
     }
 
     public String getActionName() {
@@ -113,7 +113,7 @@ public class CreateQrcodeImg {
         return "CreateQrcodeImg{" +
                 "createQISeq='" + createQISeq + '\'' +
                 ", mchId='" + mchId + '\'' +
-                ", bigenDate='" + bigenDate + '\'' +
+                ", beginDate='" + beginDate + '\'' +
                 ", actionName='" + actionName + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", number='" + number + '\'' +

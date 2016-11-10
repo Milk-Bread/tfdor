@@ -49,9 +49,9 @@
                 <td class="text-center">{{img.actionName | sysCode:'actionName'}}</td>
                 <td class="text-center">{{img.beginDate}}</td>
                 <td class="text-center">{{img.endDate}}</td>
-                <td class="text-center">{{img.number}}</td>
+                <td class="text-center"><a href="javascript:void(0)" ng-click="goDetail(img.createQISeq,img.preservation)">{{img.number}}</a></td>
                 <td class="text-center">{{img.createTime}}</td>
-                <td class="text-center">{{img.state | sysCode:'qrcodeState' }}</td>
+                <td class="text-center">{{img.state | sysCode : 'CQState' }}</td>
             </tr>
         </table>
         <!--

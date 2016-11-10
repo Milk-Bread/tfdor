@@ -108,6 +108,11 @@
                 templateUrl: 'views/SysMng/modifyBusiness.html',
                 dependencies: ['controllers/SysMng/modifyBusiness'],
                 allowAnonymous: true
+            },'Main.qrCodeImg': {
+                url: '/qrCodeImg',
+                templateUrl: 'views/Marketing/qrcodeImg.html',
+                dependencies: ['controllers/Marketing/qrcodeImg'],
+                allowAnonymous: true
             }
         }
     };

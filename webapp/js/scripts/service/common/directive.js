@@ -22,11 +22,7 @@ define(['app'], function (app) {
                 doIt: '&'
             },
             link: function (scope, elem, attrs) {
-                if(angular.isDefined(scope.page) && scope.page > 0){
-                    scope.isNone = true;
-                }else{
-                    scope.isNone = false;
-                }
+                scope.isNone = false;
                 var visiblePageSize = Number(angular.isDefined(scope.display) ? scope.display : 7);
                 if (visiblePageSize % 2 == 0) {
                     visiblePageSize++;
@@ -40,6 +36,11 @@ define(['app'], function (app) {
                     }
                 }
                 function build() {
+                    if(angular.isDefined(scope.pages) && scope.pages > 0){
+                        scope.isNone = true;
+                    }else{
+                        scope.isNone = false;
+                    }
                     var low, high, v;
                     scope.pagenums = [];
                     if (scope.pages == 0) {

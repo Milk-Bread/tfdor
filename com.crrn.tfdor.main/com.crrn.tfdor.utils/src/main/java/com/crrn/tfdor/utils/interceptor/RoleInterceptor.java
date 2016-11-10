@@ -37,7 +37,10 @@ public class RoleInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String action = request.getParameter("actionName");
+        if(request.getMethod().equalsIgnoreCase("GET")){
+            return true;
+        }
+        String action = request.getParameter("transName");
         if (action.equals("login.do")) {
             return true;
         } else {

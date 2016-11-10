@@ -17,7 +17,7 @@
                     </select>
                 </td>
             </tr>
-            <tr ng-if="actionName == 'QR_SCENE'">
+            <tr ng-show="actionName == 'QR_SCENE'">
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>有效时间(天)</th>
                 <td width="60%" class="text-left"><input type="number" style="width: 80%" ng-model="expireSeconds"></td>
             </tr>
@@ -36,7 +36,7 @@
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>状态</th>
                 <td width="60%" class="text-left">
-                    <input type="radio" name="state" value="1" ng-checked="true" required ng-model="state">&nbsp;启用 &nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="state" value="1" ng-checked="true" ng-model="state">&nbsp;启用 &nbsp;&nbsp;&nbsp;
                     <input type="radio" name="state" value="2" ng-model="state">&nbsp;关闭 &nbsp;&nbsp;&nbsp;
                 </td>
             </tr>

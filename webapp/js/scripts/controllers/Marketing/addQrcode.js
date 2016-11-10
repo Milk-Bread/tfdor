@@ -26,7 +26,7 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.doIt = function () {
             if ($scope.actionName == null || $scope.actionName == '' || $scope.actionName == undefined) {
                 $scope.actionName = 'QR_LIMIT_STR_SCENE';
-            } else {
+            } else if('QR_SCENE' == $scope.actionName){
                 if ($scope.expireSeconds == null || $scope.expireSeconds == '') {
                     showError("错误提示", "请输入有效时间");
                     return;
@@ -46,7 +46,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 return;
             }
             if ($scope.state == null) {
-                $scope.state = 'N';
+                $scope.state = '1';
             }
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示", "请选择复合人");
@@ -68,9 +68,9 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq
                 "auditPerson": $scope.person.userName//复合人名称
             };
-            return;
+            console.log(formData);
             service.post2SRV("createQrcodeImg.do", formData, function (data, status) {
-                $state.go("Main.qrcodeMagager");
+                $state.go("Main.QrCodeManager");
             }, 4000);
         }
         $scope.init();

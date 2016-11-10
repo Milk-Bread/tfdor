@@ -74,14 +74,13 @@ public class HttpClientTransport implements Transport {
             if ("image/jpg".equals(connection.getContentType())) {
                 InputStream inputStream = connection.getInputStream();
                 try {
-                    File file = new File(Constants.PATH_QRCODE_IMAGE);
-                    if(!file.exists()){
-                        file.createNewFile();
+                    File file = new File(sendParam.get("preservation").toString());
+                    if(!file .exists()  && !file .isDirectory()){
+                        file.mkdirs();
                     }
                     byte[] data = new byte[1024];
                     int len = 0;
-                    FileOutputStream fileOutputStream = null;
-                    fileOutputStream = new FileOutputStream(sendParam.get("preservation") + "/" + sendParam.get("qrcodeName") + ".jpg");
+                    FileOutputStream fileOutputStream = new FileOutputStream(sendParam.get("preservation") + "/" + sendParam.get("qrcodeName") + ".jpg");
                     while ((len = inputStream.read(data)) != -1) {
                         fileOutputStream.write(data, 0, len);
                     }

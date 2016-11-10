@@ -180,7 +180,7 @@ create table CreateQrcodeImg(
    endDate            varchar(20) comment '二维码失效时间',
    expireSeconds      varchar(20) comment '临时二维码有效时间（天 1-30）',
    number             integer not null comment '二维码数量',
-   preservation       varchar(50)  comment '二维码保存路径',
+   preservation       varchar(150)  comment '二维码保存路径',
    state              char(1) not null comment '二维码状态 1-正常，2-关闭',
    createTime         timestamp default '0000-00-00 00:00:00',
    updateTime         timestamp default now() on update now(),

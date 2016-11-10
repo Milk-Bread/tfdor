@@ -34,7 +34,7 @@ public class HandlerException implements HandlerExceptionResolver {
         String msg = propertyConfigurer.getMessage(ex.getMessage());
         if (msg == null || "".equals(msg)) {
             exceptionMap.put("_exceptionCode", "false");
-            exceptionMap.put("_exceptionMsg", ex.getMessage().length() > 50? "系统内部错误":ex.getMessage());
+            exceptionMap.put("_exceptionMsg", ex.getMessage() != null ? ex.getMessage().length() > 50 ? "系统内部错误" : ex.getMessage() : "系统内部错误");
         } else {
             exceptionMap.put("_exceptionCode", ex.getMessage());
             exceptionMap.put("_exceptionMsg", msg);

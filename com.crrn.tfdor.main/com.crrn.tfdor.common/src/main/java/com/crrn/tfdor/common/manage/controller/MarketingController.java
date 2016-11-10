@@ -6,9 +6,16 @@ package com.crrn.tfdor.common.manage.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.Util;
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crrn.tfdor.service.manage.MarketingService;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +75,8 @@ public class MarketingController {
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
         Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
-        return marketingService.qQrcodeimg(pageNo, pageSize);
+        String createQISeq = request.getParameter("createQISeq");
+        return marketingService.qQrcodeimg(createQISeq,pageNo, pageSize);
     }
 
 
@@ -83,16 +94,20 @@ public class MarketingController {
     }
 
     /**
-     * Description: 查询带参数微信二维码
+     * Description: 下载二维码
      *
      * @return
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "addQrcode.do", method = RequestMethod.POST)
-    @ResponseBody
-    public Object addQrcode(HttpServletRequest request){
-
-        return null;
+    @RequestMapping(value = "downloadsZip.do")
+    public ResponseEntity<byte[]> downloadsZip(HttpServletRequest request) throws IOException {
+        String preservation = request.getParameter("preservation");
+        String zipPath = Util.zipCompressorByAnt(preservation);
+        File file = new File(zipPath);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", file.getName());
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
     }
 }

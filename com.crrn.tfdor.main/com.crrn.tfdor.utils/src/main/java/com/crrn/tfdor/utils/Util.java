@@ -12,6 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import net.sf.json.JSONObject;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Zip;
+import org.apache.tools.ant.types.FileSet;
 import org.aspectj.weaver.ast.And;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -503,10 +506,33 @@ public class Util {
         }
     }
 
+    public static String zipCompressorByAnt(String srcPathName) {
+        File srcdir = new File(srcPathName);
+        if (!srcdir.exists()){
+            throw new RuntimeException(srcPathName + "不存在！");
+        }
+        logger.debug("压缩文件／目录："+srcPathName);
+        File zipFile = new File(srcPathName+".zip");
+        if(zipFile.exists()){
+            return srcPathName+".zip";
+        }
+        Project prj = new Project();
+        Zip zip = new Zip();
+        zip.setProject(prj);
+        zip.setDestFile(zipFile);
+        FileSet fileSet = new FileSet();
+        fileSet.setProject(prj);
+        fileSet.setDir(srcdir);
+        //fileSet.setIncludes("**/*.java"); //包括哪些文件或文件夹 eg:zip.setIncludes("*.java");
+        //fileSet.setExcludes(...); //排除哪些文件或文件夹
+        zip.addFileset(fileSet);
+        zip.execute();
+        logger.debug("压缩文件名："+srcPathName+".zip");
+        return srcPathName+".zip";
+    }
 
     public static void main(String [] argo) throws DocumentException {
-
-
+        zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
 //        System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
 //        System.out.println(getOrderId("1402828602",28));
     }

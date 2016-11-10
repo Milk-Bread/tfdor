@@ -19,7 +19,7 @@ public interface WeChatService {
      * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
      * @return
      */
-    public String getAccessToken(String channelId) throws ParseException;
+    public String getAccessToken(String channelId) throws Exception;
 
     /**
      * 查询渠道信息
