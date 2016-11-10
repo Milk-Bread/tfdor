@@ -163,6 +163,30 @@ public class UserServiceImpl implements UserService {
         userDao.deleteChannel(map);
     }
 
+
+
+    /**
+     * 查询商户信息
+     * @param map
+     */
+    @Override
+    public List<Map<String, Object>> queryBusiness(Map<String, Object> map) {
+        String channelId = (String) map.get("channelId");
+        Map<String, Object> bMap = new HashMap<>();
+        if (!channelId.equals("tfdor")) {
+            bMap.put("channelId", channelId);
+        }
+        return userDao.queryBusiness(bMap);
+    }
+
+    /**
+     *  添加商户信息
+     * @param map
+     */
+    public void addBusiness(Map<String, Object> map) {
+        userDao.addBusiness(map);
+    }
+
     /**
      * 删除用户信息
      * @param map
@@ -171,6 +195,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Map<String, Object> map) {
         userDao.deleteUser(map);
+
     }
 
 }

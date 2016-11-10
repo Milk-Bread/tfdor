@@ -93,4 +93,16 @@ public interface UserDao {
    * @param map
    */
   public void deleteUser(Map<String, Object> map);
+
+  /*
+   * 查询商户信息
+   * @param map
+   */
+  public List<Map<String, Object>> queryBusiness(Map<String, Object> map);
+
+  /**
+   *  添加商户信息
+   * @param map
+   */
+  public void addBusiness(Map<String, Object> map);
 }

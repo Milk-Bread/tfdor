@@ -299,9 +299,6 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         map.put("channelName", request.getParameter("channelName"));
-        map.put("appId", request.getParameter("appId"));
-        map.put("wxToken", request.getParameter("wxToken"));
-        map.put("appSecret", request.getParameter("appSecret"));
         map.put("state", request.getParameter("state"));
         userService.addChannel(map);
     }
@@ -319,9 +316,6 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         map.put("channelName", request.getParameter("channelName"));
-        map.put("appId", request.getParameter("appId"));
-        map.put("wxToken", request.getParameter("wxToken"));
-        map.put("appSecret", request.getParameter("appSecret"));
         map.put("state", request.getParameter("state"));
         userService.modifyChannel(map);
     }
@@ -355,4 +349,44 @@ public class UserController {
         map.put("userSeq", request.getParameter("userSeq"));
         userService.deleteUser(map);
     }
+
+    /**
+     * Description: 商户列表
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "queryBusiness.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryBusiness(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        return userService.queryBusiness(map);
+    }
+
+
+    /**
+     * Description: 添加商户
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "addBusiness.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void addBusiness(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("cmchId", request.getParameter("cmchId"));
+        map.put("mchName", request.getParameter("mchName"));
+        map.put("signatureKey", request.getParameter("signatureKey"));
+        map.put("encodingAesKey", request.getParameter("encodingAesKey"));
+        map.put("state", request.getParameter("state"));
+        userService.addBusiness(map);
+    }
+
 }

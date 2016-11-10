@@ -44,15 +44,16 @@
     </update>
 
     <select id="queryChannel" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT channelId,channelName,appId,wxToken,appSecret,
-          DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
-          DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
+        SELECT channelId,channelName,
+        DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
+        DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
         <if test="channelId != null and channelId != ''">
             and channelId = #{channelId}
         </if>
     </select>
 
-    <insert id="addUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" keyProperty="userSeq" useGeneratedKeys="true">
+    <insert id="addUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" keyProperty="userSeq"
+            useGeneratedKeys="true">
         INSERT INTO UserInfo(
               roleSeq,
               userId,
@@ -82,32 +83,29 @@
               now(),
               #{addr})
     </insert>
-    <update id="modifyUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo" >
+    <update id="modifyUser" parameterType="com.crrn.tfdor.domain.manage.UserInfo">
         UPDATE USERINFO
-            SET RoleSeq = #{roleSeq},
-             UserName = #{userName},
-             Sex = #{sex},
-             Age = #{age},
-             IdNo = #{idNo},
-             MobilePhone = #{mobilePhone},
-             Phone = #{phone},
-            <if test="channel.channelId != null and channel.channelId != ''">
-                channelId = #{channel.channelId},
-            </if>
-             Addr = #{addr}
-            WHERE
-	          UserSeq = #{userSeq};
+        SET RoleSeq = #{roleSeq},
+        UserName = #{userName},
+        Sex = #{sex},
+        Age = #{age},
+        IdNo = #{idNo},
+        MobilePhone = #{mobilePhone},
+        Phone = #{phone},
+        <if test="channel.channelId != null and channel.channelId != ''">
+            channelId = #{channel.channelId},
+        </if>
+        Addr = #{addr}
+        WHERE
+        UserSeq = #{userSeq};
     </update>
     <insert id="addChannel" parameterType="java.util.Map">
-        INSERT INTO channel(channelId,channelName,appId,wxToken,appSecret,createTime,state)
-                VALUES (#{channelId},#{channelName},#{appId},#{wxToken},#{appSecret},now(),#{state})
+        INSERT INTO channel(channelId,channelName,createTime,state)
+                VALUES (#{channelId},#{channelName},now(),#{state})
     </insert>
     <update id="modifyChannel" parameterType="java.util.Map">
         UPDATE channel
                 SET channelName = #{channelName},
-                    appId = #{appId},
-                    wxToken = #{wxToken},
-                    appSecret = #{appSecret},
                     updateTime = now(),
                     state = #{state}
                 WHERE
@@ -120,4 +118,38 @@
     <delete id="deleteUser" parameterType="java.util.Map">
         DELETE FROM userInfo WHERE userSeq = #{userSeq}
     </delete>
+    <select id="queryBusiness" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT m.mchId, m.mchName, c.channelName, DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
+        DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
+        FROM merchant m, channel c WHERE m.channelId = c.channelId
+        <if test="channelId != null and channelId != 'tfdor'">
+            and m.channelId = #{channelId}
+        </if>
+    </select>
+    <insert id="addBusiness" parameterType="java.util.Map">
+      INSERT INTO merchant(
+              mchId,
+              channelId,
+              mchName,
+              appId,
+              wxToken,
+              appSecret,
+              encodingAesKey,
+              signatureKey,
+              createTime,
+              updateTime,
+              state)
+        VALUES (
+              #{cmchId},
+              #{channelId},
+              #{mchName},
+              #{appId},
+              #{wxToken},
+              #{appSecret},
+              #{encodingAesKey},
+              #{signatureKey},
+              now(),
+              now(),
+              #{state})
+    </insert>
 </mapper>

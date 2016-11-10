@@ -84,13 +84,21 @@
                 templateUrl: 'views/Marketing/redEnvelopeManager.html',
                 dependencies: ['controllers/Marketing/redEnvelopeManager'],
                 allowAnonymous: true
-
             },'Main.deleteUser': {
                 url: '/deleteUser',
                 templateUrl: 'views/SysMng/deleteUser.html',
                 dependencies: ['controllers/SysMng/deleteUser'],
                 allowAnonymous: true
-
+            },'Main.BusinessManager': {
+                url: '/BusinessManager',
+                templateUrl: 'views/SysMng/businessManager.html',
+                dependencies: ['controllers/SysMng/businessManager'],
+                allowAnonymous: true
+            },'Main.addBusiness': {
+                url: '/addBusiness',
+                templateUrl: 'views/SysMng/addBusiness.html',
+                dependencies: ['controllers/SysMng/addBusiness'],
+                allowAnonymous: true
             }
         }
     };
