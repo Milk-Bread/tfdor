@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service;
 import com.crrn.tfdor.dao.UserDao;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -196,6 +202,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     /**
      * 查询商户信息
      *
@@ -212,10 +219,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  添加商户信息
-     * @param map
-     */
-    /**
      * 删除渠道信息
      *
      * @param map
@@ -224,6 +227,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addMerchant(Map<String, Object> map) {
         userDao.addMerchant(map);
+    }
+
+    @Override
+    public void deleteUser(Map<String, Object> map) {
+        userDao.deleteUser(map);
     }
 
     /**

@@ -8,6 +8,5 @@ define(['app', 'service','sysCode'], function (app) {
             service.setData(obj);
             $state.go("Main.modifyMerchant");
         }
-        $scope.init();
     });
 });

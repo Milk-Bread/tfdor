@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
-
 	<bean id="httpTransport" class="com.crrn.tfdor.utils.httpclient.HttpClientTransport">
 		<property name="readTimeout">
 			<value>30000</value>
@@ -24,6 +23,7 @@
 				<value>modifyChannel.do</value>
 				<value>addMerchant.do</value>
 				<value>modifyMerchant.do</value>
+				<value>deleteUser.do</value>
 			</list>
 		</property>
 	</bean>

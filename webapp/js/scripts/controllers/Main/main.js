@@ -1,6 +1,6 @@
 define(['app', 'service','sysCode'], function (app) {
     app.controller('mainCtrl', function (service, $scope, $location, $state, $stateParams,$rootScope) {
-        $scope.init = function () {
+        $scope.initMain = function () {
             var user = service.getUser();
             if(user != null){
                 $scope._userName = user.userName;
@@ -34,6 +34,6 @@ define(['app', 'service','sysCode'], function (app) {
                 $('#mainId' + id).slideDown(500);
             }
         }
-        $scope.init();
+        $scope.initMain();
     });
 });

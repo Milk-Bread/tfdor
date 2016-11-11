@@ -106,7 +106,17 @@ public interface UserService {
     public List<Map<String, Object>> queryMerchant(Map<String, Object> map);
 
   /**
+<<<<<<< HEAD
+   * 删除用户信息
+   * @param map
+   */
+  public void deleteUser(Map<String, Object> map);
+
+  /*
+   *  * 查询商户信息
+=======
    *  添加商户信息
+>>>>>>> 282ce83880adea0479abd0918c12de7611baa02c
    * @param map
    */
   public void addMerchant(Map<String, Object> map);

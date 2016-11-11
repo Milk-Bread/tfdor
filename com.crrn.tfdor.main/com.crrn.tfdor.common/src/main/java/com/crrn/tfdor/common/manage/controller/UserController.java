@@ -20,13 +20,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.domain.manage.Menu;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.MenuService;
 import com.crrn.tfdor.service.manage.UserService;
 import com.crrn.tfdor.utils.BeanUtils;
 import com.crrn.tfdor.utils.CHECKMSG;
 import com.crrn.tfdor.utils.EncodeUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Description: 核心控制器
@@ -358,7 +370,7 @@ public class UserController {
     }
 
     /**
-     * Description: 添加渠道
+     * Description: 删除渠道
      *
      * @param request
      * @return
@@ -372,6 +384,20 @@ public class UserController {
         userService.deleteChannel(map);
     }
 
+    /**
+     * Description: 删除用户
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "deleteUser.do" , method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteUser(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userSeq", request.getParameter("userSeq"));
+        userService.deleteUser(map);
+    }
 
     /**
      * Description: 商户列表

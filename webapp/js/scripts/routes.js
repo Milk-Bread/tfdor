@@ -93,6 +93,11 @@
                 templateUrl: 'views/SysMng/merchantManager.html',
                 dependencies: ['controllers/SysMng/merchantManager'],
                 allowAnonymous: true
+            },'Main.deleteUser': {
+                url: '/deleteUser',
+                templateUrl: 'views/SysMng/deleteUser.html',
+                dependencies: ['controllers/SysMng/deleteUser'],
+                allowAnonymous: true
             },'Main.addMerchant': {
                 url: '/addMerchant',
                 templateUrl: 'views/SysMng/addMerchant.html',
