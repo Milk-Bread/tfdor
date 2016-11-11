@@ -30,5 +30,5 @@ public interface MarketingService {
      * @param map
      * @return
      */
-    public PageInfo<RedPackBean> queryRedPack(Map<String, Object> map);
+    public PageInfo<Map<String, Object>> queryRedPack(Map<String, Object> map);
 }

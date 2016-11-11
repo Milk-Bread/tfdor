@@ -4,10 +4,18 @@
 <mapper namespace="com.crrn.tfdor.dao.UserDao">
     <!-- 登陆 -->
     <select id="loginCheck" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
-        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,c.channelId,c.channelName,c.state
+        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,
+        phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime
         from UserInfo u,channel c
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
+    <!-- 重置密码 -->
+    <update id="resetPasd" parameterType="java.util.Map">
+        UPDATE UserInfo set password = #{password} WHERE userId = #{userId}
+    </update>
+
+
     <update id="modifyUserinfo" parameterType="java.util.Map">
         UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now() where UserSeq = #{userSeq}
     </update>
@@ -127,7 +135,7 @@
     <delete id="deleteChannel" parameterType="java.util.Map">
         DELETE FROM channel WHERE channelId = #{channelId}
     </delete>
-    <select id="queryBusiness" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="queryMerchant" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
         DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
         DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
@@ -136,7 +144,7 @@
             and m.channelId = #{channelId}
         </if>
     </select>
-    <insert id="addBusiness" parameterType="java.util.Map">
+    <insert id="addMerchant" parameterType="java.util.Map">
       INSERT INTO merchant(
               mchId,
               channelId,
@@ -162,7 +170,7 @@
               now(),
               #{state})
     </insert>
-    <update id="modifyBusiness" parameterType="java.util.Map">
+    <update id="modifyMerchant" parameterType="java.util.Map">
         UPDATE merchant
         SET channelId = #{channelId},
         appId = #{appId},

@@ -16,6 +16,33 @@ public class QrcodeImg implements Serializable {
     private String state;
     private String createTime;
     private String updateTime;
+    private String transjnl;
+    private String orderId;
+    private String openId;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getTransjnl() {
+        return transjnl;
+    }
+
+    public void setTransjnl(String transjnl) {
+        this.transjnl = transjnl;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getQrcodeSeq() {
         return qrcodeSeq;

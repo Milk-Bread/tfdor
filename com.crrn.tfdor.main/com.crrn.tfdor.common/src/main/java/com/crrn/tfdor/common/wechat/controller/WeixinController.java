@@ -74,7 +74,7 @@ public class WeixinController {
      */
     @RequestMapping(value = "wechat", method = RequestMethod.POST)
     @ResponseBody
-    public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws ParseException, IOException, AesException, DocumentException {
+    public void acceptMessage(HttpServletRequest request, HttpServletResponse response, CheckModel tokenModel) throws Exception {
         logger.debug("微信request param name" + request.getParameterNames());
         logger.debug("微信request param value" + request.getParameterMap().toString());
         Merchant merch = weChatService.qMerchant(tokenModel.getAppId());
@@ -86,8 +86,7 @@ public class WeixinController {
             WXBizMsgCrypt ct = new WXBizMsgCrypt(merch.getWxToken(), merch.getEncodingAesKey(), merch.getAppId());
             //解密
             Map<String, Object> decryMap = ct.decryptMsg(tokenModel.getMsg_signature(), tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString(), (String) map.get("fromXML"));
-            decryMap.put("channelId", merch.getAppId());
-            Map<String, Object> msgMap = weChatService.msgType(decryMap, response);
+            Map<String, Object> msgMap = weChatService.msgType(decryMap, response,merch);
             //微信返回消息
             String respXml = transformer.former(msgMap);
             //微信返回消息加密
@@ -96,7 +95,7 @@ public class WeixinController {
             //返回微信数据
             response.getWriter().write(respXmlEncryp);
         } else {//明文模式
-            Map<String, Object> msgMap = weChatService.msgType(map, response);
+            Map<String, Object> msgMap = weChatService.msgType(map, response,merch);
             //微信返回消息
             String respXml = transformer.former(msgMap);
             //返回微信数据

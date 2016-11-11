@@ -77,7 +77,7 @@ public interface WeChantDao {
      * @param map
      * @return
      */
-    public QrcodeImg qQrcodeimgByTicket(Map<String, Object> map);
+    public Map<String, Object> qQrcodeimgBysCeneStr(Map<String, Object> map);
 
     /**
      * 记录二维码生成记录
@@ -99,7 +99,7 @@ public interface WeChantDao {
      * @param map
      * @return
      */
-    public List<RedPackBean> queryRedPack(Map<String, Object> map);
+    public List<Map<String, Object>> queryRedPack(Map<String, Object> map);
 
     /**
      * 查询商户信息
@@ -107,4 +107,11 @@ public interface WeChantDao {
      * @return
      */
     public Merchant qMerchant(String appId);
+
+    /**
+     * 查询红包参数
+     * @param mchId
+     * @return
+     */
+    public RedPackBean queryRedPackByMchId(String mchId);
 }

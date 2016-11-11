@@ -29,6 +29,21 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 重置密码
+     *
+     * @param password
+     * @param userId
+     * @return
+     */
+    @Override
+    public void resetPasd(String password, String userId) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId",userId);
+        param.put("password",password);
+        userDao.resetPasd(param);
+    }
+
+    /**
      * 修改用户登陆次数
      *
      * @param map
@@ -187,13 +202,13 @@ public class UserServiceImpl implements UserService {
      * @param map
      */
     @Override
-    public List<Map<String, Object>> queryBusiness(Map<String, Object> map) {
+    public List<Map<String, Object>> queryMerchant(Map<String, Object> map) {
         String channelId = (String) map.get("channelId");
         Map<String, Object> bMap = new HashMap<>();
         if (!channelId.equals("tfdor")) {
             bMap.put("channelId", channelId);
         }
-        return userDao.queryBusiness(bMap);
+        return userDao.queryMerchant(bMap);
     }
 
     /**
@@ -207,8 +222,8 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void addBusiness(Map<String, Object> map) {
-        userDao.addBusiness(map);
+    public void addMerchant(Map<String, Object> map) {
+        userDao.addMerchant(map);
     }
 
     /**
@@ -218,7 +233,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void modifyBusiness(Map<String, Object> map) {
-        userDao.modifyBusiness(map);
+    public void modifyMerchant(Map<String, Object> map) {
+        userDao.modifyMerchant(map);
     }
 }

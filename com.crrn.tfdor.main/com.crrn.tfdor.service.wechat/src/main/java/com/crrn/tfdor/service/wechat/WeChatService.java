@@ -35,14 +35,7 @@ public interface WeChatService {
      * @param param
      * @return
      */
-    public Map<String, Object> msgType(Map<String, Object> param, HttpServletResponse response);
-
-    /**
-     * 微信现金红包
-     * @param msgMap
-     * @param param
-     */
-    public void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param);
+    public Map<String, Object> msgType(Map<String, Object> param, HttpServletResponse response,Merchant merchant) throws Exception;
 
     /**
      * 生成微信二维码

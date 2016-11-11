@@ -25,20 +25,30 @@
 	</select>
 
 	<update id="uQrcodeImg" parameterType="java.util.HashMap">
-		UPDATE qrcodeimg SET state = #{state},updateTime = now() WHERE ticket = #{Ticket}
+		UPDATE qrcodeimg
+		SET state = #{state},
+			updateTime = now(),
+			openId = #{FromUserName},
+			orderId = #{orderId},
+			transjnl = #{transjnl}
+		WHERE sceneStr = #{sceneStr}
 	</update>
 	<select id="qChannel" resultType="com.crrn.tfdor.domain.manage.Channel" parameterType="java.lang.String">
 		select * from channel where channelId = #{channelId}
 	</select>
 
-	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
+	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
 		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
-		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime
-		FROM redpack r,merchant m  WHERE m.mchId = r.mchId
+		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,
+		c.channelName,c.channelId,m.mchName
+		FROM redpack r,merchant m,channel c  WHERE m.mchId = r.mchId and c.channelId = m.channelId
 		<if test="channelId != null and channelId != ''">
 			and m.channelId = #{channelId}
 		</if>
+	</select>
+	<select id="queryRedPackByMchId" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
+		SELECT * FROM redpack where mchId = #{mchId}
 	</select>
 
 	<select id="qCreateQrcodeImg" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -60,6 +70,12 @@
 		INSERT INTO createqrcodeimg (mchId, beginDate, actionName, endDate, expireSeconds, number, preservation, state, createTime, updateTime)
 		VALUES (#{mchId}, #{beginDate}, #{actionName}, #{endDate}, #{expireSeconds}, #{number}, #{preservation}, #{state}, now(), now());
 	</insert>
+
+	<select id="qQrcodeimgBysCeneStr" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,
+		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state
+		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr} AND q.state = #{state}
+	</select>
 
 	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
 		select * FROM merchant where appId = #{appId}

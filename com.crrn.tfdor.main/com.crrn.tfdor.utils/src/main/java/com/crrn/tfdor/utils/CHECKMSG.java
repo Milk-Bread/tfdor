@@ -38,4 +38,8 @@ public class CHECKMSG {
      * 二维码类型错误
      */
     public static final String QR_CODE_TYPE_ERROR = "qr.code.type.error";
+    /**
+     * 第一次登陆请重置密码
+     */
+    public static final String PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN = "please.reset.the.password.for.the.first.time.login";
 }

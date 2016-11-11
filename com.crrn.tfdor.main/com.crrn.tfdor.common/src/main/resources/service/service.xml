@@ -22,8 +22,8 @@
 				<value>addUser.do</value>
 				<value>addChannel.do</value>
 				<value>modifyChannel.do</value>
-				<value>addBusiness.do</value>
-				<value>modifyBusiness.do</value>
+				<value>addMerchant.do</value>
+				<value>modifyMerchant.do</value>
 			</list>
 		</property>
 	</bean>

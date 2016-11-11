@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -531,8 +533,57 @@ public class Util {
         return srcPathName+".zip";
     }
 
+    /**
+     * 按照一定概率进行随机<br>
+     * <br>
+     * @param pSngBegin 随机数范围的开始数字
+     * @param pSngEnd 随机数范围结束数字
+     * @param pSngPB 要随机的数字的开始数字
+     * @param pSngPE 要随机的数字的结束数字
+     * @param pBytP 要随机的数字随机概率
+     * @return 按照一定概率随机的数字
+     */
+    public static double GetRndNumP(double pSngBegin, double pSngEnd, double pSngPB, double pSngPE, double pBytP) {
+        double sngPLen;
+        double sngTLen; //total length
+        double sngIncreased; //需要缩放的长度
+        double sngResult;
+        sngPLen = pSngPE - pSngPB;
+        sngTLen = pSngEnd - pSngBegin;
+        if ((sngPLen / sngTLen) * 100 == pBytP) {
+            return GetRandomNum(pSngBegin, pSngEnd);
+        } else {
+            // ((sngPLen + sngIncreased) / (sngTLen + sngIncreased)) * 100 = bytP
+            sngIncreased = ((pBytP / 100) * sngTLen - sngPLen) / (1 - (pBytP / 100));
+            // 缩放回原来区间
+            sngResult = GetRandomNum(pSngBegin, pSngEnd + sngIncreased);
+            if (pSngBegin <= sngResult && sngResult <= pSngPB) {
+                return sngResult;
+            } else if (pSngPB <= sngResult && sngResult <= (pSngPE + sngIncreased)) {
+                return pSngPB + (sngResult - pSngPB) * sngPLen / (sngPLen + sngIncreased);
+            } else if ((pSngPE + sngIncreased) <= sngResult && sngResult <= (pSngEnd + sngIncreased)) {
+                return sngResult - sngIncreased;
+            }
+        }
+        return 0f;
+    }
+
+    public static double GetRandomNum(double pSngBegin, double pSngEnd) {
+        return (pSngEnd - pSngBegin) * Math.random() + pSngBegin;
+    }
+
     public static void main(String [] argo) throws DocumentException {
-        zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
+        double bytP = 10;
+        double sngBegin = 1;
+        double sngEnd = 10;
+        double sngPB = 4;
+        double sngPE = 10;
+        //精确小数点2位
+        NumberFormat formatter = new DecimalFormat("#.##");
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(formatter.format(GetRndNumP(sngBegin, sngEnd, sngPB, sngPE, bytP)));
+        }
+//        zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
 //        System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
 //        System.out.println(getOrderId("1402828602",28));
     }

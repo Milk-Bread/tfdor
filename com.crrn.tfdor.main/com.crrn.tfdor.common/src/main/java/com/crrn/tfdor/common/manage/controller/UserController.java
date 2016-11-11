@@ -1,5 +1,6 @@
 package com.crrn.tfdor.common.manage.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,6 +61,9 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
+        if(request.getParameter("transName").equals("resetPasd.do")){
+            userId = (String) request.getSession().getAttribute("resetUser");
+        }
         String passwordaes = EncodeUtil.aesEncrypt(userId + password);
         Map<String, Object> userMap = userService.loginCheck(userId, passwordaes);
         if (userMap == null) {
@@ -71,12 +76,11 @@ public class UserController {
         }
         Map<String, Object> bumap = new HashMap<String, Object>();
         bumap.put("channelId", channel.getChannelId());
+        if(Integer.valueOf(userMap.get("loginCount").toString()) == 0 && !request.getParameter("transName").equals("resetPasd.do")){//重置密码
+            request.getSession().setAttribute("resetUser",userId);
+            throw new RuntimeException(CHECKMSG.PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN);
+        }
         userService.modifyUserinfo(userMap);
-//        List<Map<String, Object>> listBu = userService.queryBusiness(bumap);
-//        if(listBu != null) {
-//            List<Merchant> merchantList = BeanUtils.listMap2ListBean(listBu, Merchant.class);
-//            user.setMerchantList(merchantList);
-//        }
         user.setChannel(channel);
         // 创建session
         request.getSession(true);
@@ -86,6 +90,26 @@ public class UserController {
         request.getSession().setAttribute("_USER", user);
         return user;
     }
+
+    /**
+     * Description: 重置登陆密码
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年8月1日 下午3:50:11 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "resetPasd.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void resetPasd(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        String userId = (String) request.getSession().getAttribute("resetUser");
+        String password = request.getParameter("password");
+        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
+        userService.resetPasd(passwordaes,userId);
+        request.setAttribute("userId",userId);
+        request.getRequestDispatcher("login.do").forward(request,response);
+    }
+
+
 
     /**
      * Description: 用户登出
@@ -356,12 +380,12 @@ public class UserController {
      * @return
      * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "queryBusiness.do", method = RequestMethod.POST)
+    @RequestMapping(value = "queryMerchant.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryBusiness(HttpServletRequest request) {
+    public Object queryMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
-        return userService.queryBusiness(map);
+        return userService.queryMerchant(map);
     }
 
 
@@ -372,9 +396,9 @@ public class UserController {
      * @return
      * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "addBusiness.do", method = RequestMethod.POST)
+    @RequestMapping(value = "addMerchant.do", method = RequestMethod.POST)
     @ResponseBody
-    public void addBusiness(HttpServletRequest request) {
+    public void addMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         map.put("appId", request.getParameter("appId"));
@@ -385,7 +409,7 @@ public class UserController {
         map.put("signatureKey", request.getParameter("signatureKey"));
         map.put("encodingAesKey", request.getParameter("encodingAesKey"));
         map.put("state", request.getParameter("state"));
-        userService.addBusiness(map);
+        userService.addMerchant(map);
     }
 
     /**
@@ -395,9 +419,9 @@ public class UserController {
      * @return
      * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "modifyBusiness.do", method = RequestMethod.POST)
+    @RequestMapping(value = "modifyMerchant.do", method = RequestMethod.POST)
     @ResponseBody
-    public void modifyBusiness(HttpServletRequest request) {
+    public void modifyMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("mchId", request.getParameter("mchId"));
         map.put("channelId", request.getParameter("channelId"));
@@ -407,6 +431,6 @@ public class UserController {
         map.put("signatureKey", request.getParameter("signatureKey"));
         map.put("encodingAesKey", request.getParameter("encodingAesKey"));
         map.put("state", request.getParameter("state"));
-        userService.modifyBusiness(map);
+        userService.modifyMerchant(map);
     }
 }

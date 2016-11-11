@@ -16,6 +16,14 @@ public interface UserService {
     public Map<String, Object> loginCheck(String userId, String password);
 
     /**
+     * 重置密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    public void resetPasd(String password,String userId);
+
+    /**
      * 修改用户登陆次数
      *
      * @param map
@@ -95,17 +103,17 @@ public interface UserService {
      *
      * @param map
      */
-    public List<Map<String, Object>> queryBusiness(Map<String, Object> map);
+    public List<Map<String, Object>> queryMerchant(Map<String, Object> map);
 
   /**
    *  添加商户信息
    * @param map
    */
-  public void addBusiness(Map<String, Object> map);
+  public void addMerchant(Map<String, Object> map);
 
   /**
    *  修改商户
    * @param map
    */
-  public void modifyBusiness(Map<String, Object> map);
+  public void modifyMerchant(Map<String, Object> map);
 }
