@@ -6,11 +6,11 @@ INSERT INTO Merchant(cmchId,channelId,mchName,appId,wxToken,appSecret,encodingAe
 --创建角色--内置最高权限角色
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
 --初始化用户 密码 88888888
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType)
-values('admin1','admin1','6+exnvC5D+ydvlsiSizl4g==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1');
+insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
+values('admin1','admin1','6+exnvC5D+ydvlsiSizl4g==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',1);
 
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType)
-values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1');
+insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
+values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',1);
 
 
 -----------------------------
@@ -21,7 +21,7 @@ values('admin2','admin2','R/Iyn2+kzn8jniEyiXorEQ==','M',25,'湖南岳阳','15150
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('SystemSettings','系统设置','00000000',1,'',now());
 --二级菜单
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('ChannelManager','渠道管理','SystemSettings',1,'ChannelManager',now());
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('BusinessManager','商户管理','SystemSettings',2,'BusinessManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('MerchantManager','商户管理','SystemSettings',2,'MerchantManager',now());
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RoleManager','角色管理','SystemSettings',3,'RoleManager',now());
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('UserManager','用户管理','SystemSettings',4,'UserManager',now());
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('PasswordManager','密码管理','SystemSettings',5,'PasswordManager',now());
@@ -32,7 +32,7 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RoleManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'UserManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'PasswordManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'ChannelManager');
-insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'BusinessManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MerchantManager');
 
 -----------------------------
 --*********任务中心*********--
@@ -56,11 +56,11 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'CheckResultQuery');
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('MarketingManager','营销推广','00000000',3,'',now());
 -- 二级菜单
 insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('QrCodeManager','二维码管理','MarketingManager',1,'QrCodeManager',now());
-insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RedEnvelopeManager','红包管理','MarketingManager',2,'RedEnvelopeManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('RedPackManager','红包管理','MarketingManager',2,'RedPackManager',now());
 --授权 Admin
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MarketingManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'QrCodeManager');
-insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedEnvelopeManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedPackManager');
 
 
 
@@ -71,6 +71,6 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedEnvelopeManager');
 
 
 -- 红包初始化
-INSERT INTO redpack (channelId,redPackType, amountType, totalAmount, wishing, actName, remark, createTime, updateTime) 
-VALUES ('tfdor','1', '1', '1', '祝万事如意', '扫码关注送红包活动', '扫码送红包', now(),now());
+INSERT INTO redpack (mchId,redPackType, amountType, totalAmount, wishing, actName, remark, createTime, updateTime) 
+VALUES ('1402828602','1', '1', '1', '祝万事如意', '扫码关注送红包活动', '扫码送红包', now(),now());
 

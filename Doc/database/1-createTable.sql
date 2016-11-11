@@ -201,6 +201,9 @@ create table QrcodeImg(
    qrcodeName           varchar(50) not null comment '二维码图片名称',
    state                char(1) not null comment '二维码状态：I-初始状态，S-使用成功，F-使用失败',
    createTime           timestamp default '0000-00-00 00:00:00'  comment '创建时间',
+   openId               varchar(100) comment '使用用户微信openId',
+   transjnl             varchar(100) comment '交易流水号',
+   orderId              varchar(100) comment '商户订单号',
    updateTime           timestamp default now() on update now() comment '修改时间',
    primary key (qrcodeSeq)
 )DEFAULT CHARSET= UTF8
@@ -213,13 +216,14 @@ alter table QrcodeImg comment '二维码表';
 /*==============================================================*/
 create table RedPack(
    redPackSeq           integer not null auto_increment comment 'Seq',
-   redPackType         char(1) not null comment '红包种类 1-普通红包，2-裂变红包' ,
-   amountType          varchar(20) not null comment '金额类型 1-固定金额、2-随机金额',
-   totalAmount         varchar(20) not null comment '红包金额  1-200，当type是随机金额时 totalAmount为一个区间例如：1-3（元）',
+   redPackType          char(1) not null comment '红包种类 1-普通红包，2-裂变红包' ,
+   amountType           varchar(20) not null comment '金额类型 1-固定金额、2-随机金额',
+   totalAmount          varchar(20) not null comment '红包金额  1-200，当type是随机金额时 totalAmount为一个区间  例如：1-3（元）',
    wishing              varchar(50) not null comment '红包祝福语',
    actName              varchar(50) not null comment '活动名称',
    mchId                varchar(20) not null comment '商户ID',
    remark               varchar(100) not null comment '备注',
+   state                char(1) DEFAULT '1' not null comment '状态 1-正常，2-关闭',
    createTime           timestamp default '0000-00-00 00:00:00',
    updateTime           timestamp default now() on update now(),
    primary key (redPackSeq)
