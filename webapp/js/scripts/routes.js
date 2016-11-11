@@ -83,8 +83,8 @@
                 templateUrl: 'views/SysMng/modifyChannel.html',
                 dependencies: ['controllers/SysMng/modifyChannel'],
                 allowAnonymous: true
-            },'Main.RedEnvelopeManager': {
-                url: '/RedEnvelopeManager',
+            },'Main.RedPackManager': {
+                url: '/RedPackManager',
                 templateUrl: 'views/Marketing/redPackManager.html',
                 dependencies: ['controllers/Marketing/redPackManager'],
                 allowAnonymous: true
