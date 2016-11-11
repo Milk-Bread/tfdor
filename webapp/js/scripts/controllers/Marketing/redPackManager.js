@@ -7,12 +7,17 @@ define(['app', 'service','sysCode'], function (app) {
         $scope.pageNo = 1;
         //每页显示数量
         $scope.pageSize = 10;
+        $scope.loginchannelId = service.getUser().channel.channelId;
         $scope.init = function () {
-            console.log(service.getUser());
+            if($scope.merchant != undefined){
+                $scope.channelId = $scope.merchant.channelId
+            }else{
+                $scope.channelId = "";
+            }
             var formData = {
                 "pageNo":$scope.pageNo,
-                "pageSize":$scope.pageSize
-                //"channelId" : service.getUser().channel.channelId
+                "pageSize":$scope.pageSize,
+                "channelId":$scope.channelId
             };
             service.post2SRV("queryRedPack.do", formData,function(data,status) {
                 //记录总条数
@@ -22,7 +27,14 @@ define(['app', 'service','sysCode'], function (app) {
                 //数据list
                 $scope.redPackList = data.list;
             },1000);
-        }
+        };
+        //查询商户信息
+        var formData1 = {
+            "channelId": service.getUser().channel.channelId
+        };
+        service.post2SRV("queryChannel.do", null, function (data, status) {
+            $scope.merchantList = data;
+        }, 1000);
         $scope.init();
     });
 });

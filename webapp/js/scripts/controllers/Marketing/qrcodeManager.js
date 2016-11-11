@@ -8,7 +8,6 @@ define(['app', 'service','sysCode'], function (app) {
         //每页显示数量
         $scope.pageSize = 10;
         $scope.loginchannelId = service.getUser().channel.channelId;
-        //$scope.channelId = service.getUser().channel.channelId;
         $scope.init = function() {
             if($scope.merchant != undefined){
                 $scope.channelId = $scope.merchant.channelId

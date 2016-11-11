@@ -2,8 +2,20 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('addBusinessCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyMerchantCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+        $scope.selectMerchant = service.getData();
+
         $scope.init = function () {
+            $scope.appId = $scope.selectMerchant.appId;
+            $scope.wxToken = $scope.selectMerchant.wxToken;
+            $scope.appSecret = $scope.selectMerchant.appSecret;
+            $scope.signatureKey = $scope.selectMerchant.signatureKey;
+            $scope.encodingAesKey = $scope.selectMerchant.encodingAesKey;
+            $scope.state = $scope.selectMerchant.state;
+            $scope.mchId = $scope.selectMerchant.mchId;
+            $scope.mchName = $scope.selectMerchant.mchName;
+            $scope.channelName = $scope.selectMerchant.channelName;
+
             $scope.channelId = service.getUser().channel.channelId;
             if ($scope.channelId != null && $scope.channelId == 'tfdor') {
                 $scope.channelId = '';
@@ -13,6 +25,11 @@ define(['app', 'service','sysCode'], function (app) {
             };
             service.post2SRV("queryChannel.do", formData, function (data, status) {
                 $scope.channelInfoList = data;
+                for (var key in $scope.channelInfoList) {
+                    if ($scope.selectMerchant.channelId == $scope.channelInfoList[key].channelId) {
+                        $scope.channel = $scope.channelInfoList[key];
+                    }
+                }
             }, 1000);
             //查询复合人
             service.post2SRV("queryAuditPerson.do",null,function(data, status){
@@ -20,7 +37,7 @@ define(['app', 'service','sysCode'], function (app) {
             },4000);
         };
 
-        $scope.doIt = function () {
+        $scope.doId = function () {
             if ($scope.channel == null || $scope.channel == 0) {
                 showError("错误提示：请选择渠道");
                 return;
@@ -39,10 +56,6 @@ define(['app', 'service','sysCode'], function (app) {
             }
             if ($scope.mchId == null || $scope.mchId == '') {
                 showError("错误提示：请输入商户ID");
-                return;
-            }
-            if ($scope.mchName == null || $scope.mchName == '') {
-                showError("错误提示：请输入商户名称");
                 return;
             }
             if ($scope.signatureKey == null || $scope.signatureKey == '') {
@@ -66,15 +79,14 @@ define(['app', 'service','sysCode'], function (app) {
                 "wxToken": $scope.wxToken,
                 "appSecret": $scope.appSecret,
                 "mchId": $scope.mchId,
-                "mchName": $scope.mchName,
                 "signatureKey": $scope.signatureKey,
                 "encodingAesKey": $scope.encodingAesKey,
                 "state": $scope.state,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName//复合人名称
             }
-            service.post2SRV("addBusiness.do", formData, function (data, status) {
-                $state.go("Main.BusinessManager");
+            service.post2SRV("modifyMerchant.do", formData, function (data, status) {
+                $state.go("Main.MerchantManager");
             }, 4000);
         }
         $scope.init();

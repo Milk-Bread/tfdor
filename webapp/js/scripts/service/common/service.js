@@ -32,6 +32,8 @@ define([ 'app'], function(app) {
 		    		showError("错误提示："+data._exceptionMsg);
 					if(data._exceptionCode == "please.log.in.again"){
 						$state.go("Login");
+					}else if(data._exceptionCode == "please.reset.the.password.for.the.first.time.login"){
+						$state.go("ResetPasd");
 					}
 	        	}else{
 	        		callBack(data,header,config,status);
@@ -46,6 +48,8 @@ define([ 'app'], function(app) {
 	        	showError("错误提示："+errorStr+action);
 				if(data._exceptionCode == "please.log.in.again"){
 					$state.go("Login");
+				}else if(data._exceptionCode == "please.reset.the.password.for.the.first.time.login"){
+					$state.go("ResetPasd");
 				}
 		    });
 		};

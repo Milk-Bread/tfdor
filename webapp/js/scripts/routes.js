@@ -7,6 +7,11 @@
                 templateUrl: 'views/Login/login.html',
                 dependencies: ['controllers/Login/login'],
                 allowAnonymous: true
+            },'ResetPasd': {
+            	url: '/ResetPasd',
+                templateUrl: 'views/SysMng/resetPassword.html',
+                dependencies: ['controllers/SysMng/resetPassword'],
+                allowAnonymous: true
             },
             'Main': {
             	url: '/Main',
@@ -80,33 +85,33 @@
                 allowAnonymous: true
             },'Main.RedEnvelopeManager': {
                 url: '/RedEnvelopeManager',
-                templateUrl: 'views/Marketing/redEnvelopeManager.html',
-                dependencies: ['controllers/Marketing/redEnvelopeManager'],
+                templateUrl: 'views/Marketing/redPackManager.html',
+                dependencies: ['controllers/Marketing/redPackManager'],
                 allowAnonymous: true
-            },'Main.BusinessManager': {
-                url: '/BusinessManager',
-                templateUrl: 'views/SysMng/businessManager.html',
-                dependencies: ['controllers/SysMng/businessManager'],
+            },'Main.MerchantManager': {
+                url: '/MerchantManager',
+                templateUrl: 'views/SysMng/merchantManager.html',
+                dependencies: ['controllers/SysMng/merchantManager'],
                 allowAnonymous: true
-            },'Main.addBusiness': {
-                url: '/addBusiness',
-                templateUrl: 'views/SysMng/addBusiness.html',
-                dependencies: ['controllers/SysMng/addBusiness'],
+            },'Main.addMerchant': {
+                url: '/addMerchant',
+                templateUrl: 'views/SysMng/addMerchant.html',
+                dependencies: ['controllers/SysMng/addMerchant'],
                 allowAnonymous: true
             },'Main.addQrcode': {
                 url: '/addQrcode',
                 templateUrl: 'views/Marketing/addQrcode.html',
                 dependencies: ['controllers/Marketing/addQrcode'],
                 allowAnonymous: true
-            },'Main.businessDetail': {
-                url: '/businessDetail',
-                templateUrl: 'views/SysMng/businessDetail.html',
-                dependencies: ['controllers/SysMng/businessDetail'],
+            },'Main.merchantDetail': {
+                url: '/merchantDetail',
+                templateUrl: 'views/SysMng/merchantDetail.html',
+                dependencies: ['controllers/SysMng/merchantDetail'],
                 allowAnonymous: true
-            },'Main.modifyBusiness': {
-                url: '/modifyBusiness',
-                templateUrl: 'views/SysMng/modifyBusiness.html',
-                dependencies: ['controllers/SysMng/modifyBusiness'],
+            },'Main.modifyMerchant': {
+                url: '/modifyMerchant',
+                templateUrl: 'views/SysMng/modifyMerchant.html',
+                dependencies: ['controllers/SysMng/modifyMerchant'],
                 allowAnonymous: true
             },'Main.qrCodeImg': {
                 url: '/qrCodeImg',

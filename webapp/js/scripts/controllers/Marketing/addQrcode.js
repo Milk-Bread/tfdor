@@ -13,7 +13,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             var formData = {
                 "channelId": service.getUser().channel.channelId
             };
-            service.post2SRV("queryBusiness.do", formData, function (data, status) {
+            service.post2SRV("queryMerchant.do", formData, function (data, status) {
                 if (data.length > 1) {
                     $scope.isMerch = true;
                     $scope.merchantList = data;
