@@ -12,8 +12,7 @@
                 templateUrl: 'views/SysMng/resetPassword.html',
                 dependencies: ['controllers/SysMng/resetPassword'],
                 allowAnonymous: true
-            },
-            'Main': {
+            },'Main': {
             	url: '/Main',
                 templateUrl: 'views/Main/main.html',
                 dependencies: ['controllers/Main/main'],
