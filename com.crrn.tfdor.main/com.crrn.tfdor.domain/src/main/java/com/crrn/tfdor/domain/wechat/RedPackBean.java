@@ -14,6 +14,15 @@ public class RedPackBean {
     private String remark;
     private String createTime;
     private String updateTime;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getRedPackSeq() {
         return redPackSeq;

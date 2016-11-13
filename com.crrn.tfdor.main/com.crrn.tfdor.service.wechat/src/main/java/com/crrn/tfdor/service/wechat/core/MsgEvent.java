@@ -49,7 +49,7 @@ public class MsgEvent {
         paramSql.put("state", "I");
         paramSql.put("sceneStr", param.get("EventKey"));
         Map<String, Object> qrcodeimg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
-        if (qrcodeimg != null) {
+        if (qrcodeimg != null && "N".equals(redPackBean.getState())) {
             Timestamp beginDate = (Timestamp) qrcodeimg.get("beginDate");
             Timestamp endDate = (Timestamp) qrcodeimg.get("endDate");
             Timestamp time = new Timestamp(System.currentTimeMillis());

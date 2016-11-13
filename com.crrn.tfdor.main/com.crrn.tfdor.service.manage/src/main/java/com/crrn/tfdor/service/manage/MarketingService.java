@@ -31,4 +31,10 @@ public interface MarketingService {
      * @return
      */
     public PageInfo<Map<String, Object>> queryRedPack(Map<String, Object> map);
+
+    /**
+     *  修改红包参数
+     * @param map
+     */
+    public void modifyRedPack(Map<String, Object> map);
 }

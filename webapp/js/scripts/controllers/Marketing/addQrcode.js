@@ -52,7 +52,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 return;
             }
             if ($scope.state == null) {
-                $scope.state = '1';
+                $scope.state = 'N';
             }
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示：请选择复合人");

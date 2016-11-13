@@ -41,7 +41,7 @@
 		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
 		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
 		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,
-		c.channelName,c.channelId,m.mchName
+		c.channelName,c.channelId,m.mchName,r.state
 		FROM redpack r,merchant m,channel c  WHERE m.mchId = r.mchId and c.channelId = m.channelId
 		<if test="channelId != null and channelId != ''">
 			and m.channelId = #{channelId}
@@ -80,4 +80,10 @@
 	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
 		select * FROM merchant where appId = #{appId}
 	</select>
+
+	<update id="modifyRedPack" parameterType="java.util.HashMap">
+		update RedPack SET redPackType = #{redPackType},amountType = #{amountType},
+		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},remark = #{remark},updateTime = now(),state = #{state}
+		WHERE redPackSeq = #{redPackSeq}
+	</update>
 </mapper>

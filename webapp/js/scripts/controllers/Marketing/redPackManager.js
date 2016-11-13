@@ -35,6 +35,11 @@ define(['app', 'service','sysCode'], function (app) {
         service.post2SRV("queryChannel.do", null, function (data, status) {
             $scope.merchantList = data;
         }, 1000);
+
+        $scope.modifyRedPack = function (obj) {
+            service.setData(obj);
+            $state.go("Main.modifyRedPack");
+        }
         $scope.init();
     });
 });

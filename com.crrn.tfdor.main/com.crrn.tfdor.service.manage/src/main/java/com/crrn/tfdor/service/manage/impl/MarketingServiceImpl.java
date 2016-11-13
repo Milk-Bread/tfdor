@@ -53,4 +53,13 @@ public class MarketingServiceImpl implements MarketingService {
 		return page;
 	}
 
+	/**
+	 * 修改红包参数
+	 * @param map
+	 */
+	@Override
+	public void modifyRedPack(Map<String, Object> map) {
+		weChatDao.modifyRedPack(map);
+	}
+
 }

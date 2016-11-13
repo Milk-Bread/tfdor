@@ -111,7 +111,7 @@ public class MarketingController {
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "downloadsZip.do")
+    @RequestMapping(value = "downloadsZip.do", method = RequestMethod.GET)
     public ResponseEntity<byte[]> downloadsZip(HttpServletRequest request) throws IOException {
         String preservation = request.getParameter("preservation");
         String zipPath = Util.zipCompressorByAnt(preservation);
@@ -120,5 +120,20 @@ public class MarketingController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", file.getName());
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "modifyRedPack.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyRedPack(HttpServletRequest request) throws Exception {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("redPackType",request.getParameter("redPackType"));
+        param.put("amountType",request.getParameter("amountType"));
+        param.put("totalAmount",request.getParameter("totalAmount"));
+        param.put("wishing",request.getParameter("wishing"));
+        param.put("actName",request.getParameter("actName"));
+        param.put("remark",request.getParameter("remark"));
+        param.put("state",request.getParameter("state"));
+        param.put("redPackSeq",request.getParameter("redPackSeq"));
+        marketingService.modifyRedPack(param);
     }
 }
