@@ -10,6 +10,7 @@ define(['app', 'service','sysCode'], function (app) {
             }, 4000);
             $scope.channelId = service.getUser().channel.channelId;
             if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+                $scope.channelId = "";
                 $scope.isShow = true;
             }
             var formData = {
@@ -90,6 +91,8 @@ define(['app', 'service','sysCode'], function (app) {
                     return;
                 }
                 $scope.channelId = $scope.channel.channelId;
+            } else {
+                $scope.channelId = service.getUser().channel.channelId;
             }
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示,请选择复合人");
