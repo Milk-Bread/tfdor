@@ -3,13 +3,28 @@
  */
 define(['app', 'service','sysCode'], function (app) {
     app.controller('addUserCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+        // 是否显示选择渠道
+        $scope.isShow = false;
+        // 当前渠道ID
+        $scope.channelId = service.getUser().channel.channelId;
+        if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+            $scope.isShow = true;
+        }
         $scope.init = function(){
-            var formData = {
-                "roleName" : $scope.roleName
-            };
-            service.post2SRV("queryChannel.do", formData, function (data, status) {
-                $scope.channelInfoList = data;
-            }, 1000);
+            var formData = null;
+            // 如果为内置渠道，则不用查询所以渠道
+            if ($scope.isShow) {
+                service.post2SRV("queryChannel.do", formData, function (data, status) {
+                    $scope.channelInfoList = data;
+                }, 1000);
+                formData = {
+                    "channelId" : $scope.channelId
+                };
+            } else {
+                formData = {
+                    "channelId" : ""
+                };
+            }
             service.post2SRV("queryRole.do", formData,function(data,status) {
                 $scope.roleList = data;
             },4000);
@@ -18,6 +33,16 @@ define(['app', 'service','sysCode'], function (app) {
                 $scope.auditPerson = data;
             },4000);
         };
+        
+        $scope.queryRole = function () {
+            var channelId = $scope.channel.channelId;
+            var formData = {
+                "channelId" : channelId
+            };
+            service.post2SRV("queryRole.do", formData,function(data,status) {
+                $scope.roleList = data;
+            },4000);
+        }
 
         $scope.doIt = function () {
             if ($scope.userId == null || $scope.userId == '') {
@@ -32,10 +57,14 @@ define(['app', 'service','sysCode'], function (app) {
                 showError("错误提示,请选择角色");
                 return;
             }
-            if ($scope.channel == null || $scope.channel == 0) {
-                showError("错误提示,请选择渠道");
-                return;
+            if ($scope.isShow) {
+                if ($scope.channel == null || $scope.channel == 0) {
+                    showError("错误提示,请选择渠道");
+                    return;
+                }
+                $scope.channelId = $scope.channel.channelId;
             }
+
             if ($scope.age == null || $scope.age == '') {
                 showError("年龄错误,请输入年龄");
                 return;
@@ -73,7 +102,7 @@ define(['app', 'service','sysCode'], function (app) {
             }
 
             var formData = {
-                "channelId": $scope.channel.channelId,
+                "channelId": $scope.channelId,
                 "userId": $scope.userId,    // 账号
                 "userName": $scope.userName,   // 用户名
                 "roleSeq": $scope.role.roleSeq,  // 角色

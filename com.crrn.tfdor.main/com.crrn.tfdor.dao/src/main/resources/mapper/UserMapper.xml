@@ -23,9 +23,12 @@
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
         select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
         from role r,channel c
-        where c.channelId = r.channelId and r.channelId = #{channelId}
+        where c.channelId = r.channelId
         <if test="roleName != null and roleName != '' ">
             AND ROLENAME = #{roleName}
+        </if>
+        <if test="channelId != null and channelId != '' ">
+            and r.channelId = #{channelId}
         </if>
     </select>
 
