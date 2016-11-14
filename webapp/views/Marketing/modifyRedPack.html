@@ -6,8 +6,8 @@
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>红包类型</th>
                 <td width="60%" class="text-left">
                     <select ng-model="redPack.redPackType" class="form-control btn-sm" style="height: 19px;width:80%;" >
-                        <option value="1">普通红包</option>
-                        <option value="2">裂变红包</option>
+                        <option value="OYRK">普通红包</option>
+                        <option value="FNRK">裂变红包</option>
                     </select>
                 </td>
             </tr>
@@ -15,8 +15,8 @@
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>金额类型</th>
                 <td width="60%" class="text-left">
                     <select ng-model="redPack.amountType" class="form-control btn-sm" style="height: 19px;width:80%;" ng-change="switchAmountType()">
-                        <option value="1">固定金额</option>
-                        <option value="2">随机金额</option>
+                        <option value="FDAT">固定金额</option>
+                        <option value="RMAT">随机金额</option>
                     </select>
                 </td>
             </tr>
