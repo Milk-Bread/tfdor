@@ -7,7 +7,9 @@
                     {{value | sysCode : 'auditingData' |
                             sysCode:'sex'|
                             sysCode:'state' |
-                            sysCode: 'actionName' }}</th>
+                            sysCode: 'actionName' |
+                            sysCode: 'amountType' |
+                            sysCode: 'redPackType'}}</th>
                 <th width="50%" class="text-left" ng-if="key == 'roleArr'">
                     <ul class="list-group" style="margin-bottom: 0px;" ng-repeat="menu in menuListA">
                         <li class="list-group-item" style="padding: 4px 15px;">
