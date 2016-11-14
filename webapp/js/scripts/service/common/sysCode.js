@@ -48,6 +48,11 @@ define(['app'], function (app) {
                 "actionName":"二维码类型",
                 "state":"状态",
                 "channelName":"渠道名称",
+                "mchId":"商户ID",
+                "mchName":"商户名称",
+                "appSecret":"微信appSecret",
+                "encodingAesKey":"微信加解密密钥(随机数)",
+                "signatureKey":"商户签名密钥(微信支付)",
                 "wxToken":"微信token",
                 "roleName": "权限名称",
                 "roleArr":"功能菜单",
@@ -82,6 +87,7 @@ define(['app'], function (app) {
                 "deleteRole.do":"删除角色",
                 "createQrcodeImg.do":"生成二维码",
                 "addRedPack.do":"新增红包参数",
+                "addMerchant.do":"新增商户",
                 "modifyRedPack.do":"修改红包参数"
             };
             if (type) {

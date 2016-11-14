@@ -15,7 +15,11 @@
                 <td width="60%" class="text-left">{{merchantInfo.wxToken}}</td>
             </tr>
             <tr>
-                <th width="40%" class="text-center">公众号密钥</th>
+                <th width="40%" class="text-center">微信加解密密钥(随机数)</th>
+                <td width="60%" class="text-left">{{merchantInfo.encodingAesKey}}</td>
+            </tr>
+            <tr>
+                <th width="40%" class="text-center">微信appSecret</th>
                 <td width="60%" class="text-left">{{merchantInfo.appSecret}}</td>
             </tr>
             <tr>
@@ -29,10 +33,6 @@
             <tr>
                 <th width="40%" class="text-center">商户签名密钥(微信支付)</th>
                 <td width="60%" class="text-left">{{merchantInfo.signatureKey}}</td>
-            </tr>
-            <tr>
-                <th width="40%" class="text-center">微信加解密密钥</th>
-                <td width="60%" class="text-left">{{merchantInfo.encodingAesKey}}</td>
             </tr>
             <tr>
                 <th width="40%" class="text-center">状态</th>
