@@ -127,6 +127,11 @@
                 templateUrl: 'views/Marketing/modifyRedPack.html',
                 dependencies: ['controllers/Marketing/modifyRedPack'],
                 allowAnonymous: true
+            },'Main.addRedPack': {
+                url: '/addRedPack',
+                templateUrl: 'views/Marketing/addRedPack.html',
+                dependencies: ['controllers/Marketing/addRedPack'],
+                allowAnonymous: true
             }
         }
     };

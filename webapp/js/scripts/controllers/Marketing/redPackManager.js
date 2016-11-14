@@ -32,6 +32,7 @@ define(['app', 'service','sysCode'], function (app) {
         var formData1 = {
             "channelId": service.getUser().channel.channelId
         };
+
         service.post2SRV("queryChannel.do", null, function (data, status) {
             $scope.merchantList = data;
         }, 1000);
@@ -39,7 +40,11 @@ define(['app', 'service','sysCode'], function (app) {
         $scope.modifyRedPack = function (obj) {
             service.setData(obj);
             $state.go("Main.modifyRedPack");
-        }
+        };
+
+        $scope.addRedPack = function () {
+            $state.go("Main.addRedPack");
+        };
         $scope.init();
     });
 });

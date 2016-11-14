@@ -436,7 +436,6 @@ public class Util {
         try {
             addr = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         byte[] ipAddr = addr.getAddress();
@@ -457,21 +456,18 @@ public class Util {
      * @return
      */
     public static Map<String, Object> parse(String xmlString) throws DocumentException {
-        logger.debug("WeChat request message start");
-
         Document document = DocumentHelper.parseText(xmlString);
         Element rootElement = document.getRootElement();
         // 处理接收消息
         Map<String, Object> map = new HashMap<String, Object>();
         Element root = document.getRootElement();
-        logger.debug("WeChat request message:===>\r\n" + document.asXML());
+        logger.debug("WeChat message:===>\r\n" + document.asXML());
         // 得到根元素的所有子节点
         List<Element> elementList = root.elements();
         // 将解析结果存储在HashMap中
         // 遍历所有子节点
         xmlToMap(map, elementList);
-        logger.debug("WeChat request message map:===>" + map);
-        logger.debug("WeChat request message end");
+        logger.debug("WeChat message map:===>" + map);
         return map;
     }
 
@@ -486,15 +482,15 @@ public class Util {
             List<Element> element = e.elements();
             if (element.size() == 0) {
                 map.put(e.getName(), e.getText());
-                logger.debug("WeChat request message param ===>" + e.getName() + ":" + e.getText());
+                logger.debug("WeChat message param ===>" + e.getName() + ":" + e.getText());
             } else {
-                logger.debug("WeChat request message param ===>" + e.getName());
+                logger.debug("WeChat message param ===>" + e.getName());
                 List<Map<String, Object>> list = new ArrayList<>();
                 Map<String, Object> map1 = new HashMap<>();
                 for (Element e1 : element) {
                     List<Element> element1 = e1.elements();
                     if (element1.size() == 0) {
-                        logger.debug("WeChat request message param ===>" + e1.getName() + ":" + e1.getText());
+                        logger.debug("WeChat message param ===>" + e1.getName() + ":" + e1.getText());
                         map1.put(e1.getName(), e1.getText());
                     } else {
                         Map<String, Object> map2 = new HashMap<>();
@@ -573,18 +569,20 @@ public class Util {
     }
 
     public static void main(String [] argo) throws DocumentException {
-        double bytP = 10;
-        double sngBegin = 1;
-        double sngEnd = 10;
-        double sngPB = 4;
-        double sngPE = 10;
-        //精确小数点2位
-        NumberFormat formatter = new DecimalFormat("#.##");
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(formatter.format(GetRndNumP(sngBegin, sngEnd, sngPB, sngPE, bytP)));
-        }
+//        double bytP = 10;
+//        double sngBegin = 1;
+//        double sngEnd = 10;
+//        double sngPB = 4;
+//        double sngPE = 10;
+//        //精确小数点2位
+//        NumberFormat formatter = new DecimalFormat("#.##");
+//        for (int i = 0; i < 1000; i++) {
+//            System.out.println(formatter.format(GetRndNumP(sngBegin, sngEnd, sngPB, sngPE, bytP)));
+//        }
 //        zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
 //        System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
 //        System.out.println(getOrderId("1402828602",28));
+        String aaa = "qrscene_14028286022016111418232938193543";
+        System.out.println(aaa.indexOf("qrscene_"));
     }
 }

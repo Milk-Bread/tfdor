@@ -68,6 +68,7 @@
         <if test="channelId != null and channelId != ''">
             and channelId = #{channelId}
         </if>
+        ORDER BY createTime DESC
     </select>
 
     <insert id="addUser" parameterType="java.util.Map" keyProperty="userSeq"
@@ -146,6 +147,7 @@
         <if test="channelId != null and channelId != 'tfdor'">
             and m.channelId = #{channelId}
         </if>
+        ORDER BY m.channelId,m.createTime DESC
     </select>
     <insert id="addMerchant" parameterType="java.util.Map">
       INSERT INTO merchant(

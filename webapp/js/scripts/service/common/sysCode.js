@@ -21,26 +21,31 @@ define(['app'], function (app) {
                 "S": "使用成功",
                 "F": "使用失败"
             };
-
             messages["actionName"] = {
                 "QR_LIMIT_STR_SCENE": "永久二维码",
                 "QR_SCENE": "临时二维码"
             };
             messages["redPackType"] = {
-                "1":"普通红包",
-                "2":"裂变红包"
+                "OYRK":"普通红包",
+                "FNRK":"裂变红包"
             };
             messages["amountType"] = {
-                "1":"固定金额",
-                "2":"随机金额"
+                "FDAT":"固定金额",
+                "RMAT":"随机金额"
             };
             messages["CQState"] = {
                 "1":"正常",
                 "2":"停用"
             };
-
+            messages["state"] = {
+                "N":"正常",
+                "C":"销户",
+                "S":"停用",
+                "H":"关闭"
+            };
             messages["auditingData"] = {
-                "actionName": "交易名称",
+                "transName": "交易名称",
+                "actionName":"二维码类型",
                 "state":"状态",
                 "channelName":"渠道名称",
                 "wxToken":"微信token",
@@ -54,21 +59,33 @@ define(['app'], function (app) {
                 "sex":"性别",
                 "mobilePhone":"手机号码",
                 "phone":"传真",
+                "addr":"地址",
+                "age":"年龄",
+                "idNo":"身份证",
                 "createTime":"交易日期",
+                "remark":"备注",
+                "actName":"活动名称",
+                "wishing":"红包祝福语",
+                "totalAmount":"红包金额",
+                "amountType":"金额类型",
+                "beginDate":"生效时间",
+                "endDate":"失效时间",
+                "number":"数量",
+                "appId":"微信ID",
+                "redPackType":"红包类型",
                 "modifyRole.do":"角色修改",
                 "modifyUser.do":"用户信息修改",
                 "addChannel.do":"添加渠道",
                 "modifyChannel.do":"修改渠道",
                 "addRole.do":"新增角色",
-                "addr":"地址",
-                "age":"年龄",
-                "idNo":"身份证",
-                "deleteUser.do":"删除用户"
-                // "deleteRole.do":"删除角色"
+                "deleteUser.do":"删除用户",
+                "deleteRole.do":"删除角色",
+                "createQrcodeImg.do":"生成二维码",
+                "addRedPack.do":"新增红包参数",
+                "modifyRedPack.do":"修改红包参数"
             };
             if (type) {
-                var sysCodeCon = messages;
-                var msg = sysCodeCon[type][code];
+                var msg = messages[type][code];
                 if (msg) {
                     return msg;
                 }

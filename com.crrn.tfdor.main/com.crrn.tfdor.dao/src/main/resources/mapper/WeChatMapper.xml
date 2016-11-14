@@ -11,7 +11,8 @@
 		DELETE FROM AccessToken where mchId = #{mchId}
 	</delete>
 	<select id="qAccessToken" resultType="java.util.HashMap" parameterType="java.lang.String">
-		SELECT tokenSeq,accessToken,invalidTime,a.createTime,a.updateTime from AccessToken a,Merchant m where m.mchId = a.mchId and m.appId = #{appId}
+		SELECT tokenSeq,accessToken,invalidTime,a.createTime,a.updateTime from AccessToken a,Merchant m
+		where m.mchId = a.mchId and m.appId = #{appId}
 	</select>
 	<select id="iQrcodeimg" parameterType="java.util.HashMap">
 		INSERT INTO qrcodeimg (CreateQISeq, mchId, sceneStr, ticket, url, qrcodeName, state, createTime, updateTime)
@@ -64,6 +65,7 @@
 		<if test="endDate != null and endDate != ''">
 			AND DATE_FORMAT(endDate,'%Y-%m-%d') <![CDATA[<=]]> #{endDate}
 		</if>
+		ORDER BY c.createTime DESC
 	</select>
 
 	<insert id="iCreateQrcodeImage" parameterType="com.crrn.tfdor.domain.wechat.CreateQrcodeImg" keyProperty="createQISeq"  useGeneratedKeys="true">
@@ -74,11 +76,15 @@
 	<select id="qQrcodeimgBysCeneStr" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,
 		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state
-		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr} AND q.state = #{state}
+		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr}
+		<if test="state != null and state != ''">
+			AND q.state = #{state}
+		</if>
+		ORDER BY q.CREATETIME DESC
 	</select>
 
 	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
-		select * FROM merchant where appId = #{appId}
+		select * FROM merchant where appId = #{appId} ORDER BY CREATETIME DESC
 	</select>
 
 	<update id="modifyRedPack" parameterType="java.util.HashMap">
@@ -86,4 +92,9 @@
 		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},remark = #{remark},updateTime = now(),state = #{state}
 		WHERE redPackSeq = #{redPackSeq}
 	</update>
+
+	<insert id="addRedPack" parameterType="java.util.HashMap">
+		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime)
+		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now())
+	</insert>
 </mapper>

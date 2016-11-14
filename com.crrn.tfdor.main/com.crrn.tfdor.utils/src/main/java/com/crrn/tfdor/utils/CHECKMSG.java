@@ -42,4 +42,8 @@ public class CHECKMSG {
      * 第一次登陆请重置密码
      */
     public static final String PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN = "please.reset.the.password.for.the.first.time.login";
+    /**
+     * 红包金额类型错误
+     */
+    public static final String RED_AMOUNT_TYPE_ERROR = "red.amount.type.error";
 }

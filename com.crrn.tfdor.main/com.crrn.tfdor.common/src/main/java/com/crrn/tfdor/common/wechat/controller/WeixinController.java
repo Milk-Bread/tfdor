@@ -86,7 +86,7 @@ public class WeixinController {
             WXBizMsgCrypt ct = new WXBizMsgCrypt(merch.getWxToken(), merch.getEncodingAesKey(), merch.getAppId());
             //解密
             Map<String, Object> decryMap = ct.decryptMsg(tokenModel.getMsg_signature(), tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString(), (String) map.get("fromXML"));
-            Map<String, Object> msgMap = weChatService.msgType(decryMap, response,merch);
+            Map<String, Object> msgMap = weChatService.msgType(decryMap, response, merch);
             //微信返回消息
             String respXml = transformer.former(msgMap);
             //微信返回消息加密
@@ -95,7 +95,7 @@ public class WeixinController {
             //返回微信数据
             response.getWriter().write(respXmlEncryp);
         } else {//明文模式
-            Map<String, Object> msgMap = weChatService.msgType(map, response,merch);
+            Map<String, Object> msgMap = weChatService.msgType(map, response, merch);
             //微信返回消息
             String respXml = transformer.former(msgMap);
             //返回微信数据
@@ -113,12 +113,12 @@ public class WeixinController {
      */
     @RequestMapping(value = "createQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
-    public void createQrcodeImage(HttpServletRequest request,CreateQrcodeImg createQrcodeImg) throws Exception {
+    public void createQrcodeImage(HttpServletRequest request, CreateQrcodeImg createQrcodeImg) throws Exception {
         String appId = request.getParameter("appId");
         Merchant mch = weChatService.qMerchant(appId);
-        createQrcodeImg.setPreservation(Constants.PATH_QRCODE_IMAGE+"/"+mch.getMchId()+"/"+Util.getCurrentTime());
+        createQrcodeImg.setPreservation(Constants.PATH_QRCODE_IMAGE + "/" + mch.getMchId() + "/" + Util.getCurrentTime());
         createQrcodeImg.setMchId(mch.getMchId());
-        weChatService.addQrcode(createQrcodeImg,appId);
+        weChatService.addQrcode(createQrcodeImg, appId);
     }
 
 

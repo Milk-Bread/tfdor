@@ -57,13 +57,13 @@ public class MarketingController {
         Map<String, Object> param = new HashMap<String, Object>();
         if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", user.getChannel().getChannelId());
-        }else if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+        } else if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId") != null) {
             param.put("channelId", request.getParameter("channelId"));
         }
         Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
-        param.put("beginDate",request.getParameter("beginDate"));
-        param.put("endDate",request.getParameter("endDate"));
+        param.put("beginDate", request.getParameter("beginDate"));
+        param.put("endDate", request.getParameter("endDate"));
         return marketingService.qCreateQrcodeImg(param, pageNo, pageSize);
     }
 
@@ -78,10 +78,10 @@ public class MarketingController {
     @ResponseBody
     public Object getQrcodeImage(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        map.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
-        map.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
-        map.put("createQISeq",request.getParameter("createQISeq"));
-        map.put("state",request.getParameter("state"));
+        map.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
+        map.put("pageSize", Integer.valueOf(request.getParameter("pageSize")));
+        map.put("createQISeq", request.getParameter("createQISeq"));
+        map.put("state", request.getParameter("state"));
         return marketingService.qQrcodeimg(map);
     }
 
@@ -96,11 +96,14 @@ public class MarketingController {
     public Object queryRedPack(HttpServletRequest request) throws Exception {
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> param = new HashMap<String, Object>();
-        if(Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId")!= null){
+        if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId") != null) {
             param.put("channelId", request.getParameter("channelId"));
+        } else {
+            param.put("channelId", user.getChannel().getChannelId());
+
         }
-        param.put("pageNo",Integer.valueOf(request.getParameter("pageNo")));
-        param.put("pageSize",Integer.valueOf(request.getParameter("pageSize")));
+        param.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
+        param.put("pageSize", Integer.valueOf(request.getParameter("pageSize")));
         return marketingService.queryRedPack(param);
     }
 
@@ -119,21 +122,50 @@ public class MarketingController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", file.getName());
-        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
     }
 
+    /**
+     * 修改红包参数
+     *
+     * @param request
+     * @throws Exception
+     */
     @RequestMapping(value = "modifyRedPack.do", method = RequestMethod.POST)
     @ResponseBody
     public void modifyRedPack(HttpServletRequest request) throws Exception {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("redPackType",request.getParameter("redPackType"));
-        param.put("amountType",request.getParameter("amountType"));
-        param.put("totalAmount",request.getParameter("totalAmount"));
-        param.put("wishing",request.getParameter("wishing"));
-        param.put("actName",request.getParameter("actName"));
-        param.put("remark",request.getParameter("remark"));
-        param.put("state",request.getParameter("state"));
-        param.put("redPackSeq",request.getParameter("redPackSeq"));
+        param.put("redPackType", request.getParameter("redPackType"));
+        param.put("amountType", request.getParameter("amountType"));
+        param.put("totalAmount", request.getParameter("totalAmount"));
+        param.put("wishing", request.getParameter("wishing"));
+        param.put("actName", request.getParameter("actName"));
+        param.put("remark", request.getParameter("remark"));
+        param.put("state", request.getParameter("state"));
+        param.put("redPackSeq", request.getParameter("redPackSeq"));
         marketingService.modifyRedPack(param);
     }
+
+    /**
+     * 修改红包参数
+     *
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping(value = "addRedPack.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void addRedPack(HttpServletRequest request) throws Exception {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("mchId", request.getParameter("mchId"));
+        param.put("redPackType", request.getParameter("redPackType"));
+        param.put("amountType", request.getParameter("amountType"));
+        param.put("totalAmount", request.getParameter("totalAmount"));
+        param.put("wishing", request.getParameter("wishing"));
+        param.put("actName", request.getParameter("actName"));
+        param.put("remark", request.getParameter("remark"));
+        param.put("state", request.getParameter("state"));
+        marketingService.addRedPack(param);
+    }
+
+
 }

@@ -1,8 +1,8 @@
 <div ng-controller="redEnvelopeMngCtrl">
 	<div class="table-responsive" style="margin-top: 10px;">
-		<div class="table-responsive" ng-show="loginchannelId == 'tfdor'">
+		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed">
-				<tr>
+				<tr ng-show="loginchannelId == 'tfdor'">
 					<th width="45%" class="text-right">渠道名称</th>
 					<td class="text-left">
 						<select class="form-control btn-sm" style="height: 19px;width:20%;" ng-model="merchant" ng-options="chann.channelName for chann in merchantList">
@@ -10,9 +10,9 @@
 						</select>
 				</tr>
 				<tr>
-					<th class="text-right"></th>
+					<th width="45%" class="text-right"></th>
 					<td class="text-left">
-						<button type="button" class="btn btn-info btn-sm" ng-click="init();">查 询</button>&nbsp;&nbsp;
+						<button type="button" ng-show="loginchannelId == 'tfdor'" class="btn btn-info btn-sm" ng-click="init();">查 询</button>&nbsp;&nbsp;
 						<button type="button" class="btn btn-info btn-sm" ng-click="addRedPack();">新 增</button>&nbsp;&nbsp;
 					</td>
 				</tr>
@@ -30,6 +30,7 @@
 				<td class="text-center">备注</td>
 				<td class="text-center">创建时间</td>
                 <th class="text-center">修改时间</th>
+                <th class="text-center">状态</th>
                 <th class="text-center">操作</th>
 			</tr>
 			<tr ng-repeat="redPack in redPackList">
@@ -42,6 +43,7 @@
 				<td class="text-center">{{redPack.remark}}</td>
 				<td class="text-center">{{redPack.createTime}}</td>
 				<td class="text-center">{{redPack.updateTime}}</td>
+				<td class="text-center">{{redPack.state | sysCode:'state'}}</td>
 				<td class="text-center">
 					<button class="btn btn-primary btn-xs" ng-click="menuThree('修改红包参数');modifyRedPack(redPack);">修改</button>
 				</td>

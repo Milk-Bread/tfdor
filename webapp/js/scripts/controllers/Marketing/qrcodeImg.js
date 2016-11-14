@@ -24,5 +24,6 @@ define(['app', 'service','sysCode'], function (app) {
                 $scope.List = data.list;
             }, 1000);
         };
+        $scope.init();
     });
 });

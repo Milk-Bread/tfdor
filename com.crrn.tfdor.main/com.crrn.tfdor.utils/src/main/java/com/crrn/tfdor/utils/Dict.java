@@ -72,4 +72,24 @@ public class Dict {
      * 内置渠道ID
      */
     public static final String BUILT_IN_CHANNEL = "tfdor";
+
+    /**
+     * 红包金额类型 OYRK 固定金额
+     */
+    public static final String AMOUNTTYPE_FDAT = "FDAT";
+
+    /**
+     * 红包金额类型 OYRK 固定金额
+     */
+    public static final String AMOUNTTYPE_RMAT = "RMAT";
+
+    /**
+     * 红包金额类型 OYRK 普通红包
+     */
+    public static final String REDPACKTYPE_OYRK = "OYRK";
+
+    /**
+     * 红包金额类型 FNRK 裂变红包
+     */
+    public static final String REDPACKTYPE_FNRK = "FNRK";
 }

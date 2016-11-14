@@ -410,7 +410,8 @@ public class UserController {
     @ResponseBody
     public Object queryMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        map.put("channelId", request.getParameter("channelId"));
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        map.put("channelId", user.getChannel().getChannelId());
         return userService.queryMerchant(map);
     }
 

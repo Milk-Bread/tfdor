@@ -3,6 +3,7 @@ package com.crrn.tfdor.service.wechat.core;
 import com.crrn.tfdor.dao.WeChantDao;
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
+import com.crrn.tfdor.utils.CHECKMSG;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
 import com.crrn.tfdor.utils.WeChat;
@@ -42,24 +43,40 @@ public class MsgEvent {
      * @param param
      */
     @Transactional
-    public void activityByRedPack(Map<String, Object> param, Merchant merchant) throws Exception {
-        Map<String, Object> msgMap = new HashMap<>();
+    public void activityByRedPack(Map<String, Object> msgMap,Map<String, Object> param, Merchant merchant) throws Exception {
+        Map<String, Object> payMsgMap = new HashMap<>();
         RedPackBean redPackBean = weChatDao.queryRedPackByMchId(merchant.getMchId());
+        if(redPackBean == null){
+            return;
+        }
         Map<String, Object> paramSql = new HashMap<String, Object>();
-        paramSql.put("state", "I");
-        paramSql.put("sceneStr", param.get("EventKey"));
-        Map<String, Object> qrcodeimg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
-        if (qrcodeimg != null && "N".equals(redPackBean.getState())) {
-            Timestamp beginDate = (Timestamp) qrcodeimg.get("beginDate");
-            Timestamp endDate = (Timestamp) qrcodeimg.get("endDate");
+        String eventKey = (String)param.get("EventKey");
+        if(eventKey.indexOf("qrscene_") == 0){
+            eventKey = eventKey.substring(8);
+            param.put("EventKey",eventKey);
+        }
+        paramSql.put("sceneStr", eventKey);
+        Map<String, Object> qrcodeImg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
+        if (qrcodeImg != null && "N".equals(redPackBean.getState()) && ("I".equals(qrcodeImg.get("state")) || "F".equals(qrcodeImg.get("state")))) {
+            Timestamp beginDate = (Timestamp) qrcodeImg.get("beginDate");
+            Timestamp endDate = (Timestamp) qrcodeImg.get("endDate");
             Timestamp time = new Timestamp(System.currentTimeMillis());
             if ((beginDate.getTime() <= time.getTime()) && (time.getTime() <= endDate.getTime())) {
-                logger.debug(">>>>>>>>已关注用户 微信红包准备中～～～～～～");
+                logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 logger.debug("二维码第一次使用");
-                if ("1".equals(redPackBean.getRedPackType())) {//微信现金红包
-                    sendRedPack(msgMap, param, merchant, redPackBean);
+                if (Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())) {//微信现金红包
+                    sendRedPack(payMsgMap, param, merchant, redPackBean);
                 }
+            }else{
+                param.put("Content","您好，二维码已经过期");
+                msgTypeByText(msgMap,param);
             }
+        }else if(qrcodeImg == null){
+            param.put("Content","您好，二维码不正确");
+            msgTypeByText(msgMap,param);
+        }else if("S".equals(qrcodeImg.get("state"))){
+            param.put("Content","您好，该二维码已经使用过了");
+            msgTypeByText(msgMap,param);
         }
     }
 
@@ -80,9 +97,9 @@ public class MsgEvent {
         msgMap.put("send_name", merchant.getMchName());//商户名称
         msgMap.put("re_openid", param.get("FromUserName"));//接受红包的用户 用户在wxappid下的openid
         String amount;
-        if ("1".equals(redPackBean.getAmountType())) {//固定金额红包
+        if (Dict.AMOUNTTYPE_FDAT.equals(redPackBean.getAmountType())) {//固定金额红包
             amount = Util.moneyYuanToFenByRound(redPackBean.getTotalAmount());
-        } else {//随机金额红包
+        } else if(Dict.AMOUNTTYPE_RMAT.equals(redPackBean.getAmountType())){//随机金额红包
             String[] totalAmount = redPackBean.getTotalAmount().split("-");
             //精确小数点2位
             NumberFormat formatter = new DecimalFormat("#.##");
@@ -92,6 +109,8 @@ public class MsgEvent {
             //随机一个数，数值范围在最小值与余额之间
             String money = formatter.format(random.nextDouble() * (Double.valueOf(totalAmount[1]) - moneyMin) + moneyMin);
             amount = Util.moneyYuanToFenByRound(money);
+        }else{
+            throw new RuntimeException(CHECKMSG.RED_AMOUNT_TYPE_ERROR);
         }
         msgMap.put("total_amount", amount);//付款金额，单位分
         msgMap.put("total_num", "1");//红包发放总人数 total_num=1

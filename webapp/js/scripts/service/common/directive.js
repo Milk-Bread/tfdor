@@ -22,6 +22,7 @@ define(['app'], function (app) {
                 doIt: '&'
             },
             link: function (scope, elem, attrs) {
+                var one = 1;
                 scope.isNone = false;
                 var visiblePageSize = Number(angular.isDefined(scope.display) ? scope.display : 7);
                 if (visiblePageSize % 2 == 0) {
@@ -64,7 +65,11 @@ define(['app'], function (app) {
                     for (; low <= high; low++) {
                         scope.pagenums.push(low);
                     }
-                    scope.doIt();
+                    if(one > 2){
+                        scope.doIt();
+                    }else{
+                        one++;
+                    }
                 }
                 scope.$watch('pages+pageNo', function () {
                     build();

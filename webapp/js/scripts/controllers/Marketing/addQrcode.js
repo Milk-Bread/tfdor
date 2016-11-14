@@ -10,15 +10,12 @@ define(['app', 'service', 'sysCode'], function (app) {
                 $scope.auditPerson = data;
             }, 4000);
             //查询商户信息
-            var formData = {
-                "channelId": service.getUser().channel.channelId
-            };
-            service.post2SRV("queryMerchant.do", formData, function (data, status) {
+            service.post2SRV("queryMerchant.do", null, function (data, status) {
                 if (data.length > 1) {
                     $scope.isMerch = true;
                     $scope.merchantList = data;
                 } else {
-                    $scope.appId = data.appId;
+                    $scope.appId = data[0].appId;
                 }
             }, 4000);
         };
@@ -35,9 +32,13 @@ define(['app', 'service', 'sysCode'], function (app) {
                     return;
                 }
             }
-            if($scope.merchant == null || $scope.merchant == '' || $scope.merchant == undefined){
+            if($scope.isMerch && ($scope.merchant == null || $scope.merchant == '' || $scope.merchant == undefined)){
                 showError("错误提示：请选择生成二维码的商户");
                 return;
+            }else{
+                if($scope.appId == null){
+                    $scope.appId = $scope.merchant.appId;
+                }
             }
             if ($("#beginDate").val() == null || $("#beginDate").val() == '') {
                 showError("错误提示：请选择二维码生效时间");
@@ -58,7 +59,6 @@ define(['app', 'service', 'sysCode'], function (app) {
                 showError("错误提示：请选择复合人");
                 return;
             }
-            $scope.appId = $scope.merchant.appId;
             var formData = {
                 "actionName": $scope.actionName,
                 "expireSeconds": $scope.expireSeconds,

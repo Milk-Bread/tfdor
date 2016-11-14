@@ -120,13 +120,13 @@ public class WeChatServiceImpl implements WeChatService {
                 logger.debug("事件类型为未关注扫码");
                 param.put("Content", "你好！欢迎关注"+merchant.getMchName());
                 msgEvent.msgTypeByText(msgMap, param);
-                msgEvent.activityByRedPack(param, merchant);
+                msgEvent.activityByRedPack(msgMap, param, merchant);
             } else if (Event.unsubscribe.toString().equals(event)) {
                 logger.debug("事件类型为取消关注");
 
             } else if (Event.SCAN.toString().equals(event)) {
                 logger.debug("事件类型为扫码(已经关注)");
-                msgEvent.activityByRedPack(param, merchant);
+                msgEvent.activityByRedPack(msgMap, param, merchant);
             } else if (Event.VIEW.toString().equals(event)) {
                 logger.debug("事件类型为点击菜单跳转链接时的事件推送");
 

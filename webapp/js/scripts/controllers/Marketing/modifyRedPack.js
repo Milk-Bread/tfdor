@@ -15,20 +15,20 @@ define(['app', 'service', 'sysCode'], function (app) {
         };
 
         $scope.switchAmountType = function () {
-            if ($scope.redPack.amountType == '2') {
+            if ($scope.redPack.amountType == 'FDAT') {
+                var amountArr = $scope.redPack.totalAmount.split("-");
+                $scope.redPack.totalAmount1 = amountArr[0];
+                $scope.isAmountType = false;
+            } else {
                 $scope.isAmountType = true;
                 var amountArr = $scope.redPack.totalAmount.split("-");
                 $scope.redPack.totalAmount1 = amountArr[0];
                 $scope.redPack.totalAmount2 = amountArr[1];
-            } else {
-                var amountArr = $scope.redPack.totalAmount.split("-");
-                $scope.redPack.totalAmount1 = amountArr[0];
-                $scope.isAmountType = false;
             }
         }
 
         $scope.doIt = function () {
-            if ($scope.redPack.amountType == '1') {
+            if ($scope.redPack.amountType == 'FDAT') {
                 if ($scope.redPack.totalAmount1 == null || $scope.redPack.totalAmount1 == '') {
                     showError("错误提示：请输入红包金额");
                     return;

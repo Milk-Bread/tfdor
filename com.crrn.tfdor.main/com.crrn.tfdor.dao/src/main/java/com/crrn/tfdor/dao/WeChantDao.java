@@ -114,9 +114,16 @@ public interface WeChantDao {
      * @return
      */
     public RedPackBean queryRedPackByMchId(String mchId);
+
     /**
      * 修改红包参数
      * @param map
      */
     public void modifyRedPack(Map<String, Object> map);
+
+    /**
+     * 添加红包参数
+     * @param map
+     */
+    public void addRedPack(Map<String, Object> map);
 }

@@ -17,6 +17,7 @@
     <select id="auditingList" parameterType="java.util.Map" resultType="java.util.Map">
         select auditingSeq,auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,
         state FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state = #{state}
+        ORDER BY createTime DESC
     </select>
 
     <select id="modifyAuditing" parameterType="java.util.Map">
@@ -25,5 +26,6 @@
 
     <select id="queryAuditing" parameterType="java.util.Map">
         select * from Auditing where auditingTrans = #{auditingTrans} and state = 'I'
+        ORDER BY createTime DESC
     </select>
 </mapper>

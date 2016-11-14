@@ -5,7 +5,6 @@
                 <tr ng-show="loginchannelId == 'tfdor'">
                     <th width="45%" class="text-right">渠道名称</th>
                     <td class="text-left">
-                        <!--<input type="text" placeholder="输入渠道名称" id="channelName" ng-model="channelName"/></td>-->
                         <select class="form-control btn-sm" style="height: 19px;width:20%;" ng-model="merchant" ng-options="chann.channelName for chann in merchantList">
                             <option value="">请选择渠道</option>
                         </select>
@@ -52,7 +51,7 @@
                 <td class="text-center">{{img.actionName | sysCode:'actionName'}}</td>
                 <td class="text-center">{{img.beginDate}}</td>
                 <td class="text-center">{{img.endDate}}</td>
-                <td class="text-center"><a href="javascript:void(0)" ng-click="goDetail(img.createQISeq,img.preservation)">{{img.number}}</a></td>
+                <td class="text-center"><a href="javascript:void(0)" ng-click="menuThree('二维码详情');goDetail(img.createQISeq,img.preservation)">{{img.number}}</a></td>
                 <td class="text-center">{{img.createTime}}</td>
                 <td class="text-center">{{img.state | sysCode : 'CQState' }}</td>
             </tr>

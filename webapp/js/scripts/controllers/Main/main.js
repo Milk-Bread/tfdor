@@ -15,8 +15,9 @@ define(['app', 'service','sysCode'], function (app) {
             $rootScope.menuThree1 = null;
         };
 
-        $scope.menuTwo = function (menu) {
+        $scope.menuTwo = function (menu,url) {
             $scope.menuTwo1 = menu;
+            $scope.url = url;
             $rootScope.menuThree1 = null;
         };
 
