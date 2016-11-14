@@ -43,6 +43,7 @@
                 <td class="text-center">二维码数量</td>
                 <td class="text-center">创建时间</td>
                 <td class="text-center">状态</td>
+                <td class="text-center">操作</td>
             </tr>
             <tr ng-repeat="img in List">
                 <td class="text-center" ng-if="channelId == 'tfdor'">{{img.channelName}}</td>
@@ -53,7 +54,10 @@
                 <td class="text-center">{{img.endDate}}</td>
                 <td class="text-center"><a href="javascript:void(0)" ng-click="menuThree('二维码详情');goDetail(img.createQISeq,img.preservation)">{{img.number}}</a></td>
                 <td class="text-center">{{img.createTime}}</td>
-                <td class="text-center">{{img.state | sysCode : 'CQState' }}</td>
+                <td class="text-center">{{img.state | sysCode : 'state' }}</td>
+                <td class="text-center">
+                    <button class="btn btn-primary btn-xs" ng-click="menuThree('修改二维码参数');modifyQrcode(img);">修改</button>
+                </td>
             </tr>
         </table>
         <!--

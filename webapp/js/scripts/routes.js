@@ -132,6 +132,11 @@
                 templateUrl: 'views/Marketing/addRedPack.html',
                 dependencies: ['controllers/Marketing/addRedPack'],
                 allowAnonymous: true
+            },'Main.modifyQrcode': {
+                url: '/modifyQrcode',
+                templateUrl: 'views/Marketing/modifyQrcode.html',
+                dependencies: ['controllers/Marketing/modifyQrcode'],
+                allowAnonymous: true
             }
         }
     };

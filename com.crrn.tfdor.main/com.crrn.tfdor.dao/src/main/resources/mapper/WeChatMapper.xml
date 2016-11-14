@@ -75,7 +75,7 @@
 
 	<select id="qQrcodeimgBysCeneStr" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,
-		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state
+		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state qState,c.state cState
 		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr}
 		<if test="state != null and state != ''">
 			AND q.state = #{state}

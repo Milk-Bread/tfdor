@@ -57,7 +57,7 @@ public class MsgEvent {
         }
         paramSql.put("sceneStr", eventKey);
         Map<String, Object> qrcodeImg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
-        if (qrcodeImg != null && "N".equals(redPackBean.getState()) && ("I".equals(qrcodeImg.get("state")) || "F".equals(qrcodeImg.get("state")))) {
+        if (qrcodeImg != null && "N".equals(redPackBean.getState()) && "N".equals(qrcodeImg.get("cState")) && ("I".equals(qrcodeImg.get("qState")) || "F".equals(qrcodeImg.get("qState")))) {
             Timestamp beginDate = (Timestamp) qrcodeImg.get("beginDate");
             Timestamp endDate = (Timestamp) qrcodeImg.get("endDate");
             Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -73,6 +73,9 @@ public class MsgEvent {
             }
         }else if(qrcodeImg == null){
             param.put("Content","您好，二维码不正确");
+            msgTypeByText(msgMap,param);
+        }else if(!"N".equals(qrcodeImg.get("cState"))){
+            param.put("Content","您好，活动已经结束，敬请关注");
             msgTypeByText(msgMap,param);
         }else if("S".equals(qrcodeImg.get("state"))){
             param.put("Content","您好，该二维码已经使用过了");

@@ -33,10 +33,6 @@ define(['app'], function (app) {
                 "FDAT":"固定金额",
                 "RMAT":"随机金额"
             };
-            messages["CQState"] = {
-                "1":"正常",
-                "2":"停用"
-            };
             messages["state"] = {
                 "N":"正常",
                 "C":"销户",
