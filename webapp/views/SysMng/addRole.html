@@ -27,6 +27,14 @@
                     </ul>
                 </td>
             </tr>
+            <tr ng-show="isShow">
+                <th class="text-center">选择渠道</th>
+                <td class="text-left">
+                    <select class="form-control  btn-sm" ng-model="channel" ng-options="x.channelName for x in channelInfoList">
+                        <option value="">选择渠道</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td class="text-center">指定符合人</td>
                 <td>

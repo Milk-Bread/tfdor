@@ -203,8 +203,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("roleName", request.getParameter("roleName"));
         map.put("roleArr", request.getParameter("roleArr"));
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        map.put("channelId", user.getChannel().getChannelId());
+        map.put("channelId", request.getParameter("channelId"));
         userService.addRole(map);
     }
 
@@ -218,12 +217,11 @@ public class UserController {
     @RequestMapping(value = "queryRole.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryRole(HttpServletRequest request) {
-        String roleName = (String) request.getParameter("roleName");
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channel = user.getChannel().getChannelId();
+        String roleName = request.getParameter("roleName");
+        String channelId = request.getParameter("channelId");
         Map<String, Object> param = new HashMap<>();
         param.put("roleName", roleName);
-        param.put("channelId", channel);
+        param.put("channelId", channelId);
         List<Map<String, Object>> roleList = userService.queryRole(param);
         String sessionId = request.getRequestedSessionId();
         return roleList;
