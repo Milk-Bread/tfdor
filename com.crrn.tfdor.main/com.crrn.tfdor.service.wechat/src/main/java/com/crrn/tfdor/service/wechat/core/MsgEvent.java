@@ -51,7 +51,7 @@ public class MsgEvent {
         }
         Map<String, Object> paramSql = new HashMap<String, Object>();
         String eventKey = (String)param.get("EventKey");
-        if(eventKey.indexOf("qrscene_") == 0){
+        if(eventKey.indexOf("qrscene_") == 0){//第一次扫码
             eventKey = eventKey.substring(8);
             param.put("EventKey",eventKey);
         }
@@ -64,9 +64,7 @@ public class MsgEvent {
             if ((beginDate.getTime() <= time.getTime()) && (time.getTime() <= endDate.getTime())) {
                 logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 logger.debug("二维码第一次使用");
-                if (Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())) {//微信现金红包
-                    sendRedPack(payMsgMap, param, merchant, redPackBean);
-                }
+                sendRedPack(payMsgMap, param, merchant, redPackBean);
             }else{
                 param.put("Content","您好，二维码已经过期");
                 msgTypeByText(msgMap,param);
@@ -91,6 +89,7 @@ public class MsgEvent {
      * @param param
      */
     private void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param, Merchant merchant, RedPackBean redPackBean) throws Exception {
+        Map<String, Object> payParam = new HashMap<String, Object>();
         String transjnl = Util.getOrderId(merchant.getMchId(), 32);
         String orderId = Util.getOrderId(merchant.getMchId(), 28);
         msgMap.put("nonce_str", transjnl);//随机字符串 随机字符串，不长于32位
@@ -99,6 +98,12 @@ public class MsgEvent {
         msgMap.put("wxappid", merchant.getAppId());//微信分配的公众账号ID（企业号corpid即为此appId）。接口传入的所有appid应该为公众号的appid（在mp.weixin.qq.com申请的）
         msgMap.put("send_name", merchant.getMchName());//商户名称
         msgMap.put("re_openid", param.get("FromUserName"));//接受红包的用户 用户在wxappid下的openid
+        if (Dict.REDPACKTYPE_FNRK.equals(redPackBean.getRedPackType())) {//微信裂变红包
+            msgMap.put("amt_type", "ALL_RAND");
+            payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDGROUPREDPACK);//裂变红包接口名称
+        }else if(Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())){
+            payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);//现金红包接口名称
+        }
         String amount;
         if (Dict.AMOUNTTYPE_FDAT.equals(redPackBean.getAmountType())) {//固定金额红包
             amount = Util.moneyYuanToFenByRound(redPackBean.getTotalAmount());
@@ -116,16 +121,15 @@ public class MsgEvent {
             throw new RuntimeException(CHECKMSG.RED_AMOUNT_TYPE_ERROR);
         }
         msgMap.put("total_amount", amount);//付款金额，单位分
-        msgMap.put("total_num", "1");//红包发放总人数 total_num=1
+        msgMap.put("total_num", redPackBean.getTotalNum());//红包发放总人数
         msgMap.put("wishing", redPackBean.getWishing());//红包祝福语
         msgMap.put("client_ip", Util.getLocalIP());//调用接口的机器Ip地址
         msgMap.put("act_name", redPackBean.getActName());//活动名称
         msgMap.put("remark", redPackBean.getRemark());//备注信息
         msgMap.put("sign", Util.getSignature(merchant.getSignatureKey(), msgMap));//签名
-        Map<String, Object> payParam = new HashMap<String, Object>();
+
         String respXml = transformer.former(msgMap);
         payParam.put(Dict.PAY_XML, respXml);
-        payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);//现金红包接口名称
         param.put("transjnl",transjnl);
         param.put("orderId",orderId);
         try {

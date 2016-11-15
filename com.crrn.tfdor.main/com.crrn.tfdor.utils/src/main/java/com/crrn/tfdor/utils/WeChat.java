@@ -52,6 +52,10 @@ public class WeChat {
          */
         public static final String SENDREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 
+        /**
+         * 微信裂变红包
+         */
+        public static final String SENDGROUPREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
 
     }
 }

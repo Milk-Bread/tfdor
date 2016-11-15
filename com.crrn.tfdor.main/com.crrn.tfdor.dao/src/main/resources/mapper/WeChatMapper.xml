@@ -39,7 +39,7 @@
 	</select>
 
 	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
+		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark, totalNum,
 		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
 		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,
 		c.channelName,c.channelId,m.mchName,r.state
@@ -93,12 +93,13 @@
 
 	<update id="modifyRedPack" parameterType="java.util.HashMap">
 		update RedPack SET redPackType = #{redPackType},amountType = #{amountType},
-		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},remark = #{remark},updateTime = now(),state = #{state}
+		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},
+		remark = #{remark},updateTime = now(),state = #{state},totalNum = #{totalNum}
 		WHERE redPackSeq = #{redPackSeq}
 	</update>
 
 	<insert id="addRedPack" parameterType="java.util.HashMap">
-		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime)
-		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now())
+		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime,totalNum)
+		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now(),#{totalNum})
 	</insert>
 </mapper>

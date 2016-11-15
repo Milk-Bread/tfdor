@@ -9,12 +9,21 @@ public class RedPackBean {
     private String redPackType;
     private String amountType;
     private String totalAmount;
+    private String totalNum;
     private String wishing;
     private String actName;
     private String remark;
     private String createTime;
     private String updateTime;
     private String state;
+
+    public String getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(String totalNum) {
+        this.totalNum = totalNum;
+    }
 
     public String getState() {
         return state;

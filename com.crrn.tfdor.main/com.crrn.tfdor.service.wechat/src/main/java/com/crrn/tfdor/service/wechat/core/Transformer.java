@@ -35,7 +35,6 @@ public class Transformer {
      */
     @Transactional
     public Map<String, Object> parse(HttpServletRequest request) {
-        logger.debug("WeChat request message start");
         // 处理接收消息
         Map<String, Object> map = new HashMap<String, Object>();
         SAXReader reader = new SAXReader();
@@ -43,7 +42,7 @@ public class Transformer {
             ServletInputStream in = request.getInputStream();
             Document document = reader.read(in);
             Element root = document.getRootElement();
-            logger.debug("WeChat request message:===>\r\n" + document.asXML());
+            logger.debug("WeChat message:===>\r\n" + document.asXML());
             // 得到根元素的所有子节点
             List<Element> elementList = root.elements();
             // 将解析结果存储在HashMap中
@@ -55,7 +54,6 @@ public class Transformer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.debug("WeChat request message end");
         return map;
     }
 
@@ -71,13 +69,11 @@ public class Transformer {
         if (map == null || map.isEmpty()) {
             return "";
         }
-        logger.debug("WeChat response message start");
         StringBuffer sb = new StringBuffer();
         sb.append("<xml>");
         mapToXml(sb, map);
         sb.append("</xml>");
-        logger.debug("WeChat response message :==>\r\n" + sb.toString());
-        logger.debug("WeChat response message end");
+        logger.debug("WeChat message :==>\r\n" + sb.toString());
         return sb.toString();
     }
 
