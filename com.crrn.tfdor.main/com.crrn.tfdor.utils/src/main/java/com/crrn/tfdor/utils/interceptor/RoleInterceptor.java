@@ -41,7 +41,7 @@ public class RoleInterceptor implements HandlerInterceptor {
             return true;
         }
         String action = request.getParameter("transName");
-        if (action.equals("login.do") || action.equals("resetPasd.do")) {
+        if (action.equals("login.do") || action.equals("resetLoginPasd.do")) {
             return true;
         } else {
         	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");

@@ -147,7 +147,7 @@ public class MarketingController {
     }
 
     /**
-     * 修改红包参数
+     * 新增红包参数
      *
      * @param request
      * @throws Exception
@@ -166,6 +166,5 @@ public class MarketingController {
         param.put("state", request.getParameter("state"));
         marketingService.addRedPack(param);
     }
-
 
 }

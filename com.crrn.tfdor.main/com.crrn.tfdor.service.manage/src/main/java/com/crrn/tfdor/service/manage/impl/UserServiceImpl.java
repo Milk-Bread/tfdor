@@ -157,6 +157,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 根据用户ID查询用户信息
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public Map<String, Object> queryUserById(Map<String, Object> map) {
+        return userDao.queryUserById(map);
+    }
+
+    /**
      * 修改用户
      *
      * @param map
@@ -243,5 +254,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void modifyMerchant(Map<String, Object> map) {
         userDao.modifyMerchant(map);
+    }
+
+    /**
+     * 重置密码
+     * @param map
+     */
+    @Override
+    public void resetPwd(Map<String, Object> map) {
+        userDao.resetPasd(map);
     }
 }

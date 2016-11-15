@@ -202,6 +202,16 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     /**
+     * 生成修改二维码参数
+     *
+     * @param createQrcodeImg
+     */
+    @Override
+    public void modifyCreateQrcodeImage(CreateQrcodeImg createQrcodeImg) {
+        weChatDao.modifyCreateQrcodeImage(createQrcodeImg);
+    }
+
+    /**
      * 创建二维码
      *
      * @param crQimg

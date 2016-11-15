@@ -27,6 +27,7 @@
 				<value>createQrcodeImg.do</value>
 				<value>addRedPack.do</value>
 				<value>modifyRedPack.do</value>
+				<value>modifyCreateQrcodeImage.do</value>
 			</list>
 		</property>
 	</bean>

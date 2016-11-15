@@ -17,11 +17,12 @@ public interface UserService {
 
     /**
      * 重置密码
+     *
      * @param userId
      * @param password
      * @return
      */
-    public void resetPasd(String password,String userId);
+    public void resetPasd(String password, String userId);
 
     /**
      * 修改用户登陆次数
@@ -46,10 +47,11 @@ public interface UserService {
      * @return
      */
     public void addRole(Map<String, Object> role);
+
     /**
-       *  查询用户列表
-       */
-      public List<Map<String,Object>> queryUserInfo(Map<String,Object> map);
+     * 查询用户列表
+     */
+    public List<Map<String, Object>> queryUserInfo(Map<String, Object> map);
 
     /**
      * 修改角色
@@ -72,10 +74,18 @@ public interface UserService {
      */
     public void addUser(Map<String, Object> param);
 
-  /**
-   *  修改用户
-   */
-  public void modifyUser(Map<String, Object> map);
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param map
+     * @return
+     */
+    public Map<String, Object> queryUserById(Map<String, Object> map);
+
+    /**
+     * 修改用户
+     */
+    public void modifyUser(Map<String, Object> map);
 
     /**
      * 添加渠道
@@ -105,21 +115,29 @@ public interface UserService {
      */
     public List<Map<String, Object>> queryMerchant(Map<String, Object> map);
 
-  /**
-   * 删除用户信息
-   * @param map
-   */
-  public void deleteUser(Map<String, Object> map);
+    /**
+     * 删除用户信息
+     *
+     * @param map
+     */
+    public void deleteUser(Map<String, Object> map);
 
-  /*
-   *  添加商户信息
-   * @param map
-   */
-  public void addMerchant(Map<String, Object> map);
+    /*
+     *  添加商户信息
+     * @param map
+     */
+    public void addMerchant(Map<String, Object> map);
 
-  /**
-   *  修改商户
-   * @param map
-   */
-  public void modifyMerchant(Map<String, Object> map);
+    /**
+     * 修改商户
+     *
+     * @param map
+     */
+    public void modifyMerchant(Map<String, Object> map);
+
+    /**
+     * 重置密码
+     * @param map
+     */
+    public void resetPwd(Map<String, Object> map);
 }

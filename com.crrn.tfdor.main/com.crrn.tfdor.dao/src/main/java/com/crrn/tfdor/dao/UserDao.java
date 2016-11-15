@@ -155,4 +155,16 @@ public interface UserDao {
      */
     public void modifyMerchant(Map<String, Object> map);
 
+    /**
+     * 根据用户ID查询用户信息
+     * @param map
+     * @return
+     */
+    public Map<String, Object> queryUserById(Map<String, Object> map);
+
+    /**
+     * 重置密码
+     * @param map
+     */
+    public void resetPwd(Map<String, Object> map);
 }

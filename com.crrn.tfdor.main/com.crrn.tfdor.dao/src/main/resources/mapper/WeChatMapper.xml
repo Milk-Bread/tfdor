@@ -83,6 +83,10 @@
 		ORDER BY q.CREATETIME DESC
 	</select>
 
+	<update id="modifyCreateQrcodeImage" parameterType="com.crrn.tfdor.domain.wechat.CreateQrcodeImg">
+		UPDATE createqrcodeimg SET endDate = #{endDate},state = #{state} WHERE CreateQISeq = #{createQISeq}
+	</update>
+
 	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
 		select * FROM merchant where appId = #{appId} ORDER BY CREATETIME DESC
 	</select>
