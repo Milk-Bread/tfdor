@@ -12,14 +12,14 @@
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>红包类型</th>
                 <td width="60%" class="text-left">
-                    <select ng-model="redPackType" class="form-control btn-sm" style="height: 19px;width:80%;" >
+                    <select ng-model="redPackType" class="form-control btn-sm" style="height: 19px;width:80%;" ng-change="switchRedPackType()">
                         <option value="">请选择红包类型</option>
                         <option value="OYRK">普通红包</option>
                         <option value="FNRK">裂变红包</option>
                     </select>
                 </td>
             </tr>
-            <tr>
+            <tr ng-show="isFNRK == false">
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>金额类型</th>
                 <td width="60%" class="text-left">
                     <select ng-model="amountType" class="form-control btn-sm" style="height: 19px;width:80%;" ng-change="switchAmountType()">
@@ -29,11 +29,17 @@
                     </select>
                 </td>
             </tr>
+            <tr ng-show="isFNRK">
+                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>发放总人数</th>
+                <td width="60%" class="text-left">
+                    <input type="text" style="width: 80%" ng-model="totalNum" placeholder="请填写发放总人数">
+                </td>
+            </tr>
             <tr>
                 <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>红包金额<span ng-if="isAmountType">(范围)</span></th>
                 <td width="60%" class="text-left">
                     <input type="text" style="width: 30%" ng-model="totalAmount1" placeholder="请填写红包金额">
-                    <span ng-if="isAmountType">
+                    <span ng-show="isAmountType">
                         至<input type="text" style="width: 30%" ng-model="totalAmount2" placeholder="请填写红包金额">
                     </span>
                 </td>

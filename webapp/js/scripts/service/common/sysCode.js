@@ -68,6 +68,7 @@ define(['app'], function (app) {
                 "actName":"活动名称",
                 "wishing":"红包祝福语",
                 "totalAmount":"红包金额",
+                "totalNum":"红包发放总人数",
                 "amountType":"金额类型",
                 "beginDate":"生效时间",
                 "endDate":"失效时间",

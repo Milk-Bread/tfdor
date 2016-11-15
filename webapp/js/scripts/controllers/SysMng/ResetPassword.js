@@ -19,7 +19,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "password": password,
                 "confirmPassword": confirmPassword
             };
-            service.post2SRV("resetPasd.do", formData, function (data, status) {
+            service.post2SRV("resetLoginPasd.do", formData, function (data, status) {
                 service.setUser(data);
                 $state.go("Main");
             }, 4000);
