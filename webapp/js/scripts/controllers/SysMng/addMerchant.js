@@ -3,11 +3,12 @@
  */
 define(['app', 'service','sysCode'], function (app) {
     app.controller('addMerchantCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+        $scope.isShow = false;
+        $scope.channelId = service.getUser().channel.channelId;
+        if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+            $scope.isShow = true;
+        }
         $scope.init = function () {
-            $scope.channelId = service.getUser().channel.channelId;
-            if ($scope.channelId != null && $scope.channelId == 'tfdor') {
-                $scope.channelId = '';
-            }
             var formData = {
                 "channelId" : $scope.channelId
             };

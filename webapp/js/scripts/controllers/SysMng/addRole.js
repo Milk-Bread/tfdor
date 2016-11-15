@@ -10,7 +10,6 @@ define(['app', 'service','sysCode'], function (app) {
             }, 4000);
             $scope.channelId = service.getUser().channel.channelId;
             if ($scope.channelId != null && $scope.channelId == 'tfdor') {
-                $scope.channelId = "";
                 $scope.isShow = true;
             }
             var formData = {

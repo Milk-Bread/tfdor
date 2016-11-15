@@ -5,7 +5,6 @@ define(['app', 'service','sysCode'], function (app) {
 			$scope.channelId = service.getUser().channel.channelId;
 			if ($scope.channelId != null && $scope.channelId == 'tfdor') {
 				$scope.isShow = true;
-				$scope.channelId = '';
 			}
 			var formData = {
 				"roleName" : $scope.roleName,

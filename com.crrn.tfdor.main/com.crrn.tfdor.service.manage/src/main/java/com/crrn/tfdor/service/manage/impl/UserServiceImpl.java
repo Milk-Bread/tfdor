@@ -68,7 +68,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Map<String, Object>> queryRole(Map<String, Object> param) {
-        return userDao.roleQuery(param);
+        String channelId = (String) param.get("channelId");
+        Map<String, Object> bMap = new HashMap<>();
+        bMap.put("roleName", param.get("roleName"));
+        if (!channelId.equals("tfdor")) {
+            bMap.put("channelId", channelId);
+        }
+        return userDao.roleQuery(bMap);
     }
 
     /**
@@ -103,7 +109,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Map<String, Object>> queryUserInfo(Map<String, Object> user) {
-        return userDao.queryUserInfo(user);
+        String channelId = (String) user.get("channelId");
+        Map<String, Object> bMap = new HashMap<>();
+        if (!channelId.equals("tfdor")) {
+            bMap.put("channelId", channelId);
+        }
+        return userDao.queryUserInfo(bMap);
     }
 
     /**
@@ -140,7 +151,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Map<String, Object>> queryChannel(Map<String, Object> param) {
-        return userDao.queryChannel(param);
+        String channelId = (String) param.get("channelId");
+        Map<String, Object> bMap = new HashMap<>();
+        if (!"tfdor".equals(channelId)) {
+            bMap.put("channelId", channelId);
+        }
+        return userDao.queryChannel(bMap);
     }
 
     /**

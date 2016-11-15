@@ -1,7 +1,11 @@
 define(['app', 'service', 'sysCode'], function (app) {
     app.controller('channelMngCtrl', function (service, $scope, $location, $state, $stateParams) {
         $scope.init = function () {
-            service.post2SRV("queryChannel.do", null, function (data, status) {
+            $scope.channelId = service.getUser().channel.channelId;
+            var formData = {
+                "channelId" : $scope.channelId
+            };
+            service.post2SRV("queryChannel.do", formData, function (data, status) {
                 console.log(data);
                 $scope.channelInfoList = data;
             }, 1000);

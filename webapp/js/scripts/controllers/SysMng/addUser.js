@@ -11,20 +11,15 @@ define(['app', 'service','sysCode'], function (app) {
             $scope.isShow = true;
         }
         $scope.init = function(){
-            var formData = null;
             // 如果为内置渠道，则不用查询所以渠道
             if ($scope.isShow) {
-                service.post2SRV("queryChannel.do", formData, function (data, status) {
+                service.post2SRV("queryChannel.do", null, function (data, status) {
                     $scope.channelInfoList = data;
                 }, 1000);
-                formData = {
-                    "channelId" : $scope.channelId
-                };
-            } else {
-                formData = {
-                    "channelId" : ""
-                };
             }
+            var formData = {
+                "channelId" : $scope.channelId
+            };
             service.post2SRV("queryRole.do", formData,function(data,status) {
                 $scope.roleList = data;
             },4000);

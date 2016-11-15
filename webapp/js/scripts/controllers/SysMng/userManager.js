@@ -3,9 +3,6 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.init = function () {
             $scope.loginUserSeq = service.getUser().userSeq;
             $scope.channelId = service.getUser().channel.channelId;
-            if ($scope.channelId != null && $scope.channelId == 'tfdor') {
-                $scope.channelId = '';
-            }
             var formData = {
                 "channelId" : $scope.channelId
             };
