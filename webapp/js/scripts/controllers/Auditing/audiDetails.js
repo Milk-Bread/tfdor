@@ -34,6 +34,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             "auditPersonSeq",
             "roleSeq",
             "roleId",
+            "redPackSeq",
             "userSeq"
         ];
         $scope.getAudiData = function () {

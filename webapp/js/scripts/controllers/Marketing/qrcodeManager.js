@@ -38,15 +38,19 @@ define(['app', 'service','sysCode'], function (app) {
             $scope.merchantList = data;
         }, 1000);
 
-        $scope.init();
-
         $scope.addQrcode = function (){
             $state.go("Main.addQrcode");
-        }
+        };
+
+        $scope.modifyCreateQrcodeImage = function (obj){
+            service.setData(obj);
+            $state.go("Main.modifyCreateQrcodeImage");
+        };
 
         $scope.goDetail = function (createQISeq,preservation){
             service.setData({"createQISeq":createQISeq,"preservation":preservation});
             $state.go("Main.qrCodeImg");
         }
+        $scope.init();
     });
 });

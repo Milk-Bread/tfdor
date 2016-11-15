@@ -39,7 +39,7 @@
 	</select>
 
 	<select id="queryRedPack" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark,
+		SELECT redPackSeq, redPackType, amountType, totalAmount, wishing, actName, remark, totalNum,
 		DATE_FORMAT(r.createTime, '%Y-%m-%d %H:%i:%s') createTime,
 		DATE_FORMAT(r.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,
 		c.channelName,c.channelId,m.mchName,r.state
@@ -75,7 +75,7 @@
 
 	<select id="qQrcodeimgBysCeneStr" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,
-		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state
+		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state qState,c.state cState
 		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr}
 		<if test="state != null and state != ''">
 			AND q.state = #{state}
@@ -83,18 +83,23 @@
 		ORDER BY q.CREATETIME DESC
 	</select>
 
+	<update id="modifyCreateQrcodeImage" parameterType="com.crrn.tfdor.domain.wechat.CreateQrcodeImg">
+		UPDATE createqrcodeimg SET endDate = #{endDate},state = #{state} WHERE CreateQISeq = #{createQISeq}
+	</update>
+
 	<select id="qMerchant" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.manage.Merchant">
 		select * FROM merchant where appId = #{appId} ORDER BY CREATETIME DESC
 	</select>
 
 	<update id="modifyRedPack" parameterType="java.util.HashMap">
 		update RedPack SET redPackType = #{redPackType},amountType = #{amountType},
-		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},remark = #{remark},updateTime = now(),state = #{state}
+		totalAmount = #{totalAmount},wishing = #{wishing},actName = #{actName},
+		remark = #{remark},updateTime = now(),state = #{state},totalNum = #{totalNum}
 		WHERE redPackSeq = #{redPackSeq}
 	</update>
 
 	<insert id="addRedPack" parameterType="java.util.HashMap">
-		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime)
-		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now())
+		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime,totalNum)
+		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now(),#{totalNum})
 	</insert>
 </mapper>

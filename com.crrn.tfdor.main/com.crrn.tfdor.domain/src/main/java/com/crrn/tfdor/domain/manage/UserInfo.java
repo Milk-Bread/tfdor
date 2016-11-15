@@ -84,6 +84,16 @@ public class UserInfo extends BaseCodeModel implements Serializable {
      */
     private List<Merchant> merchantList;
 
+    private String isReSetPwd;
+
+
+    public String getIsReSetPwd() {
+        return isReSetPwd;
+    }
+
+    public void setIsReSetPwd(String isReSetPwd) {
+        this.isReSetPwd = isReSetPwd;
+    }
 
     public List<Merchant> getMerchantList() {
         return merchantList;

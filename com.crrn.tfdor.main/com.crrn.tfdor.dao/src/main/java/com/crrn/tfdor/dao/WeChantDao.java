@@ -87,6 +87,13 @@ public interface WeChantDao {
     public void iCreateQrcodeImage(CreateQrcodeImg createQrcodeImg);
 
     /**
+     * 修改二维码参数
+     * @param createQrcodeImg
+     * @return
+     */
+    public void modifyCreateQrcodeImage(CreateQrcodeImg createQrcodeImg);
+
+    /**
      * 修改二维码状态
      *
      * @param map

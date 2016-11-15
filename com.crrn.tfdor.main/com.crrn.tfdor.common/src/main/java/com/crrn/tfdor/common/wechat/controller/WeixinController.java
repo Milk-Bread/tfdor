@@ -121,6 +121,18 @@ public class WeixinController {
         weChatService.addQrcode(createQrcodeImg, appId);
     }
 
+    /**
+     * 修改二维码参数
+     *
+     * @param createQrcodeImg
+     * @throws Exception
+     */
+    @RequestMapping(value = "modifyCreateQrcodeImage.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyCreateQrcodeImage(CreateQrcodeImg createQrcodeImg) throws Exception {
+        weChatService.modifyCreateQrcodeImage(createQrcodeImg);
+    }
+
 
     /**
      * Description: 获取永久素材的列表 GET

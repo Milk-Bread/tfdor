@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Merchant;
+import com.crrn.tfdor.utils.Dict;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,7 +74,7 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
-        if(request.getParameter("transName").equals("resetPasd.do")){
+        if(request.getParameter("transName").equals("resetLoginPasd.do")){
             userId = (String) request.getSession().getAttribute("resetUser");
         }
         String passwordaes = EncodeUtil.aesEncrypt(userId + password);
@@ -88,7 +89,7 @@ public class UserController {
         }
         Map<String, Object> bumap = new HashMap<String, Object>();
         bumap.put("channelId", channel.getChannelId());
-        if(Integer.valueOf(userMap.get("loginCount").toString()) == 0 && !request.getParameter("transName").equals("resetPasd.do")){//重置密码
+        if("true".equals(user.getIsReSetPwd())){//重置密码
             request.getSession().setAttribute("resetUser",userId);
             throw new RuntimeException(CHECKMSG.PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN);
         }
@@ -110,9 +111,9 @@ public class UserController {
      * @return
      * @Version1.0 2016年8月1日 下午3:50:11 by chepeiqing (chepeiqing@icloud.com)
      */
-    @RequestMapping(value = "resetPasd.do", method = RequestMethod.POST)
+    @RequestMapping(value = "resetLoginPasd.do", method = RequestMethod.POST)
     @ResponseBody
-    public void resetPasd(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    public void resetLoginPasd(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         String userId = (String) request.getSession().getAttribute("resetUser");
         String password = request.getParameter("password");
         String passwordaes = EncodeUtil.aesEncrypt(userId + password);
@@ -331,6 +332,36 @@ public class UserController {
         param.put("customerType", request.getParameter("customerType"));
 
         userService.modifyUser(param);
+    }
+
+    /**
+     * 根据userId查询用户信息
+     * @param request
+     */
+    @RequestMapping(value = "queryUserById.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryUserById(HttpServletRequest request){
+        Map<String, Object> param = new HashMap<String, Object>();
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        if(!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())){
+            param.put("channelId", user.getChannel().getChannelId());
+        }
+        param.put("userId", request.getParameter("userId"));
+        return userService.queryUserById(param);
+    }
+    /**
+     * 根据userId查询用户信息
+     * @param request
+     */
+    @RequestMapping(value = "resetPwd.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void resetPwd(HttpServletRequest request){
+        Map<String, Object> param = new HashMap<String, Object>();
+        String userId = request.getParameter("userId");
+        String passwordaes = EncodeUtil.aesEncrypt(userId + "88888888");
+        param.put("userSeq", request.getParameter("userSeq"));
+        param.put("password", passwordaes);
+        userService.resetPwd(param);
     }
 
     /**

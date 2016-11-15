@@ -44,6 +44,13 @@ public interface WeChatService {
     public void addQrcode(CreateQrcodeImg createQrcodeImg,String appId) throws Exception;
 
     /**
+     * 生成修改二维码参数
+     * @param createQrcodeImg
+     */
+    public void modifyCreateQrcodeImage(CreateQrcodeImg createQrcodeImg);
+
+
+    /**
      * Description:记录生成的二维码
      * @param qrcodeImg
      */

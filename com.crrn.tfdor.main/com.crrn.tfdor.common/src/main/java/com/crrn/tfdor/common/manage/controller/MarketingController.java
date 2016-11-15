@@ -142,12 +142,17 @@ public class MarketingController {
         param.put("actName", request.getParameter("actName"));
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
+        String totalNum = request.getParameter("totalNum");
+        if(totalNum == null || "".equals(totalNum)){
+            totalNum = "1";
+        }
+        param.put("totalNum", totalNum);
         param.put("redPackSeq", request.getParameter("redPackSeq"));
         marketingService.modifyRedPack(param);
     }
 
     /**
-     * 修改红包参数
+     * 新增红包参数
      *
      * @param request
      * @throws Exception
@@ -164,8 +169,12 @@ public class MarketingController {
         param.put("actName", request.getParameter("actName"));
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
+        String totalNum = request.getParameter("totalNum");
+        if(totalNum == null || "".equals(totalNum)){
+            totalNum = "1";
+        }
+        param.put("totalNum", totalNum);
         marketingService.addRedPack(param);
     }
-
 
 }

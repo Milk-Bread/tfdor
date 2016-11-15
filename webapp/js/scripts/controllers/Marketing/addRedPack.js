@@ -5,6 +5,7 @@ define(['app', 'service', 'sysCode'], function (app) {
     app.controller('addRedPackCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.isAmountType = false;
         $scope.isMerch = false;
+        $scope.isFNRK = false;
         $scope.init = function () {
             //查询复合人
             service.post2SRV("queryAuditPerson.do", null, function (data, status) {
@@ -21,12 +22,22 @@ define(['app', 'service', 'sysCode'], function (app) {
         };
 
         $scope.switchAmountType = function () {
-            if ($scope.amountType == '2') {
-                $scope.isAmountType = true;
-            } else {
+            if ($scope.amountType == 'FDAT') {
                 $scope.isAmountType = false;
+            } else {
+                $scope.isAmountType = true;
             }
-        }
+        };
+
+        $scope.switchRedPackType = function(){
+            if($scope.redPackType == 'FNRK'){
+                $scope.isAmountType = false;
+                $scope.isFNRK = true;
+                $scope.amountType = "FDAT";
+            }else{
+                $scope.isFNRK = false;
+            }
+        };
 
         $scope.doIt = function () {
             if($scope.isMerch && ($scope.merchant == null || $scope.merchant == '' || $scope.merchant == undefined)){
@@ -37,18 +48,41 @@ define(['app', 'service', 'sysCode'], function (app) {
                     $scope.mchId = $scope.merchant.mchId;
                 }
             }
-            if ($scope.amountType == 'FDAT') {
-                if ($scope.totalAmount1 == null || $scope.totalAmount1 == '') {
-                    showError("错误提示：请输入红包金额");
-                    return;
+            if($scope.redPackType == null || $scope.redPackType == null){
+                showError("错误提示：请选择红包类型");
+                return;
+            }else{
+                if($scope.redPackType == 'FNRK'){
+                   if($scope.totalNum == null || $scope.totalNum == ''){
+                       showError("错误提示：请填写红包发放人数");
+                       return
+                   }else if($scope.totalAmount1 == null || $scope.totalAmount1 == ''){
+                       showError("错误提示：请输入红包金额");
+                       return;
+                   }else if(Number($scope.totalAmount1) < Number($scope.totalNum)){
+                       showError("错误提示：每个红包最小金额为1元，请输入大于等于发放人数的金额");
+                       return;
+                   }
+                   $scope.totalAmount = $scope.totalAmount1;
+                }else{
+                    if($scope.amountType == null || $scope.amountType == ''){
+                        showError("错误提示：请选择金额类型");
+                        return;
+                    }
+                    if($scope.amountType == 'FDAT'){//固定金额
+                        if ($scope.totalAmount1 == null || $scope.totalAmount1 == '') {
+                            showError("错误提示：请输入红包金额");
+                            return;
+                        }
+                        $scope.totalAmount = $scope.totalAmount1;
+                    } else{//随机金额
+                        if ($scope.totalAmount1 == null || $scope.totalAmount1 == '' || $scope.totalAmount2 == null || $scope.totalAmount2 == '') {
+                            showError("错误提示：请输入红包金额");
+                            return;
+                        }
+                        $scope.totalAmount = $scope.totalAmount1 + '-' + $scope.totalAmount2;
+                    }
                 }
-                $scope.totalAmount = $scope.totalAmount1;
-            } else {
-                if ($scope.totalAmount1 == null || $scope.totalAmount1 == '' || $scope.totalAmount2 == null || $scope.totalAmount2 == '') {
-                    showError("错误提示：请输入红包金额");
-                    return;
-                }
-                $scope.totalAmount = $scope.totalAmount1 + '-' + $scope.totalAmount2;
             }
             if ($scope.wishing == null || $scope.wishing == '') {
                 showError("错误提示：请填写红包祝福语");
@@ -70,11 +104,11 @@ define(['app', 'service', 'sysCode'], function (app) {
                 $scope.state = 'N';
             }
             var formData = {
-                "redPackSeq": $scope.redPackSeq,
                 "redPackType": $scope.redPackType,
                 "amountType": $scope.amountType,
                 "mchId": $scope.mchId,
                 "totalAmount": $scope.totalAmount,
+                "totalNum": $scope.totalNum,
                 "wishing": $scope.wishing,
                 "actName": $scope.actName,
                 "remark": $scope.remark,

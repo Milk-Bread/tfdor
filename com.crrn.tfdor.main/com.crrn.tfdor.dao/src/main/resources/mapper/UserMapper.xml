@@ -4,20 +4,20 @@
 <mapper namespace="com.crrn.tfdor.dao.UserDao">
     <!-- 登陆 -->
     <select id="loginCheck" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
-        select userSeq,userId,userName,password,sex,age,addr,mobilePhone,
+        select userSeq,userId,userName,sex,age,addr,mobilePhone,
         phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
-        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime
+        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime,u.isReSetPwd
         from UserInfo u,channel c
         WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
     </select>
     <!-- 重置密码 -->
     <update id="resetPasd" parameterType="java.util.Map">
-        UPDATE UserInfo set password = #{password} WHERE userId = #{userId}
+        UPDATE UserInfo set password = #{password},isReSetPwd = 'false' WHERE userId = #{userId}
     </update>
 
 
     <update id="modifyUserinfo" parameterType="java.util.Map">
-        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now() where UserSeq = #{userSeq}
+        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now(),isReSetPwd = 'false' where UserSeq = #{userSeq}
     </update>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
@@ -190,5 +190,20 @@
         state = #{state}
         WHERE
         mchId = #{mchId};
+    </update>
+    
+    <select id="queryUserById" parameterType="java.util.Map" resultType="java.util.Map">
+        select userSeq,userId,userName,sex,age,addr,mobilePhone,
+        phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime
+        from UserInfo u,channel c
+        WHERE u.channelId = c.channelId and userId = #{userId}
+        <if test="channelId != null and channelId != ''">
+            and c.channelId = #{channelId}
+        </if>
+    </select>
+
+    <update id="resetPwd" parameterType="java.util.Map">
+        UPDATE  userInfo SET password = #{password},updateTime = now(),isReSetPwd = 'true' WHERE userSeq = #{userSeq}
     </update>
 </mapper>

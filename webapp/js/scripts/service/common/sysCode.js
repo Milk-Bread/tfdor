@@ -33,10 +33,6 @@ define(['app'], function (app) {
                 "FDAT":"固定金额",
                 "RMAT":"随机金额"
             };
-            messages["CQState"] = {
-                "1":"正常",
-                "2":"停用"
-            };
             messages["state"] = {
                 "N":"正常",
                 "C":"销户",
@@ -72,6 +68,7 @@ define(['app'], function (app) {
                 "actName":"活动名称",
                 "wishing":"红包祝福语",
                 "totalAmount":"红包金额",
+                "totalNum":"红包发放总人数",
                 "amountType":"金额类型",
                 "beginDate":"生效时间",
                 "endDate":"失效时间",
@@ -85,6 +82,7 @@ define(['app'], function (app) {
                 "addRole.do":"新增角色",
                 "deleteUser.do":"删除用户",
                 "deleteRole.do":"删除角色",
+                "modifyCreateQrcodeImage.do":"修改二维码参数",
                 "createQrcodeImg.do":"生成二维码",
                 "addRedPack.do":"新增红包参数",
                 "addMerchant.do":"新增商户",
