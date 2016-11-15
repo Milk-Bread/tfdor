@@ -132,12 +132,17 @@
                 templateUrl: 'views/Marketing/addRedPack.html',
                 dependencies: ['controllers/Marketing/addRedPack'],
                 allowAnonymous: true
-            },'Main.modifyQrcode': {
-                url: '/modifyQrcode',
-                templateUrl: 'views/Marketing/modifyQrcode.html',
-                dependencies: ['controllers/Marketing/modifyQrcode'],
+            },'Main.modifyCreateQrcodeImage': {
+                url: '/modifyCreateQrcodeImage',
+                templateUrl: 'views/Marketing/modifyCreateQrcodeImage.html',
+                dependencies: ['controllers/Marketing/modifyCreateQrcodeImage'],
                 allowAnonymous: true
-            }
+            },'Main.PasswordManager': {
+                url: '/PasswordManager',
+                templateUrl: 'views/SysMng/passwordManager.html',
+                dependencies: ['controllers/SysMng/passwordManager'],
+                allowAnonymous: true
+            },
         }
     };
 });

@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('addQrcodeCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyCreateQrcodeImgCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
         $scope.init = function () {
             $scope.actionName = service.getData().actionName;
             $scope.mchName = service.getData().mchName;
@@ -23,9 +23,6 @@ define(['app', 'service', 'sysCode'], function (app) {
                 showError("错误提示：请选择二维码失效时间");
                 return;
             }
-            if ($scope.state == null) {
-                $scope.state = 'N';
-            }
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示：请选择复合人");
                 return;
@@ -37,7 +34,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq
                 "auditPerson": $scope.person.userName//复合人名称
             };
-            service.post2SRV("modifyQrcode.do", formData, function (data, status) {
+            service.post2SRV("modifyCreateQrcodeImage.do", formData, function (data, status) {
                 $state.go("Main.QrCodeManager");
             }, 4000);
         }

@@ -42,9 +42,9 @@ define(['app', 'service','sysCode'], function (app) {
             $state.go("Main.addQrcode");
         };
 
-        $scope.modifyQrcode = function (obj){
+        $scope.modifyCreateQrcodeImage = function (obj){
             service.setData(obj);
-            $state.go("Main.modifyQrcode");
+            $state.go("Main.modifyCreateQrcodeImage");
         };
 
         $scope.goDetail = function (createQISeq,preservation){
