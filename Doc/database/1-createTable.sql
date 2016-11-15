@@ -109,7 +109,7 @@ create table UserInfo
    UserId               VARCHAR(18),
    UserName             VARCHAR(18),
    Password             VARCHAR(50),
-   customerType         char(1) comment '用户类型，1-管理员，2-操作员'
+   customerType         char(1) comment '用户类型，1-管理员，2-操作员',
    Sex                  char(1),
    Age                  INTEGER(3),
    IdType               char(2),
@@ -119,6 +119,7 @@ create table UserInfo
    ChannelId            char(20),
    loginCount           integer default 0 comment '登陆次数',
    lastLoginTime        timestamp default now() on update now() comment '最后登陆时间',
+   isReSetPwd           varchar(5) default 'true' comment '是否需要重置密码',
    CreateTime           timestamp default '0000-00-00 00:00:00',
    Addr                 VARCHAR(500),
    primary key (UserSeq)
@@ -223,6 +224,7 @@ create table RedPack(
    actName              varchar(50) not null comment '活动名称',
    mchId                varchar(20) not null comment '商户ID',
    remark               varchar(100) not null comment '备注',
+   totalNum             varchar(10) comment '裂变红包发放总人数',
    state                char(1) DEFAULT '1' not null comment '状态 N-正常，H-关闭',
    createTime           timestamp default '0000-00-00 00:00:00',
    updateTime           timestamp default now() on update now(),
