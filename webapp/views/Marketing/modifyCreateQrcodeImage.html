@@ -2,45 +2,45 @@
     <div style="width: 50%;margin-left:40px;">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>二维码类型</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>二维码类型</th>
                 <td width="60%" class="text-left">
                     {{actionName | sysCode:'actionName'}}
                 </td>
             </tr>
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>商户名称</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>商户名称</th>
                 <td width="60%" class="text-left">
                     {{mchName}}
                 </td>
             </tr>
             <tr ng-show="actionName == 'QR_SCENE'">
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>有效时间(天)</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>有效时间(天)</th>
                 <td width="60%" class="text-left">{{expireSeconds }}天</td>
             </tr>
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>二维码生效时间</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>二维码生效时间</th>
                 <td width="60%" class="text-left">{{beginDate}}</td>
             </tr>
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>二维码失效时间</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>二维码失效时间</th>
                 <td width="60%" class="text-left">
                     <input type="hidden" id="minDate">
                     <input type="text" class="Wdate" style="width: 80%" placeholder="选择二维码失效时间" id="endDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate:true, minDate: '%y-%M-%d %H:%m:%s'})"/>
                 </td>
             </tr>
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>生成二维码数量</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>生成二维码数量</th>
                 <td width="60%" class="text-left">{{number}}</td>
             </tr>
             <tr>
-                <th width="40%" class="text-center"><span style="color:rgb(0, 139, 255);">*</span>状态</th>
+                <th width="40%" class="text-center"><span class="losing">*</span>状态</th>
                 <td width="60%" class="text-left">
                     <input type="radio" name="state" value="N" ng-checked="true" ng-model="state">&nbsp;启用 &nbsp;&nbsp;&nbsp;
                     <input type="radio" name="state" value="H" ng-model="state">&nbsp;关闭 &nbsp;&nbsp;&nbsp;
                 </td>
             </tr>
             <tr>
-                <td class="text-center"><span style="color:rgb(0, 139, 255);">*</span>指定复合人</td>
+                <td class="text-center"><span class="losing">*</span>指定复合人</td>
                 <td>
                     <select class="form-control  btn-sm seStyle" ng-model="person" ng-options="x.userName for x in auditPerson">
                         <option value="">选择复合人</option>
