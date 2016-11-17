@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Merchant;
-import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,9 +24,6 @@ import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.MenuService;
 import com.crrn.tfdor.service.manage.UserService;
-import com.crrn.tfdor.utils.BeanUtils;
-import com.crrn.tfdor.utils.CHECKMSG;
-import com.crrn.tfdor.utils.EncodeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -105,7 +102,7 @@ public class UserController {
     }
 
     /**
-     * Description: 重置登陆密码
+     * Description: 重置登陆密码页面重置
      *
      * @param request
      * @return
@@ -117,7 +114,11 @@ public class UserController {
         String userId = (String) request.getSession().getAttribute("resetUser");
         String password = request.getParameter("password");
         String passwordaes = EncodeUtil.aesEncrypt(userId + password);
-        userService.resetPasd(passwordaes,userId);
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("isReSetPwd","false");
+        param.put("userId",userId);
+        param.put("password",passwordaes);
+        userService.resetPasd(param);
         request.setAttribute("userId",userId);
         request.getRequestDispatcher("login.do").forward(request,response);
     }
@@ -288,9 +289,8 @@ public class UserController {
     @RequestMapping(value = "addUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void addUser(HttpServletRequest request) {
-
-        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + "88888888");
-
+        String base64sha1 = SHA1Util.b64_sha1("88888888");
+        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + base64sha1);
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("userId", request.getParameter("userId"));
         param.put("userName", request.getParameter("userName"));
@@ -350,7 +350,7 @@ public class UserController {
         return userService.queryUserById(param);
     }
     /**
-     * 根据userId查询用户信息
+     * 密码管理 重置登陆密码默认88888888
      * @param request
      */
     @RequestMapping(value = "resetPwd.do", method = RequestMethod.POST)
@@ -358,10 +358,12 @@ public class UserController {
     public void resetPwd(HttpServletRequest request){
         Map<String, Object> param = new HashMap<String, Object>();
         String userId = request.getParameter("userId");
-        String passwordaes = EncodeUtil.aesEncrypt(userId + "88888888");
-        param.put("userSeq", request.getParameter("userSeq"));
+        String base64sha1 = SHA1Util.b64_sha1("88888888");
+        String passwordaes = EncodeUtil.aesEncrypt(userId + base64sha1);
+        param.put("userId", userId);
         param.put("password", passwordaes);
-        userService.resetPwd(param);
+        param.put("isReSetPwd","true");
+        userService.resetPasd(param);
     }
 
     /**

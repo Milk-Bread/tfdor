@@ -37,16 +37,12 @@ public class UserServiceImpl implements UserService {
     /**
      * 重置密码
      *
-     * @param password
-     * @param userId
+     * @param map
      * @return
      */
     @Override
-    public void resetPasd(String password, String userId) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId",userId);
-        param.put("password",password);
-        userDao.resetPasd(param);
+    public void resetPasd(Map<String, Object> map) {
+        userDao.resetPasd(map);
     }
 
     /**
@@ -270,14 +266,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void modifyMerchant(Map<String, Object> map) {
         userDao.modifyMerchant(map);
-    }
-
-    /**
-     * 重置密码
-     * @param map
-     */
-    @Override
-    public void resetPwd(Map<String, Object> map) {
-        userDao.resetPasd(map);
     }
 }

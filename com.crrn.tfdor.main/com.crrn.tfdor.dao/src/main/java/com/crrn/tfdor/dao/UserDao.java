@@ -161,10 +161,4 @@ public interface UserDao {
      * @return
      */
     public Map<String, Object> queryUserById(Map<String, Object> map);
-
-    /**
-     * 重置密码
-     * @param map
-     */
-    public void resetPwd(Map<String, Object> map);
 }

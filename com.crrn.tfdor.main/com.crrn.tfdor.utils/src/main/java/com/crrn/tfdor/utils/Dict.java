@@ -79,7 +79,7 @@ public class Dict {
     public static final String AMOUNTTYPE_FDAT = "FDAT";
 
     /**
-     * 红包金额类型 OYRK 固定金额
+     * 红包金额类型 OYRK 随机金额
      */
     public static final String AMOUNTTYPE_RMAT = "RMAT";
 

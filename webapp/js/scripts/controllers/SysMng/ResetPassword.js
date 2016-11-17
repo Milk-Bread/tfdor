@@ -1,12 +1,12 @@
-define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('restPasdCtrl', function (service, $scope, $location, $state, $stateParams) {
+define(['app', 'service', 'sysCode','encryption'], function (app) {
+    app.controller('restPasdCtrl', function (encryption,service, $scope, $location, $state, $stateParams) {
         $scope.doIt = function() {
-            var password = $scope.password;
+            var password = encryption.b64_sha1($scope.password);
             if (password == undefined || password == '') {
                 showError("错误提示：请输入新密码");
                 return;
             };
-            var confirmPassword = $scope.confirmPassword;
+            var confirmPassword = encryption.b64_sha1($scope.confirmPassword);
             if (confirmPassword == undefined || confirmPassword == '') {
                 showError("错误提示：请输入确认密码");
                 return;

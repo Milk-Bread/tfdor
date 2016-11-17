@@ -19,7 +19,8 @@ require.config({
 		'angular-sanitize':'../lib/angular-plugins/angular-sanitize.min',
 		'service':'../scripts/service/common/service',
 		'sysCode':'../scripts/service/common/sysCode',
-		'paging':'../scripts/service/common/directive'
+		'paging':'../scripts/service/common/directive',
+		'encryption':'../scripts/service/common/encryption'
 	},
 
 	shim : {

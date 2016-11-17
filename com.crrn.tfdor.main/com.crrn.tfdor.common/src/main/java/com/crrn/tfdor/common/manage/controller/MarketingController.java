@@ -143,7 +143,9 @@ public class MarketingController {
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
         String totalNum = request.getParameter("totalNum");
-        if(totalNum == null || "".equals(totalNum)){
+        if(Dict.AMOUNTTYPE_FDAT.equals(request.getParameter("amountType"))){
+            totalNum = "1";
+        } else if(totalNum == null || "".equals(totalNum)){
             totalNum = "1";
         }
         param.put("totalNum", totalNum);

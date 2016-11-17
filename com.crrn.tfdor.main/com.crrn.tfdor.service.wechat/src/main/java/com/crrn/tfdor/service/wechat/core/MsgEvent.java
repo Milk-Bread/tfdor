@@ -70,8 +70,8 @@ public class MsgEvent {
                 msgTypeByText(msgMap,param);
             }
         }else if(qrcodeImg == null){
-            param.put("Content","您好，二维码不正确");
-            msgTypeByText(msgMap,param);
+//            param.put("Content","您好，二维码不正确");
+//            msgTypeByText(msgMap,param);
         }else if(!"N".equals(qrcodeImg.get("cState"))){
             param.put("Content","您好，活动已经结束，敬请关注");
             msgTypeByText(msgMap,param);
@@ -127,7 +127,6 @@ public class MsgEvent {
         msgMap.put("act_name", redPackBean.getActName());//活动名称
         msgMap.put("remark", redPackBean.getRemark());//备注信息
         msgMap.put("sign", Util.getSignature(merchant.getSignatureKey(), msgMap));//签名
-
         String respXml = transformer.former(msgMap);
         payParam.put(Dict.PAY_XML, respXml);
         param.put("transjnl",transjnl);

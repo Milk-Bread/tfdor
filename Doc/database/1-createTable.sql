@@ -108,7 +108,7 @@ create table UserInfo
    RoleSeq              INTEGER,
    UserId               VARCHAR(18),
    UserName             VARCHAR(18),
-   Password             VARCHAR(50),
+   Password             VARCHAR(200),
    customerType         char(1) comment '用户类型，1-管理员，2-操作员',
    Sex                  char(1),
    Age                  INTEGER(3),
