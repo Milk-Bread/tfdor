@@ -35,7 +35,7 @@
                 <td class="text-center">{{row.roleName}}</td>
                 <td class="text-center">{{row.createTime}}</td>
                 <td class="text-center">
-                    <button class="btn btn-primary btn-xs" ng-if="row.roleName != 'Admin'" ng-click="menuThree('修改角色');modifyRole(row.roleSeq,row.roleName);">修改</button>
+                    <button class="btn btn-primary btn-xs" ng-if="row.roleName != 'Admin'" ng-click="menuThree('修改角色');modifyRole(row);">修改</button>
                     <button class="btn btn-danger btn-xs" ng-if="row.roleName != 'Admin'">删除</button>
                 </td>
             </tr>

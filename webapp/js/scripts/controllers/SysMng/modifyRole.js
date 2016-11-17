@@ -2,9 +2,11 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyRoleCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            $scope.roleName = service.getData().roleName;
+            $scope.roleInfo = service.getData();
+            $scope.roleName = $scope.roleInfo.roleName;
+            $scope.isShow = false;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.menuListM = data;
                 var param = {
@@ -32,6 +34,22 @@ define(['app', 'service','sysCode'], function (app) {
                         }
                     }
                 });
+                $scope.channelId = service.getUser().channel.channelId;
+                if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+                    $scope.isShow = true;
+                }
+                var formData = {
+                    "channelId" : $scope.channelId
+                };
+                service.post2SRV("queryChannel.do", formData, function (data, status) {
+                    $scope.channelInfoList = data;
+                    // 选中当前渠道
+                    for (var key in $scope.channelInfoList) {
+                        if ($scope.roleInfo.channelId == $scope.channelInfoList[key].channelId) {
+                            $scope.channel = $scope.channelInfoList[key];
+                        }
+                    }
+                }, 1000);
             }, 4000);
             service.post2SRV("queryAuditPerson.do",null,function(data, status){
                 $scope.auditPerson = data;
@@ -105,10 +123,10 @@ define(['app', 'service','sysCode'], function (app) {
             var formData = {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(","),
-                "roleSeq":$stateParams.roleSeq,
+                "roleSeq":service.getData().roleSeq,
+                "channelId": $scope.channelId,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName,//复合人名称
-                "channelId":null
             }
             console.log(formData);
             service.post2SRV("modifyRole.do", formData, function (data, status) {

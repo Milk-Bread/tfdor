@@ -1,5 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('merchantMngCtrl', function (service, $scope, $location, $state, $stateParams) {
+    app.controller('merchantMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             var formData = {
                 "channelId" : service.getUser().channel.channelId

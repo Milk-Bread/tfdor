@@ -1,5 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('passwordMngCtrl', function (service, $scope, $location, $state, $stateParams) {
+    app.controller('passwordMngCtrl', function (service, $scope) {
         $scope.channelId = service.getUser().channel.channelId;
         $scope.doIt = function () {
             if ($scope.userId == null || $scope.userId == '') {

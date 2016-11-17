@@ -1,5 +1,5 @@
 define(['app', 'service','sysCode'], function (app) {
-	app.controller('roleMngCtrl', function (service,$scope,$location,$state,$stateParams,$rootScope) {
+	app.controller('roleMngCtrl', function (service,$scope,$state) {
 		$scope.isShow = false;
 	    $scope.init = function(){
 			$scope.channelId = service.getUser().channel.channelId;
@@ -17,8 +17,8 @@ define(['app', 'service','sysCode'], function (app) {
 		$scope.addRole = function(){
 			$state.go("Main.addRole");
 		};
-		$scope.modifyRole = function(obj,name){
-			service.setData({"roleSeq":obj,"roleName":name});
+		$scope.modifyRole = function(obj){
+			service.setData(obj);
 			$state.go("Main.modifyRole");
 		};
 		$scope.init();

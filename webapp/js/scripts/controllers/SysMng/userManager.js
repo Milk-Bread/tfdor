@@ -1,10 +1,10 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('userMngCtrl', function (service, $scope, $location, $state, $stateParams) {
+    app.controller('userMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.loginUserSeq = service.getUser().userSeq;
             $scope.channelId = service.getUser().channel.channelId;
             var formData = {
-                "channelId" : $scope.channelId
+                "channelId": $scope.channelId
             };
             service.post2SRV("queryUserInfo.do", formData, function (data, status) {
                 console.log(data);

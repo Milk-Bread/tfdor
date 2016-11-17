@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('modifyRedPackCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyRedPackCtrl', function (service, $scope, $state) {
         $scope.isAmountType = false;
         $scope.isFNRK = false;
         $scope.init = function () {

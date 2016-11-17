@@ -2,7 +2,7 @@
  * Created by yizilong on 16/11/04.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('deleteUserCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('deleteUserCtrl', function (service, $scope, $state) {
         $scope.userInfo = service.getData();
         $scope.init = function(){
             $scope.userSeq = $scope.userInfo.userSeq;
