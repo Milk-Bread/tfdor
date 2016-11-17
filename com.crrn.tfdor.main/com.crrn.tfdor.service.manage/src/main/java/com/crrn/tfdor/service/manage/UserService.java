@@ -18,11 +18,10 @@ public interface UserService {
     /**
      * 重置密码
      *
-     * @param userId
-     * @param password
+     * @param map
      * @return
      */
-    public void resetPasd(String password, String userId);
+    public void resetPasd(Map<String, Object> map);
 
     /**
      * 修改用户登陆次数
@@ -134,10 +133,4 @@ public interface UserService {
      * @param map
      */
     public void modifyMerchant(Map<String, Object> map);
-
-    /**
-     * 重置密码
-     * @param map
-     */
-    public void resetPwd(Map<String, Object> map);
 }

@@ -12,7 +12,7 @@
     </select>
     <!-- 重置密码 -->
     <update id="resetPasd" parameterType="java.util.Map">
-        UPDATE UserInfo set password = #{password},isReSetPwd = 'false' WHERE userId = #{userId}
+        UPDATE UserInfo set password = #{password},isReSetPwd = #{isReSetPwd} WHERE userId = #{userId}
     </update>
 
 
@@ -202,8 +202,4 @@
             and c.channelId = #{channelId}
         </if>
     </select>
-
-    <update id="resetPwd" parameterType="java.util.Map">
-        UPDATE  userInfo SET password = #{password},updateTime = now(),isReSetPwd = 'true' WHERE userSeq = #{userSeq}
-    </update>
 </mapper>
