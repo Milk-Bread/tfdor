@@ -16,7 +16,6 @@ define(['app', 'service', 'sysCode'], function (app) {
 
         $scope.resetPwd = function(){
             var formData = {
-                userSeq:$scope.userInfo.userSeq,
                 userId:$scope.userInfo.userId
             }
             service.post2SRV("resetPwd.do", formData, function (data, status) {
