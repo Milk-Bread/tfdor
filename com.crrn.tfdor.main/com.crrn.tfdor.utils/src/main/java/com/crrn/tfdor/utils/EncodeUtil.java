@@ -127,6 +127,6 @@ public class EncodeUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(aesEncrypt("100861BbUwrQ+1Yob+BR1fi+W4RT8c2T8"));
+        System.out.println(aesEncrypt(""));
     }
 }

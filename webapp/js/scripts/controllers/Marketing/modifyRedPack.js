@@ -75,6 +75,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                         }
                         $scope.redPack.totalAmount = $scope.redPack.totalAmount1 + '-' + $scope.redPack.totalAmount2;
                     }
+                    $scope.redPack.totalNum = "1";
                 }
             }
             if ($scope.redPack.wishing == null || $scope.redPack.wishing == '') {
@@ -106,6 +107,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq
                 "auditPerson": $scope.person.userName//复合人名称
             };
+            console.log(formData);
             service.post2SRV("modifyRedPack.do", formData, function (data, status) {
                 $state.go("Main.RedPackManager");
             }, 4000);
