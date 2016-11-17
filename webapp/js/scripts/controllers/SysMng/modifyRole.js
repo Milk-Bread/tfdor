@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyRoleCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.roleName = service.getData().roleName;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
@@ -105,7 +105,7 @@ define(['app', 'service','sysCode'], function (app) {
             var formData = {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(","),
-                "roleSeq":$stateParams.roleSeq,
+                "roleSeq":service.getData().roleSeq,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName,//复合人名称
                 "channelId":null

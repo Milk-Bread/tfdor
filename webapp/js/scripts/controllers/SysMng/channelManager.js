@@ -1,5 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('channelMngCtrl', function (service, $scope, $location, $state, $stateParams) {
+    app.controller('channelMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             service.post2SRV("queryChannel.do", null, function (data, status) {
                 console.log(data);

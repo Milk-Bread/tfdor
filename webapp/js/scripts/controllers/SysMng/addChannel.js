@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('addChannelCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('addChannelCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             //查询复合人
             service.post2SRV("queryAuditPerson.do",null,function(data, status){

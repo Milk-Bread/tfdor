@@ -12,7 +12,7 @@
             <tr ng-show="isShow">
                 <td class="text-center">渠道</td>
                 <td>
-                    <select class="form-control  btn-sm" style="height: 19px;width:80%;" ng-model="channel" ng-change="queryRole()" ng-options="x.channelName for x in channelInfoList">
+                    <select class="form-control  btn-sm seStyle" ng-model="channel" ng-change="queryRole()" ng-options="x.channelName for x in channelInfoList">
                         <option value="">选择渠道</option>
                     </select>
                 </td>
@@ -20,7 +20,7 @@
             <tr>
                 <td class="text-center">角色</td>
                 <td>
-                    <select class="form-control  btn-sm" ng-model="role"  style="height: 19px;width:80%;" ng-options="x.roleName for x in roleList">
+                    <select class="form-control  btn-sm seStyle" ng-model="role" ng-options="x.roleName for x in roleList">
                         <option value="">选择角色</option>
                     </select>
                 </td>
@@ -62,7 +62,7 @@
             <tr>
                 <td class="text-center">指定符合人</td>
                 <td>
-                    <select class="form-control  btn-sm" style="height: 19px;width:80%;" ng-model="person" ng-options="x.userName for x in auditPerson">
+                    <select class="form-control btn-sm seStyle" ng-model="person" ng-options="x.userName for x in auditPerson">
                         <option value="">选择复合人</option>
                     </select>
                 </td>

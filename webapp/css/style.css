@@ -171,3 +171,9 @@ a,img {
 	opacity:0.3;
 	filter:alpha(opacity=30);
 }
+
+.seStyle{
+	height: 19px;
+	width:80%;
+	padding: 0px;
+}

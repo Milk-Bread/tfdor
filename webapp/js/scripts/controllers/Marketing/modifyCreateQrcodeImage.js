@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('modifyCreateQrcodeImgCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyCreateQrcodeImgCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.actionName = service.getData().actionName;
             $scope.mchName = service.getData().mchName;

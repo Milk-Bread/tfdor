@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('addRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('addRoleCtrl', function (service, $scope, $state) {
         $scope.isShow = false;
         $scope.init = function () {
             service.post2SRV("lodeMenu.do", null, function (data, status) {

@@ -1,5 +1,5 @@
 define(['app', 'service','sysCode','encryption'], function (app) {
-	app.controller('LoginCtrl', function (encryption,service,$scope,$location,$state,$rootScope) {
+	app.controller('LoginCtrl', function (encryption,service,$scope,$state) {
     	$scope.doIt = function(){
     		var userId = $scope.userId;
     		if(userId == undefined || userId == ''){

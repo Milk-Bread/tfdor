@@ -3,41 +3,41 @@
         defaultRoute: '/Login',
         routes: {
             'Login': {
-            	url: '/Login',
+                url: '/Login',
                 templateUrl: 'views/Login/login.html',
                 dependencies: ['controllers/Login/login'],
                 allowAnonymous: true
-            },'ResetPasd': {
-            	url: '/ResetPasd',
+            }, 'ResetPasd': {
+                url: '/ResetPasd',
                 templateUrl: 'views/SysMng/resetPassword.html',
                 dependencies: ['controllers/SysMng/resetPassword'],
                 allowAnonymous: true
-            },'Main': {
-            	url: '/Main',
+            }, 'Main': {
+                url: '/Main',
                 templateUrl: 'views/Main/main.html',
                 dependencies: ['controllers/Main/main'],
                 allowAnonymous: true
-            },'Main.UserManager': {
-            	url: '/UserManager',
+            }, 'Main.UserManager': {
+                url: '/UserManager',
                 templateUrl: 'views/SysMng/userManager.html',
                 dependencies: ['controllers/SysMng/userManager'],
                 allowAnonymous: true
-            },'Main.RoleManager': {
-            	url: '/RoleManager',
+            }, 'Main.RoleManager': {
+                url: '/RoleManager',
                 templateUrl: 'views/SysMng/roleManager.html',
                 dependencies: ['controllers/SysMng/roleManager'],
                 allowAnonymous: true
-            },'Main.addRole': {
+            }, 'Main.addRole': {
                 url: '/addRole',
                 templateUrl: 'views/SysMng/addRole.html',
                 dependencies: ['controllers/SysMng/addRole'],
                 allowAnonymous: true
-            },'Main.modifyRole': {
+            }, 'Main.modifyRole': {
                 url: '/modifyRole',
                 templateUrl: 'views/SysMng/modifyRole.html',
                 dependencies: ['controllers/SysMng/modifyRole'],
                 allowAnonymous: true
-            },'Main.QrCodeManager': {
+            }, 'Main.QrCodeManager': {
                 url: '/QrCodeManager',
                 templateUrl: 'views/Marketing/qrcodeManager.html',
                 dependencies: ['controllers/Marketing/qrcodeManager'],
@@ -47,102 +47,102 @@
                 templateUrl: 'views/SysMng/addUser.html',
                 dependencies: ['controllers/SysMng/addUser'],
                 allowAnonymous: true
-            },'Main.CheckQuery': {
+            }, 'Main.CheckQuery': {
                 url: '/CheckQuery',
                 templateUrl: 'views/Auditing/audiList.html',
                 dependencies: ['controllers/Auditing/audiList'],
                 allowAnonymous: true
-            },'Main.modifyUser': {
+            }, 'Main.modifyUser': {
                 url: '/modifyUser',
                 templateUrl: 'views/SysMng/modifyUser.html',
                 dependencies: ['controllers/SysMng/modifyUser'],
                 allowAnonymous: true
-            },'Main.audiDetails': {
+            }, 'Main.audiDetails': {
                 url: '/audiDetails',
                 templateUrl: 'views/Auditing/audiDetails.html',
                 dependencies: ['controllers/Auditing/audiDetails'],
                 allowAnonymous: true
-            },'Main.CheckResultQuery': {
+            }, 'Main.CheckResultQuery': {
                 url: '/CheckResultQuery',
                 templateUrl: 'views/Auditing/audiResultList.html',
                 dependencies: ['controllers/Auditing/audiResultList'],
                 allowAnonymous: true
-            },'Main.ChannelManager': {
+            }, 'Main.ChannelManager': {
                 url: '/ChannelManager',
                 templateUrl: 'views/SysMng/channelManager.html',
                 dependencies: ['controllers/SysMng/channelManager'],
                 allowAnonymous: true
-            },'Main.addChannel': {
+            }, 'Main.addChannel': {
                 url: '/addChannel',
                 templateUrl: 'views/SysMng/addChannel.html',
                 dependencies: ['controllers/SysMng/addChannel'],
                 allowAnonymous: true
-            },'Main.modifyChannel': {
+            }, 'Main.modifyChannel': {
                 url: '/modifyChannel',
                 templateUrl: 'views/SysMng/modifyChannel.html',
                 dependencies: ['controllers/SysMng/modifyChannel'],
                 allowAnonymous: true
-            },'Main.RedPackManager': {
+            }, 'Main.RedPackManager': {
                 url: '/RedPackManager',
                 templateUrl: 'views/Marketing/redPackManager.html',
                 dependencies: ['controllers/Marketing/redPackManager'],
                 allowAnonymous: true
-            },'Main.MerchantManager': {
+            }, 'Main.MerchantManager': {
                 url: '/MerchantManager',
                 templateUrl: 'views/SysMng/merchantManager.html',
                 dependencies: ['controllers/SysMng/merchantManager'],
                 allowAnonymous: true
-            },'Main.deleteUser': {
+            }, 'Main.deleteUser': {
                 url: '/deleteUser',
                 templateUrl: 'views/SysMng/deleteUser.html',
                 dependencies: ['controllers/SysMng/deleteUser'],
                 allowAnonymous: true
-            },'Main.addMerchant': {
+            }, 'Main.addMerchant': {
                 url: '/addMerchant',
                 templateUrl: 'views/SysMng/addMerchant.html',
                 dependencies: ['controllers/SysMng/addMerchant'],
                 allowAnonymous: true
-            },'Main.addQrcode': {
+            }, 'Main.addQrcode': {
                 url: '/addQrcode',
                 templateUrl: 'views/Marketing/addQrcode.html',
                 dependencies: ['controllers/Marketing/addQrcode'],
                 allowAnonymous: true
-            },'Main.merchantDetail': {
+            }, 'Main.merchantDetail': {
                 url: '/merchantDetail',
                 templateUrl: 'views/SysMng/merchantDetail.html',
                 dependencies: ['controllers/SysMng/merchantDetail'],
                 allowAnonymous: true
-            },'Main.modifyMerchant': {
+            }, 'Main.modifyMerchant': {
                 url: '/modifyMerchant',
                 templateUrl: 'views/SysMng/modifyMerchant.html',
                 dependencies: ['controllers/SysMng/modifyMerchant'],
                 allowAnonymous: true
-            },'Main.qrCodeImg': {
+            }, 'Main.qrCodeImg': {
                 url: '/qrCodeImg',
                 templateUrl: 'views/Marketing/qrcodeImg.html',
                 dependencies: ['controllers/Marketing/qrcodeImg'],
                 allowAnonymous: true
-            },'Main.modifyRedPack': {
+            }, 'Main.modifyRedPack': {
                 url: '/modifyRedPack',
                 templateUrl: 'views/Marketing/modifyRedPack.html',
                 dependencies: ['controllers/Marketing/modifyRedPack'],
                 allowAnonymous: true
-            },'Main.addRedPack': {
+            }, 'Main.addRedPack': {
                 url: '/addRedPack',
                 templateUrl: 'views/Marketing/addRedPack.html',
                 dependencies: ['controllers/Marketing/addRedPack'],
                 allowAnonymous: true
-            },'Main.modifyCreateQrcodeImage': {
+            }, 'Main.modifyCreateQrcodeImage': {
                 url: '/modifyCreateQrcodeImage',
                 templateUrl: 'views/Marketing/modifyCreateQrcodeImage.html',
                 dependencies: ['controllers/Marketing/modifyCreateQrcodeImage'],
                 allowAnonymous: true
-            },'Main.PasswordManager': {
+            }, 'Main.PasswordManager': {
                 url: '/PasswordManager',
                 templateUrl: 'views/SysMng/passwordManager.html',
                 dependencies: ['controllers/SysMng/passwordManager'],
                 allowAnonymous: true
-            },
+            }
         }
     };
 });

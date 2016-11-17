@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyChannelCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyChannelCtrl', function (service, $scope, $state) {
         $scope.channelInfo = service.getData();
         $scope.init = function () {
             $scope.channelId = $scope.channelInfo.channelId;

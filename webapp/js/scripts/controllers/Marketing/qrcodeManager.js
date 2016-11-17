@@ -2,7 +2,7 @@
  * Created by pengyuming on 16/10/12.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('qrCodeManager', function (service,$scope,$location,$state,$stateParams) {
+    app.controller('qrCodeManager', function (service,$scope,$state) {
         //当前页
         $scope.pageNo = 1;
         //每页显示数量

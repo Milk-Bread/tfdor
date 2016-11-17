@@ -1,5 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('audiDetailsCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('audiDetailsCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             console.log(service.getData());
             if(service.getData().result == false){

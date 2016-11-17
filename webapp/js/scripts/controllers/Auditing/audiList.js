@@ -1,5 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('audiListCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('audiListCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             service.post2SRV("auditingList.do", null, function (data, status) {
                 $scope.auditingList = data;

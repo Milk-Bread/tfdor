@@ -1,8 +1,8 @@
-define(['app', 'service','sysCode'], function (app) {
-    app.controller('mainCtrl', function (service, $scope, $location, $state, $stateParams,$rootScope) {
+define(['app', 'service', 'sysCode'], function (app) {
+    app.controller('mainCtrl', function (service, $scope, $state, $rootScope) {
         $scope.initMain = function () {
             var user = service.getUser();
-            if(user != null){
+            if (user != null) {
                 $scope._userName = user.userName;
             }
             service.post2SRV("lodeMenu.do", null, function (data, status) {
@@ -15,22 +15,22 @@ define(['app', 'service','sysCode'], function (app) {
             $rootScope.menuThree1 = null;
         };
 
-        $scope.menuTwo = function (menu,url) {
+        $scope.menuTwo = function (menu, url) {
             $scope.menuTwo1 = menu;
             $scope.url = url;
             $rootScope.menuThree1 = null;
         };
 
-        $rootScope.menuThree = function(menu){
+        $rootScope.menuThree = function (menu) {
             $rootScope.menuThree1 = menu;
         };
-        $scope.logout = function(){
+        $scope.logout = function () {
             service.post2SRV("logout.do", null, function (data, status) {
                 $state.go("Login");
             }, 4000);
         }
         $scope.showMain = function (id) {
-            if($('#mainId' + id).css('display') == 'none'){
+            if ($('#mainId' + id).css('display') == 'none') {
                 $('.groupLi').slideUp(500);
                 $('#mainId' + id).slideDown(500);
             }

@@ -37,9 +37,9 @@ define(['app'], function (app) {
                     }
                 }
                 function build() {
-                    if(angular.isDefined(scope.pages) && scope.pages > 0){
+                    if (angular.isDefined(scope.pages) && scope.pages > 0) {
                         scope.isNone = true;
-                    }else if(scope.isNone != false){
+                    } else if (scope.isNone != false) {
                         showError("温馨提示：查无记录");
                         scope.isNone = false;
                     }
@@ -65,12 +65,13 @@ define(['app'], function (app) {
                     for (; low <= high; low++) {
                         scope.pagenums.push(low);
                     }
-                    if(one > 2){
+                    if (one > 2) {
                         scope.doIt();
-                    }else{
+                    } else {
                         one++;
                     }
                 }
+
                 scope.$watch('pages+pageNo', function () {
                     build();
                 });

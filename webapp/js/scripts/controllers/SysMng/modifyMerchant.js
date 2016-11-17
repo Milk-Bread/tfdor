@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyMerchantCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyMerchantCtrl', function (service, $scope, $state) {
         $scope.selectMerchant = service.getData();
 
         $scope.init = function () {

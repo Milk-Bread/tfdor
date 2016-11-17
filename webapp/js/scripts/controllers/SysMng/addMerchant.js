@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('addMerchantCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('addMerchantCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.channelId = service.getUser().channel.channelId;
             if ($scope.channelId != null && $scope.channelId == 'tfdor') {

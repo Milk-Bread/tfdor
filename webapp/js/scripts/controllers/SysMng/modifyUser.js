@@ -2,7 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyUserCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    app.controller('modifyUserCtrl', function (service, $scope, $state) {
         $scope.userInfo = service.getData();
         $scope.init = function(){
             $scope.userName = $scope.userInfo.userName;
