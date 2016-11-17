@@ -32,7 +32,8 @@ define(['app', 'service','sysCode'], function (app) {
         $scope.queryRole = function () {
             var channelId = $scope.channel.channelId;
             var formData = {
-                "channelId" : channelId
+                "channelId" : channelId,
+                "flag" : $scope.channelId
             };
             service.post2SRV("queryRole.do", formData,function(data,status) {
                 $scope.roleList = data;

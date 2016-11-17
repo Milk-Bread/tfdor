@@ -9,6 +9,14 @@
                 <th width="40%" class="text-center">用户名称</th>
                 <td width="60%" class="text-left"><input type="text" name="userName" ng-model="userName"></td>
             </tr>
+            <tr ng-show="isShow">
+                <td class="text-center">渠道</td>
+                <td>
+                    <select class="form-control  btn-sm seStyle" ng-model="channel" ng-change="queryRole()" ng-options="x.channelName for x in channelInfoList">
+                        <option value="">选择渠道</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td class="text-center">角色</td>
                 <td>

@@ -4,7 +4,8 @@ define(['app', 'service', 'sysCode'], function (app) {
             $scope.loginUserSeq = service.getUser().userSeq;
             $scope.channelId = service.getUser().channel.channelId;
             var formData = {
-                "channelId": $scope.channelId
+                "channelId": $scope.channelId,
+                "userName": $scope.userName
             };
             service.post2SRV("queryUserInfo.do", formData, function (data, status) {
                 console.log(data);

@@ -221,9 +221,11 @@ public class UserController {
     public Object queryRole(HttpServletRequest request) {
         String roleName = request.getParameter("roleName");
         String channelId = request.getParameter("channelId");
+        String flag = request.getParameter("flag");
         Map<String, Object> param = new HashMap<>();
         param.put("roleName", roleName);
         param.put("channelId", channelId);
+        param.put("flag", flag);
         List<Map<String, Object>> roleList = userService.queryRole(param);
         String sessionId = request.getRequestedSessionId();
         return roleList;
@@ -241,6 +243,7 @@ public class UserController {
     public Object queryUserInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
+        map.put("userName", request.getParameter("userName"));
         return userService.queryUserInfo(map);
     }
 
@@ -276,6 +279,7 @@ public class UserController {
     public Object queryChannel(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("channelId", request.getParameter("channelId"));
+        param.put("channelName", request.getParameter("channelName"));
         return userService.queryChannel(param);
     }
 
@@ -443,6 +447,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         map.put("channelId", user.getChannel().getChannelId());
+        map.put("merchantName", request.getParameter("merchantName"));
         return userService.queryMerchant(map);
     }
 

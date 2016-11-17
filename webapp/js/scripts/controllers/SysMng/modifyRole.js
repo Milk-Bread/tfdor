@@ -116,6 +116,15 @@ define(['app', 'service','sysCode'], function (app) {
                 showError("错误提示：请选择权限");
                 return;
             }
+            if ($scope.isShow) {
+                if ($scope.channel == null || $scope.channel == 0) {
+                    showError("错误提示：请选择渠道");
+                    return;
+                }
+                $scope.channelId = $scope.channel.channelId;
+            } else {
+                $scope.channelId = service.getUser().channel.channelId;
+            }
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示：请选择复合人");
                 return;
@@ -123,7 +132,7 @@ define(['app', 'service','sysCode'], function (app) {
             var formData = {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(","),
-                "roleSeq":service.getData().roleSeq,
+                "roleSeq":$scope.roleInfo.roleSeq,
                 "channelId": $scope.channelId,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName,//复合人名称

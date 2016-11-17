@@ -23,9 +23,9 @@
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
         select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
         from role r,channel c
-        where c.channelId = r.channelId
-        <if test="roleName != null and roleName != '' ">
-            AND ROLENAME = #{roleName}
+        where c.channelId = r.channelId AND  r.RoleSeq != 1
+        <if test="roleName != null">
+            AND ROLENAME LIKE CONCAT('%',#{roleName},'%')
         </if>
         <if test="channelId != null and channelId != '' ">
             and r.channelId = #{channelId}
@@ -42,11 +42,11 @@
     <select id="queryUserInfo" parameterType="java.util.Map"
             resultType="java.util.Map">
         SELECT u.userSeq,u.roleSeq,u.userId,u.userName,
-	    u.password,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelName,
+	    u.password,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelId,c.channelName,
 	    DATE_FORMAT(u.createTime,'%Y-%m-%d %H:%i:%s') createTime,u.addr
 	    from userinfo u ,channel c WHERE u.channelId = c.channelId
-	    <if test="userName != null and userName != ''">
-            AND u.UserName = #{userName}
+	    <if test="userName != null">
+            AND u.UserName LIKE CONCAT('%',#{userName},'%')
         </if>
         <if test="channelId != null and channelId != ''">
             AND u.channelId = #{channelId}
@@ -70,6 +70,9 @@
         DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
         <if test="channelId != null and channelId != ''">
             and channelId = #{channelId}
+        </if>
+        <if test="channelName != null">
+            AND channelName like CONCAT('%',#{channelName},'%')
         </if>
         ORDER BY createTime DESC
     </select>
@@ -149,6 +152,9 @@
         FROM merchant m, channel c WHERE m.channelId = c.channelId
         <if test="channelId != null and channelId != 'tfdor'">
             and m.channelId = #{channelId}
+        </if>
+        <if test="merchantName != null">
+            AND m.mchName LIKE CONCAT('%',#{merchantName},'%')
         </if>
         ORDER BY m.channelId,m.createTime DESC
     </select>

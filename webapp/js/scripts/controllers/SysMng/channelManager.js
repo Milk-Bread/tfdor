@@ -3,7 +3,8 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.init = function () {
             $scope.channelId = service.getUser().channel.channelId;
             var formData = {
-                "channelId" : $scope.channelId
+                "channelId" : $scope.channelId,
+                "channelName": $scope.channelName
             };
             service.post2SRV("queryChannel.do", formData, function (data, status) {
                 console.log(data);
