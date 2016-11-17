@@ -104,8 +104,12 @@ define(['app', 'service','sysCode'], function (app) {
             if ($scope.sex == null) {
                 $scope.sex = 'M';
             }
-            if ($scope.customerType == null) {
-                $scope.customerType = '1';
+            if ($scope.isShow) {
+                if ($scope.customerType == null) {
+                    $scope.customerType = '1';
+                }
+            } else {
+                $scope.customerType = '2';
             }
 
             var formData = {

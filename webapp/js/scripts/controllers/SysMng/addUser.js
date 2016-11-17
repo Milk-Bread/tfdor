@@ -85,16 +85,15 @@ define(['app', 'service','sysCode'], function (app) {
                 showError("错误提示,请选择复合人");
                 return;
             }
-            if ($scope.person == null || $scope.person == '') {
-                showError("错误提示,请选择复合人");
-                return;
-            }
             if ($scope.sex == null) {
                 $scope.sex = 'M';
             }
-
-            if ($scope.customerType == null) {
-                $scope.customerType = '1';
+            if ($scope.isShow) {
+                if ($scope.customerType == null) {
+                    $scope.customerType = '1';
+                }
+            } else {
+                $scope.customerType = '2';
             }
 
             var formData = {
