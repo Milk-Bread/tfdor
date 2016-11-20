@@ -13,11 +13,11 @@ define(['app'], function (app) {
             formData["transName"] = action;
             transFn = function (formData) {
                 return $.param(formData);
-            },
-                postCfg = {
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                    transformRequest: transFn
-                };
+            }
+            postCfg = {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                transformRequest: transFn
+            };
             $(".mask").show();
             cfpLoadingBar.start();
             $http.post(
@@ -53,7 +53,7 @@ define(['app'], function (app) {
                 }
             });
             if (action != 'audiAgree.do' && action != 'audiRefuse.do' && formData['auditPersonSeq'] != null && formData['auditPersonSeq'] != '') {
-                showInfo("提交成功，请等待【" + formData['auditPerson'] + "】复合");
+                showInfo("提交成功，请等待【 " + formData['auditPerson'] + " 】复合");
             }
         };
         this.getData = function () {
@@ -73,14 +73,14 @@ var showError = function (intro) {
         $('#errorDiv').fadeOut(400);
     }, 6000);
 };
-
+var infotime;
 var showInfo = function (intro) {
-    clearTimeout(time);
+    clearTimeout(infotime);
     $("#info").html(intro);
     $('#alertInfo').slideDown(700);
-    time = setTimeout(function () {
+    infotime = setTimeout(function () {
         $('#alertInfo').fadeOut(400);
-    }, 6000);
+    }, 5000);
 };
 
 function closeInfo() {

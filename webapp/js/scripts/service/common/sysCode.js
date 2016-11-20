@@ -77,6 +77,7 @@ define(['app'], function (app) {
                 "redPackType": "红包类型",
                 "modifyRole.do": "角色修改",
                 "modifyUser.do": "用户信息修改",
+                "addUser.do": "新增用户",
                 "addChannel.do": "添加渠道",
                 "modifyChannel.do": "修改渠道",
                 "addRole.do": "新增角色",
