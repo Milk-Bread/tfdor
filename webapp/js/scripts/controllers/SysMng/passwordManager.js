@@ -19,7 +19,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 userId:$scope.userInfo.userId
             }
             service.post2SRV("resetPwd.do", formData, function (data, status) {
-                alert("重置成功");
+                showInfo("重置成功");
             }, 1000);
         }
     });

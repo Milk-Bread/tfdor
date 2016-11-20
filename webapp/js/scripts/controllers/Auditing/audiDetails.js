@@ -60,17 +60,22 @@ define(['app', 'service', 'sysCode'], function (app) {
             formData["auditingTrans"] = obj.auditingTrans;
             formData["auditingSeq"] = obj.auditingSeq;
             service.post2SRV("audiAgree.do", formData, function (data, status) {
-                alert("复合成功");
+                showInfo("复合成功");
                 $state.go("Main.CheckQuery");
             }, 4000);
         };
         $scope.refuse = function () {
+            var rm = prompt("输入提示","请输入拒绝原因");
+            if(rm == null){
+                return;
+            }
             var obj = service.getData();
             var formData = angular.fromJson(obj.auditingData);
+            formData["remarks"] = rm;
             formData["auditingTrans"] = obj.auditingTrans;
             formData["auditingSeq"] = obj.auditingSeq;
             service.post2SRV("audiRefuse.do", formData, function (data, status) {
-                alert("复合成功");
+                showInfo("复合成功");
                 $state.go("Main.CheckQuery");
             }, 4000);
         };

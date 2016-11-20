@@ -20,11 +20,19 @@
 <body>
 <div id="loading-bar-container"></div>
 <div ui-view></div>
+<!-- 错误提示框 -->
 <div class="alert alert-danger alert-dismissable" id="errorDiv" style="position:fixed;z-index: auto;top: 20px;right:10px;display:none">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="closePop();">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="closeError();">
         &times;
     </button>
     <div id="intro" style="width:300px"></div>
+</div>
+<!-- 成功提示框 -->
+<div class="alert alert-success alert-dismissable" id="alertInfo" style="position:fixed;z-index: auto;top: 20px;right:10px;display:none">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="closeInfo();">
+        &times;
+    </button>
+    <div id="info" style="width:300px"></div>
 </div>
 <!-- loading 遮罩 -->
 <div class="mask"></div>
