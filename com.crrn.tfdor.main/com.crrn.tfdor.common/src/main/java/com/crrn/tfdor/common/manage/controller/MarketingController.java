@@ -55,10 +55,10 @@ public class MarketingController {
     public Object qCreateQrcodeImg(HttpServletRequest request) throws Exception {
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> param = new HashMap<String, Object>();
-        if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
-            param.put("channelId", user.getChannel().getChannelId());
-        } else if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId") != null) {
+        if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", request.getParameter("channelId"));
+        } else {
+            param.put("channelId", user.getChannel().getChannelId());
         }
         Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
         Integer pageSize = Integer.valueOf(request.getParameter("pageSize"));
@@ -96,7 +96,7 @@ public class MarketingController {
     public Object queryRedPack(HttpServletRequest request) throws Exception {
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> param = new HashMap<String, Object>();
-        if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId()) && request.getParameter("channelId") != null) {
+        if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", request.getParameter("channelId"));
         } else {
             param.put("channelId", user.getChannel().getChannelId());
