@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crrn.tfdor.dao.AuditingDao">
-    <!-- 加载菜单 -->
+    <!-- 添加复合记录 -->
     <insert id="addAuditing" parameterType="java.util.Map">
         INSERT INTO Auditing(auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,createTime,state)
         VALUES (#{auditingTrans},#{auditingName},#{auditingData},#{promoterSeq},#{promoter},#{auditPersonSeq},#{auditPerson},now(),'I')
@@ -16,16 +16,17 @@
     <!-- 查询复合记录 -->
     <select id="auditingList" parameterType="java.util.Map" resultType="java.util.Map">
         select auditingSeq,auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,
-        state FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state = #{state}
+        state,remarks FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state = 'I'
         ORDER BY createTime DESC
     </select>
-
+    <!-- 复合记录查询 -->
+    <select id="audiResultList" parameterType="java.util.Map" resultType="java.util.Map">
+        select auditingSeq,auditingTrans,auditingName,auditingData,promoterSeq,promoter,auditPersonSeq,auditPerson,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        state,remarks FROM Auditing WHERE  auditPersonSeq = #{auditPersonSeq} and state in ('F','S')
+        ORDER BY createTime DESC
+    </select>
+    <!-- 修改复合状态 -->
     <select id="modifyAuditing" parameterType="java.util.Map">
         UPDATE Auditing SET state = #{state},updateTime = now(),remarks = #{remarks} where auditingSeq = #{auditingSeq}
-    </select>
-
-    <select id="queryAuditing" parameterType="java.util.Map">
-        select * from Auditing where auditingTrans = #{auditingTrans} and state = 'I'
-        ORDER BY createTime DESC
     </select>
 </mapper>

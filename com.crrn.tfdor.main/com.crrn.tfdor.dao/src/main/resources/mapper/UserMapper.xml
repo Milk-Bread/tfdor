@@ -4,26 +4,29 @@
 <mapper namespace="com.crrn.tfdor.dao.UserDao">
     <!-- 登陆 -->
     <select id="loginCheck" parameterType="com.crrn.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
-        select userSeq,userId,userName,sex,age,addr,mobilePhone,
+        select userSeq,userId,userName,sex,age,addr,mobilePhone,password,pasdErrorCount,
         phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
         c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime,u.isReSetPwd
         from UserInfo u,channel c
-        WHERE u.channelId = c.channelId and userId = #{userId} and password = #{password}
+        WHERE u.channelId = c.channelId and userId = #{userId}
     </select>
     <!-- 重置密码 -->
     <update id="resetPasd" parameterType="java.util.Map">
-        UPDATE UserInfo set password = #{password},isReSetPwd = #{isReSetPwd} WHERE userId = #{userId}
+        UPDATE UserInfo set password = #{password},isReSetPwd = #{isReSetPwd},pasdErrorCount = 0 WHERE userId = #{userId}
     </update>
 
+    <update id="updateLoginErrorCount" parameterType="java.util.Map">
+        UPDATE userinfo set pasdErrorCount = #{count} WHERE userSeq = #{userSeq}
+    </update>
 
     <update id="modifyUserinfo" parameterType="java.util.Map">
-        UPDATE userinfo set loginCount = loginCount + 1,lastLoginTime = now(),isReSetPwd = 'false' where UserSeq = #{userSeq}
+        UPDATE userinfo set loginCount = loginCount + 1,isReSetPwd = 'false',pasdErrorCount = 0 where UserSeq = #{userSeq}
     </update>
     <!-- 角色查询 -->
     <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
         select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
         from role r,channel c
-        where c.channelId = r.channelId AND  r.RoleSeq != 1
+        where c.channelId = r.channelId AND  r.RoleSeq != 1 AND c.state = 'N'
         <if test="roleName != null">
             AND ROLENAME LIKE CONCAT('%',#{roleName},'%')
         </if>
@@ -39,12 +42,10 @@
     <insert id="addRolemenurelate" parameterType="java.util.Map">
         INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
     </insert>
-    <select id="queryUserInfo" parameterType="java.util.Map"
-            resultType="java.util.Map">
-        SELECT u.userSeq,u.roleSeq,u.userId,u.userName,
-	    u.password,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelId,c.channelName,
+    <select id="queryUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT u.userSeq,u.roleSeq,u.userId,u.userName,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelId,c.channelName,
 	    DATE_FORMAT(u.createTime,'%Y-%m-%d %H:%i:%s') createTime,u.addr
-	    from userinfo u ,channel c WHERE u.channelId = c.channelId
+	    from userinfo u ,channel c WHERE u.channelId = c.channelId AND c.state = 'N'
 	    <if test="userName != null">
             AND u.UserName LIKE CONCAT('%',#{userName},'%')
         </if>
@@ -69,7 +70,7 @@
         DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
         DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
         <if test="channelId != null and channelId != ''">
-            and channelId = #{channelId}
+            and channelId = #{channelId} AND c.state = 'N'
         </if>
         <if test="channelName != null">
             AND channelName like CONCAT('%',#{channelName},'%')
@@ -151,7 +152,7 @@
         DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
         FROM merchant m, channel c WHERE m.channelId = c.channelId
         <if test="channelId != null and channelId != 'tfdor'">
-            and m.channelId = #{channelId}
+            and m.channelId = #{channelId} AND m.state = 'N'
         </if>
         <if test="merchantName != null">
             AND m.mchName LIKE CONCAT('%',#{merchantName},'%')
@@ -203,7 +204,7 @@
         phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
         c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime
         from UserInfo u,channel c
-        WHERE u.channelId = c.channelId and userId = #{userId}
+        WHERE u.channelId = c.channelId and userId = #{userId} AND c.state = 'N'
         <if test="channelId != null and channelId != ''">
             and c.channelId = #{channelId}
         </if>

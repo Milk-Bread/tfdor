@@ -1,9 +1,15 @@
 package com.crrn.tfdor.service.manage.impl;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.utils.BeanUtils;
+import com.crrn.tfdor.utils.CHECKMSG;
+import com.crrn.tfdor.utils.EncodeUtil;
+import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +36,34 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> loginCheck(String userId, String password) {
         UserInfo user = new UserInfo();
         user.setUserId(userId);
-        user.setPassword(password);
-        return userDao.loginCheck(user);
+        Map<String, Object> userMap = userDao.loginCheck(user);
+        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
+        if (userMap == null) {
+            throw new RuntimeException(CHECKMSG.USER_DOES_NOT_EXIST);
+        } else {
+            Integer count = (Integer) userMap.get("pasdErrorCount");
+            if (count > 4) {//密码输错5次
+                Timestamp updateTime = Timestamp.valueOf((String)userMap.get("lastLoginTime")) ;
+                Timestamp time = new Timestamp(System.currentTimeMillis());
+                if (time.getTime() - updateTime.getTime() >= 24 * 60 * 60 * 1000) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("count", 0);
+                    map.put("userSeq", userMap.get("userSeq"));
+                    userDao.updateLoginErrorCount(map);
+                } else {
+                    throw new ValidationRuntimeException(CHECKMSG.USER_HAS_BEEN_LOCKED);
+                }
+            }
+            if (!passwordaes.equals(userMap.get("password").toString())) {//密码错误
+                Map<String, Object> map = new HashMap<>();
+                map.put("count", ++count);
+                map.put("userSeq", userMap.get("userSeq"));
+                userDao.updateLoginErrorCount(map);
+                throw new ValidationRuntimeException(CHECKMSG.PASSWORD_ERROR, new Object[]{5 - count});
+            }
+        }
+        userMap.remove("password");
+        return userMap;
     }
 
     /**
@@ -219,7 +251,6 @@ public class UserServiceImpl implements UserService {
         userDao.modifyChannel(map);
     }
 
-
     /**
      * 删除渠道信息
      *
@@ -230,8 +261,6 @@ public class UserServiceImpl implements UserService {
     public void deleteChannel(Map<String, Object> map) {
         userDao.deleteChannel(map);
     }
-
-
 
     /**
      * 查询商户信息

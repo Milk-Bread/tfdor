@@ -38,4 +38,11 @@ public interface AuditingDao {
      * @param param
      */
     public void modifyAuditing(Map<String, Object> param);
+
+    /**
+     * 修改审核流水记录
+     *
+     * @param param
+     */
+    public List<Map<String, Object>> audiResultList(Map<String, Object> param);
 }

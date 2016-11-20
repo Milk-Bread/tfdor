@@ -19,10 +19,12 @@ public interface UserDao {
 
     /**
      * 重置密码
+     *
      * @param map
      * @return
      */
     public void resetPasd(Map<String, Object> map);
+
     /**
      * 修改用户登陆次数
      *
@@ -59,44 +61,50 @@ public interface UserDao {
      * 查询用户列表
      */
     public List<UserInfo> queryUserInfo(UserInfo user);
-  /**
-   * 新增角色菜单关联
-   * @param map
-   */
-  public void addRolemenurelate(Map<String, Object> map);
 
-  /**
-   * 删除角色菜单关联
-   */
-  public void deleteRolemenurelate(Map<String, Object> map);
+    /**
+     * 新增角色菜单关联
+     *
+     * @param map
+     */
+    public void addRolemenurelate(Map<String, Object> map);
 
-  /**
-   * 修改角色
-   */
-  public void modifyRole(Map<String, Object> map);
+    /**
+     * 删除角色菜单关联
+     */
+    public void deleteRolemenurelate(Map<String, Object> map);
 
-  /**
-   *  添加用户
-   * @param userInfo
-   */
-  public void addUser(UserInfo userInfo);
+    /**
+     * 修改角色
+     */
+    public void modifyRole(Map<String, Object> map);
 
-  /**
-   *  修改用户
-   * @param userInfo
-   */
-  public void modifyUser(UserInfo userInfo);
+    /**
+     * 添加用户
+     *
+     * @param userInfo
+     */
+    public void addUser(UserInfo userInfo);
 
-  /**
-   * 删除用户信息
-   * @param map
-   */
-  public void deleteUser(Map<String, Object> map);
+    /**
+     * 修改用户
+     *
+     * @param userInfo
+     */
+    public void modifyUser(UserInfo userInfo);
 
-  /**
-   *  添加商户信息
-   * @param map
-   */
+    /**
+     * 删除用户信息
+     *
+     * @param map
+     */
+    public void deleteUser(Map<String, Object> map);
+
+    /**
+     * 添加商户信息
+     *
+     * @param map
+     */
     public List<Map<String, Object>> queryUserInfo(Map<String, Object> map);
 
     /**
@@ -157,8 +165,16 @@ public interface UserDao {
 
     /**
      * 根据用户ID查询用户信息
+     *
      * @param map
      * @return
      */
     public Map<String, Object> queryUserById(Map<String, Object> map);
+
+    /**
+     * 修改密码错误次数
+     *
+     * @param map
+     */
+    public void updateLoginErrorCount(Map<String, Object> map);
 }

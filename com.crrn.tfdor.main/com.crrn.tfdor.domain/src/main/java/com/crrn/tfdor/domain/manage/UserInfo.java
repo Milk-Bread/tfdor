@@ -70,11 +70,18 @@ public class UserInfo extends BaseCodeModel implements Serializable {
      **/
     private String createTime;
     /**
+     * 密码错误次数
+     */
+    private String pasdErrorCount;
+
+    /**
      * 登陆标志
      **/
     public boolean logout;
+    /**
+     * 登陆sessionId
+     */
     private String sessionId;
-    private Timestamp loginTime;
     /**
      * 用户类型，1-管理员，2-操作员
      */
@@ -83,9 +90,30 @@ public class UserInfo extends BaseCodeModel implements Serializable {
      * 商户信息列表
      */
     private List<Merchant> merchantList;
-
+    /**
+     * 是否需要重置密码
+     */
     private String isReSetPwd;
+    /**
+     * 登陆时间
+     */
+    private Timestamp loginTime;
 
+    public Timestamp getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Timestamp loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getPasdErrorCount() {
+        return pasdErrorCount;
+    }
+
+    public void setPasdErrorCount(String pasdErrorCount) {
+        this.pasdErrorCount = pasdErrorCount;
+    }
 
     public String getIsReSetPwd() {
         return isReSetPwd;
@@ -117,14 +145,6 @@ public class UserInfo extends BaseCodeModel implements Serializable {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public Timestamp getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Timestamp loginTime) {
-        this.loginTime = loginTime;
     }
 
     public boolean isLogout() {

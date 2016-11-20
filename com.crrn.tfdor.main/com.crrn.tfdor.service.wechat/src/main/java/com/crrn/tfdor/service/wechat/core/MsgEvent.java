@@ -43,17 +43,19 @@ public class MsgEvent {
      * @param param
      */
     @Transactional
-    public void activityByRedPack(Map<String, Object> msgMap,Map<String, Object> param, Merchant merchant) throws Exception {
+    public void activityByRedPack(Map<String, Object> msgMap, Map<String, Object> param, Merchant merchant) throws Exception {
         Map<String, Object> payMsgMap = new HashMap<>();
         RedPackBean redPackBean = weChatDao.queryRedPackByMchId(merchant.getMchId());
-        if(redPackBean == null){
+        if (redPackBean == null) {
+            param.put("Content", "您好，欢迎关注" + merchant.getMchName());
+            msgTypeByText(msgMap, param);
             return;
         }
         Map<String, Object> paramSql = new HashMap<String, Object>();
-        String eventKey = (String)param.get("EventKey");
-        if(eventKey.indexOf("qrscene_") == 0){//第一次扫码
+        String eventKey = (String) param.get("EventKey");
+        if (eventKey.indexOf("qrscene_") == 0) {//第一次扫码
             eventKey = eventKey.substring(8);
-            param.put("EventKey",eventKey);
+            param.put("EventKey", eventKey);
         }
         paramSql.put("sceneStr", eventKey);
         Map<String, Object> qrcodeImg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
@@ -61,23 +63,26 @@ public class MsgEvent {
             Timestamp beginDate = (Timestamp) qrcodeImg.get("beginDate");
             Timestamp endDate = (Timestamp) qrcodeImg.get("endDate");
             Timestamp time = new Timestamp(System.currentTimeMillis());
-            if ((beginDate.getTime() <= time.getTime()) && (time.getTime() <= endDate.getTime())) {
+            if (time.getTime() <= beginDate.getTime()) {
+                param.put("Content", "您好，活动暂未开放，敬请期待");
+                msgTypeByText(msgMap, param);
+            } else if (time.getTime() >= endDate.getTime()) {
+                param.put("Content", "您好，本期活动已经结束，感谢您的支持");
+                msgTypeByText(msgMap, param);
+            } else if (beginDate.getTime() <= time.getTime() && time.getTime() <= endDate.getTime()) {
                 logger.debug(">>>>>>>>微信红包准备中～～～～～～");
                 logger.debug("二维码第一次使用");
                 sendRedPack(payMsgMap, param, merchant, redPackBean);
-            }else{
-                param.put("Content","您好，二维码已经过期");
-                msgTypeByText(msgMap,param);
             }
-        }else if(qrcodeImg == null){
-//            param.put("Content","您好，二维码不正确");
-//            msgTypeByText(msgMap,param);
-        }else if(!"N".equals(qrcodeImg.get("cState"))){
-            param.put("Content","您好，活动已经结束，敬请关注");
-            msgTypeByText(msgMap,param);
-        }else if("S".equals(qrcodeImg.get("state"))){
-            param.put("Content","您好，该二维码已经使用过了");
-            msgTypeByText(msgMap,param);
+        } else if (qrcodeImg == null) {
+            param.put("Content", "您好，欢迎关注" + merchant.getMchName());
+            msgTypeByText(msgMap, param);
+        } else if (!"N".equals(qrcodeImg.get("cState"))) {
+            param.put("Content", "您好，活动已经结束，敬请关注");
+            msgTypeByText(msgMap, param);
+        } else if ("S".equals(qrcodeImg.get("state"))) {
+            param.put("Content", "您好，该二维码已经使用过了");
+            msgTypeByText(msgMap, param);
         }
     }
 
@@ -101,13 +106,13 @@ public class MsgEvent {
         if (Dict.REDPACKTYPE_FNRK.equals(redPackBean.getRedPackType())) {//微信裂变红包
             msgMap.put("amt_type", "ALL_RAND");
             payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDGROUPREDPACK);//裂变红包接口名称
-        }else if(Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())){
+        } else if (Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())) {
             payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);//现金红包接口名称
         }
         String amount;
         if (Dict.AMOUNTTYPE_FDAT.equals(redPackBean.getAmountType())) {//固定金额红包
             amount = Util.moneyYuanToFenByRound(redPackBean.getTotalAmount());
-        } else if(Dict.AMOUNTTYPE_RMAT.equals(redPackBean.getAmountType())){//随机金额红包
+        } else if (Dict.AMOUNTTYPE_RMAT.equals(redPackBean.getAmountType())) {//随机金额红包
             String[] totalAmount = redPackBean.getTotalAmount().split("-");
             //精确小数点2位
             NumberFormat formatter = new DecimalFormat("#.##");
@@ -117,7 +122,7 @@ public class MsgEvent {
             //随机一个数，数值范围在最小值与余额之间
             String money = formatter.format(random.nextDouble() * (Double.valueOf(totalAmount[1]) - moneyMin) + moneyMin);
             amount = Util.moneyYuanToFenByRound(money);
-        }else{
+        } else {
             throw new RuntimeException(CHECKMSG.RED_AMOUNT_TYPE_ERROR);
         }
         msgMap.put("total_amount", amount);//付款金额，单位分
@@ -129,8 +134,8 @@ public class MsgEvent {
         msgMap.put("sign", Util.getSignature(merchant.getSignatureKey(), msgMap));//签名
         String respXml = transformer.former(msgMap);
         payParam.put(Dict.PAY_XML, respXml);
-        param.put("transjnl",transjnl);
-        param.put("orderId",orderId);
+        param.put("transjnl", transjnl);
+        param.put("orderId", orderId);
         try {
             Map<String, Object> resp = (Map<String, Object>) transport.weChatPay(merchant.getMchId(), payParam);
             param.put("state", "S");

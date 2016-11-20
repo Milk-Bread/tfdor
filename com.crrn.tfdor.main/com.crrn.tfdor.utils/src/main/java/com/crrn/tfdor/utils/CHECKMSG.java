@@ -46,4 +46,15 @@ public class CHECKMSG {
      * 红包金额类型错误
      */
     public static final String RED_AMOUNT_TYPE_ERROR = "red.amount.type.error";
+
+     /**
+     * 密码错误
+     */
+    public static final String PASSWORD_ERROR = "password.error";
+
+    /**
+     * 用户密码输错5次，已经被锁定，请24小时后再试，或者联系管理员重置密码
+     */
+    public static final String USER_HAS_BEEN_LOCKED = "user.has.been.locked";
+
 }

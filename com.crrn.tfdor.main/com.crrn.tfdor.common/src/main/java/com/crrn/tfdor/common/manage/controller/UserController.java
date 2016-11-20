@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.utils.*;
+import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.ValidationException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -71,14 +73,10 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
-        if(request.getParameter("transName").equals("resetLoginPasd.do")){
+        if (request.getParameter("transName").equals("resetLoginPasd.do")) {
             userId = (String) request.getSession().getAttribute("resetUser");
         }
-        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
-        Map<String, Object> userMap = userService.loginCheck(userId, passwordaes);
-        if (userMap == null) {
-            throw new RuntimeException(CHECKMSG.USER_DOES_NOT_EXIST);
-        }
+        Map<String, Object> userMap = userService.loginCheck(userId, password);
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
         if (!"N".equals(channel.getState())) {//用户状态不正确
@@ -86,8 +84,8 @@ public class UserController {
         }
         Map<String, Object> bumap = new HashMap<String, Object>();
         bumap.put("channelId", channel.getChannelId());
-        if("true".equals(user.getIsReSetPwd())){//重置密码
-            request.getSession().setAttribute("resetUser",userId);
+        if ("true".equals(user.getIsReSetPwd())) {//重置密码
+            request.getSession().setAttribute("resetUser", userId);
             throw new RuntimeException(CHECKMSG.PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN);
         }
         userService.modifyUserinfo(userMap);
@@ -110,19 +108,18 @@ public class UserController {
      */
     @RequestMapping(value = "resetLoginPasd.do", method = RequestMethod.POST)
     @ResponseBody
-    public void resetLoginPasd(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    public void resetLoginPasd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = (String) request.getSession().getAttribute("resetUser");
         String password = request.getParameter("password");
         String passwordaes = EncodeUtil.aesEncrypt(userId + password);
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("isReSetPwd","false");
-        param.put("userId",userId);
-        param.put("password",passwordaes);
+        param.put("isReSetPwd", "false");
+        param.put("userId", userId);
+        param.put("password", passwordaes);
         userService.resetPasd(param);
-        request.setAttribute("userId",userId);
-        request.getRequestDispatcher("login.do").forward(request,response);
+        request.setAttribute("userId", userId);
+        request.getRequestDispatcher("login.do").forward(request, response);
     }
-
 
 
     /**
@@ -340,33 +337,36 @@ public class UserController {
 
     /**
      * 根据userId查询用户信息
+     *
      * @param request
      */
     @RequestMapping(value = "queryUserById.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryUserById(HttpServletRequest request){
+    public Object queryUserById(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        if(!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())){
+        if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", user.getChannel().getChannelId());
         }
         param.put("userId", request.getParameter("userId"));
         return userService.queryUserById(param);
     }
+
     /**
      * 密码管理 重置登陆密码默认88888888
+     *
      * @param request
      */
     @RequestMapping(value = "resetPwd.do", method = RequestMethod.POST)
     @ResponseBody
-    public void resetPwd(HttpServletRequest request){
+    public void resetPwd(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         String userId = request.getParameter("userId");
         String base64sha1 = SHA1Util.b64_sha1("88888888");
         String passwordaes = EncodeUtil.aesEncrypt(userId + base64sha1);
         param.put("userId", userId);
         param.put("password", passwordaes);
-        param.put("isReSetPwd","true");
+        param.put("isReSetPwd", "true");
         userService.resetPasd(param);
     }
 
@@ -426,7 +426,7 @@ public class UserController {
      * @return
      * @Version1.0
      */
-    @RequestMapping(value = "deleteUser.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void deleteUser(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();

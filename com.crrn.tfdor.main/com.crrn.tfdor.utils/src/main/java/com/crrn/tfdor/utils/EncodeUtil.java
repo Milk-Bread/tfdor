@@ -1,6 +1,7 @@
 package com.crrn.tfdor.utils;
 
 import java.security.SecureRandom;
+import java.text.MessageFormat;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -127,6 +128,8 @@ public class EncodeUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(aesEncrypt(""));
+//        System.out.println(aesEncrypt(""));
+        String aaa = "哈哈哈哈哈哈{0}哈哈哈哈";
+        System.out.println(MessageFormat.format(aaa,"aaa"));
     }
 }

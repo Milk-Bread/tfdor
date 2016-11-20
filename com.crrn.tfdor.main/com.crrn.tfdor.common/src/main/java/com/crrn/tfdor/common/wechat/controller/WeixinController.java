@@ -224,20 +224,5 @@ public class WeixinController {
         logger.debug(respMap.toString());
         return respMap;
     }
-
-    @RequestMapping(value = "pay", method = RequestMethod.POST)
-    @ResponseBody
-    public Object pay(HttpServletRequest request) throws Exception {
-//        Map<String, Object> sendParam = new HashMap<String, Object>();
-//        weChatService.sendRedPack(sendParam,null);
-//        String respXml = transformer.former(sendParam);
-//        Map<String, Object> payParam = new HashMap<String, Object>();
-//        payParam.put(Dict.PAY_XML,respXml);
-//        payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);
-//        String str =  (String)transport.weChatPay("1402828602",payParam);
-//        logger.debug(str);
-        return null;
-    }
-
 }
 
