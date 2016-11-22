@@ -5,16 +5,17 @@ define(['app', 'service','sysCode'], function (app) {
     app.controller('addMerchantCtrl', function (service, $scope, $state) {
         $scope.isShow = false;
         $scope.channelId = service.getUser().channel.channelId;
-        if ($scope.channelId != null && $scope.channelId == 'tfdor') {
-            $scope.isShow = true;
-        }
+
         $scope.init = function () {
-            var formData = {
-                "channelId" : $scope.channelId
-            };
-            service.post2SRV("queryChannel.do", formData, function (data, status) {
-                $scope.channelInfoList = data;
-            }, 1000);
+            if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+                $scope.isShow = true;
+                var formData = {
+                    "channelId" : $scope.channelId
+                };
+                service.post2SRV("queryChannel.do", formData, function (data, status) {
+                    $scope.channelInfoList = data;
+                }, 1000);
+            }
             //查询复合人
             service.post2SRV("queryAuditPerson.do",null,function(data, status){
                 $scope.auditPerson = data;
@@ -22,9 +23,12 @@ define(['app', 'service','sysCode'], function (app) {
         };
 
         $scope.doIt = function () {
-            if ($scope.channel == null || $scope.channel == 0) {
-                showError("错误提示：请选择渠道");
-                return;
+            if($scope.isShow) {
+                if ($scope.channel == null || $scope.channel == 0) {
+                    showError("错误提示：请选择渠道");
+                    return;
+                }
+                $scope.channelId = $scope.channel.channelId;
             }
             if ($scope.appId == null || $scope.appId == '') {
                 showError("错误提示：请输入公众号ID");
