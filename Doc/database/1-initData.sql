@@ -1,16 +1,16 @@
 --创建内置渠道
 INSERT INTO channel (channelId, channelName, createTime, updateTime, state) VALUES ('tfdor', '内置渠道', now(), now(), 'N');
 --创建渠道下的商户
-INSERT INTO Merchant(cmchId,channelId,mchName,appId,wxToken,appSecret,encodingAesKey,signatureKey,state,createTime,updateTime) VALUES('1402828602','tfdor','涂盟新型建材厂','wx67c2134f4935acfb','wx66ba812ba25ec00a','b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0','SDDSD88922323TFDOR8892323KJUIJKJ','N',now(),now());
+--INSERT INTO Merchant(cmchId,channelId,mchName,appId,wxToken,appSecret,encodingAesKey,signatureKey,state,createTime,updateTime) VALUES('1402828602','tfdor','涂盟新型建材厂','wx67c2134f4935acfb','wx66ba812ba25ec00a','b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0','SDDSD88922323TFDOR8892323KJUIJKJ','N',now(),now());
 
 --创建角色--内置最高权限角色
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
 --初始化用户 密码 88888888
 insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
-values('admin1','admin1','ff4010N6GigANvwbnkQWi6LIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',1);
+values('admin1','admin1','ff4010N6GigANvwbnkQWi6LIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',0);
 
 insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
-values('admin2','admin2','vbzEBuIe21FnEglWojIT3aLIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',1);
+values('admin2','admin2','vbzEBuIe21FnEglWojIT3aLIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','1',0);
 
 
 -----------------------------
@@ -66,11 +66,4 @@ insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedPackManager');
 
 
 
-
-
-
-
--- 红包初始化
-INSERT INTO redpack (mchId,redPackType, amountType, totalAmount, wishing, actName, remark, createTime, updateTime) 
-VALUES ('1402828602','1', '1', '1', '祝万事如意', '扫码关注送红包活动', '扫码送红包', now(),now());
 
