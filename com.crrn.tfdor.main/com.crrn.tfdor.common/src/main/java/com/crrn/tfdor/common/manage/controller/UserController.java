@@ -486,7 +486,9 @@ public class UserController {
     @ResponseBody
     public void modifyMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        map.put("mchSeq", request.getParameter("mchSeq"));
         map.put("mchId", request.getParameter("mchId"));
+        map.put("mchName", request.getParameter("mchName"));
         map.put("channelId", request.getParameter("channelId"));
         map.put("appId", request.getParameter("appId"));
         map.put("wxToken", request.getParameter("wxToken"));

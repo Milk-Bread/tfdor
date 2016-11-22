@@ -70,7 +70,7 @@
         DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
         DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
         <if test="channelId != null and channelId != ''">
-            and channelId = #{channelId} AND c.state = 'N'
+            and channelId = #{channelId} AND state = 'N'
         </if>
         <if test="channelName != null">
             AND channelName like CONCAT('%',#{channelName},'%')
@@ -147,7 +147,7 @@
         DELETE FROM userInfo WHERE userSeq = #{userSeq}
     </delete>
     <select id="queryMerchant" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
+        SELECT m.mchSeq,m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
         DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
         DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
         FROM merchant m, channel c WHERE m.channelId = c.channelId
@@ -194,9 +194,11 @@
         encodingAesKey = #{encodingAesKey},
         signatureKey = #{signatureKey},
         updateTime = now(),
+        mchId = #{mchId},
+        mchName = #{mchName},
         state = #{state}
         WHERE
-        mchId = #{mchId};
+        mchSeq = #{mchSeq};
     </update>
     
     <select id="queryUserById" parameterType="java.util.Map" resultType="java.util.Map">
