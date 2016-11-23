@@ -30,11 +30,6 @@ define(['app', 'service', 'sysCode'], function (app) {
             $state.go("Main.deleteUser", null);
         }
 
-        $scope.deleteRole = function (obj) {
-            service.setData(obj);
-            $state.go("Main.deleteUser", null);
-        }
-
         $scope.init();
     });
 });

@@ -1,27 +1,16 @@
 package com.crrn.tfdor.service.manage.impl;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.utils.BeanUtils;
-import com.crrn.tfdor.utils.CHECKMSG;
-import com.crrn.tfdor.utils.EncodeUtil;
-import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
-import org.apache.commons.collections.map.HashedMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.crrn.tfdor.dao.UserDao;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.UserService;
+import com.crrn.tfdor.utils.CHECKMSG;
+import com.crrn.tfdor.utils.EncodeUtil;
+import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -289,6 +278,12 @@ public class UserServiceImpl implements UserService {
         userDao.addMerchant(map);
     }
 
+    /**
+     * 删除用户信息
+     *
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void deleteUser(Map<String, Object> map) {
         userDao.deleteUser(map);
@@ -304,4 +299,37 @@ public class UserServiceImpl implements UserService {
     public void modifyMerchant(Map<String, Object> map) {
         userDao.modifyMerchant(map);
     }
+
+    /**
+     * 删除角色信息
+     *
+     * @param integer
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void deleteRole(Integer integer) {
+        Integer count = userDao.queryRoleUserInfo(integer);
+        if (count > 0 ){
+            throw new RuntimeException(CHECKMSG.VALIDATION_RUNTIME_EXCEPTION);
+        }else {
+            userDao.deleteRole(integer);
+        }
+    }
+
+    /**
+     * 查询角色用户
+     *
+     * @param integer
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void queryRoleUserInfo(Integer integer) {
+        Integer count = userDao.queryRoleUserInfo(integer);
+        if (count > 0 ){
+            throw new RuntimeException(CHECKMSG.VALIDATION_RUNTIME_EXCEPTION);
+        }else {
+            userDao.deleteRole(integer);
+        }
+    }
+
 }

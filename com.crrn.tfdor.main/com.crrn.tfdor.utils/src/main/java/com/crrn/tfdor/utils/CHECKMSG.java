@@ -57,4 +57,9 @@ public class CHECKMSG {
      */
     public static final String USER_HAS_BEEN_LOCKED = "user.has.been.locked";
 
+    /**
+     * 该角色下面有用户,您不能删除该角色
+     */
+    public static final String VALIDATION_RUNTIME_EXCEPTION = "ValidationRuntimeException";
+
 }

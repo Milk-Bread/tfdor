@@ -146,6 +146,12 @@
     <delete id="deleteUser" parameterType="java.util.Map">
         DELETE FROM userInfo WHERE userSeq = #{userSeq}
     </delete>
+    <select id="queryRoleUserInfo" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT (*) FROM userinfo WHERE roleSeq = #{roleSeq}
+    </select>
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        DELETE FROM userInfo WHERE roleSeq = #{roleSeq}
+    </delete>
     <select id="queryMerchant" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
         DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,

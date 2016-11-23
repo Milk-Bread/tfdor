@@ -14,6 +14,7 @@ define(['app', 'service','sysCode'], function (app) {
 				$scope.roleList = data;
 			},4000);
 	    };
+
 		$scope.addRole = function(){
 			$state.go("Main.addRole");
 		};
@@ -21,6 +22,16 @@ define(['app', 'service','sysCode'], function (app) {
 			service.setData(obj);
 			$state.go("Main.modifyRole");
 		};
+
+		$scope.deleteRole = function(obj){
+			alert(obj);
+			var formData = {
+				"roleSeq": obj
+			}
+			service.post2SRV("queryRoleUserInfo.do", formData, function (data, status) {
+			}, 	5000);
+		};
+
 		$scope.init();
 	});
 });

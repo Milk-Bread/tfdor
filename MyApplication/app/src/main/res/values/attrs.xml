@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PieChart">
+        <attr name="percent_circle_gravity"><!--圆形绘制的位置-->
+            <flag name="left" value="0" />
+            <flag name="top" value="1" />
+            <flag name="center" value="2" />
+            <flag name="right" value="3" />
+            <flag name="bottom" value="4" />
+        </attr>
+        <attr name="percent_circle_radius" format="dimension" /><!--圆形半径-->
+        <attr name="percent_circle_progress" format="integer" /><!--当前进度值-->
+        <attr name="percent_progress_color" format="color" /><!--进度显示颜色-->
+        <attr name="percent_background_color" format="color" /><!--圆形背景色-->
+    </declare-styleable>
+</resources>

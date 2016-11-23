@@ -24,10 +24,12 @@
 				<value>addMerchant.do</value>
 				<value>modifyMerchant.do</value>
 				<value>deleteUser.do</value>
+				<value>deleteRole.do</value>
 				<value>createQrcodeImg.do</value>
 				<value>addRedPack.do</value>
 				<value>modifyRedPack.do</value>
 				<value>modifyCreateQrcodeImage.do</value>
+				<value>queryRoleUserInfo.do</value>
 			</list>
 		</property>
 	</bean>

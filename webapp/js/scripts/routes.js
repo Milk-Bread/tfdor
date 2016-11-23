@@ -92,7 +92,8 @@
                 templateUrl: 'views/SysMng/merchantManager.html',
                 dependencies: ['controllers/SysMng/merchantManager'],
                 allowAnonymous: true
-            }, 'Main.deleteUser': {
+            },
+            'Main.deleteUser': {
                 url: '/deleteUser',
                 templateUrl: 'views/SysMng/deleteUser.html',
                 dependencies: ['controllers/SysMng/deleteUser'],
@@ -142,7 +143,7 @@
                 templateUrl: 'views/SysMng/passwordManager.html',
                 dependencies: ['controllers/SysMng/passwordManager'],
                 allowAnonymous: true
-            }
+            },
         }
     };
 });
