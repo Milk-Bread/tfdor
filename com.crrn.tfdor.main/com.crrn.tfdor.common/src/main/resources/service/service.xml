@@ -5,10 +5,10 @@
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 	<bean id="httpTransport" class="com.crrn.tfdor.utils.httpclient.HttpClientTransport">
 		<property name="readTimeout">
-			<value>30000</value>
+			<value>${readTimeout}</value>
 		</property>
 		<property name="connectTimeout">
-			<value>30000</value>
+			<value>${connectTimeout}</value>
 		</property>
 	</bean>
 	<!-- 配置需要复合的交易ID -->
