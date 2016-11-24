@@ -30,7 +30,7 @@ define(['app'], function (app) {
                 $(".mask").hide();
                 if (data._exceptionCode != null || data._exceptionCode == 'false') {
                     showError("错误提示：" + data._exceptionMsg);
-                    if (data._exceptionCode == "please.log.in.again") {
+                    if (data._exceptionCode == "please.log.in.again" || data._exceptionCode == 'account.in.other.places.you.have.to.force..off.the.assembly.line') {
                         $state.go("Login");
                     } else if (data._exceptionCode == "please.reset.the.password.for.the.first.time.login") {
                         $state.go("ResetPasd");

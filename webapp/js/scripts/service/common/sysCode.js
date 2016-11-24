@@ -39,6 +39,10 @@ define(['app'], function (app) {
                 "S": "停用",
                 "H": "关闭"
             };
+            messages["customerType"] = {
+                "1": "管理员",
+                "2": "操作员"
+            };
             messages["auditingData"] = {
                 "transName": "交易名称",
                 "actionName": "二维码类型",
@@ -51,6 +55,7 @@ define(['app'], function (app) {
                 "signatureKey": "商户签名密钥(微信支付)",
                 "wxToken": "微信token",
                 "roleName": "权限名称",
+                "customerType": "用户类型",
                 "roleArr": "功能菜单",
                 "channelId": "所属渠道",
                 "auditPerson": "复合人",
