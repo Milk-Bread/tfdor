@@ -39,25 +39,25 @@ define(['app', 'service','sysCode'], function (app) {
                 return;
             }
             if ($scope.appSecret == null || $scope.appSecret == '') {
-                showError("错误提示：请输入公众号密钥");
-                return;
-            }
-            if ($scope.mchId == null || $scope.mchId == '') {
-                showError("错误提示：请输入商户ID");
-                return;
-            }
-            if ($scope.mchName == null || $scope.mchName == '') {
-                showError("错误提示：请输入商户名称");
-                return;
-            }
-            if ($scope.signatureKey == null || $scope.signatureKey == '') {
-                showError("错误提示：请输入商户签名密钥");
+                showError("错误提示：请输入公众号密钥appSecret");
                 return;
             }
             if ($scope.encodingAesKey == null || $scope.encodingAesKey == '') {
-                showError("错误提示：请输入微信加解密密钥");
+                showError("错误提示：请输入微信加解密密钥(随机数)");
                 return;
             }
+            //if ($scope.mchId == null || $scope.mchId == '') {
+            //    showError("错误提示：请输入商户ID");
+            //    return;
+            //}
+            //if ($scope.mchName == null || $scope.mchName == '') {
+            //    showError("错误提示：请输入商户名称");
+            //    return;
+            //}
+            //if ($scope.signatureKey == null || $scope.signatureKey == '') {
+            //    showError("错误提示：请输入商户签名密钥");
+            //    return;
+            //}
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示：请选择复合人");
                 return;
