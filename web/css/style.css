@@ -1,0 +1,41 @@
+/* Empty. Add your own CSS if you like */
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    overflow: hidden;
+}
+.advertisement {
+    width: 100%;
+    height: 193px;
+}
+body{
+    background-color: #F4F6F3;
+    font: 12px "Microsoft yahei",Arial;
+}
+.nav{
+    padding: 7px 2% 7px 5%;
+    background-color: #F4F6F3;
+}
+.nav .nav_list li{
+    background: #fff;
+    float: left;
+    margin-right: 3%;
+    width: 22%;
+    height: 90px;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.nav .nav_list img{
+    margin: 10px 0px 3px 0px;
+    width: 50px;
+    height: 50px;
+}
+.nav .nav_list span{
+    float: left;
+    text-align: center;
+    width: 100%;
+    color: #5F5F5F;
+}
