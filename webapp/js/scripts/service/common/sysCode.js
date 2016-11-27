@@ -82,7 +82,7 @@ define(['app'], function (app) {
                 "modifyChannel.do": "修改渠道",
                 "addRole.do": "新增角色",
                 "deleteUser.do": "删除用户",
-                // "deleteRole.do": "删除角色",
+                "deleteRole.do": "删除角色",
                 "modifyCreateQrcodeImage.do": "修改二维码参数",
                 "createQrcodeImg.do": "生成二维码",
                 "addRedPack.do": "新增红包参数",

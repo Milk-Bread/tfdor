@@ -24,12 +24,13 @@ define(['app', 'service','sysCode'], function (app) {
 		};
 
 		$scope.deleteRole = function(obj){
-			alert(obj);
+			service.setData(obj);
 			var formData = {
 				"roleSeq": obj
 			}
 			service.post2SRV("queryRoleUserInfo.do", formData, function (data, status) {
-			}, 	5000);
+				$state.go("Main.deleteRole");
+			}, 	4000);
 		};
 
 		$scope.init();

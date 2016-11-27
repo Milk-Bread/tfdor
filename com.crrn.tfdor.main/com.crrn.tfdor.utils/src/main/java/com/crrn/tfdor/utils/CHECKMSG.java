@@ -60,6 +60,5 @@ public class CHECKMSG {
     /**
      * 该角色下面有用户,您不能删除该角色
      */
-    public static final String VALIDATION_RUNTIME_EXCEPTION = "ValidationRuntimeException";
-
+    public static final String DELETE_ROLE_ERROR = "delete.role.error";
 }

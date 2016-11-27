@@ -117,6 +117,7 @@ create table UserInfo
    MobilePhone          char(11),
    Phone                VARCHAR(24),
    ChannelId            char(20),
+   pasdErrorCount       integer default 0 comment '密码错误次数',
    loginCount           integer default 0 comment '登陆次数',
    lastLoginTime        timestamp default now() on update now() comment '最后登陆时间',
    isReSetPwd           varchar(5) default 'true' comment '是否需要重置密码',
@@ -133,8 +134,7 @@ alter table UserInfo comment '用户表';
 /*==============================================================*/
 /* Table: channel                                               */
 /*==============================================================*/
-create table Channel
-(
+create table Channel(
    channelId            varchar(20) not null comment '渠道ID',
    channelName          varchar(50) not null comment '渠道名称',
    createTime           timestamp default '0000-00-00 00:00:00',
@@ -151,18 +151,19 @@ alter table channel comment '渠道表';
 /* Table: Merchant                                              */
 /*==============================================================*/
 create table Merchant(
-   mchId               varchar(20) not null comment '商户ID',
+   mchSeq               integer not null auto_increment comment '商户Seq',
+   mchId                varchar(20) comment '商户ID',
    channelId            varchar(20) not null comment '渠道ID 外键',
-   mchName              varchar(50) not null comment '商户名称',
+   mchName              varchar(50) comment '商户名称',
    appId                varchar(20) not null comment '微信APPID',
-   wxToken              varchar(20) not null comment '微信Token',
+   wxToken              varchar(32) not null comment '微信Token',
    appSecret            varchar(100) not null comment '微信appSecret',
    encodingAesKey       varchar(100) not null comment '微信加解密秘钥',
    signatureKey         varchar(100) comment '微信签名秘钥',
    createTime           timestamp default '0000-00-00 00:00:00',
    updateTime           timestamp default now() on update now(),
    state                char(1) comment '商户状态  N-正常，C-销户，S-停用',
-   primary key (mchId)
+   primary key (mchSeq)
 )
 auto_increment = 100
 DEFAULT CHARSET= UTF8
@@ -262,18 +263,6 @@ alter table RoleMenuRelate add constraint FK_Reference_3 foreign key (MenuId)
 
 alter table Role add constraint FK_Reference_4 foreign key (channelId)
       references Channel (channelId) on delete restrict on update restrict;
-
-alter table UserInfo add constraint FK_Reference_5 foreign key (channelId)
-      references Channel (channelId) on delete restrict on update restrict;
-
-alter table AccessToken add constraint FK_Reference_6 foreign key (mchId)
-      references Merchant (mchId) on delete restrict on update restrict;
-
-alter table QrcodeImg add constraint FK_Reference_7 foreign key (mchId)
-      references Merchant (mchId) on delete restrict on update restrict;
-
-alter table RedPack add constraint FK_Reference_8 foreign key (mchId)
-      references Merchant (mchId) on delete restrict on update restrict;
 
 alter table QrcodeImg add constraint FK_Reference_9 foreign key (CreateQISeq)
       references CreateQrcodeImg (CreateQISeq) on delete restrict on update restrict;

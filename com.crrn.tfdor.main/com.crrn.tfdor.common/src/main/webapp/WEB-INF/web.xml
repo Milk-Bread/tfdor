@@ -16,7 +16,7 @@
 	</welcome-file-list>
 	<context-param>
 	  	<param-name>contextConfigLocation</param-name>
-	  	<param-value>classpath:application-common.xml</param-value>
+	  	<param-value>classpath:application-common.xml,classpath:service/*.xml</param-value>
 	</context-param>
 	<context-param>
 	  	<param-name>webAppRootKey</param-name>
@@ -46,7 +46,7 @@
 	  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	  	<init-param>
 	    	<param-name>contextConfigLocation</param-name>
-	    	<param-value>classpath:springmvc/application-*.xml,classpath:service/*.xml</param-value>
+	    	<param-value>classpath:springmvc/application-*.xml</param-value>
 	  	</init-param>
 	  	<load-on-startup>2</load-on-startup>
 	</servlet>

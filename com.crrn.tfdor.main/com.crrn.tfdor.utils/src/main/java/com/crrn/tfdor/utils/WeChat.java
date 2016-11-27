@@ -44,6 +44,15 @@ public class WeChat {
     public static final String ADD_NEWS = "https://api.weixin.qq.com/cgi-bin/material/add_news";
 
     /**
+     * 微信自定义菜单
+     */
+    public static final String CREATE_MENU="https://api.weixin.qq.com/cgi-bin/menu/create";
+
+    /**
+     * 微信自定义菜单
+     */
+    public static final String DELETE_MENU="https://api.weixin.qq.com/cgi-bin/menu/delete";
+    /**
      * 微信支付地址
      */
     public static interface PAY {

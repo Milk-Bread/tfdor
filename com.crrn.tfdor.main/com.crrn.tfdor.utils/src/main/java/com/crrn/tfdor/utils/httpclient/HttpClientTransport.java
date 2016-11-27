@@ -135,7 +135,7 @@ public class HttpClientTransport implements Transport {
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("Charset", "UTF-8");
+            connection.setRequestProperty("Charset", "utf-8");
             connection.setConnectTimeout(connectTimeout);// 连接超时30秒
             connection.setReadTimeout(readTimeout);// 读取超时30秒
             // 发送POST请求必须设置如下两行
@@ -146,7 +146,7 @@ public class HttpClientTransport implements Transport {
             // 获取URLConnection对象对应的输出流
             out = new DataOutputStream(connection.getOutputStream());
             // 发送请求参数
-            out.writeBytes(Util.mapToJson(sendParam).toString());
+            out.write(Util.mapToJson(sendParam).toString().getBytes("utf-8"));
             // flush输出流的缓冲
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应

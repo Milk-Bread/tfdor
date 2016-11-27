@@ -189,7 +189,6 @@ public class UserServiceImpl implements UserService {
      * @param param
      * @return
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addUser(Map<String, Object> param) {
         userDao.addUser(param);
@@ -212,7 +211,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyUser(Map<String, Object> map) {
         userDao.modifyUser(map);
@@ -223,7 +221,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addChannel(Map<String, Object> map) {
         userDao.addChannel(map);
@@ -234,7 +231,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyChannel(Map<String, Object> map) {
         userDao.modifyChannel(map);
@@ -245,7 +241,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void deleteChannel(Map<String, Object> map) {
         userDao.deleteChannel(map);
@@ -268,11 +263,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 删除渠道信息
+     * 新增渠道信息
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addMerchant(Map<String, Object> map) {
         userDao.addMerchant(map);
@@ -283,7 +277,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void deleteUser(Map<String, Object> map) {
         userDao.deleteUser(map);
@@ -294,7 +287,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyMerchant(Map<String, Object> map) {
         userDao.modifyMerchant(map);
@@ -303,32 +295,25 @@ public class UserServiceImpl implements UserService {
     /**
      * 删除角色信息
      *
-     * @param integer
+     * @param map
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void deleteRole(Integer integer) {
-        Integer count = userDao.queryRoleUserInfo(integer);
-        if (count > 0 ){
-            throw new RuntimeException(CHECKMSG.VALIDATION_RUNTIME_EXCEPTION);
-        }else {
-            userDao.deleteRole(integer);
-        }
+    public void deleteRole(Map<String, Object> map) {
+        userDao.deleteRole(map);
+        userDao.deleteRolemenurelate(map);
     }
 
     /**
      * 查询角色用户
      *
-     * @param integer
+     * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void queryRoleUserInfo(Integer integer) {
-        Integer count = userDao.queryRoleUserInfo(integer);
+    public void queryRoleUserInfo(Map<String, Object> map) {
+        Integer count = userDao.queryRoleUserInfo(map);
         if (count > 0 ){
-            throw new RuntimeException(CHECKMSG.VALIDATION_RUNTIME_EXCEPTION);
-        }else {
-            userDao.deleteRole(integer);
+            throw new RuntimeException(CHECKMSG.DELETE_ROLE_ERROR);
         }
     }
 

@@ -30,6 +30,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="row in roleList">
+                <td class="text-center" ng-show="isShow">{{row.channelId}}</td>
                 <td class="text-center" ng-show="isShow">{{row.channelName}}</td>
                 <td class="text-center">{{row.roleName}}</td>
                 <td class="text-center">{{row.createTime}}</td>

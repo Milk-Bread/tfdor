@@ -135,14 +135,14 @@ public interface UserService {
     /**
      * 删除角色信息
      *
-     * @param integer
+     * @param map
      */
-    public void deleteRole(Integer integer);
+    public void deleteRole(Map<String, Object> map);
 
     /**
      * 查询角色用户信息
      *
-     * @param integer
+     * @param map
      */
-    public void queryRoleUserInfo(Integer integer);
+    public void queryRoleUserInfo(Map<String, Object> map);
 }

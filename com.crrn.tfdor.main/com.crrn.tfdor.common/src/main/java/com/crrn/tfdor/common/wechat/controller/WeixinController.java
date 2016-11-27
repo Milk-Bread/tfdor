@@ -205,10 +205,10 @@ public class WeixinController {
      */
     @RequestMapping(value = "addNews.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object addNews(HttpServletRequest request, String channelId) throws Exception {
+    public Object addNews(HttpServletRequest request, String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.ADD_NEWS);
-        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
         List<Map<String, Object>> articles = new ArrayList<>();
         Map<String, Object> news = new HashMap<String, Object>();
         news.put("title", "关注微信抢红包");
@@ -224,5 +224,62 @@ public class WeixinController {
         logger.debug(respMap.toString());
         return respMap;
     }
+
+    /**
+     * Description: 新增微信菜单
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "addWechatMenu.action", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addWechatMenu(HttpServletRequest request, String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        sendParam.put(Dict.TRANS_NAME, WeChat.CREATE_MENU);
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
+        List<Map<String, Object>> button = new ArrayList<Map<String, Object>>();
+        Map<String, Object> buttonMap = new HashMap<String, Object>();
+        buttonMap.put("name","管理端");
+        buttonMap.put("type","view");
+        buttonMap.put("url","https://www.tfdor.cc/webapp/index.html");
+        button.add(buttonMap);
+
+        Map<String, Object> buttonMap2 = new HashMap<String, Object>();
+        buttonMap2.put("name","百度搜");
+        buttonMap2.put("type","view");
+        buttonMap2.put("url","https://www.baidu.com");
+        button.add(buttonMap2);
+
+        Map<String, Object> buttonMap3 = new HashMap<String, Object>();
+        buttonMap3.put("name","微商城");
+        buttonMap3.put("type","view");
+        buttonMap3.put("url","https://www.tfdor.cc/webapp/index.html");
+        button.add(buttonMap3);
+
+        sendParam.put("button",button);
+        Map respMap = (Map) transport.sendPost(sendParam);
+        logger.debug(respMap.toString());
+        return respMap;
+    }
+  /**
+     * Description: 删除微信菜单
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "deleteWechatMenu.action", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteWechatMenu(HttpServletRequest request, String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        sendParam.put(Dict.TRANS_NAME, WeChat.DELETE_MENU);
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
+        Map respMap = (Map) transport.sendGet(sendParam);
+        logger.debug(respMap.toString());
+        return respMap;
+    }
+
+
 }
 

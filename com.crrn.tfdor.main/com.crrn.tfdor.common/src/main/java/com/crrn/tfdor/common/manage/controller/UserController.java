@@ -468,7 +468,9 @@ public class UserController {
     @ResponseBody
     public void modifyMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        map.put("mchSeq", request.getParameter("mchSeq"));
         map.put("mchId", request.getParameter("mchId"));
+        map.put("mchName", request.getParameter("mchName"));
         map.put("channelId", request.getParameter("channelId"));
         map.put("appId", request.getParameter("appId"));
         map.put("wxToken", request.getParameter("wxToken"));
@@ -489,9 +491,9 @@ public class UserController {
     @RequestMapping(value = "deleteRole.do" , method = RequestMethod.POST)
     @ResponseBody
     public void deleteRole(HttpServletRequest request) {
-        String roleSeq = request.getParameter("roleSeq");
-        System.out.print("deleteRole   0000"+roleSeq);
-        userService.deleteRole(Integer.valueOf(roleSeq));
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq",request.getParameter("roleSeq"));
+        userService.deleteRole(map);
     }
     /**
      * Description: 查询角色用户信息
@@ -503,10 +505,9 @@ public class UserController {
     @RequestMapping(value = "queryRoleUserInfo.do" , method = RequestMethod.POST)
     @ResponseBody
     public void queryRoleUserInfo(HttpServletRequest request) {
-        String roleSeq = request.getParameter("roleSeq");
-        System.out.print("queryRoleUserInfo   0000"+roleSeq);
-        userService.queryRoleUserInfo(Integer.valueOf(roleSeq));
-
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq",request.getParameter("roleSeq"));
+        userService.queryRoleUserInfo(map);
     }
 
 }

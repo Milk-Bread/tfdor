@@ -144,6 +144,12 @@
                 dependencies: ['controllers/SysMng/passwordManager'],
                 allowAnonymous: true
             },
+            'Main.deleteRole': {
+                url: '/deleteRole',
+                templateUrl: 'views/SysMng/deleteRole.html',
+                dependencies: ['controllers/SysMng/deleteRole'],
+                allowAnonymous: true
+            },
         }
     };
 });

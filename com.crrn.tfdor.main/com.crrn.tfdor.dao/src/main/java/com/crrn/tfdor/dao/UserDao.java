@@ -182,12 +182,12 @@ public interface UserDao {
      *
      * @param integer
      */
-    public void deleteRole(Integer integer);
+    public void deleteRole(Map<String, Object> map);
 
     /**
      * 查询角色信息
      *
      * @param integer
      */
-    public Integer queryRoleUserInfo(Integer integer);
+    public Integer queryRoleUserInfo(Map<String, Object> integer);
 }
