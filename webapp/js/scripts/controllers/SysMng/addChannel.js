@@ -27,7 +27,7 @@ define(['app', 'service','sysCode'], function (app) {
                 return;
             }
             var formData = {
-                "channelId": $scope.channelId,
+                "channelId": $scope.channelId.toLocaleUpperCase(),
                 "channelName": $scope.channelName,
                 "state": $scope.state,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq

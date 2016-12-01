@@ -1,44 +1,26 @@
 package com.crrn.tfdor.common.manage.controller;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.service.manage.MenuService;
+import com.crrn.tfdor.service.manage.UserService;
+import com.crrn.tfdor.utils.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.crrn.tfdor.domain.manage.Merchant;
-import com.crrn.tfdor.utils.*;
-import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.domain.manage.UserInfo;
-import com.crrn.tfdor.service.manage.MenuService;
-import com.crrn.tfdor.service.manage.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.ValidationException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Description: 核心控制器
@@ -498,4 +480,49 @@ public class UserController {
         map.put("state", request.getParameter("state"));
         userService.modifyMerchant(map);
     }
+
+    /**
+     * Description: 删除角色
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "deleteRole.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteRole(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq", request.getParameter("roleSeq"));
+        userService.deleteRole(map);
+    }
+
+    /**
+     * Description: 查询角色用户信息
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "queryRoleUserInfo.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void queryRoleUserInfo(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq", request.getParameter("roleSeq"));
+        userService.queryRoleUserInfo(map);
+    }
+
+    /**
+     * Description: 查询用户是否已经存在
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "queryAddUserById.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void queryAddUserById(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", request.getParameter("userId"));
+        userService.queryAddUserById(map);
+    }
+
 }

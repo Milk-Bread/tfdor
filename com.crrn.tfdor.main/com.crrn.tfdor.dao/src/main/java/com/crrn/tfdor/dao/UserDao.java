@@ -177,4 +177,24 @@ public interface UserDao {
      * @param map
      */
     public void updateLoginErrorCount(Map<String, Object> map);
+
+     /* 删除角色信息
+     *
+     * @param integer
+     */
+    public void deleteRole(Map<String, Object> map);
+
+    /**
+     * 查询角色信息
+     *
+     * @param integer
+     */
+    public Integer queryRoleUserInfo(Map<String, Object> integer);
+
+    /**
+     * 查询角色用户信息
+     *
+     * @param map
+     */
+    public Integer queryAddUserById(Map<String, Object> map);
 }

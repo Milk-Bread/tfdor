@@ -1,27 +1,16 @@
 package com.crrn.tfdor.service.manage.impl;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.utils.BeanUtils;
-import com.crrn.tfdor.utils.CHECKMSG;
-import com.crrn.tfdor.utils.EncodeUtil;
-import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
-import org.apache.commons.collections.map.HashedMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.crrn.tfdor.dao.UserDao;
 import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.service.manage.UserService;
+import com.crrn.tfdor.utils.CHECKMSG;
+import com.crrn.tfdor.utils.EncodeUtil;
+import com.crrn.tfdor.utils.handlerexception.ValidationRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -200,7 +189,6 @@ public class UserServiceImpl implements UserService {
      * @param param
      * @return
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addUser(Map<String, Object> param) {
         userDao.addUser(param);
@@ -223,7 +211,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyUser(Map<String, Object> map) {
         userDao.modifyUser(map);
@@ -234,7 +221,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addChannel(Map<String, Object> map) {
         userDao.addChannel(map);
@@ -245,7 +231,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyChannel(Map<String, Object> map) {
         userDao.modifyChannel(map);
@@ -256,7 +241,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void deleteChannel(Map<String, Object> map) {
         userDao.deleteChannel(map);
@@ -279,16 +263,20 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 删除渠道信息
+     * 新增渠道信息
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void addMerchant(Map<String, Object> map) {
         userDao.addMerchant(map);
     }
 
+    /**
+     * 删除用户信息
+     *
+     * @param map
+     */
     @Override
     public void deleteUser(Map<String, Object> map) {
         userDao.deleteUser(map);
@@ -299,9 +287,47 @@ public class UserServiceImpl implements UserService {
      *
      * @param map
      */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void modifyMerchant(Map<String, Object> map) {
         userDao.modifyMerchant(map);
     }
+
+    /**
+     * 删除角色信息
+     *
+     * @param map
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void deleteRole(Map<String, Object> map) {
+        userDao.deleteRole(map);
+        userDao.deleteRolemenurelate(map);
+    }
+
+    /**
+     * 查询角色用户
+     *
+     * @param map
+     */
+    @Override
+    public void queryRoleUserInfo(Map<String, Object> map) {
+        Integer count = userDao.queryRoleUserInfo(map);
+        if (count > 0 ){
+            throw new RuntimeException(CHECKMSG.DELETE_ROLE_ERROR);
+        }
+    }
+
+    /**
+     * 查询角色用户信息
+     *
+     * @param map
+     */
+    @Override
+    public void queryAddUserById(Map<String, Object> map) {
+        Integer count = userDao.queryAddUserById(map);
+        if(count > 0){
+            throw new ValidationRuntimeException(CHECKMSG.LANDING_ID_ALREADY_EXISTS);
+        }
+    }
+
 }

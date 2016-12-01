@@ -1,7 +1,5 @@
 package com.crrn.tfdor.service.manage;
 
-import com.crrn.tfdor.domain.manage.UserInfo;
-
 import java.util.List;
 import java.util.Map;
 
@@ -133,4 +131,25 @@ public interface UserService {
      * @param map
      */
     public void modifyMerchant(Map<String, Object> map);
+
+    /**
+     * 删除角色信息
+     *
+     * @param map
+     */
+    public void deleteRole(Map<String, Object> map);
+
+    /**
+     * 查询角色用户信息
+     *
+     * @param map
+     */
+    public void queryRoleUserInfo(Map<String, Object> map);
+
+    /**
+     * 查询角色用户信息
+     *
+     * @param map
+     */
+    public void queryAddUserById(Map<String, Object> map);
 }

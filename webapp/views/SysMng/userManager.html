@@ -44,7 +44,7 @@
 				<td class="text-center">{{userInfo.createTime}}</td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-xs" ng-if="userInfo.roleSeq != '1'" ng-click="menuThree('修改用户');modifyUser(userInfo);">修改</button>
-                    <button class="btn btn-danger btn-xs" ng-if="userInfo.roleSeq != '1' && userInfo.userSeq != loginUserSeq" ng-click="deleteUser(userInfo.userSeq)">删除</button>
+                    <button class="btn btn-danger btn-xs" ng-if="userInfo.roleSeq != '1' && userInfo.userSeq != loginUserSeq " ng-click="deleteUser(userInfo.userSeq)">删除</button>
                 </td>
 			</tr>
 		</table>

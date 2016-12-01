@@ -13,8 +13,8 @@
      	<property name="defaultEncoding" value="UTF-8"/>
         <property name="locations">
             <list>
-               <value>file:/Users/chepeiqing/Desktop/common.properties</value>
-               <value>classpath:properties/*_zh_CN.properties</value>
+               <value>classpath:properties/*.properties</value>
+			   <value>file:/Users/chepeiqing/Desktop/common.properties</value>
                 <!--要是有多个配置文件，只需在这里继续添加即可 -->
             </list>
         </property>
