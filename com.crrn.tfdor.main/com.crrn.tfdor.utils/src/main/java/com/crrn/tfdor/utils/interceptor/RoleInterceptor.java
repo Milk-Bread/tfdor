@@ -46,9 +46,14 @@ public class RoleInterceptor implements HandlerInterceptor {
         } else {
         	UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
             if (user != null) {
+                String flag = (String) request.getSession().getAttribute("PLAY_EACH_OTHER");
                 if (user.isLogout()) {
                     request.getSession().removeAttribute("_USER");
-                    throw new RuntimeException(CHECKMSG.PLEASE_LOG_IN_AGAIN);//F9C7277B6C72AAE295BB8FF31BB4566E ,F9C7277B6C72AAE295BB8FF31BB4566E
+                    request.getSession().invalidate();
+                    throw new RuntimeException(CHECKMSG.PLEASE_LOG_IN_AGAIN);
+                }else if("true".equals(flag)){
+                    request.getSession().invalidate();
+                    throw new RuntimeException(CHECKMSG.ACCOUNT_IN_OTHER_PLACES_YOU_HAVE_TO_FORCE_OFF_THE_ASSEMBLY_LINE);
                 }
             } else {
                 request.getSession().removeAttribute("_USER");

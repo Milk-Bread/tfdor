@@ -75,7 +75,7 @@ public class HttpClientTransport implements Transport {
                 InputStream inputStream = connection.getInputStream();
                 try {
                     File file = new File(sendParam.get("preservation").toString());
-                    if(!file .exists()  && !file .isDirectory()){
+                    if (!file.exists() && !file.isDirectory()) {
                         file.mkdirs();
                     }
                     byte[] data = new byte[1024];
@@ -230,12 +230,12 @@ public class HttpClientTransport implements Transport {
      */
     @Override
     public Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception {
-        KeyStore keyStore  = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File("/myData/software/cert/apiclient_cert.p12"));
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        FileInputStream instream = new FileInputStream(new File("/myData/config/" + mchId + "/cert/apiclient_cert.p12"));
         keyStore.load(instream, mchId.toCharArray());
         instream.close();
         SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray()).build();
-        SSLConnectionSocketFactory sslcsf = new SSLConnectionSocketFactory(sslcontext,new String[] { "TLSv1" },null,SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        SSLConnectionSocketFactory sslcsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"}, null, SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
         CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslcsf).build();
         HttpPost httpost = new HttpPost(sendParam.get(Dict.TRANS_NAME).toString());
         httpost.addHeader("Connection", "keep-alive");
@@ -251,7 +251,7 @@ public class HttpClientTransport implements Transport {
         String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
         EntityUtils.consume(entity);
         Map<String, Object> resp = Util.parse(jsonStr);
-        if(!"SUCCESS".equals(resp.get("return_code")) || null == resp.get("result_code") || !"SUCCESS".equals(resp.get("result_code"))){
+        if (!"SUCCESS".equals(resp.get("return_code")) || null == resp.get("result_code") || !"SUCCESS".equals(resp.get("result_code"))) {
             throw new RuntimeException(resp.get("return_msg").toString());
         }
         return resp;

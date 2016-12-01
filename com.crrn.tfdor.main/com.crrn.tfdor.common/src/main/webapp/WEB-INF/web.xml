@@ -15,13 +15,16 @@
 	  	<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>springmvc.root</param-value>
+	</context-param>
+	<context-param>
 	  	<param-name>contextConfigLocation</param-name>
 	  	<param-value>classpath:application-common.xml,classpath:service/*.xml</param-value>
 	</context-param>
-	<context-param>
-	  	<param-name>webAppRootKey</param-name>
-	  	<param-value>springmvc.root</param-value>
-	</context-param>
+	<listener>
+		<listener-class>com.crrn.tfdor.utils.interceptor.LoginListenner</listener-class>
+	</listener>
 	<filter>
 	  	<filter-name>SpringEncodingFilter</filter-name>
 	  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

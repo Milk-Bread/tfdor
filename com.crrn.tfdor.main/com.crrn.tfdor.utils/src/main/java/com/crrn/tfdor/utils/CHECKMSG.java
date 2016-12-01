@@ -57,4 +57,8 @@ public class CHECKMSG {
      */
     public static final String USER_HAS_BEEN_LOCKED = "user.has.been.locked";
 
+    /**
+     * 账户在别的地方登陆，您已经强制下线
+     */
+    public static final String ACCOUNT_IN_OTHER_PLACES_YOU_HAVE_TO_FORCE_OFF_THE_ASSEMBLY_LINE = "account.in.other.places.you.have.to.force..off.the.assembly.line";
 }

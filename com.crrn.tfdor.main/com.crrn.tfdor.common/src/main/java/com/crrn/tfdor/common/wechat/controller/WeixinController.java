@@ -254,7 +254,7 @@ public class WeixinController {
         Map<String, Object> buttonMap3 = new HashMap<String, Object>();
         buttonMap3.put("name","微商城");
         buttonMap3.put("type","view");
-        buttonMap3.put("url","https://www.tfdor.cc/webapp/index.html");
+        buttonMap3.put("url","https://www.tfdor.cc/web/index.html");
         button.add(buttonMap3);
 
         sendParam.put("button",button);
