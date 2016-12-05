@@ -181,3 +181,90 @@ a,img {
 .losing{
 	color:rgb(0, 139, 255);
 }
+/* 素材列表 */
+.material_list{
+	width: 18%;
+	height: 500px;
+	border: 1px solid #E2E2E2;
+}
+.material_list p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_list .add{
+	border: 2px dashed #E2E2E2;
+	height: 80px;
+	line-height: 80px;
+	cursor: pointer;
+	text-align: center;
+	font-size: 30px;
+}
+.material_list .delete{
+	height: 35px;
+	line-height: 35px;
+	margin-right: 20px;
+	cursor: pointer;
+	position: relative;
+}
+
+.material_content{
+	width: 63%;
+	/*height: 500px;*/
+	border: 1px solid #E2E2E2;
+}
+.material_content p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_multi-media{
+	width: 18%;
+	border: 1px solid #E2E2E2;
+	/*height: 500px;*/
+}
+.material_multi-media p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_multi-media div{
+	height:50px;
+	line-height:50px;
+	border:1px solid #E2E2E2;
+	text-align: center;
+}
+
+.material_imgdiv{
+	border:1px solid #E2E2E2;
+	height:120px;
+	bottom: 0px;
+	width: 100%;
+	position: relative;
+}
+.materialDiv{
+	border:2px solid #5cb85c;
+}
+.material_imgdiv img{
+	/*position: relative;*/
+	height: 120px;
+	width: 100%;
+}
+
+.material_imgdiv .title{
+	filter:alpha(opacity=50); /*IE滤镜，透明度50%*/
+	-moz-opacity:0.5; /*Firefox私有，透明度50%*/
+	opacity:0.5;/*其他，透明度50%*/
+	position: relative;
+	height:35px;
+	line-height:35px;
+	padding-left: 10px;
+	color: white;
+	margin-top: -35px;
+	background-color: #999999;
+	z-index: 100;
+}
+

@@ -143,13 +143,17 @@
                 templateUrl: 'views/SysMng/passwordManager.html',
                 dependencies: ['controllers/SysMng/passwordManager'],
                 allowAnonymous: true
-            },
-            'Main.deleteRole': {
+            },'Main.deleteRole': {
                 url: '/deleteRole',
                 templateUrl: 'views/SysMng/deleteRole.html',
                 dependencies: ['controllers/SysMng/deleteRole'],
                 allowAnonymous: true
-            },
+            },'Main.MaterialManager': {
+                url: '/MaterialManager',
+                templateUrl: 'views/Wechat/MaterialManager.html',
+                dependencies: ['controllers/Wechat/MaterialManager'],
+                allowAnonymous: true
+            }
         }
     };
 });

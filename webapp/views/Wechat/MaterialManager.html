@@ -1,0 +1,29 @@
+<div ng-controller="materialCtrl">
+    <div class="table-responsive">
+        <div class="FL material_list">
+            <p>图文列表</p>
+            <div style="position: absolute;width: 18%;height: 500px">
+                <div name="materialDiv" id="div{{$index}}" class="material_imgdiv" ng-repeat="msg in materList" ng-click="clickMaterial($index)">
+                    <img src="{{msg.img}}"/>
+                    <div class="title" ng-mouseenter="show = true" ng-mouseleave="show = false">
+                        <span id="title{{$index}}">{{msg.title}}</span>
+                    <div ng-if="show" ng-click="deleteMaterial($index)" class="glyphicon glyphicon-trash FR delete"></div></div>
+                </div>
+                <div class="add" ng-click="addMaterial()">
+                    +
+                </div>
+            </div>
+        </div>
+        <div class="FL material_content" style="height: 500px">
+            <p>素材内容</p>
+            <input type="text" class="form-control" name="titleContext" ng-model="titleContext" ng- placeholder="请在这里输入标题">
+            <input type="text" class="form-control" placeholder="请输入作者">
+            <textarea class="keditor" ng-model="info.content" data-config="config" cols="30" rows="23" required></textarea>
+        </div>
+        <div class="FL material_multi-media">
+            <p>多媒体</p>
+            <div style="margin-top: 10px"><span class="glyphicon glyphicon-picture"></span> &nbsp;图片</div>
+            <div><span class="glyphicon glyphicon-facetime-video"></span> &nbsp;视频</div>
+        </div>
+    </div>
+</div>
