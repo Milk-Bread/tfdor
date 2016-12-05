@@ -223,7 +223,7 @@ a,img {
 .material_multi-media{
 	width: 18%;
 	border: 1px solid #E2E2E2;
-	/*height: 500px;*/
+	height: 500px;
 }
 .material_multi-media p{
 	width: 100%;
