@@ -1,8 +1,5 @@
 --创建内置渠道
 INSERT INTO channel (channelId, channelName, createTime, updateTime, state) VALUES ('tfdor', '内置渠道', now(), now(), 'N');
---创建渠道下的商户
---INSERT INTO Merchant(cmchId,channelId,mchName,appId,wxToken,appSecret,encodingAesKey,signatureKey,state,createTime,updateTime) VALUES('1402828602','tfdor','涂盟新型建材厂','wx67c2134f4935acfb','wx66ba812ba25ec00a','b9d81b13ac888108be2c96723d1a9169','rEPBUopUtgNVzEuBIMtJlpLKaBa6wZMWUYVSMFJUji0','SDDSD88922323TFDOR8892323KJUIJKJ','N',now(),now());
-
 --创建角色--内置最高权限角色
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
 --初始化用户 密码 88888888
@@ -61,8 +58,18 @@ insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `Creat
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MarketingManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'QrCodeManager');
 insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'RedPackManager');
-
-
+-----------------------------
+--********* 微信管理 *********--
+-----------------------------
+-- 一级菜单
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('WechatManager','微信管理','00000000',4,'',now());
+-- 二级菜单
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('MaterialManager','素材管理','WechatManager',1,'MaterialManager',now());
+insert into menu (`MenuId`, `MenuName`, `ParentId`, `OrderId`, `TransId`, `CreateTime`) values ('MenuManager','菜单管理','WechatManager',2,'MenuManager',now());
+--授权 Admin
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'WechatManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MaterialManager');
+insert into rolemenurelate (`RoleSeq`, `MenuId`) values(1,'MenuManager');
 
 
 
