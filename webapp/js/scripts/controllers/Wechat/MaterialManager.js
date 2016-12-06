@@ -60,6 +60,9 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
                 }
             }
         });
+        $scope.doIt = function(){
+            alert($scope.content);
+        }
         $scope.init();
     });
 });
