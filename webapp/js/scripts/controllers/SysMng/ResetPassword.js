@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode', 'encryption'], function (app) {
+    "use strict";
     app.controller('restPasdCtrl', function (encryption, service, $scope, $state) {
         $scope.doIt = function () {
             var password = encryption.b64_sha1($scope.password);

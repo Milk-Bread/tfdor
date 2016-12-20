@@ -1,4 +1,5 @@
 define(['app'], function (app) {
+    "use strict";
     app.directive('paging', function () {
         return {
             replace: true,   //template会覆盖掉自定义标签

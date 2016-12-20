@@ -2,6 +2,7 @@
  * Created by yizilong on 16/11/04.
  */
 define(['app', 'service','sysCode'], function (app) {
+    "use strict";
     app.controller('deleteUserCtrl', function (service, $scope, $state) {
         $scope.userInfo = service.getData();
         $scope.init = function(){

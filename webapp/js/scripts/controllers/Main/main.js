@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('mainCtrl', function (service, $scope, $state, $rootScope) {
         $scope.initMain = function () {
             var user = service.getUser();

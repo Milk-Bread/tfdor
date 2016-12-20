@@ -2,6 +2,7 @@
  * Created by pengyuming on 16/10/12.
  */
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('redEnvelopeMngCtrl', function (service, $scope, $state) {
         //当前页
         $scope.pageNo = 1;

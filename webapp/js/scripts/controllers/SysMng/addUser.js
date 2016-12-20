@@ -2,6 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
+    "use strict";
     app.controller('addUserCtrl', function (service, $scope, $state) {
         // 是否显示选择渠道
         $scope.isShow = false;

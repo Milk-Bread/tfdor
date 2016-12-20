@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('audiListCtrl', function (service, $scope, $state) {
         //当前页
         $scope.pageNo = 1;

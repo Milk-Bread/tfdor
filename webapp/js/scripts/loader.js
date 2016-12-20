@@ -1,4 +1,5 @@
 ﻿define([], function () {
+    "use strict";
     return function (dependencies) {
         var definition = {
             resolver: ['$q', '$rootScope', function ($q, $rootScope) {

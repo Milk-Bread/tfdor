@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], function (app) {
+    "use strict";
     app.controller('materialCtrl', function (service, $scope, $state) {
         $scope.indexList;
         $scope.init = function () {
@@ -7,6 +8,23 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
             }, {
                 "img": "", "title": "这个也是标题"
             }];
+            $scope.config = {
+                resizeType: 1,
+                //minWidth: '250px',
+                allowPreviewEmoticons: false,
+                allowImageUpload: false,
+                items: [
+                    'source','|','fontname', 'fontsize','preview', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist','formatblock', '|', 'emoticons', 'image', 'link','hr','quickformat','|','undo','redo'],
+                autoHeightMode: false,
+                afterChange: function () {
+                    $scope.content = this.html();
+                },
+                afterCreate : function(){
+                    this.html("请输入内容");
+                }
+            }
         }
         $scope.addMaterial = function () {
             $scope.materList.push({"img": "", "title": ""});
@@ -60,6 +78,7 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
                 }
             }
         });
+        $scope.content="撒发生发水淀粉";
         $scope.doIt = function(){
             alert($scope.content);
         }

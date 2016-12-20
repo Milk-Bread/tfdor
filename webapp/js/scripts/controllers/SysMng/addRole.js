@@ -2,6 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
+    "use strict";
     app.controller('addRoleCtrl', function (service, $scope, $state) {
         $scope.isShow = false;
         $scope.init = function () {

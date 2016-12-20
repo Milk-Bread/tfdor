@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('channelMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.channelId = service.getUser().channel.channelId;

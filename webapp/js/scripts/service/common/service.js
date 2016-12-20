@@ -1,4 +1,5 @@
 define(['app'], function (app) {
+    "use strict";
     app.service('service', function ($http, cfpLoadingBar, $state) {
         this.getUser = function () {
             return angular.fromJson(sessionStorage.getItem("_USER"));
@@ -14,7 +15,7 @@ define(['app'], function (app) {
             transFn = function (formData) {
                 return $.param(formData);
             }
-            postCfg = {
+            var postCfg = {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transFn
             };

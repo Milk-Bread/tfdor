@@ -2,6 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
+    "use strict";
     app.controller('addChannelCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             //查询复合人

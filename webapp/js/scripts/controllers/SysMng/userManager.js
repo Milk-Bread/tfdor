@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('userMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             $scope.loginUserSeq = service.getUser().userSeq;

@@ -1,4 +1,5 @@
 define(['app', 'service','sysCode'], function (app) {
+	"use strict";
 	app.controller('roleMngCtrl', function (service,$scope,$state) {
 		$scope.isShow = false;
 	    $scope.init = function(){

@@ -1,4 +1,5 @@
 define(['app', 'service', 'sysCode'], function (app) {
+    "use strict";
     app.controller('merchantMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
             var formData = {

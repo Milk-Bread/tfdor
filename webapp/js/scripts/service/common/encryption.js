@@ -1,4 +1,5 @@
 define(['app'], function (app) {
+    "use strict";
     app.service('encryption', function () {
         var hexcase = 0;
         var b64pad = "";

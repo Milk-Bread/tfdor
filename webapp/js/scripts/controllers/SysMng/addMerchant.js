@@ -2,6 +2,7 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
+    "use strict";
     app.controller('addMerchantCtrl', function (service, $scope, $state) {
         $scope.isShow = false;
         $scope.channelId = service.getUser().channel.channelId;

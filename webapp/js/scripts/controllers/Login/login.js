@@ -1,4 +1,5 @@
 define(['app', 'service','sysCode','encryption'], function (app) {
+	"use strict";
 	app.controller('LoginCtrl', function (encryption,service,$scope,$state) {
     	$scope.doIt = function(){
     		var userId = $scope.userId;
