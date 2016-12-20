@@ -33,7 +33,7 @@ public class LoginListenner implements HttpSessionAttributeListener {
         String name = event.getName();
         if (name.equals("_USER")) {
             UserInfo user = (UserInfo) event.getValue();
-            if (map.get(user.getUserId()) != null) {
+            if (user != null && map.get(user.getUserId()) != null) {
                 HttpSession session = map.get(user.getUserId());
                 session.setAttribute("PLAY_EACH_OTHER","true");
                 session.removeAttribute(user.getUserId());

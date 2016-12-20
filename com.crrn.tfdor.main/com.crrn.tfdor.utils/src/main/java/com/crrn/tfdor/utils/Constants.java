@@ -15,7 +15,7 @@ public class Constants {
     /**
      * 二维码生成路径
      **/
-    public static String PATH_QRCODE_IMAGE = "/myData/images";
+    public static String PATH = "/myData/config";
     /**
      * 图片上传分隔符
      */

@@ -231,7 +231,7 @@ public class HttpClientTransport implements Transport {
     @Override
     public Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File("/myData/config/" + mchId + "/cert/apiclient_cert.p12"));
+        FileInputStream instream = new FileInputStream(new File(Constants.PATH + "/" + mchId + "/cert/apiclient_cert.p12"));
         keyStore.load(instream, mchId.toCharArray());
         instream.close();
         SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray()).build();

@@ -116,7 +116,7 @@ public class WeixinController {
     public void createQrcodeImage(HttpServletRequest request, CreateQrcodeImg createQrcodeImg) throws Exception {
         String appId = request.getParameter("appId");
         Merchant mch = weChatService.qMerchant(appId);
-        createQrcodeImg.setPreservation(Constants.PATH_QRCODE_IMAGE + "/" + mch.getMchId() + "/" + Util.getCurrentTime());
+        createQrcodeImg.setPreservation(Constants.PATH +"/" + "images" + "/" + mch.getMchId() + "/" + Util.getCurrentTime());
         createQrcodeImg.setMchId(mch.getMchId());
         weChatService.addQrcode(createQrcodeImg, appId);
     }
