@@ -12,7 +12,7 @@ define(['app'], function (app) {
                 formData = {};
             }
             formData["transName"] = action;
-            transFn = function (formData) {
+            var transFn = function (formData) {
                 return $.param(formData);
             }
             var postCfg = {
