@@ -2,9 +2,7 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     16/8/1 下午3:23:56                             */
 /*==============================================================*/
-CREATE DATABASE `tfdor`
-CHARACTER SET 'utf8'
-COLLATE 'utf8_general_ci';
+CREATE DATABASE `tfdor` CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     16/10/15 下午11:29:28                          */
