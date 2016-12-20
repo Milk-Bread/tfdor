@@ -53,6 +53,10 @@ public class WeChat {
      */
     public static final String DELETE_MENU="https://api.weixin.qq.com/cgi-bin/menu/delete";
     /**
+     * 查询微信菜单
+     */
+    public static final String GET_MENU = "https://api.weixin.qq.com/cgi-bin/menu/get";
+    /**
      * 微信支付地址
      */
     public static interface PAY {

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.Merchant;
+import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
 import com.crrn.tfdor.utils.aes.AesException;
 import com.crrn.tfdor.utils.aes.WXBizMsgCrypt;
@@ -144,10 +145,11 @@ public class WeixinController {
     @RequestMapping(value = "getBatchGetMaterial.do", method = RequestMethod.POST)
     public
     @ResponseBody
-    Object getBatchGetMaterial(String channelId) throws Exception {
+    Object getBatchGetMaterial(HttpServletRequest request) throws Exception {
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.BATCHGET_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(""));
         sendParam.put("offset", 0);
         sendParam.put("count", 20);
         sendParam.put("type", "image");
@@ -262,7 +264,8 @@ public class WeixinController {
         logger.debug(respMap.toString());
         return respMap;
     }
-  /**
+
+    /**
      * Description: 删除微信菜单
      *
      * @return
@@ -274,6 +277,23 @@ public class WeixinController {
     public Object deleteWechatMenu(HttpServletRequest request, String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.DELETE_MENU);
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
+        Map respMap = (Map) transport.sendGet(sendParam);
+        logger.debug(respMap.toString());
+        return respMap;
+    }
+
+    /**
+     * Description: 查询微信菜单
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "getWechatMenu.action", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getWechatMenu(HttpServletRequest request, String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        sendParam.put(Dict.TRANS_NAME, WeChat.GET_MENU);
         sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
         Map respMap = (Map) transport.sendGet(sendParam);
         logger.debug(respMap.toString());
