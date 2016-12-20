@@ -1,4 +1,5 @@
 define(['app'], function (app) {
+    "use strict";
     app.service('service', function ($http, $state) {
         this.post2SRV = function (action, formData, callBack, timeOut) {
             if (formData == null || formData == '') {
@@ -8,7 +9,7 @@ define(['app'], function (app) {
             transFn = function (formData) {
                 return angular.param(formData);
             }
-            postCfg = {
+            var postCfg = {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transFn
             };

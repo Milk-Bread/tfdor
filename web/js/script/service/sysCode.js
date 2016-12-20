@@ -1,4 +1,5 @@
 define(['app'], function (app) {
+    "use strict";
     app.filter('sysCode', function () {
         return function (code, type) {
             var messages = {};

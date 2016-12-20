@@ -1,4 +1,5 @@
 define(['routes', 'loader', 'angularAMD', 'ionic'], function (config, loader, angularAMD) {
+    "use strict";
     var app = angular.module('starter', ['ionic']);
     app.config(function ($stateProvider, $urlRouterProvider) {
         // 配置路由
