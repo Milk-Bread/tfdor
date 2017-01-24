@@ -1,34 +1,25 @@
 package com.crrn.tfdor.utils;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.URLDecoder;
-import java.net.UnknownHostException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import net.sf.json.JSONObject;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Zip;
 import org.apache.tools.ant.types.FileSet;
-import org.aspectj.weaver.ast.And;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.dom4j.*;
-import org.hibernate.validator.constraints.Length;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import javax.validation.ValidationException;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Description: 工具类
@@ -317,6 +308,9 @@ public class Util {
         ObjectMapper mapper = new ObjectMapper();
         try {
             logger.debug("http message:===>" + message);
+            if("".equals(message)){
+                return null;
+            }
             Map<String, Object> responseMap = mapper.readValue(message, HashMap.class);
             if (responseMap.get("errcode") != null && !"".equals(responseMap.get("errcode")) && !"0".equals(responseMap.get("errcode").toString())) {
                 throw new RuntimeException("validation.wachat.error." + responseMap.get("errcode").toString());

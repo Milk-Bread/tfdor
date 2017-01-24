@@ -1,14 +1,12 @@
 package com.crrn.tfdor.utils.interceptor;
 
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.crrn.tfdor.utils.CHECKMSG;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.crrn.tfdor.utils.CHECKMSG;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * Description: 防止SQL注入

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -15,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author chepeiqing
@@ -106,12 +107,12 @@ public class AuditingController {
     @RequestMapping(value = "audiAgree.do", method = RequestMethod.POST)
     @ResponseBody
     public void audiAgree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("auditingTrans");
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("state", "S");
         param.put("remarks", "同意");
         param.put("auditingSeq", request.getParameter("auditingSeq"));
         auditingService.modifyAuditing(param);
+        String action = request.getParameter("auditingTrans");
         request.getRequestDispatcher(action).forward(request, response);
     }
 

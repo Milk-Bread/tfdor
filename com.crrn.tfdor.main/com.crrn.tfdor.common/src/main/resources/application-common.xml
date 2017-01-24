@@ -14,8 +14,8 @@
         <property name="locations">
             <list>
                <value>classpath:properties/*.properties</value>
-			   <value>file:/Users/chepeiqing/Desktop/common.properties</value>
-			   <!--<value>file:/myData/config/common.properties</value>-->
+			   <!--<value>file:/Users/chepeiqing/Desktop/common.properties</value>-->
+			   <value>file:/myData/config/common.properties</value>
                 <!--要是有多个配置文件，只需在这里继续添加即可 -->
             </list>
         </property>

@@ -1,12 +1,11 @@
 package com.crrn.tfdor.service.manage;
 
-import java.util.List;
-import java.util.Map;
-
-import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
-import com.crrn.tfdor.domain.wechat.QrcodeImg;
+import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
 import com.github.pagehelper.PageInfo;
+
+import java.util.List;
+import java.util.Map;
 
 public interface MarketingService {
     /**
@@ -14,7 +13,7 @@ public interface MarketingService {
      *
      * @return
      */
-    public PageInfo<QrcodeImg> qQrcodeimg(Map<String, Object> param);
+    public PageInfo<Map<String, Object>> qQrcodeimg(Map<String, Object> param);
 
     /**
      * 二维码生成配置表查询
@@ -48,4 +47,24 @@ public interface MarketingService {
      * @param map
      */
     public void addRedPack(Map<String, Object> map);
+
+    /**
+     * 查询商户是否添加过红包
+     * @param param
+     */
+    public Integer queryRedPackByMchIdCount(Map<String, Object> param);
+
+    /**
+     * 查询活动列表
+     * @param param
+     * @return
+     */
+    public List<RedPackBean> queryRedPackList(Map<String, Object> param);
+
+    /**
+     * 根据appId查询商户信息
+     * @param appId
+     * @return
+     */
+    public Merchant qMerchantByAppId(String appId);
 }

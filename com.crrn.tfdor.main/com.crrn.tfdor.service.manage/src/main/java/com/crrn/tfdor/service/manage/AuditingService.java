@@ -1,6 +1,5 @@
 package com.crrn.tfdor.service.manage;
 
-import com.crrn.tfdor.domain.wechat.QrcodeImg;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;

@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -45,12 +46,6 @@ public class MsgEvent {
     @Transactional
     public void activityByRedPack(Map<String, Object> msgMap, Map<String, Object> param, Merchant merchant) throws Exception {
         Map<String, Object> payMsgMap = new HashMap<>();
-        RedPackBean redPackBean = weChatDao.queryRedPackByMchId(merchant.getMchId());
-        if (redPackBean == null) {
-            param.put("Content", "您好，欢迎关注" + merchant.getMchName());
-            msgTypeByText(msgMap, param);
-            return;
-        }
         Map<String, Object> paramSql = new HashMap<String, Object>();
         String eventKey = (String) param.get("EventKey");
         if (eventKey.indexOf("qrscene_") == 0) {//第一次扫码
@@ -59,6 +54,15 @@ public class MsgEvent {
         }
         paramSql.put("sceneStr", eventKey);
         Map<String, Object> qrcodeImg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
+        Map<String, Object> paramRedPack = new HashMap<>();
+        paramRedPack.put("mchId",merchant.getMchId());
+        paramRedPack.put("redPackSeq",qrcodeImg.get("redPackSeq"));
+        RedPackBean redPackBean = weChatDao.queryRedPackByMchId(paramRedPack);
+        if (redPackBean == null) {
+            param.put("Content", "您好，欢迎关注" + merchant.getMchName());
+            msgTypeByText(msgMap, param);
+            return;
+        }
         if (qrcodeImg != null && "N".equals(redPackBean.getState()) && "N".equals(qrcodeImg.get("cState")) && ("I".equals(qrcodeImg.get("qState")) || "F".equals(qrcodeImg.get("qState")))) {
             Timestamp beginDate = (Timestamp) qrcodeImg.get("beginDate");
             Timestamp endDate = (Timestamp) qrcodeImg.get("endDate");
@@ -80,7 +84,7 @@ public class MsgEvent {
         } else if (!"N".equals(qrcodeImg.get("cState"))) {
             param.put("Content", "您好，活动已经结束，敬请关注");
             msgTypeByText(msgMap, param);
-        } else if ("S".equals(qrcodeImg.get("state"))) {
+        } else if ("S".equals(qrcodeImg.get("qState"))) {
             param.put("Content", "您好，该二维码已经使用过了");
             msgTypeByText(msgMap, param);
         }

@@ -1,16 +1,8 @@
 package com.crrn.tfdor.service.wechat.core;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-
 import com.crrn.tfdor.utils.Util;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
@@ -18,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crrn.tfdor.utils.common.MapEntryConverter;
-import com.thoughtworks.xstream.XStream;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 @Service
 public class Transformer {

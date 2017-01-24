@@ -1,17 +1,16 @@
 package com.crrn.tfdor.service.manage.impl;
 
-import java.util.List;
-import java.util.Map;
-
+import com.crrn.tfdor.dao.WeChantDao;
+import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
+import com.crrn.tfdor.service.manage.MarketingService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.crrn.tfdor.dao.WeChantDao;
-import com.crrn.tfdor.domain.wechat.QrcodeImg;
-import com.crrn.tfdor.service.manage.MarketingService;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MarketingServiceImpl implements MarketingService {
@@ -19,12 +18,12 @@ public class MarketingServiceImpl implements MarketingService {
     public WeChantDao weChatDao;
 
     @Override
-    public PageInfo<QrcodeImg> qQrcodeimg(Map<String, Object> param) {
+    public PageInfo<Map<String, Object>> qQrcodeimg(Map<String, Object> param) {
         //分页开始
         PageHelper.startPage((Integer) param.get("pageNo"), (Integer) param.get("pageSize"));
-        List<QrcodeImg> list = weChatDao.qQrcodeimg(param);
+        List<Map<String, Object>> list = weChatDao.qQrcodeimg(param);
         //用PageInfo对结果进行包装
-        PageInfo<QrcodeImg> page = new PageInfo<QrcodeImg>(list);
+        PageInfo<Map<String, Object>> page = new PageInfo<Map<String, Object>>(list);
         return page;
     }
 
@@ -73,5 +72,39 @@ public class MarketingServiceImpl implements MarketingService {
     public void addRedPack(Map<String, Object> map) {
         weChatDao.addRedPack(map);
     }
+
+
+    /**
+     * 查询商户是否添加过红包
+     *
+     * @param param
+     */
+    @Override
+    public Integer queryRedPackByMchIdCount(Map<String, Object> param) {
+        return weChatDao.queryRedPackByMchIdCount(param);
+    }
+
+    /**
+     * 查询活动列表
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public List<RedPackBean> queryRedPackList(Map<String, Object> param) {
+        return weChatDao.queryRedPackList(param);
+    }
+
+    /**
+     * 根据appId查询商户信息
+     *
+     * @param appId
+     * @return
+     */
+    @Override
+    public Merchant qMerchantByAppId(String appId) {
+        return weChatDao.qMerchant(appId);
+    }
+
 
 }

@@ -1,7 +1,5 @@
 package com.crrn.tfdor.utils.handlerexception;
 
-import javax.validation.ValidationException;
-
 /**
  * 异常类
  *@author chepeiqing

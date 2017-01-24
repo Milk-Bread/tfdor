@@ -38,8 +38,8 @@ public class LoginListenner implements HttpSessionAttributeListener {
                 session.setAttribute("PLAY_EACH_OTHER","true");
                 session.removeAttribute(user.getUserId());
 //                session.invalidate();
+                map.put(user.getUserId(), event.getSession());
             }
-            map.put(user.getUserId(), event.getSession());
             logger.debug("当前在线人数：" + map.size());
         }
     }

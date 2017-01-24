@@ -1,23 +1,17 @@
 package com.crrn.tfdor.common.wechat.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.domain.manage.CheckModel;
 import com.crrn.tfdor.domain.manage.Merchant;
-import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
-import com.crrn.tfdor.utils.aes.AesException;
+import com.crrn.tfdor.service.wechat.WeChatService;
+import com.crrn.tfdor.service.wechat.core.TokenService;
+import com.crrn.tfdor.service.wechat.core.Transformer;
+import com.crrn.tfdor.utils.Constants;
+import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.Util;
+import com.crrn.tfdor.utils.WeChat;
 import com.crrn.tfdor.utils.aes.WXBizMsgCrypt;
-import org.dom4j.DocumentException;
+import com.crrn.tfdor.utils.common.Transport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crrn.tfdor.domain.manage.CheckModel;
-import com.crrn.tfdor.service.wechat.WeChatService;
-import com.crrn.tfdor.service.wechat.core.TokenService;
-import com.crrn.tfdor.service.wechat.core.Transformer;
-import com.crrn.tfdor.utils.Constants;
-import com.crrn.tfdor.utils.Dict;
-import com.crrn.tfdor.utils.Util;
-import com.crrn.tfdor.utils.WeChat;
-import com.crrn.tfdor.utils.common.Transport;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -145,11 +139,10 @@ public class WeixinController {
     @RequestMapping(value = "getBatchGetMaterial.do", method = RequestMethod.POST)
     public
     @ResponseBody
-    Object getBatchGetMaterial(HttpServletRequest request) throws Exception {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+    Object getBatchGetMaterial(HttpServletRequest request,String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.BATCHGET_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(""));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
         sendParam.put("offset", 0);
         sendParam.put("count", 20);
         sendParam.put("type", "image");
@@ -187,10 +180,10 @@ public class WeixinController {
      */
     @RequestMapping(value = "delMaterial.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object delMaterial(HttpServletRequest request, String channelId) throws Exception {
+    public Object delMaterial(HttpServletRequest request, String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.DEL_MATERIAL);
-        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(channelId));
+        sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
         sendParam.put("media_id", request.getParameter("mediaId"));
         Map respMap = (Map) transport.sendPost(sendParam);
         logger.debug(respMap.toString());

@@ -4,11 +4,8 @@ package com.crrn.tfdor.common.manage.controller;
  * Created by pengyuming on 16/10/12.
  */
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.service.manage.MarketingService;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
 import org.apache.commons.io.FileUtils;
@@ -21,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crrn.tfdor.service.manage.MarketingService;
-
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -178,5 +174,52 @@ public class MarketingController {
         param.put("totalNum", totalNum);
         marketingService.addRedPack(param);
     }
+
+
+    /**
+     * Description: 查询商户是否添加过红包
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "queryRedPackByMchIdCount.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryRedPackByMchIdCount(String mchId) throws Exception{
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("mchId",mchId);
+        return marketingService.queryRedPackByMchIdCount(param);
+    }
+
+    /**
+     * Description: 查询商户是否添加过红包
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "queryRedPackList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryRedPackList(String mchId) throws Exception{
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("mchId",mchId);
+        return marketingService.queryRedPackList(param);
+    }
+
+
+        /**
+     * Description: 根据AppId查询商户信息
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "qMerchantByAppId.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object qMerchantByAppId(String appId) throws Exception{
+        return marketingService.qMerchantByAppId(appId);
+    }
+
+
 
 }

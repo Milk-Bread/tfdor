@@ -10,6 +10,11 @@ package com.crrn.tfdor.domain.manage;
  * @Time 下午11:11
  */
 public class Merchant {
+
+    /**
+     * 序号
+     */
+    private Integer mchSeq;
     /**
      * 商户ID
      **/
@@ -54,6 +59,14 @@ public class Merchant {
      * 修改时间
      **/
     private String updateTime;
+
+    public Integer getMchSeq() {
+        return mchSeq;
+    }
+
+    public void setMchSeq(Integer mchSeq) {
+        this.mchSeq = mchSeq;
+    }
 
     public String getMchId() {
         return mchId;

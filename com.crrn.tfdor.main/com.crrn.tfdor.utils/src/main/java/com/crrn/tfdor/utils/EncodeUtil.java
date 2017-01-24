@@ -1,14 +1,13 @@
 package com.crrn.tfdor.utils;
 
-import java.security.SecureRandom;
-import java.text.MessageFormat;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.security.SecureRandom;
+import java.text.MessageFormat;
 
 
 /**

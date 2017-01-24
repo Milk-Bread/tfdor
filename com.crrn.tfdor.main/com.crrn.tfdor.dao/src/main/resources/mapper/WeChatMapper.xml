@@ -18,8 +18,9 @@
 		INSERT INTO qrcodeimg (CreateQISeq, mchId, sceneStr, ticket, url, qrcodeName, state, createTime, updateTime)
 		VALUES (#{createQISeq},#{mchId}, #{sceneStr}, #{ticket}, #{url}, #{qrcodeName}, 'I', now(), now())
 	</select>
-	<select id="qQrcodeimg" resultType="com.crrn.tfdor.domain.wechat.QrcodeImg" parameterType="java.lang.String">
-		SELECT * FROM qrcodeimg where CreateQISeq = #{createQISeq}
+	<select id="qQrcodeimg" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT * FROM qrcodeimg q left join customerinfo c on q.openId = c.openId
+		where CreateQISeq = #{createQISeq}
 		<if test="state != null and state != ''">
 			AND state = #{state}
 		</if>
@@ -48,14 +49,22 @@
 			and m.channelId = #{channelId} AND m.state = 'N'
 		</if>
 	</select>
-	<select id="queryRedPackByMchId" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
+	<select id="queryRedPackByMchId" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
+		SELECT * FROM redpack where mchId = #{mchId} and redPackSeq = #{redPackSeq}
+	</select>
+
+
+	<select id="queryRedPackList" parameterType="java.util.HashMap" resultType="com.crrn.tfdor.domain.wechat.RedPackBean">
 		SELECT * FROM redpack where mchId = #{mchId}
+		<if test="redPackSeq != null and redPackSeq != ''">
+			AND redPackSeq = #{redPackSeq}
+		</if>
 	</select>
 
 	<select id="qCreateQrcodeImg" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select cl.channelId,cl.channelName,c.createQISeq,c.mchId,c.beginDate,c.actionName,c.endDate,c.number,
+		select cl.channelId,cl.channelName,c.createQISeq,c.mchId,c.beginDate,c.actionName,c.endDate,c.number,r.redPackSeq,r.actName,
 		c.preservation,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(c.updateTime,'%Y-%m-%d %H:%i:%s') updateTime,m.mchName,c.state,c.expireSeconds
-		from CreateQrcodeImg c,Merchant m,channel cl  WHERE m.mchId = c.mchId and m.channelId = cl.channelId
+		from CreateQrcodeImg c,Merchant m,channel cl,RedPack r  WHERE m.mchId = c.mchId and m.channelId = cl.channelId and r.redPackSeq = c.redPackSeq
 		<if test="channelId != null and channelId != ''">
 			AND cl.channelId = #{channelId} AND m.state = 'N'
 		</if>
@@ -69,12 +78,12 @@
 	</select>
 
 	<insert id="iCreateQrcodeImage" parameterType="com.crrn.tfdor.domain.wechat.CreateQrcodeImg" keyProperty="createQISeq"  useGeneratedKeys="true">
-		INSERT INTO createqrcodeimg (mchId, beginDate, actionName, endDate, expireSeconds, number, preservation, state, createTime, updateTime)
-		VALUES (#{mchId}, #{beginDate}, #{actionName}, #{endDate}, #{expireSeconds}, #{number}, #{preservation}, #{state}, now(), now());
+		INSERT INTO createqrcodeimg (mchId, beginDate, actionName, endDate, expireSeconds, number, preservation, state, createTime, updateTime,redPackSeq)
+		VALUES (#{mchId}, #{beginDate}, #{actionName}, #{endDate}, #{expireSeconds}, #{number}, #{preservation}, #{state}, now(), now(),#{redPackSeq});
 	</insert>
 
 	<select id="qQrcodeimgBysCeneStr" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,
+		select str_to_date(c.beginDate,'%Y-%m-%d %H:%i:%s') beginDate,c.redPackSeq,
 		str_to_date(c.endDate,'%Y-%m-%d %H:%i:%s') endDate,q.sceneStr,q.state qState,c.state cState
 		from Qrcodeimg q,createqrcodeimg c where c.CreateQISeq = q.CreateQISeq AND sceneStr = #{sceneStr}
 		<if test="state != null and state != ''">
@@ -102,4 +111,22 @@
 		INSERT INTO redpack (redPackType,mchId,amountType,totalAmount,wishing,actName,remark,state,updateTime,createTime,totalNum)
 		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now(),#{totalNum})
 	</insert>
+	
+	<select id="qCustomerInfo" parameterType="java.lang.String" resultType="com.crrn.tfdor.domain.wechat.CustomerInfo">
+		SELECT * from CustomerInfo WHERE openId = #{openId}
+	</select>
+
+	<insert id="iCustomerInfo" parameterType="com.crrn.tfdor.domain.wechat.CustomerInfo">
+		INSERT INTO customerinfo (openId, mchSeq, nickName, sex, city, country, province, language, headimgurl, subscribeTime)
+		VALUES (#{openId}, #{mchSeq}, #{nickName}, #{sex}, #{city}, #{country}, #{province}, #{language}, #{headimgurl}, #{subscribeTime})
+	</insert>
+
+	<update id="uCustomerInfo" parameterType="com.crrn.tfdor.domain.wechat.CustomerInfo">
+		UPDATE customerinfo SET nickName = #{nickName}, sex = #{sex}, city = #{city}, country = #{country}, province = #{province}, language = #{language}, headimgurl = #{headimgurl}, subscribeTime = #{subscribeTime}
+		WHERE openId = #{openId}
+	</update>
+
+	<select id="queryRedPackByMchIdCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(*) from redpack where mchId = #{mchId}
+	</select>
 </mapper>

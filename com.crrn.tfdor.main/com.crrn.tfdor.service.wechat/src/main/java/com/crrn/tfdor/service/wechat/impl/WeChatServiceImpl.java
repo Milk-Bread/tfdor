@@ -1,15 +1,10 @@
 package com.crrn.tfdor.service.wechat.impl;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.crrn.tfdor.dao.WeChantDao;
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.*;
+import com.crrn.tfdor.service.wechat.WeChatService;
 import com.crrn.tfdor.service.wechat.core.MsgEvent;
 import com.crrn.tfdor.service.wechat.core.Transformer;
 import com.crrn.tfdor.utils.*;
@@ -18,12 +13,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.crrn.tfdor.dao.WeChantDao;
-import com.crrn.tfdor.service.wechat.WeChatService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class WeChatServiceImpl implements WeChatService {
@@ -112,6 +112,8 @@ public class WeChatServiceImpl implements WeChatService {
         logger.debug("Enter a message distribution......");
         String msgType = (String) param.get(Dict.MSGTYPE);
         Map<String, Object> msgMap = new HashMap<>();
+        //记录客户信息
+        this.getCustomerInfo(merchant.getMchSeq(),param.get("FromUserName").toString(),merchant.getAppId());
         //微信消息为事件消息
         if (msgType.equals(MsgType.event.toString())) {
             logger.debug("Messages are distributed as event messages");
@@ -255,6 +257,32 @@ public class WeChatServiceImpl implements WeChatService {
             qrcodeImg.setTicket(respTicket.get("ticket").toString());
             qrcodeImg.setUrl(respTicket.get("url").toString());
             weChatDao.iQrcodeimg(qrcodeImg);
+        }
+    }
+
+    /**
+     * 获取用户信息
+     * @param openId
+     * @param appId
+     * @return
+     */
+    public void getCustomerInfo(Integer mchSeq,String openId,String appId) throws Exception{
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        sendParam.put(Dict.TRANS_NAME, WeChat.GET_USERINFO);
+        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
+        sendParam.put(Dict.LANG, "zh_CN");
+        sendParam.put("openid", openId);
+        CustomerInfo info = weChatDao.qCustomerInfo(openId);
+        Map<String, Object> customerInfo = (Map<String, Object>) transport.sendGet(sendParam);
+        CustomerInfo custm = BeanUtils.map2Bean(customerInfo, CustomerInfo.class);
+        custm.setOpenId(customerInfo.get("openid").toString());
+        custm.setNickName(customerInfo.get("nickname").toString());
+        custm.setSubscribeTime(customerInfo.get("subscribe_time").toString());
+        custm.setMchSeq(mchSeq);
+        if(info == null) {
+            weChatDao.iCustomerInfo(custm);
+        }else{
+            weChatDao.uCustomerInfo(custm);
         }
     }
 }

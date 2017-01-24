@@ -15,7 +15,8 @@ public class Constants {
     /**
      * 二维码生成路径
      **/
-    public static String PATH = "/myData/config";
+//    public static String PATH = "/myData/config";
+    public static String PATH = "/Users/chepeiqing/Desktop/WeChat/config";
     /**
      * 图片上传分隔符
      */

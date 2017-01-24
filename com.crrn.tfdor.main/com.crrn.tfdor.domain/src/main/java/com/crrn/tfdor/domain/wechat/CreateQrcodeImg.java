@@ -19,6 +19,15 @@ public class CreateQrcodeImg {
     private String createTime;
     private String updateTime;
     private String state;
+    private String redPackSeq;
+
+    public String getRedPackSeq() {
+        return redPackSeq;
+    }
+
+    public void setRedPackSeq(String redPackSeq) {
+        this.redPackSeq = redPackSeq;
+    }
 
     public String getExpireSeconds() {
         return expireSeconds;

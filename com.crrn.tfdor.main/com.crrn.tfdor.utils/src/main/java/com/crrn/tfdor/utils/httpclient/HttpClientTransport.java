@@ -1,13 +1,9 @@
 package com.crrn.tfdor.utils.httpclient;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.KeyStore;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.crrn.tfdor.utils.Constants;
+import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.Util;
+import com.crrn.tfdor.utils.common.Transport;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -19,12 +15,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.crrn.tfdor.utils.Constants;
-import com.crrn.tfdor.utils.Dict;
-import com.crrn.tfdor.utils.Util;
-import com.crrn.tfdor.utils.common.Transport;
 
 import javax.net.ssl.SSLContext;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyStore;
+import java.util.List;
+import java.util.Map;
 
 public class HttpClientTransport implements Transport {
     private static Logger logger = LoggerFactory.getLogger(HttpClientTransport.class);

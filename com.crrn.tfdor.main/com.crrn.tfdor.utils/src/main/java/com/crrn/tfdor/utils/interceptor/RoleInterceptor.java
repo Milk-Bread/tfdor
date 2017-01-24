@@ -1,15 +1,14 @@
 package com.crrn.tfdor.utils.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.utils.CHECKMSG;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.crrn.tfdor.domain.manage.UserInfo;
-import com.crrn.tfdor.utils.CHECKMSG;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author chepeiqing

@@ -1,9 +1,9 @@
 package com.crrn.tfdor.utils.common;
 
 
-import java.util.Map;
-
 import com.crrn.tfdor.utils.service.Service;
+
+import java.util.Map;
 
 /**
  * Description: 请求Transport公共父类

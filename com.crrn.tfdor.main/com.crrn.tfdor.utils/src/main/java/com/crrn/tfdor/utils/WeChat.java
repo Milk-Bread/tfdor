@@ -46,16 +46,22 @@ public class WeChat {
     /**
      * 微信自定义菜单
      */
-    public static final String CREATE_MENU="https://api.weixin.qq.com/cgi-bin/menu/create";
+    public static final String CREATE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/create";
 
     /**
      * 微信自定义菜单
      */
-    public static final String DELETE_MENU="https://api.weixin.qq.com/cgi-bin/menu/delete";
+    public static final String DELETE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/delete";
     /**
      * 查询微信菜单
      */
     public static final String GET_MENU = "https://api.weixin.qq.com/cgi-bin/menu/get";
+
+    /**
+     * 获取用户信息
+     */
+    public static final String GET_USERINFO = "https://api.weixin.qq.com/cgi-bin/user/info";
+
     /**
      * 微信支付地址
      */

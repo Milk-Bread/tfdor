@@ -1,15 +1,12 @@
 package com.crrn.tfdor.service.wechat;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
-
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
 import com.crrn.tfdor.domain.wechat.QrcodeImg;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public interface WeChatService {
 

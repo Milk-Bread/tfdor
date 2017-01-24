@@ -1,9 +1,9 @@
 package com.crrn.tfdor.dao;
 
+import com.crrn.tfdor.domain.manage.Menu;
+
 import java.util.List;
 import java.util.Map;
-
-import com.crrn.tfdor.domain.manage.Menu;
 
 public interface MenuDao {
 

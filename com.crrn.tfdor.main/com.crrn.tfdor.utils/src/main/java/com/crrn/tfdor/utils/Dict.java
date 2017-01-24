@@ -92,4 +92,9 @@ public class Dict {
      * 红包金额类型 FNRK 裂变红包
      */
     public static final String REDPACKTYPE_FNRK = "FNRK";
+
+    /**
+     * 语言
+     */
+    public static final String LANG = "lang";
 }

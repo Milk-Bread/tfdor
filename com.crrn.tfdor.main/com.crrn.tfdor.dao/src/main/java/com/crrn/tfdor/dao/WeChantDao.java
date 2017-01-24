@@ -1,13 +1,14 @@
 package com.crrn.tfdor.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
+import com.crrn.tfdor.domain.wechat.CustomerInfo;
 import com.crrn.tfdor.domain.wechat.QrcodeImg;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Description:微信相关表数据库操作
@@ -61,7 +62,7 @@ public interface WeChantDao {
      *
      * @return
      */
-    public List<QrcodeImg> qQrcodeimg(Map<String, Object> param);
+    public List<Map<String, Object>> qQrcodeimg(Map<String, Object> param);
 
     /**
      * 二维码生成配置表查询
@@ -117,10 +118,10 @@ public interface WeChantDao {
 
     /**
      * 查询红包参数
-     * @param mchId
+     * @param param
      * @return
      */
-    public RedPackBean queryRedPackByMchId(String mchId);
+    public RedPackBean queryRedPackByMchId(Map<String,Object> param);
 
     /**
      * 修改红包参数
@@ -133,4 +134,34 @@ public interface WeChantDao {
      * @param map
      */
     public void addRedPack(Map<String, Object> map);
+
+    /**
+     * 新增客户信息
+     * @param cusm
+     */
+    public void iCustomerInfo(CustomerInfo cusm);
+
+    /**
+     * 查询客户信息
+     * @param openId
+     */
+    public CustomerInfo qCustomerInfo(String openId);
+    /**
+     * 修改用户信息
+     * @param cusm
+     */
+    public void uCustomerInfo(CustomerInfo cusm);
+
+    /**
+     * 查询商户是否添加过红包
+     * @param param
+     */
+    public Integer queryRedPackByMchIdCount(Map<String, Object> param);
+
+    /**
+     * 查询活动列表／查询单个活动
+     * @param param
+     * @return
+     */
+    public List<RedPackBean> queryRedPackList(Map<String, Object> param);
 }
