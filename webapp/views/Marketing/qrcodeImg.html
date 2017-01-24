@@ -28,13 +28,17 @@
             <tr>
                 <td class="text-center">二维码图片名称</td>
                 <td class="text-center">二维码创建时间</td>
+                <td class="text-center">使用用户昵称</td>
+                <td class="text-center">使用用户性别</td>
                 <td class="text-center">二维码使用时间</td>
                 <td class="text-center">状态</td>
             </tr>
             <tr ng-repeat="img in List">
                 <td class="text-center">{{img.qrcodeName}}</td>
-                <td class="text-center">{{img.createTime}}</td>
-                <td class="text-center">{{img.updateTime}}</td>
+                <td class="text-center">{{img.createTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td class="text-center">{{img.nickName}}</td>
+                <td class="text-center">{{img.Sex | sysCode : 'customerSex' }}</td>
+                <td class="text-center">{{img.updateTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
                 <td class="text-center">{{img.state | sysCode : 'qrCodeState' }}</td>
             </tr>
         </table>

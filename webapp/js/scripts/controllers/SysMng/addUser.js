@@ -108,10 +108,10 @@ define(['app', 'service','sysCode'], function (app) {
             }
             if ($scope.isShow) {
                 if ($scope.customerType == null) {
-                    $scope.customerType = '1';
+                    $scope.customerType = 'O';
                 }
             } else {
-                $scope.customerType = '2';
+                $scope.customerType = 'O';
             }
 
             var formData = {

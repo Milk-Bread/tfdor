@@ -3,22 +3,26 @@
  */
 define(['app', 'service', 'sysCode'], function (app) {
     "use strict";
-    app.controller('addRedPackCtrl', function (service, $scope, $state) {
+    app.controller('addRedPackCtrl', function (service, $scope, $state, $rootScope) {
         $scope.isAmountType = false;
         $scope.isMerch = false;
         $scope.isFNRK = false;
         $scope.init = function () {
-            //查询复合人
-            service.post2SRV("queryAuditPerson.do", null, function (data, status) {
-                $scope.auditPerson = data;
-            }, 4000);
             service.post2SRV("queryMerchant.do", null, function (data, status) {
-                if (data.length > 1) {
+                if(data != null && data.length == 0){
+                    showError("请添加商户");
+                    $rootScope.menuThree1 = null;
+                    $state.go("Main.RedPackManager");
+                }else if (data.length > 1) {
                     $scope.isMerch = true;
                     $scope.merchantList = data;
                 } else {
                     $scope.mchId = data[0].mchId;
                 }
+            }, 4000);
+            //查询复合人
+            service.post2SRV("queryAuditPerson.do", null, function (data, status) {
+                $scope.auditPerson = data;
             }, 4000);
         };
 

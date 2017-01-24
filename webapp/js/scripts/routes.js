@@ -93,8 +93,7 @@
                 templateUrl: 'views/SysMng/merchantManager.html',
                 dependencies: ['controllers/SysMng/merchantManager'],
                 allowAnonymous: true
-            },
-            'Main.deleteUser': {
+            }, 'Main.deleteUser': {
                 url: '/deleteUser',
                 templateUrl: 'views/SysMng/deleteUser.html',
                 dependencies: ['controllers/SysMng/deleteUser'],
@@ -144,15 +143,20 @@
                 templateUrl: 'views/SysMng/passwordManager.html',
                 dependencies: ['controllers/SysMng/passwordManager'],
                 allowAnonymous: true
-            },'Main.deleteRole': {
+            }, 'Main.deleteRole': {
                 url: '/deleteRole',
                 templateUrl: 'views/SysMng/deleteRole.html',
                 dependencies: ['controllers/SysMng/deleteRole'],
                 allowAnonymous: true
-            },'Main.MaterialManager': {
+            }, 'Main.MaterialManager': {
                 url: '/MaterialManager',
-                templateUrl: 'views/Wechat/MaterialManager.html',
-                dependencies: ['controllers/Wechat/MaterialManager'],
+                templateUrl: 'views/Wechat/materialManager.html',
+                dependencies: ['controllers/Wechat/materialManager'],
+                allowAnonymous: true
+            }, 'Main.WechatMenuManager': {
+                url: '/WechatMenuManager',
+                templateUrl: 'views/Wechat/wechatMenuManager.html',
+                dependencies: ['controllers/wechat/WechatMenuManager'],
                 allowAnonymous: true
             }
         }

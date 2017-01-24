@@ -41,8 +41,13 @@ define(['app'], function (app) {
                 "H": "关闭"
             };
             messages["customerType"] = {
-                "1": "管理员",
-                "2": "操作员"
+                "A": "管理员",
+                "O": "操作员"
+            };
+            messages["customerSex"] = {
+                "1": "男",
+                "2": "女",
+                "0": "未知"
             };
             messages["auditingData"] = {
                 "transName": "交易名称",

@@ -19,8 +19,7 @@
 <div id="loading-bar-container"></div>
 <div ui-view></div>
 <!-- 错误提示框 -->
-<div class="alert alert-danger alert-dismissable" id="errorDiv"
-     style="position:fixed;z-index: auto;top: 20px;right:10px;display:none">
+<div class="alert alert-danger alert-dismissable" id="errorDiv" style="position:fixed;z-index: auto;top: 20px;right:10px;display:none">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onclick="closeError();">
         &times;
     </button>
@@ -37,6 +36,6 @@
 <!-- loading 遮罩 -->
 <div class="mask"></div>
 <!-- 使用require加载js -->
-<script data-main="js/main.js" src="js/lib/requirejs/require.js" defer async="true"></script>
+<script data-main="js/main.js" src="js/lib/requirejs/require.js" defer></script>
 </body>
 </html>

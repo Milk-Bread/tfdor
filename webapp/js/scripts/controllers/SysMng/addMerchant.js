@@ -5,6 +5,7 @@ define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('addMerchantCtrl', function (service, $scope, $state) {
         $scope.isShow = false;
+        $scope.submitBt = false;
         $scope.channelId = service.getUser().channel.channelId;
 
         $scope.init = function () {
@@ -20,6 +21,21 @@ define(['app', 'service','sysCode'], function (app) {
             //查询复合人
             service.post2SRV("queryAuditPerson.do",null,function(data, status){
                 $scope.auditPerson = data;
+            },4000);
+        };
+
+        $scope.qMerchantByAppId = function(){
+            var formData = {
+                appId: $scope.appId
+            }
+            //查询appId是否已经添加过
+            service.post2SRV("qMerchantByAppId.do",formData,function(data, status){
+                if(!data){
+                    $scope.submitBt = false;
+                }else{
+                    showError("该公众号已经存在，请换一个公众号");
+                    $scope.submitBt = true;
+                }
             },4000);
         };
 

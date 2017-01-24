@@ -268,3 +268,17 @@ a,img {
 	z-index: 100;
 }
 
+
+
+/*仿微信手机页面样式*/
+.menuleft{position:fixed;bottom:0px;width:370px;height:44px;line-height:44px;z-index:999;background:url(../images/menubg.png) repeat-x}
+.menuleft ul{margin:0 auto;list-style-type:none;width:100%;max-width:500px;height:100%;}
+.menuleft ul li{cursor: pointer;float:left;width:33.3%;height:100%;text-align:center;position:relative;font-size:14px;}
+.menuleft ul li .line{position:absolute;top:0px;right:0px;z-index:30;}
+.menuleft ul li .menu_li{position:absolute;top:0px;left:0px;z-index:20;width:100%;height:100%;color:#454545;background:url(../images/menubg.png) repeat-x;}
+.menuleft ul li .img_front{position:absolute;top:0px;left:0px;z-index:30;width:100%;height:100%;}
+.menuleft ul li .img_front img{width:100%;height:100%;}
+.menuleft ul li span{position:absolute;bottom:-300px;left:50%;width:104px;margin-left:-52px;margin-bottom:14px;height:auto;text-align:center;z-index:10;}
+.menuleft ul li span div{position:absolute;top:0px;left:0px;}
+.menuleft ul li span a{float:left;width:100%;height:43px;line-height:43px;color:#454545;text-decoration:none;cursor: pointer}
+.footer_front{position:fixed;width:100%;height:100%;top:0px;left:0px;z-index:888;display:none;}

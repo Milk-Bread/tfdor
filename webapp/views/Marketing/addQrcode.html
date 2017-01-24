@@ -11,8 +11,16 @@
             <tr ng-show="isMerch">
                 <th width="40%" class="text-center"><span class="losing">*</span>选择商户</th>
                 <td width="60%" class="text-left">
-                    <select class="form-control btn-sm seStyle" ng-model="merchant" ng-options="merchant.mchName for merchant in merchantList">
+                    <select class="form-control btn-sm seStyle" ng-change="queryRedPack()" ng-model="merchant" ng-options="merchant.mchName for merchant in merchantList">
                         <option value="">请选择商户</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="40%" class="text-center"><span class="losing">*</span>选择活动</th>
+                <td width="60%" class="text-left">
+                    <select class="form-control btn-sm seStyle" ng-model="redPack" ng-options="redPack.actName for redPack in redPackList">
+                        <option value="">请选择活动</option>
                     </select>
                 </td>
             </tr>
@@ -50,7 +58,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" ng-click="doIt();">确 认</button>
+                    <button type="button" ng-disabled="submitBt" class="btn btn-info btn-sm" ng-click="doIt();">确 认</button>
                 </td>
             </tr>
         </table>

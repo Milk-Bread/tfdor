@@ -11,7 +11,7 @@
             </tr>
             <tr>
                 <th width="40%" class="text-center">公众号ID</th>
-                <td width="60%" class="text-left"><input type="text" style="width: 80%" name="appId" ng-model="appId"></td>
+                <td width="60%" class="text-left"><input type="text" style="width: 80%" name="appId" ng-model="appId" ng-blur="qMerchantByAppId()"></td>
             </tr>
             <tr>
                 <th width="40%" class="text-center">公众号Token</th>
@@ -56,7 +56,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" ng-click="doIt();">确 认</button>
+                    <button type="button" ng-disabled="submitBt" class="btn btn-info btn-sm" ng-click="doIt();">确 认</button>
                 </td>
             </tr>
         </table>
