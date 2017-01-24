@@ -44,17 +44,18 @@ body {
 }
 
 /** 搜索框 **/
-.search-box{
+.search-box {
     position: fixed;
     top: 0px;
     width: 100%;
     height: 45px;
     z-index: 11;
 }
-.shade-div{
-    filter:alpha(opacity=0,style=0); /*IE滤镜，透明度50%*/
-    -moz-opacity:0; /*Firefox私有，透明度50%*/
-    opacity:0;/*其他，透明度50%*/
+
+.shade-div {
+    filter: alpha(opacity=0, style=0); /*IE滤镜，透明度50%*/
+    -moz-opacity: 0; /*Firefox私有，透明度50%*/
+    opacity: 0; /*其他，透明度50%*/
     background-color: #ffffff;
     height: 45px;
     width: 100%;
@@ -62,27 +63,29 @@ body {
     top: 0px;
     z-index: 10;
 }
-.search-div{
+
+.search-div {
     width: 80%;
     margin: auto;
     z-index: 12;
     position: relative;
     top: 4px;
-    filter:alpha(opacity=60,style=0); /*IE滤镜，透明度50%*/
-    -moz-opacity:0.6; /*Firefox私有，透明度50%*/
-    opacity:0.6;/*其他，透明度50%*/
+    filter: alpha(opacity=60, style=0); /*IE滤镜，透明度50%*/
+    -moz-opacity: 0.6; /*Firefox私有，透明度50%*/
+    opacity: 0.6; /*其他，透明度50%*/
     background: #999999;
-    color:#060606;
+    color: #060606;
     border-radius: 8px;
 }
-.searchinput{
+
+.searchinput {
     width: 90%;
     background: transparent;
     margin-left: 10px;
 }
 
 /*菜单区域*/
-.menu-div{
+.menu-div {
     background-color: #efeff0;
 }
 
@@ -92,21 +95,25 @@ body {
     height: 45px;
     line-height: 45px;
 }
-.notice-sx{
+
+.notice-sx {
     float: left;
     height: 30px;
     border-left: 1px solid #cccccc;
     margin-top: 2px;
 }
-.notice-gd{
+
+.notice-gd {
     margin-left: 10px;
 }
-.notice-nr{
+
+.notice-nr {
     width: 168px;
     margin-left: 10px;
     float: left;
 }
-.notice-div{
+
+.notice-div {
     background-color: #ffffff;
     width: 95%;
     border-radius: 13px;
@@ -115,14 +122,16 @@ body {
     margin-top: 5px;
     line-height: 35px;
 }
-.div-tm{
+
+.div-tm {
     margin-left: 10px;
     /*font-family: Optima;*/
     font-size: 15px;
     color: #0a4db1;
     float: left;
 }
-.div-kb{
+
+.div-kb {
     color: #ffffff;
     background-color: #0a4db1;
     border-radius: 5px;
@@ -136,16 +145,26 @@ body {
     float: right;
 }
 
-.news-li{
+.news-li {
     line-height: 35px;
     display: inline-block;
     position: relative;
     margin-top: 0px;
 }
-.news-li li{
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+
+.news-li li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-ul,li{ list-style:none;}
+ul, li {
+    list-style: none;
+}
 
-
+.go-back {
+    font-size: 18px;
+    height: 39px;
+    line-height: 39px;
+    margin-left: 10px;
+}

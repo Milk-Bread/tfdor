@@ -1,21 +1,21 @@
-/*==============================================================*/
+﻿/*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     16/8/1 下午3:23:56                             */
 /*==============================================================*/
 CREATE DATABASE `tfdor` CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     16/10/15 下午11:29:28                          */
-/*==============================================================*/
+
+
+
 drop table if exists UserInfo;
 drop table if exists RoleMenuRelate;
 drop table if exists Menu;
 drop table if exists Role;
 drop table if exists AccessToken;
 drop table if exists Auditing;
-drop table if exists RedPack;
 drop table if exists QrcodeImg;
 drop table if exists CreateQrcodeImg;
+drop table if exists RedPack;
+drop table if exists CustomerInfo;
 drop table if exists Merchant;
 drop table if exists Channel;
 
@@ -46,17 +46,15 @@ create table Auditing(
 alter table Auditing comment '审核表';
 
 
-/*==============================================================*/
-/* Table: Menu                                                  */
-/*==============================================================*/
+
 create table Menu
 (
-   MenuId               varchar(20) not null,
-   MenuName             varchar(50) not null,
-   ParentId             varchar(20) not null,
-   OrderId              integer,
-   TransId              varchar(20),
-   CreateTime           TIMESTAMP not null,
+   MenuId               varchar(20) not null comment '菜单ID',
+   MenuName             varchar(50) not null comment '菜单名称',
+   ParentId             varchar(20) not null comment '父级菜单ID',
+   OrderId              integer comment '排序ID 从小到大排序',
+   TransId              varchar(20) comment '交易ID',
+   CreateTime           TIMESTAMP not null comment '创建时间',
    primary key (MenuId)
 )
 DEFAULT CHARSET= UTF8
@@ -65,15 +63,12 @@ ENGINE = InnoDB;
 alter table Menu comment '菜单表';
 
 
-/*==============================================================*/
-/* Table: Role                                                  */
-/*==============================================================*/
 create table Role
 (
    RoleSeq              INTEGER not null auto_increment,
-   ChannelId            VARCHAR(20) not null,
-   RoleName             VARCHAR(30) not null,
-   CreateTime           TIMESTAMP not null,
+   ChannelId            VARCHAR(20) not null comment '渠道ID',
+   RoleName             VARCHAR(30) not null comment '角色名称',
+   CreateTime           TIMESTAMP not null comment '创建时间',
    primary key (RoleSeq)
 )
 auto_increment = 1000
@@ -82,13 +77,12 @@ ENGINE = InnoDB;
 
 alter table Role comment '角色表';
 
-/*==============================================================*/
-/* Table: RoleMenuRelate                                        */
-/*==============================================================*/
+
+
 create table RoleMenuRelate
 (
-   RoleSeq              INTEGER not null,
-   MenuId               varchar(20) not null,
+   RoleSeq              INTEGER not null comment '角色SEQ',
+   MenuId               varchar(20) not null comment '菜单ID',
    primary key (RoleSeq, MenuId)
 )
 auto_increment = 1000
@@ -97,24 +91,22 @@ ENGINE = InnoDB;
 
 alter table RoleMenuRelate comment '角色菜单关联表';
 
-/*==============================================================*/
-/* Table: UserInfo                                              */
-/*==============================================================*/
+
 create table UserInfo
 (
    UserSeq              INTEGER not null auto_increment,
-   RoleSeq              INTEGER,
-   UserId               VARCHAR(18),
-   UserName             VARCHAR(18),
-   Password             VARCHAR(200),
-   customerType         char(1) comment '用户类型，1-管理员，2-操作员',
-   Sex                  char(1),
-   Age                  INTEGER(3),
-   IdType               char(2),
-   IdNo                 char(18),
-   MobilePhone          char(11),
-   Phone                VARCHAR(24),
-   ChannelId            char(20),
+   RoleSeq              INTEGER  comment '角色ID',
+   UserId               VARCHAR(18)  comment '用户ID',
+   UserName             VARCHAR(18) comment '用户名称',
+   Password             VARCHAR(200)  comment '密码',
+   customerType         char(1) comment '用户类型，A-管理员，O-操作员',
+   Sex                  char(1)  comment '性别 W-女，M-男 - -未知',
+   Age                  INTEGER(3) comment '年龄',
+   IdType               char(2) comment '证件类型',
+   IdNo                 char(18) comment '证件号码',
+   MobilePhone          char(11) comment '手机号码',
+   Phone                VARCHAR(24) comment '电话-座机',
+   ChannelId            char(20) comment '渠道ID',
    pasdErrorCount       integer default 0 comment '密码错误次数',
    loginCount           integer default 0 comment '登陆次数',
    lastLoginTime        timestamp default now() on update now() comment '最后登陆时间',
@@ -129,9 +121,8 @@ ENGINE = InnoDB;
 
 alter table UserInfo comment '用户表';
 
-/*==============================================================*/
-/* Table: channel                                               */
-/*==============================================================*/
+
+
 create table Channel(
    channelId            varchar(20) not null comment '渠道ID',
    channelName          varchar(50) not null comment '渠道名称',
@@ -145,9 +136,8 @@ DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
 alter table channel comment '渠道表';
 
-/*==============================================================*/
-/* Table: Merchant                                              */
-/*==============================================================*/
+
+
 create table Merchant(
    mchSeq               integer not null auto_increment comment '商户Seq',
    mchId                varchar(20) comment '商户ID',
@@ -169,9 +159,27 @@ ENGINE = InnoDB;
 
 alter table Merchant comment '商户表';
 
-/*==============================================================*/
-/* Table: CreateQrcodeImg                                             */
-/*==============================================================*/
+
+
+create table RedPack(
+   redPackSeq           integer not null auto_increment comment 'Seq',
+   redPackType          varchar(4) not null comment '红包种类 OYRK-普通红包，FNRK-裂变红包',
+   amountType           varchar(4) not null comment '金额类型 FDAT-固定金额、RMAT-随机金额',
+   totalAmount          varchar(20) not null comment '红包金额  1-200，当type是随机金额时 totalAmount为一个区间  例如：1-3（元）',
+   wishing              varchar(50) not null comment '红包祝福语',
+   actName              varchar(50) not null comment '活动名称',
+   mchId                varchar(20) not null comment '商户ID',
+   remark               varchar(100) not null comment '备注',
+   totalNum             varchar(10) comment '裂变红包发放总人数',
+   state                char(1) DEFAULT '1' not null comment '状态 N-正常，H-关闭',
+   createTime           timestamp default '0000-00-00 00:00:00',
+   updateTime           timestamp default now() on update now(),
+   primary key (redPackSeq)
+)DEFAULT CHARSET= UTF8
+ENGINE = InnoDB;
+alter table RedPack comment '红包配置表';
+
+
 create table CreateQrcodeImg(
    CreateQISeq        integer not null auto_increment comment '序列',
    mchId              varchar(20) not null comment '商户ID',
@@ -181,6 +189,7 @@ create table CreateQrcodeImg(
    expireSeconds      varchar(20) comment '临时二维码有效时间（天 1-30）',
    number             integer not null comment '二维码数量',
    preservation       varchar(150)  comment '二维码保存路径',
+   redPackSeq         integer not null comment '活动名称',
    state              char(1) not null comment '二维码状态 N-正常，H-关闭',
    createTime         timestamp default '0000-00-00 00:00:00',
    updateTime         timestamp default now() on update now(),
@@ -188,9 +197,10 @@ create table CreateQrcodeImg(
 )DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
 alter table CreateQrcodeImg comment '二维码生成配置表';
-/*==============================================================*/
-/* Table: QrcodeImg                                             */
-/*==============================================================*/
+
+
+
+
 create table QrcodeImg(
    qrcodeSeq            integer not null auto_increment comment '二维码序列',
    CreateQISeq          integer not null comment '二维码批次Seq',
@@ -211,44 +221,52 @@ ENGINE = InnoDB;
 
 alter table QrcodeImg comment '二维码表';
 
-/*==============================================================*/
-/* Table: RedPack                                             */
-/*==============================================================*/
-create table RedPack(
-   redPackSeq           integer not null auto_increment comment 'Seq',
-   redPackType          varchar(4) not null comment '红包种类 OYRK-普通红包，FNRK-裂变红包',
-   amountType           varchar(4) not null comment '金额类型 FDAT-固定金额、RMAT-随机金额',
-   totalAmount          varchar(20) not null comment '红包金额  1-200，当type是随机金额时 totalAmount为一个区间  例如：1-3（元）',
-   wishing              varchar(50) not null comment '红包祝福语',
-   actName              varchar(50) not null comment '活动名称',
-   mchId                varchar(20) not null comment '商户ID',
-   remark               varchar(100) not null comment '备注',
-   totalNum             varchar(10) comment '裂变红包发放总人数',
-   state                char(1) DEFAULT '1' not null comment '状态 N-正常，H-关闭',
-   createTime           timestamp default '0000-00-00 00:00:00',
-   updateTime           timestamp default now() on update now(),
-   primary key (redPackSeq)
-)DEFAULT CHARSET= UTF8
-ENGINE = InnoDB;
 
-alter table RedPack comment '红包配置表';
-/*==============================================================*/
-/* Table: AccessToken                                           */
-/*==============================================================*/
+
+
+
+
+
+
 create table AccessToken
 (
    tokenSeq             integer not null auto_increment,
    mchId                varchar(20) not null comment '商户ID',
-   accessToken          varchar(512) not null,
-   invalidTime          varchar(5) not null,
-   createTime           timestamp default '0000-00-00 00:00:00',
-   updateTime           timestamp default now() on update now(),
+   accessToken          varchar(512) not null  comment 'accessToken',
+   invalidTime          varchar(5) not null comment '有效时间',
+   createTime           timestamp default '0000-00-00 00:00:00' comment '创建时间',
+   updateTime           timestamp default now() on update now() comment '修改时间',
    primary key (tokenSeq)
 )
 DEFAULT CHARSET= UTF8
 ENGINE = InnoDB;
-
 alter table AccessToken comment 'AccessToken表';
+
+
+
+
+create table CustomerInfo
+(
+   openId               varchar(100) comment '使用用户微信openId',
+   mchSeq               integer comment '商户Seq',
+   nickName             varchar(100) comment '客户昵称',
+   Sex                  char(1) comment '用户的性别，值为1时是男性，值为2时是女性，值为0时是未知',
+   city                 varchar(50) comment '客户所在城市',
+   country              varchar(50) comment '客户所在国家',
+   province             varchar(50) comment '用户所在省份',
+   language             varchar(20) comment '用户的语言，简体中文为zh_CN',
+   headimgurl           varchar(200) comment '用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空',
+   subscribeTime        varchar(20) comment '用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间',
+   primary key (openId)
+)
+DEFAULT CHARSET= UTF8
+ENGINE = InnoDB;
+alter table CustomerInfo comment '客户信息表';
+
+
+
+
+
 
 alter table UserInfo add constraint FK_Reference_1 foreign key (RoleSeq)
       references Role (RoleSeq) on delete restrict on update restrict;
@@ -262,13 +280,17 @@ alter table RoleMenuRelate add constraint FK_Reference_3 foreign key (MenuId)
 alter table Role add constraint FK_Reference_4 foreign key (channelId)
       references Channel (channelId) on delete restrict on update restrict;
 
+alter table CreateQrcodeImg add constraint FK_Reference_5 foreign key (redPackSeq)
+      references RedPack (redPackSeq) on delete restrict on update restrict;
+
 alter table QrcodeImg add constraint FK_Reference_9 foreign key (CreateQISeq)
       references CreateQrcodeImg (CreateQISeq) on delete restrict on update restrict;
 
 alter table Merchant add constraint FK_Reference_10 foreign key (channelId)
       references Channel (channelId) on delete restrict on update restrict;
 
-
+alter table CustomerInfo add constraint FK_Reference_11 foreign key (mchSeq)
+      references Merchant (mchSeq) on delete restrict on update restrict;
 
 
 

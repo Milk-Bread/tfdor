@@ -5,7 +5,7 @@ define(['app'], function (app) {
         return{
             restrict:'AE',
             link:function(scope,element,attr){
-                element[0].style.height=($window.innerHeight-50)+'px';
+                element[0].style.height=($window.innerHeight-50-44)+'px';
             }
         }
     })
