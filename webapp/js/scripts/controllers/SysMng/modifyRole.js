@@ -138,7 +138,6 @@ define(['app', 'service','sysCode'], function (app) {
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName,//复合人名称
             }
-            console.log(formData);
             service.post2SRV("modifyRole.do", formData, function (data, status) {
                 $state.go("Main.RoleManager");
             }, 4000);

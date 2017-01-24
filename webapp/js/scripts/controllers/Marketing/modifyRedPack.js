@@ -9,7 +9,6 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.init = function () {
             $scope.redPack = service.getData();
             $scope.switchRedPackType();
-            console.log($scope.redPack);
             //查询复合人
             service.post2SRV("queryAuditPerson.do", null, function (data, status) {
                 $scope.auditPerson = data;

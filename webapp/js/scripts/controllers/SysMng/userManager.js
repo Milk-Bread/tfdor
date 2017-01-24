@@ -9,7 +9,6 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "userName": $scope.userName
             };
             service.post2SRV("queryUserInfo.do", formData, function (data, status) {
-                console.log(data);
                 $scope.userInfoList = data;
             }, 1000);
         }

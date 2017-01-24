@@ -8,7 +8,6 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "channelName": $scope.channelName
             };
             service.post2SRV("queryChannel.do", formData, function (data, status) {
-                console.log(data);
                 $scope.channelInfoList = data;
             }, 1000);
         }

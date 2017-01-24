@@ -32,12 +32,10 @@ define(['app', 'service', 'sysCode'], function (app) {
         };
 
         $scope.queryRedPackList = function(mchId){
-            alert(mchId);
             var formData = {
                 "mchId": mchId
             };
             service.post2SRV("queryRedPackList.do", formData, function (data, status) {
-                console.log(data);
                 if(data.length == 0){
                     showError("请先添加红包参数");
                     $scope.submitBt = true;

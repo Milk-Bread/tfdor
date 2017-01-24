@@ -2,7 +2,6 @@ define(['app', 'service', 'sysCode'], function (app) {
     "use strict";
     app.controller('audiDetailsCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            console.log(service.getData());
             if(service.getData().result == false){
                 $scope.result = false;
             }else{
