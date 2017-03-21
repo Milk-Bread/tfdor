@@ -42,7 +42,6 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
                 appId:$scope.appId
             }
             service.post2SRV("getBatchGetMaterial.do", param, function (data, status) {
-                console.log(data);
                 $scope.materList = data.item;
             }, 1000);
         }
@@ -70,7 +69,6 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
         };
 
         $scope.clickMaterial = function (index) {
-            alert($scope.appId == undefined)
             if(angular.isDefined($scope.appId)){
                 showError("请添加商户");
                 return null;

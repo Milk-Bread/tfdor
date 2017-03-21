@@ -1,0 +1,67 @@
+<ion-view view-title="首页" ng-controller="HomeCtrl">
+    <ion-content>
+        <div class="search-box">
+            <div class="shade-div" ng-style="searchStyle"></div> <!--阴影-->
+            <div class="item-input-wrapper search-div">
+                <i class="ion-search"></i>
+                <input type="search" class="searchinput" placeholder="搜索">
+            </div>
+        </div>
+        <!-- 广告栏 -->
+        <ion-scroll direction="y" scroll-height on-drag-up="onSearchUp();" on-drag-down="onSearchUp();">
+            <ion-slide-box id="slideBox" auto-play="true"
+                           does-continue="true"
+                           slide-interval=4000
+                           show-pager="true"
+                           pager-click="pageClick(index)"
+                           active-slide="model.activeIndex"
+                           delegate-handle="delegateHandler"
+                           ng-click="coverFlowClick()">
+                <ion-slide>
+                    <div class="box"><img src="/resources/ggl.png" class="advertisement"></div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="box"><img src="/resources/ggl.png" class="advertisement"></div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="box"><img src="/resources/ggl.png" class="advertisement"></div>
+                </ion-slide>
+            </ion-slide-box>
+            <div class="menu-div">
+                <div class="notice">
+                    <div class="notice-div">
+                        <div class="div-tm">涂盟<div class="div-kb">快报</div></div><div style="float: left">:</div>
+                        <div class="notice-nr">
+                            <ul class="news-li">
+                                <li ng-repeat='data in notice'>
+                                    <a href="{{data.noticeUrl}}" target="_blank">{{data.noticeName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="float: right;width: 45px;">
+                            <div class="notice-sx"></div>
+                            <div class="notice-gd">更多</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav">
+                    <ul class="nav-list">
+                        <li ng-click="goPage('tabs.product');"><img src="/resources/cpzs.png"><span>产品展示</span></li>
+                        <li><img src="/resources/ddgl.png"><span>订单管理</span></li>
+                        <li><img src="/resources/wdsc.png"><span>我的收藏</span></li>
+                        <li><img src="/resources/yhzk.png"><span>优惠折扣</span></li>
+                        <li><img src="/resources/qydt.png"><span>企业动态</span></li>
+                        <li><img src="/resources/cfsb.png"><span>厂房设备</span></li>
+                        <li><img src="/resources/sgjl.png"><span>施工交流</span></li>
+                        <li><img src="/resources/gywm.png"><span>关于我们</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="height: 500px">
+
+            </div>
+        </ion-scroll>
+    </ion-content>
+</ion-view>
+
+

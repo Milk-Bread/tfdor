@@ -77,4 +77,13 @@ public class WeChat {
         public static final String SENDGROUPREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
 
     }
+
+
+
+    public static interface JSAPI{
+        /**
+         * 微信普通红包
+         */
+        public static final String GETTICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+    }
 }

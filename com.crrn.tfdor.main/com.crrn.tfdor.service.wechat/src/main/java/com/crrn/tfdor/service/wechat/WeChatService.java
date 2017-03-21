@@ -19,6 +19,13 @@ public interface WeChatService {
     public String getAccessToken(String appId) throws Exception;
 
     /**
+     * Description:查询jsapiTicket
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     * @return
+     */
+    public String getJsapiTicket(String appId) throws Exception;
+
+    /**
      * 查询渠道信息
      * @param channelId
      * @return

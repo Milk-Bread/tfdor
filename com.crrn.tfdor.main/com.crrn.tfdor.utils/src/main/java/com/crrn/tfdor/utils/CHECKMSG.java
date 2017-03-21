@@ -60,7 +60,7 @@ public class CHECKMSG {
     /**
      * 账户在别的地方登陆，您已经强制下线
      */
-    public static final String ACCOUNT_IN_OTHER_PLACES_YOU_HAVE_TO_FORCE_OFF_THE_ASSEMBLY_LINE = "account.in.other.places.you.have.to.force..off.the.assembly.line";
+    public static final String ACCOUNT_IN_OTHER_PLACES_YOU_HAVE_TO_FORCE_OFF_THE_ASSEMBLY_LINE = "account.in.other.places.you.have.to.force.off.the.assembly.line";
     /**
      * 该角色下面有用户,您不能删除该角色
      */

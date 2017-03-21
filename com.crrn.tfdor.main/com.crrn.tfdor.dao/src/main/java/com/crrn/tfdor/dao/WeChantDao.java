@@ -28,11 +28,26 @@ public interface WeChantDao {
     public void iAccessToken(Map<String, Object> map);
 
     /**
+     * Description: jsapi_ticket获取入库
+     *
+     * @param map
+     * @Version1.0 2016年10月8日 下午9:09:07 by chepeiqing (chepeiqing@icloud.com)
+     */
+    public void iJsapiTicket(Map<String, Object> map);
+
+    /**
      * Description: 删除过期的access_token
      *
      * @Version1.0 2016年10月8日 下午9:18:56 by chepeiqing (chepeiqing@icloud.com)
      */
     public void dAccessToken(String mchId);
+
+    /**
+     * Description: 删除过期的jsapi_ticket
+     *
+     * @Version1.0 2016年10月8日 下午9:18:56 by chepeiqing (chepeiqing@icloud.com)
+     */
+    public void dJsapiTicket(String mchId);
 
     /**
      * Description:查询accessToken
@@ -41,6 +56,14 @@ public interface WeChantDao {
      * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
      */
     public Map<String, Object> qAccessToken(String appId);
+
+    /**
+     * Description:查询jsapiTicket
+     *
+     * @return
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     */
+    public Map<String, Object> qJsapiTicket(String appId);
 
     /**
      * 查询渠道信息

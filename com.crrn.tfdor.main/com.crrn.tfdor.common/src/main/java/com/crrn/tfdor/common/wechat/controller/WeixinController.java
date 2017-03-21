@@ -25,10 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -292,6 +289,36 @@ public class WeixinController {
         logger.debug(respMap.toString());
         return respMap;
     }
+
+
+
+     /**
+     * Description: 查询微信菜单
+     * @return
+     * @throws Exception
+     * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "getJsConfigData.action", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getJsConfigData(HttpServletRequest request, String appId) throws Exception {
+        appId = "wx67c2134f4935acfb";
+        long timestamp = new Date(System.currentTimeMillis()).getTime()/1000;
+        String nonceStr = "Wm3WZYTPz0wcrrnW";
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        String jsTicket = weChatService.getJsapiTicket(appId);
+        sendParam.put("timestamp",timestamp);
+        sendParam.put("noncestr",nonceStr);
+        sendParam.put("jsapi_ticket",jsTicket);
+        sendParam.put("url","http://localhost/web/index.html");
+        String signature = Util.getJsApiSignature(sendParam);
+        sendParam.put("appId",appId);
+        sendParam.put("signature",signature);
+        logger.debug(sendParam.toString());
+        return sendParam;
+    }
+
+
+
 
 
 }

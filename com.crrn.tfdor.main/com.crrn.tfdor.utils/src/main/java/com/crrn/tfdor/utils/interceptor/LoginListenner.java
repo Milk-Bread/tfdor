@@ -33,11 +33,12 @@ public class LoginListenner implements HttpSessionAttributeListener {
         String name = event.getName();
         if (name.equals("_USER")) {
             UserInfo user = (UserInfo) event.getValue();
-            if (user != null && map.get(user.getUserId()) != null) {
-                HttpSession session = map.get(user.getUserId());
-                session.setAttribute("PLAY_EACH_OTHER","true");
-                session.removeAttribute(user.getUserId());
-//                session.invalidate();
+            if (user != null) {
+                if(map.get(user.getUserId()) != null) {
+                    HttpSession session = map.get(user.getUserId());
+                    session.setAttribute("PLAY_EACH_OTHER", "true");
+                    session.removeAttribute(user.getUserId());
+                }
                 map.put(user.getUserId(), event.getSession());
             }
             logger.debug("当前在线人数：" + map.size());

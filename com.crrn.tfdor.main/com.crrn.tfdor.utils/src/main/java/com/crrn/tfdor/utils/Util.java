@@ -421,6 +421,42 @@ public class Util {
     }
 
     /**
+     * 微信js 签名
+     * @param param
+     * @return
+     */
+    public static String getJsApiSignature(Map<String, Object> param){
+        String strParam = getUrlParamsByMap(param);
+        if (strParam == null) {
+            return null;
+        }
+        return getSha1(strParam);
+    }
+
+    public static String getSha1(String str){
+        if(str==null||str.length()==0){
+            return null;
+        }
+        try {
+            MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
+            mdTemp.update(str.getBytes("UTF-8"));
+            byte[] md = mdTemp.digest();
+            int j = md.length;
+            char buf[] = new char[j*2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                buf[k++] = HEX_DIGITS[byte0 >>> 4 & 0xf];
+                buf[k++] = HEX_DIGITS[byte0 & 0xf];
+            }
+            return new String(buf);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
+    }
+
+    /**
      * 获取服务器IP地址
      *
      * @return

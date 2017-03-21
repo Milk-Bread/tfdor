@@ -37,6 +37,13 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private MsgEvent msgEvent;
 
+    /**
+     * Description:查询 AccessToken
+     * @param appId
+     * @return
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public String getAccessToken(String appId) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
@@ -70,6 +77,39 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     /**
+     * Description:查询jsapiTicket
+     * @param appId
+     * @return
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public String getJsapiTicket(String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        String ticket = "";
+        Map<String, Object> jsTicket = qJsapiTicket(appId);
+        if (jsTicket == null || false == (Boolean) jsTicket.get("effective")) {
+            Merchant merch = qMerchant(appId);
+            sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
+            sendParam.put(Dict.TRANS_NAME, WeChat.JSAPI.GETTICKET);
+            sendParam.put("type","jsapi");
+            Map<String, Object> resp = (Map<String, Object>) transport.sendGet(sendParam);
+            sendParam = new HashMap<String, Object>();
+            sendParam.put("jsapiTicket", resp.get("ticket"));
+            sendParam.put("invalidTime", resp.get("expires_in"));
+            sendParam.put("mchId", merch.getMchId());
+            ticket = (String) resp.get("ticket");
+            if (ticket != null) {
+                weChatDao.dJsapiTicket(merch.getMchId());
+                weChatDao.iJsapiTicket(sendParam);
+            }
+        } else {
+            ticket = (String) jsTicket.get("jsapiTicket");
+        }
+        return ticket;
+    }
+
+    /**
      * 查询AccessToken
      *
      * @param appId
@@ -94,6 +134,33 @@ public class WeChatServiceImpl implements WeChatService {
             accessMap.put("effective", false);
         }
         return accessMap;
+    }
+
+    /**
+     * 查询qJsapiTicket
+     *
+     * @param appId
+     * @return
+     * @throws ParseException
+     */
+    private Map<String, Object> qJsapiTicket(String appId) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Map<String, Object> ticketMap = weChatDao.qJsapiTicket(appId);
+        if (ticketMap == null) {
+            return null;
+        }
+        logger.debug(ticketMap.toString());
+        Timestamp createTime = (Timestamp) ticketMap.get("createTime");
+        String invalidTime = (String) ticketMap.get("invalidTime");
+        long createlong = df.parse(df.format(createTime)).getTime();
+        long time = new Date().getTime() - createlong;
+        long inbalidlong = Long.valueOf(invalidTime) * 1000 - 1000;
+        if (inbalidlong > time) {
+            ticketMap.put("effective", true);
+        } else {
+            ticketMap.put("effective", false);
+        }
+        return ticketMap;
     }
 
     /**
@@ -285,4 +352,11 @@ public class WeChatServiceImpl implements WeChatService {
             weChatDao.uCustomerInfo(custm);
         }
     }
+
+
+
+
+
+
+
 }

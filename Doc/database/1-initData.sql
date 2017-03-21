@@ -1,12 +1,12 @@
 ﻿/**创建内置渠道**/
-INSERT INTO channel (channelId, channelName, createTime, updateTime, state) VALUES ('tfdor', '内置渠道', now(), now(), 'N');
+INSERT INTO channel (`channelId`, `channelName`, `createTime`, `updateTime`, `state`) VALUES ('tfdor', '内置渠道', now(), now(), 'N');
 /**创建角色--内置最高权限角色**/
 insert into role (`RoleSeq`,`channelId`, `RoleName`, `CreateTime`) values (1,'tfdor','Admin',now());
 /**初始化用户 密码 88888888**/
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
+insert into userinfo (`userId`,`userName`,`password`,`sex`,`age`,`addr`,`mobilePhone`,`phone`,`idType`,`idNo`,`RoleSeq`,`CreateTime`,`channelId`,`customerType`,`loginCount`)
 values('admin1','admin1','ff4010N6GigANvwbnkQWi6LIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','A',0);
 
-insert into userinfo (userId,userName,password,sex,age,addr,mobilePhone,phone,idType,idNo,RoleSeq,CreateTime,channelId,customerType,loginCount)
+insert into userinfo (`userId`,`userName`,`password`,`sex`,`age`,`addr`,`mobilePhone`,`phone`,`idType`,`idNo`,`RoleSeq`,`CreateTime`,`channelId`,`customerType`,`loginCount`)
 values('admin2','admin2','vbzEBuIe21FnEglWojIT3aLIoVVI8pLg2OLahdBjbXnskRIiFRcswa439e2/EtQ0','M',25,'湖南岳阳','15150667366','0730-7165261','00','430621199111258112',1,now(),'tfdor','A',0);
 
 

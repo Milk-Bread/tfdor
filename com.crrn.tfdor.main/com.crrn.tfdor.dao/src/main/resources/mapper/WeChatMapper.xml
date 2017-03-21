@@ -14,6 +14,20 @@
 		SELECT tokenSeq,accessToken,invalidTime,a.createTime,a.updateTime from AccessToken a,Merchant m
 		where m.mchId = a.mchId and m.appId = #{appId} AND m.state = 'N'
 	</select>
+
+	<select id="qJsapiTicket" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT ticketSeq,jsapiTicket,invalidTime,a.createTime,a.updateTime from JsapiTicket a,Merchant m
+		where m.mchId = a.mchId and m.appId = #{appId} AND m.state = 'N'
+	</select>
+	<!-- 插入JsapiTicket表 -->
+	<insert id="iJsapiTicket" parameterType="java.util.HashMap">
+		INSERT INTO JsapiTicket(JsapiTicket,mchId,invalidTime,createTime,updateTime) VALUES(#{jsapiTicket},#{mchId},#{invalidTime},now(),now())
+	</insert>
+	<!-- 删除过期的 JsapiTicket -->
+	<delete id="dJsapiTicket" parameterType="java.lang.String">
+		DELETE FROM JsapiTicket where mchId = #{mchId}
+	</delete>
+
 	<select id="iQrcodeimg" parameterType="java.util.HashMap">
 		INSERT INTO qrcodeimg (CreateQISeq, mchId, sceneStr, ticket, url, qrcodeName, state, createTime, updateTime)
 		VALUES (#{createQISeq},#{mchId}, #{sceneStr}, #{ticket}, #{url}, #{qrcodeName}, 'I', now(), now())
