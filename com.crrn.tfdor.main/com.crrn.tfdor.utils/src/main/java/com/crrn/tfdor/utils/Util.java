@@ -1,26 +1,25 @@
 package com.crrn.tfdor.utils;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.URLDecoder;
-import java.net.UnknownHostException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import net.sf.json.JSONObject;
-import org.aspectj.weaver.ast.And;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Zip;
+import org.apache.tools.ant.types.FileSet;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
-import javax.validation.ValidationException;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Description: 工具类
@@ -108,7 +107,8 @@ public class Util {
         if (uuid.length() > length) {
             uuid = uuid.substring(0, length);
         } else if (uuid.length() < length) {
-            for (int i = 0; i < length - uuid.length(); i++) {
+            int j = uuid.length();
+            for (int i = 0; i < length - j; i++) {
                 uuid = uuid + Math.round(Math.random() * 9);
             }
         }
@@ -119,6 +119,21 @@ public class Util {
         }
     }
 
+    /**
+     * 生成订单号
+     *
+     * @param mchId
+     * @param length
+     * @return
+     */
+    public static String getOrderId(String mchId, int length) {
+        String orderid = mchId + getCurrentDate();
+        int j = orderid.length();
+        for (int i = 0; i < length - j; i++) {
+            orderid = orderid + Math.round(Math.random() * 9);
+        }
+        return orderid;
+    }
 
     /**
      * 判断输入的字符串参数是否为空
@@ -293,6 +308,9 @@ public class Util {
         ObjectMapper mapper = new ObjectMapper();
         try {
             logger.debug("http message:===>" + message);
+            if("".equals(message)){
+                return null;
+            }
             Map<String, Object> responseMap = mapper.readValue(message, HashMap.class);
             if (responseMap.get("errcode") != null && !"".equals(responseMap.get("errcode")) && !"0".equals(responseMap.get("errcode").toString())) {
                 throw new RuntimeException("validation.wachat.error." + responseMap.get("errcode").toString());
@@ -316,8 +334,9 @@ public class Util {
      * @return
      */
     public static String getUrlParamsByMap(Map<String, Object> param) {
-        if (param != null && param.isEmpty()) {
-            Set es = param.entrySet();//所有参与传参的参数按照accsii排序(升序)
+        SortedMap<String, String> sort = new TreeMap<String, String>((HashMap) param);
+        if (param != null && !param.isEmpty()) {
+            Set es = sort.entrySet();//所有参与传参的参数按照accsii排序(升序)
             StringBuffer sb = new StringBuffer();
             Iterator it = es.iterator();
             while (it.hasNext()) {
@@ -402,7 +421,44 @@ public class Util {
     }
 
     /**
+     * 微信js 签名
+     * @param param
+     * @return
+     */
+    public static String getJsApiSignature(Map<String, Object> param){
+        String strParam = getUrlParamsByMap(param);
+        if (strParam == null) {
+            return null;
+        }
+        return getSha1(strParam);
+    }
+
+    public static String getSha1(String str){
+        if(str==null||str.length()==0){
+            return null;
+        }
+        try {
+            MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
+            mdTemp.update(str.getBytes("UTF-8"));
+            byte[] md = mdTemp.digest();
+            int j = md.length;
+            char buf[] = new char[j*2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                buf[k++] = HEX_DIGITS[byte0 >>> 4 & 0xf];
+                buf[k++] = HEX_DIGITS[byte0 & 0xf];
+            }
+            return new String(buf);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
+    }
+
+    /**
      * 获取服务器IP地址
+     *
      * @return
      */
     public static String getLocalIP() {
@@ -410,7 +466,6 @@ public class Util {
         try {
             addr = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         byte[] ipAddr = addr.getAddress();
@@ -422,5 +477,142 @@ public class Util {
             ipAddrStr += ipAddr[i] & 0xFF;
         }
         return ipAddrStr;
+    }
+
+    /**
+     * 解析xml报文
+     *
+     * @param xmlString
+     * @return
+     */
+    public static Map<String, Object> parse(String xmlString) throws DocumentException {
+        Document document = DocumentHelper.parseText(xmlString);
+        Element rootElement = document.getRootElement();
+        // 处理接收消息
+        Map<String, Object> map = new HashMap<String, Object>();
+        Element root = document.getRootElement();
+        logger.debug("WeChat message:===>\r\n" + document.asXML());
+        // 得到根元素的所有子节点
+        List<Element> elementList = root.elements();
+        // 将解析结果存储在HashMap中
+        // 遍历所有子节点
+        xmlToMap(map, elementList);
+        logger.debug("WeChat message map:===>" + map);
+        return map;
+    }
+
+    /**
+     * 递归解析xml报文
+     *
+     * @param map
+     * @param elementList
+     */
+    public static void xmlToMap(Map<String, Object> map, List<Element> elementList) {
+        for (Element e : elementList) {
+            List<Element> element = e.elements();
+            if (element.size() == 0) {
+                map.put(e.getName(), e.getText());
+                logger.debug("WeChat message param ===>" + e.getName() + ":" + e.getText());
+            } else {
+                logger.debug("WeChat message param ===>" + e.getName());
+                List<Map<String, Object>> list = new ArrayList<>();
+                Map<String, Object> map1 = new HashMap<>();
+                for (Element e1 : element) {
+                    List<Element> element1 = e1.elements();
+                    if (element1.size() == 0) {
+                        logger.debug("WeChat message param ===>" + e1.getName() + ":" + e1.getText());
+                        map1.put(e1.getName(), e1.getText());
+                    } else {
+                        Map<String, Object> map2 = new HashMap<>();
+                        xmlToMap(map2, element1);
+                        list.add(map2);
+                        map1.put(e1.getName(), list);
+                    }
+                }
+                map.put(e.getName(), map1);
+            }
+        }
+    }
+
+    public static String zipCompressorByAnt(String srcPathName) {
+        File srcdir = new File(srcPathName);
+        if (!srcdir.exists()){
+            throw new RuntimeException(srcPathName + "不存在！");
+        }
+        logger.debug("压缩文件／目录："+srcPathName);
+        File zipFile = new File(srcPathName+".zip");
+        if(zipFile.exists()){
+            return srcPathName+".zip";
+        }
+        Project prj = new Project();
+        Zip zip = new Zip();
+        zip.setProject(prj);
+        zip.setDestFile(zipFile);
+        FileSet fileSet = new FileSet();
+        fileSet.setProject(prj);
+        fileSet.setDir(srcdir);
+        //fileSet.setIncludes("**/*.java"); //包括哪些文件或文件夹 eg:zip.setIncludes("*.java");
+        //fileSet.setExcludes(...); //排除哪些文件或文件夹
+        zip.addFileset(fileSet);
+        zip.execute();
+        logger.debug("压缩文件名："+srcPathName+".zip");
+        return srcPathName+".zip";
+    }
+
+    /**
+     * 按照一定概率进行随机<br>
+     * <br>
+     * @param pSngBegin 随机数范围的开始数字
+     * @param pSngEnd 随机数范围结束数字
+     * @param pSngPB 要随机的数字的开始数字
+     * @param pSngPE 要随机的数字的结束数字
+     * @param pBytP 要随机的数字随机概率
+     * @return 按照一定概率随机的数字
+     */
+    public static double GetRndNumP(double pSngBegin, double pSngEnd, double pSngPB, double pSngPE, double pBytP) {
+        double sngPLen;
+        double sngTLen; //total length
+        double sngIncreased; //需要缩放的长度
+        double sngResult;
+        sngPLen = pSngPE - pSngPB;
+        sngTLen = pSngEnd - pSngBegin;
+        if ((sngPLen / sngTLen) * 100 == pBytP) {
+            return GetRandomNum(pSngBegin, pSngEnd);
+        } else {
+            // ((sngPLen + sngIncreased) / (sngTLen + sngIncreased)) * 100 = bytP
+            sngIncreased = ((pBytP / 100) * sngTLen - sngPLen) / (1 - (pBytP / 100));
+            // 缩放回原来区间
+            sngResult = GetRandomNum(pSngBegin, pSngEnd + sngIncreased);
+            if (pSngBegin <= sngResult && sngResult <= pSngPB) {
+                return sngResult;
+            } else if (pSngPB <= sngResult && sngResult <= (pSngPE + sngIncreased)) {
+                return pSngPB + (sngResult - pSngPB) * sngPLen / (sngPLen + sngIncreased);
+            } else if ((pSngPE + sngIncreased) <= sngResult && sngResult <= (pSngEnd + sngIncreased)) {
+                return sngResult - sngIncreased;
+            }
+        }
+        return 0f;
+    }
+
+    public static double GetRandomNum(double pSngBegin, double pSngEnd) {
+        return (pSngEnd - pSngBegin) * Math.random() + pSngBegin;
+    }
+
+    public static void main(String [] argo) throws DocumentException {
+//        double bytP = 10;
+//        double sngBegin = 1;
+//        double sngEnd = 10;
+//        double sngPB = 4;
+//        double sngPE = 10;
+//        //精确小数点2位
+//        NumberFormat formatter = new DecimalFormat("#.##");
+//        for (int i = 0; i < 1000; i++) {
+//            System.out.println(formatter.format(GetRndNumP(sngBegin, sngEnd, sngPB, sngPE, bytP)));
+//        }
+//        zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
+//        System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
+//        System.out.println(getOrderId("1402828602",28));
+        String aaa = "qrscene_14028286022016111418232938193543";
+        System.out.println(aaa.indexOf("qrscene_"));
     }
 }

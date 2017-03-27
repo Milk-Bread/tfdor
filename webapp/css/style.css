@@ -150,12 +150,135 @@ a,img {
 
 .aside nav {
 	border-radius:4px;
-	color: rgb(115, 115, 115);
+	color: rgb(174, 208, 176);
 	height: 35px;
 	line-height: 35px;
 	padding-left: 15px;
 	overflow: hidden;
 	position: relative;
 	background: #efeef0;
-	border-bottom: 1px solid #a8a7a9;
+	border-bottom: 1px solid #b9ffb0;
 }
+
+.mask{
+	display:none;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:100;
+	height:100%;
+	width:100%;
+	opacity:0.3;
+	filter:alpha(opacity=30);
+}
+
+.seStyle{
+	height: 19px;
+	width:80%;
+	padding: 0px;
+}
+
+.losing{
+	color:rgb(0, 139, 255);
+}
+/* 素材列表 */
+.material_list{
+	width: 18%;
+	height: 500px;
+	border: 1px solid #E2E2E2;
+}
+.material_list p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_list .add{
+	border: 2px dashed #E2E2E2;
+	height: 80px;
+	line-height: 80px;
+	cursor: pointer;
+	text-align: center;
+	font-size: 30px;
+}
+.material_list .delete{
+	height: 35px;
+	line-height: 35px;
+	margin-right: 20px;
+	cursor: pointer;
+	position: relative;
+}
+
+.material_content{
+	width: 63%;
+	/*height: 500px;*/
+	border: 1px solid #E2E2E2;
+}
+.material_content p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_multi-media{
+	width: 18%;
+	border: 1px solid #E2E2E2;
+	height: 500px;
+}
+.material_multi-media p{
+	width: 100%;
+	padding-left: 10px;
+	font-size: 14px;
+	font-weight: 400
+}
+.material_multi-media div{
+	height:50px;
+	line-height:50px;
+	border:1px solid #E2E2E2;
+	text-align: center;
+}
+
+.material_imgdiv{
+	border:1px solid #E2E2E2;
+	height:120px;
+	bottom: 0px;
+	width: 100%;
+	position: relative;
+}
+.materialDiv{
+	border:2px solid #5cb85c;
+}
+.material_imgdiv img{
+	/*position: relative;*/
+	height: 120px;
+	width: 100%;
+}
+
+.material_imgdiv .title{
+	filter:alpha(opacity=50); /*IE滤镜，透明度50%*/
+	-moz-opacity:0.5; /*Firefox私有，透明度50%*/
+	opacity:0.5;/*其他，透明度50%*/
+	position: relative;
+	height:35px;
+	line-height:35px;
+	padding-left: 10px;
+	color: white;
+	margin-top: -35px;
+	background-color: #999999;
+	z-index: 100;
+}
+
+
+
+/*仿微信手机页面样式*/
+.menuleft{position:fixed;bottom:0px;width:370px;height:44px;line-height:44px;z-index:999;background:url(../images/menubg.png) repeat-x}
+.menuleft ul{margin:0 auto;list-style-type:none;width:100%;max-width:500px;height:100%;}
+.menuleft ul li{cursor: pointer;float:left;width:33.3%;height:100%;text-align:center;position:relative;font-size:14px;}
+.menuleft ul li .line{position:absolute;top:0px;right:0px;z-index:30;}
+.menuleft ul li .menu_li{position:absolute;top:0px;left:0px;z-index:20;width:100%;height:100%;color:#454545;background:url(../images/menubg.png) repeat-x;}
+.menuleft ul li .img_front{position:absolute;top:0px;left:0px;z-index:30;width:100%;height:100%;}
+.menuleft ul li .img_front img{width:100%;height:100%;}
+.menuleft ul li span{position:absolute;bottom:-300px;left:50%;width:104px;margin-left:-52px;margin-bottom:14px;height:auto;text-align:center;z-index:10;}
+.menuleft ul li span div{position:absolute;top:0px;left:0px;}
+.menuleft ul li span a{float:left;width:100%;height:43px;line-height:43px;color:#454545;text-decoration:none;cursor: pointer}
+.footer_front{position:fixed;width:100%;height:100%;top:0px;left:0px;z-index:888;display:none;}

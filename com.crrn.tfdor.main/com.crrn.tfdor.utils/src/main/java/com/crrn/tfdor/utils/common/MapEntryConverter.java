@@ -7,7 +7,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Created by chepeiqing on 16/10/9.

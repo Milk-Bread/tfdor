@@ -1,8 +1,14 @@
 define(['app', 'service', 'sysCode'], function (app) {
-    app.controller('userMngCtrl', function (service, $scope, $location, $state, $stateParams) {
+    "use strict";
+    app.controller('userMngCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            service.post2SRV("queryUserInfo.do", null, function (data, status) {
-                console.log(data);
+            $scope.loginUserSeq = service.getUser().userSeq;
+            $scope.channelId = service.getUser().channel.channelId;
+            var formData = {
+                "channelId": $scope.channelId,
+                "userName": $scope.userName
+            };
+            service.post2SRV("queryUserInfo.do", formData, function (data, status) {
                 $scope.userInfoList = data;
             }, 1000);
         }
@@ -13,6 +19,17 @@ define(['app', 'service', 'sysCode'], function (app) {
             service.setData(obj);
             $state.go("Main.modifyUser", null);
         };
+
+        $scope.deleteChannel = function (obj) {
+            service.setData(obj);
+            $state.go("Main.deleteChannel", null);
+        };
+
+        $scope.deleteUser = function (obj) {
+            service.setData(obj);
+            $state.go("Main.deleteUser", null);
+        }
+
         $scope.init();
     });
 });

@@ -1,15 +1,14 @@
 package com.crrn.tfdor.service.wechat.core;
 
-import java.util.Arrays;
-
+import com.crrn.tfdor.domain.manage.CheckModel;
+import com.crrn.tfdor.utils.CHECKMSG;
+import com.crrn.tfdor.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.crrn.tfdor.domain.manage.CheckModel;
-import com.crrn.tfdor.utils.CHECKMSG;
-import com.crrn.tfdor.utils.Util;
+import java.util.Arrays;
 
 @Service
 public class TokenService {

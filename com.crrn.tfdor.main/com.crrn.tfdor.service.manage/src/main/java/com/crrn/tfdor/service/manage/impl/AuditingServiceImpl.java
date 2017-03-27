@@ -2,6 +2,8 @@ package com.crrn.tfdor.service.manage.impl;
 
 import com.crrn.tfdor.dao.AuditingDao;
 import com.crrn.tfdor.service.manage.AuditingService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,7 @@ public class AuditingServiceImpl implements AuditingService {
      */
     @Override
     public void addAuditing(Map<String, Object> param) {
+
         auditingDao.addAuditing(param);
     }
 
@@ -48,8 +51,25 @@ public class AuditingServiceImpl implements AuditingService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> auditingList(Map<String, Object> param) {
-        return auditingDao.auditingList(param);
+    public PageInfo<Map<String, Object>> auditingList(Map<String, Object> param) {
+        //分页开始
+        PageHelper.startPage((Integer) param.get("pageNo"), (Integer) param.get("pageSize"));
+        PageInfo<Map<String, Object>> page = new PageInfo<Map<String, Object>>(auditingDao.auditingList(param));
+        return page;
+    }
+
+    /**
+     * 复合记录查询
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public PageInfo<Map<String, Object>> audiResultList(Map<String, Object> param) {
+        //分页开始
+        PageHelper.startPage((Integer) param.get("pageNo"), (Integer) param.get("pageSize"));
+        PageInfo<Map<String, Object>> page = new PageInfo<Map<String, Object>>(auditingDao.audiResultList(param));
+        return page;
     }
 
     /**

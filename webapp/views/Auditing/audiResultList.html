@@ -2,23 +2,31 @@
     <div class="table-responsive" style="margin-top: 10px;">
         <table class="table table-striped table-bordered table-hover">
             <thead>
-            <tr>
-                <th width="20%" class="text-center">待审核交易</th>
-                <th width="20%" class="text-center">审核发起人</th>
-                <th width="20%" class="text-center">发起时间</th>
-                <th width="20%" class="text-center">审核状态</th>
-                <th width="20%" class="text-center">备注</th>
-            </tr>
+                <tr>
+                    <th width="20%" class="text-center">待审核交易</th>
+                    <th width="20%" class="text-center">审核发起人</th>
+                    <th width="20%" class="text-center">发起时间</th>
+                    <th width="20%" class="text-center">审核状态</th>
+                    <th width="20%" class="text-center">备注</th>
+                </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="row in auditingList">
-                <td class="text-center"><a href="javascript:void(0);" style="cursor: pointer" ng-click="gotoDetails(row);">{{row.auditingName}}</a></td>
-                <td class="text-center">{{row.promoter}}</td>
-                <td class="text-center">{{row.createTime}}</td>
-                <td class="text-center">{{row.state | sysCode : 'auditingState'}}</td>
-                <td class="text-center">{{row.remarks}}</td>
-            </tr>
+                <tr ng-repeat="row in auditingList">
+                    <td class="text-center"><a href="javascript:void(0);" style="cursor: pointer" ng-click="gotoDetails(row);">{{row.auditingName}}</a></td>
+                    <td class="text-center">{{row.promoter}}</td>
+                    <td class="text-center">{{row.createTime}}</td>
+                    <td class="text-center">{{row.state | sysCode : 'auditingState'}}</td>
+                    <td class="text-center">{{row.remarks}}</td>
+                </tr>
             </tbody>
         </table>
+        <!--
+            pageNo：当前页
+            pages：总页数
+            total：数据总条数
+            init：分页查询方法
+            display：分页显示页码 默认7，单数
+        -->
+        <paging page-no="pageNo" pages="pages" total="total" do-it="init();" display="7"></paging>
     </div>
 </div>

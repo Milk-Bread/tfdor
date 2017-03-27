@@ -1,9 +1,9 @@
 package com.crrn.tfdor.utils.common;
 
 
-import java.util.Map;
-
 import com.crrn.tfdor.utils.service.Service;
+
+import java.util.Map;
 
 /**
  * Description: 请求Transport公共父类
@@ -36,4 +36,16 @@ public abstract interface Transport extends Service {
      * @throws Exception
      */
     public abstract Object addMaterial(Map<String, Object> sendParam, String type) throws Exception;
+
+
+    /**
+     * 微信支付
+     * @param mchId
+     * @param sendParam
+     * @return
+     * @throws Exception
+     */
+    public abstract Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception;
+
+
 }

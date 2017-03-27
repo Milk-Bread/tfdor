@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -15,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author chepeiqing
@@ -31,7 +32,7 @@ public class AuditingController {
     private AuditingService auditingService;
 
     /**
-     * Description: 用户登陆
+     * Description: 添加审核
      *
      * @param request
      * @return
@@ -63,38 +64,42 @@ public class AuditingController {
 
     /**
      * 查询可以复合的人
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "queryAuditPerson.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryAuditPerson(HttpServletRequest request, HttpServletResponse response){
+    public Object queryAuditPerson(HttpServletRequest request, HttpServletResponse response) {
         UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("channelId",userinfo.getChannel().channelId);
-        map.put("userSeq",userinfo.getUserSeq());
+        map.put("channelId", userinfo.getChannel().getChannelId());
+        map.put("userSeq", userinfo.getUserSeq());
         return auditingService.queryAuditPerson(map);
     }
 
     /**
      * 查询待审核记录
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "auditingList.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object auditingList(HttpServletRequest request, HttpServletResponse response){
+    public Object auditingList(HttpServletRequest request, HttpServletResponse response) {
         UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("auditPersonSeq", userinfo.getUserSeq());
-        map.put("state", "I");
+        map.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
+        map.put("pageSize", Integer.valueOf(request.getParameter("pageSize")));
         return auditingService.auditingList(map);
     }
 
-     /**
+    /**
      * 审核通过
+     *
      * @param request
      * @param response
      * @return
@@ -102,17 +107,18 @@ public class AuditingController {
     @RequestMapping(value = "audiAgree.do", method = RequestMethod.POST)
     @ResponseBody
     public void audiAgree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("auditingTrans");
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("state", "S");
         param.put("remarks", "同意");
         param.put("auditingSeq", request.getParameter("auditingSeq"));
         auditingService.modifyAuditing(param);
-        request.getRequestDispatcher(action).forward(request,response);
+        String action = request.getParameter("auditingTrans");
+        request.getRequestDispatcher(action).forward(request, response);
     }
 
     /**
      * 拒绝
+     *
      * @param request
      * @param response
      * @return
@@ -123,29 +129,27 @@ public class AuditingController {
         String action = request.getParameter("auditingTrans");
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("state", "F");
-        param.put("remarks", request.getParameter("remarks")==null?"不同意":request.getParameter("remarks"));
+        param.put("remarks", request.getParameter("remarks"));
         param.put("auditingSeq", request.getParameter("auditingSeq"));
         auditingService.modifyAuditing(param);
     }
 
     /**
      * 查询审核记录
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "audiResultList.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object audiResultList(HttpServletRequest request, HttpServletResponse response){
+    public Object audiResultList(HttpServletRequest request, HttpServletResponse response) {
         UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
+        map.put("pageSize", Integer.valueOf(request.getParameter("pageSize")));
         map.put("auditPersonSeq", userinfo.getUserSeq());
-        map.put("state", "S");
-        List<Map<String,Object>> list= new ArrayList<Map<String,Object>>();
-        list.addAll(auditingService.auditingList(map));
-        map.put("state", "F");
-        list.addAll(auditingService.auditingList(map));
-        return list;
+        return auditingService.audiResultList(map);
     }
 
 }

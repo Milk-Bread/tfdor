@@ -1,13 +1,13 @@
 package com.crrn.tfdor.utils;
 
-import java.security.SecureRandom;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.security.SecureRandom;
+import java.text.MessageFormat;
 
 
 /**
@@ -127,6 +127,8 @@ public class EncodeUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(aesEncrypt("admin288888888"));
+//        System.out.println(aesEncrypt(""));
+        String aaa = "哈哈哈哈哈哈{0}哈哈哈哈";
+        System.out.println(MessageFormat.format(aaa,"aaa"));
     }
 }

@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  -->
-<!-- 	xmlns="http://java.sun.com/xml/ns/javaee"  -->
-<!-- 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"  -->
-<!-- 	id="WebApp_ID" version="3.0"> -->
-<web-app version="2.5" 
-    xmlns="http://java.sun.com/xml/ns/javaee" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	
+ <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xmlns="http://java.sun.com/xml/ns/javaee"
+ 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+ 	id="WebApp_ID" version="3.0">
+
 	<display-name>com.crrn.ftdor.web</display-name>
 	<welcome-file-list>
 	  	<welcome-file>login.html</welcome-file>
 	  	<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	<context-param>
-	  	<param-name>contextConfigLocation</param-name>
-	  	<param-value>classpath:application-common.xml</param-value>
+		<param-name>webAppRootKey</param-name>
+		<param-value>springmvc.root</param-value>
 	</context-param>
 	<context-param>
-	  	<param-name>webAppRootKey</param-name>
-	  	<param-value>springmvc.root</param-value>
+	  	<param-name>contextConfigLocation</param-name>
+	  	<param-value>classpath:application-common.xml,classpath:service/*.xml</param-value>
 	</context-param>
+	<listener>
+		<listener-class>com.crrn.tfdor.utils.interceptor.LoginListenner</listener-class>
+	</listener>
 	<filter>
 	  	<filter-name>SpringEncodingFilter</filter-name>
 	  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -46,7 +44,7 @@
 	  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	  	<init-param>
 	    	<param-name>contextConfigLocation</param-name>
-	    	<param-value>classpath:springmvc/application-*.xml,classpath:service/*.xml</param-value>
+	    	<param-value>classpath:springmvc/application-*.xml</param-value>
 	  	</init-param>
 	  	<load-on-startup>2</load-on-startup>
 	</servlet>

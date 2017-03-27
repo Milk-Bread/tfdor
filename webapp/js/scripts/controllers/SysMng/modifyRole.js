@@ -2,13 +2,16 @@
  * Created by chepeiqing on 16/10/13.
  */
 define(['app', 'service','sysCode'], function (app) {
-    app.controller('modifyRoleCtrl', function (service, $scope, $location, $state, $stateParams, $rootScope) {
+    "use strict";
+    app.controller('modifyRoleCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            $scope.roleName = $stateParams.roleName;
+            $scope.roleInfo = service.getData();
+            $scope.roleName = $scope.roleInfo.roleName;
+            $scope.isShow = false;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.menuListM = data;
                 var param = {
-                    roleSeq:$stateParams.roleSeq
+                    roleSeq:service.getData().roleSeq
                 };
                 service.post2SRV("lodeMenu.do",param,function(data1, status){
                     for (var key in data) {
@@ -32,6 +35,22 @@ define(['app', 'service','sysCode'], function (app) {
                         }
                     }
                 });
+                $scope.channelId = service.getUser().channel.channelId;
+                if ($scope.channelId != null && $scope.channelId == 'tfdor') {
+                    $scope.isShow = true;
+                }
+                var formData = {
+                    "channelId" : $scope.channelId
+                };
+                service.post2SRV("queryChannel.do", formData, function (data, status) {
+                    $scope.channelInfoList = data;
+                    // 选中当前渠道
+                    for (var key in $scope.channelInfoList) {
+                        if ($scope.roleInfo.channelId == $scope.channelInfoList[key].channelId) {
+                            $scope.channel = $scope.channelInfoList[key];
+                        }
+                    }
+                }, 1000);
             }, 4000);
             service.post2SRV("queryAuditPerson.do",null,function(data, status){
                 $scope.auditPerson = data;
@@ -89,30 +108,37 @@ define(['app', 'service','sysCode'], function (app) {
             $('#aa' + id).slideToggle(500);
         };
 
-        $scope.doId = function () {
+        $scope.doIt = function () {
             if ($scope.roleName == null || $scope.roleName == '') {
-                showError("错误提示", "请输入角色名称");
+                showError("错误提示：请输入角色名称");
                 return;
             }
             if ($scope.roleArr == null || $scope.roleArr.length == 0) {
-                showError("错误提示", "请选择权限");
+                showError("错误提示：请选择权限");
                 return;
             }
+            if ($scope.isShow) {
+                if ($scope.channel == null || $scope.channel == 0) {
+                    showError("错误提示：请选择渠道");
+                    return;
+                }
+                $scope.channelId = $scope.channel.channelId;
+            } else {
+                $scope.channelId = service.getUser().channel.channelId;
+            }
             if ($scope.person == null || $scope.person == '') {
-                showError("错误提示", "请选择复合人");
+                showError("错误提示：请选择复合人");
                 return;
             }
             var formData = {
                 "roleName": $scope.roleName,
                 "roleArr": $scope.roleArr.join(","),
-                "roleSeq":$stateParams.roleSeq,
+                "roleSeq":$scope.roleInfo.roleSeq,
+                "channelId": $scope.channelId,
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName,//复合人名称
-                "channelId":null
             }
-            console.log(formData);
             service.post2SRV("modifyRole.do", formData, function (data, status) {
-                alert("提交成功,请等待审核");
                 $state.go("Main.RoleManager");
             }, 4000);
         }

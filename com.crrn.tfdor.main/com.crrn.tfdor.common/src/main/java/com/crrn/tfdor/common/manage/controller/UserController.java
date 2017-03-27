@@ -1,29 +1,26 @@
 package com.crrn.tfdor.common.manage.controller;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.crrn.tfdor.domain.manage.Channel;
+import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.service.manage.MenuService;
+import com.crrn.tfdor.service.manage.UserService;
+import com.crrn.tfdor.utils.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.domain.manage.Menu;
-import com.crrn.tfdor.domain.manage.UserInfo;
-import com.crrn.tfdor.service.manage.MenuService;
-import com.crrn.tfdor.service.manage.UserService;
-import com.crrn.tfdor.utils.BeanUtils;
-import com.crrn.tfdor.utils.CHECKMSG;
-import com.crrn.tfdor.utils.EncodeUtil;
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Description: 核心控制器
@@ -58,13 +55,22 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
-        String passwordaes = EncodeUtil.aesEncrypt(userId+password);
-        Map<String, Object> userMap = userService.loginCheck(userId, passwordaes);
-        if (userMap == null) {
-            throw new RuntimeException(CHECKMSG.USER_DOES_NOT_EXIST);
+        if (request.getParameter("transName").equals("resetLoginPasd.do")) {
+            userId = (String) request.getSession().getAttribute("resetUser");
         }
+        Map<String, Object> userMap = userService.loginCheck(userId, password);
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
+        if (!"N".equals(channel.getState())) {//用户状态不正确
+            throw new RuntimeException(CHECKMSG.USER_STATUS_IS_NOT_CORRECT);
+        }
+        Map<String, Object> bumap = new HashMap<String, Object>();
+        bumap.put("channelId", channel.getChannelId());
+        if ("true".equals(user.getIsReSetPwd())) {//重置密码
+            request.getSession().setAttribute("resetUser", userId);
+            throw new RuntimeException(CHECKMSG.PLEASE_RESET_THE_PASSWORD_FOR_THE_FIRST_TIME_LOGIN);
+        }
+        userService.modifyUserinfo(userMap);
         user.setChannel(channel);
         // 创建session
         request.getSession(true);
@@ -74,6 +80,29 @@ public class UserController {
         request.getSession().setAttribute("_USER", user);
         return user;
     }
+
+    /**
+     * Description: 重置登陆密码页面重置
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年8月1日 下午3:50:11 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @RequestMapping(value = "resetLoginPasd.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void resetLoginPasd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userId = (String) request.getSession().getAttribute("resetUser");
+        String password = request.getParameter("password");
+        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("isReSetPwd", "false");
+        param.put("userId", userId);
+        param.put("password", passwordaes);
+        userService.resetPasd(param);
+        request.setAttribute("userId", userId);
+        request.getRequestDispatcher("login.do").forward(request, response);
+    }
+
 
     /**
      * Description: 用户登出
@@ -121,6 +150,7 @@ public class UserController {
 
     /**
      * Description: 根据渠道查询菜单
+     *
      * @param request
      * @return
      * @Version1.0 2016年8月1日 下午3:49:50 by chepeiqing (chepeiqing@icloud.com)
@@ -133,7 +163,7 @@ public class UserController {
         List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuListChannel");
         if (_menuList == null) {
             List<Map<String, Object>> menuList = menuService.getAudiMenu(channelId);
-            request.getSession().setAttribute("_menuListChannel" , menuList);
+            request.getSession().setAttribute("_menuListChannel", menuList);
             return menuList;
         } else {
             return _menuList;
@@ -154,8 +184,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("roleName", request.getParameter("roleName"));
         map.put("roleArr", request.getParameter("roleArr"));
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        map.put("channelId", user.getChannel().getChannelId());
+        map.put("channelId", request.getParameter("channelId"));
         userService.addRole(map);
     }
 
@@ -169,12 +198,13 @@ public class UserController {
     @RequestMapping(value = "queryRole.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryRole(HttpServletRequest request) {
-        String roleName = (String) request.getParameter("roleName");
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channel = user.getChannel().getChannelId();
+        String roleName = request.getParameter("roleName");
+        String channelId = request.getParameter("channelId");
+        String flag = request.getParameter("flag");
         Map<String, Object> param = new HashMap<>();
         param.put("roleName", roleName);
-        param.put("channelId", channel);
+        param.put("channelId", channelId);
+        param.put("flag", flag);
         List<Map<String, Object>> roleList = userService.queryRole(param);
         String sessionId = request.getRequestedSessionId();
         return roleList;
@@ -190,8 +220,10 @@ public class UserController {
     @RequestMapping(value = "queryUserInfo.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryUserInfo(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        return userService.queryUserInfo(user);
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("userName", request.getParameter("userName"));
+        return userService.queryUserInfo(map);
     }
 
     /**
@@ -226,6 +258,7 @@ public class UserController {
     public Object queryChannel(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("channelId", request.getParameter("channelId"));
+        param.put("channelName", request.getParameter("channelName"));
         return userService.queryChannel(param);
     }
 
@@ -239,29 +272,27 @@ public class UserController {
     @RequestMapping(value = "addUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void addUser(HttpServletRequest request) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(request.getParameter("userId"));
-        userInfo.setUserName(request.getParameter("userName"));
-        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId")+"88888888");
-        userInfo.setPassword(passwordAes);
-        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
-        userInfo.setSex(request.getParameter("sex"));
-        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
-        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
-        userInfo.setPhone(request.getParameter("phone"));
-        userInfo.setIdType("00");
-        userInfo.setIdNo(request.getParameter("idNo"));
-        userInfo.setAddr(request.getParameter("addr"));
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channelId = user.getChannel().getChannelId();
-        Channel channel = new Channel();
-        channel.setChannelId(channelId);
-        userInfo.setChannel(channel);
-        userService.addUser(userInfo);
+        String base64sha1 = SHA1Util.b64_sha1("88888888");
+        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + base64sha1);
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId", request.getParameter("userId"));
+        param.put("userName", request.getParameter("userName"));
+        param.put("password", passwordAes);
+        param.put("roleSeq", request.getParameter("roleSeq"));
+        param.put("sex", request.getParameter("sex"));
+        param.put("age", request.getParameter("age"));
+        param.put("mobilePhone", request.getParameter("mobilePhone"));
+        param.put("phone", request.getParameter("phone"));
+        param.put("idType", "00");
+        param.put("idNo", request.getParameter("idNo"));
+        param.put("addr", request.getParameter("addr"));
+        param.put("channelId", request.getParameter("channelId"));
+        param.put("customerType", request.getParameter("customerType"));
+        userService.addUser(param);
     }
 
     /**
-     * Description: 添加用户
+     * Description: 修改用户
      *
      * @param request
      * @return
@@ -270,23 +301,55 @@ public class UserController {
     @RequestMapping(value = "modifyUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void modifyUser(HttpServletRequest request) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserSeq(Integer.valueOf(request.getParameter("userSeq")));
-        userInfo.setUserName(request.getParameter("userName"));
-        userInfo.setRoleSeq(Integer.valueOf(request.getParameter("roleId")));
-        userInfo.setSex(request.getParameter("sex"));
-        userInfo.setAge(Integer.valueOf(request.getParameter("age")));
-        userInfo.setMobilePhone(request.getParameter("mobilePhone"));
-        userInfo.setPhone(request.getParameter("phone"));
-        userInfo.setIdType("00");
-        userInfo.setIdNo(request.getParameter("idNo"));
-        userInfo.setAddr(request.getParameter("addr"));
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId", request.getParameter("userId"));
+        param.put("userName", request.getParameter("userName"));
+        param.put("roleSeq", request.getParameter("roleSeq"));
+        param.put("sex", request.getParameter("sex"));
+        param.put("age", request.getParameter("age"));
+        param.put("mobilePhone", request.getParameter("mobilePhone"));
+        param.put("phone", request.getParameter("phone"));
+        param.put("idNo", request.getParameter("idNo"));
+        param.put("addr", request.getParameter("addr"));
+        param.put("channelId", request.getParameter("channelId"));
+        param.put("customerType", request.getParameter("customerType"));
+
+        userService.modifyUser(param);
+    }
+
+    /**
+     * 根据userId查询用户信息
+     *
+     * @param request
+     */
+    @RequestMapping(value = "queryUserById.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryUserById(HttpServletRequest request) {
+        Map<String, Object> param = new HashMap<String, Object>();
         UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        String channelId = user.getChannel().getChannelId();
-        Channel channel = new Channel();
-        channel.setChannelId(channelId);
-        userInfo.setChannel(channel);
-        userService.modifyUser(userInfo);
+        if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
+            param.put("channelId", user.getChannel().getChannelId());
+        }
+        param.put("userId", request.getParameter("userId"));
+        return userService.queryUserById(param);
+    }
+
+    /**
+     * 密码管理 重置登陆密码默认88888888
+     *
+     * @param request
+     */
+    @RequestMapping(value = "resetPwd.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void resetPwd(HttpServletRequest request) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        String userId = request.getParameter("userId");
+        String base64sha1 = SHA1Util.b64_sha1("88888888");
+        String passwordaes = EncodeUtil.aesEncrypt(userId + base64sha1);
+        param.put("userId", userId);
+        param.put("password", passwordaes);
+        param.put("isReSetPwd", "true");
+        userService.resetPasd(param);
     }
 
     /**
@@ -296,15 +359,12 @@ public class UserController {
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "addChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "addChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void addChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         map.put("channelName", request.getParameter("channelName"));
-        map.put("appId", request.getParameter("appId"));
-        map.put("wxToken", request.getParameter("wxToken"));
-        map.put("appSecret", request.getParameter("appSecret"));
         map.put("state", request.getParameter("state"));
         userService.addChannel(map);
     }
@@ -316,32 +376,153 @@ public class UserController {
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "modifyChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "modifyChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void modifyChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         map.put("channelName", request.getParameter("channelName"));
-        map.put("appId", request.getParameter("appId"));
-        map.put("wxToken", request.getParameter("wxToken"));
-        map.put("appSecret", request.getParameter("appSecret"));
         map.put("state", request.getParameter("state"));
         userService.modifyChannel(map);
     }
 
     /**
-     * Description: 添加渠道
+     * Description: 删除渠道
      *
      * @param request
      * @return
      * @Version1.0 2016年10月24日 下午10:50:50 by pengyuming (pengym_27@163.com)
      */
-    @RequestMapping(value = "deleteChannel.do" , method = RequestMethod.POST)
+    @RequestMapping(value = "deleteChannel.do", method = RequestMethod.POST)
     @ResponseBody
     public void deleteChannel(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("channelId", request.getParameter("channelId"));
         userService.deleteChannel(map);
+    }
+
+    /**
+     * Description: 删除用户
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteUser(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userSeq", request.getParameter("userSeq"));
+        userService.deleteUser(map);
+    }
+
+    /**
+     * Description: 商户列表
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "queryMerchant.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryMerchant(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        map.put("channelId", user.getChannel().getChannelId());
+        map.put("merchantName", request.getParameter("merchantName"));
+        return userService.queryMerchant(map);
+    }
+
+
+    /**
+     * Description: 添加商户
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "addMerchant.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void addMerchant(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("mchId", request.getParameter("mchId"));
+        map.put("mchName", request.getParameter("mchName"));
+        map.put("signatureKey", request.getParameter("signatureKey"));
+        map.put("encodingAesKey", request.getParameter("encodingAesKey"));
+        map.put("state", request.getParameter("state"));
+        userService.addMerchant(map);
+    }
+
+    /**
+     * Description: 添加商户
+     *
+     * @param request
+     * @return
+     * @Version1.0 2016年11月07日 下午11:02:50 by pengyuming (pengym_27@163.com)
+     */
+    @RequestMapping(value = "modifyMerchant.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyMerchant(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("mchSeq", request.getParameter("mchSeq"));
+        map.put("mchId", request.getParameter("mchId"));
+        map.put("mchName", request.getParameter("mchName"));
+        map.put("channelId", request.getParameter("channelId"));
+        map.put("appId", request.getParameter("appId"));
+        map.put("wxToken", request.getParameter("wxToken"));
+        map.put("appSecret", request.getParameter("appSecret"));
+        map.put("signatureKey", request.getParameter("signatureKey"));
+        map.put("encodingAesKey", request.getParameter("encodingAesKey"));
+        map.put("state", request.getParameter("state"));
+        userService.modifyMerchant(map);
+    }
+
+    /**
+     * Description: 删除角色
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "deleteRole.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteRole(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq", request.getParameter("roleSeq"));
+        userService.deleteRole(map);
+    }
+
+    /**
+     * Description: 查询角色用户信息
+     *
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "queryRoleUserInfo.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void queryRoleUserInfo(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleSeq", request.getParameter("roleSeq"));
+        userService.queryRoleUserInfo(map);
+    }
+
+    /**
+     * Description: 查询用户是否已经存在
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "queryAddUserById.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void queryAddUserById(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", request.getParameter("userId"));
+        userService.queryAddUserById(map);
     }
 
 }

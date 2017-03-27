@@ -6,28 +6,43 @@ import java.io.Serializable;
  * Created by pengyuming on 16/10/12.
  */
 public class QrcodeImg implements Serializable {
-
     private String qrcodeSeq;
-
-    private String appId;
-
-    private String actionName;
-
-    private String sceneId;
-
+    private String createQISeq;
+    private String mchId;
+    private String sceneStr;
     private String ticket;
-
     private String url;
-
     private String qrcodeName;
-
-    private String preservation;
-
     private String state;
-
     private String createTime;
-
     private String updateTime;
+    private String transjnl;
+    private String orderId;
+    private String openId;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getTransjnl() {
+        return transjnl;
+    }
+
+    public void setTransjnl(String transjnl) {
+        this.transjnl = transjnl;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getQrcodeSeq() {
         return qrcodeSeq;
@@ -37,28 +52,28 @@ public class QrcodeImg implements Serializable {
         this.qrcodeSeq = qrcodeSeq;
     }
 
-    public String getAppId() {
-        return appId;
+    public String getCreateQISeq() {
+        return createQISeq;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setCreateQISeq(String createQISeq) {
+        this.createQISeq = createQISeq;
     }
 
-    public String getActionName() {
-        return actionName;
+    public String getMchId() {
+        return mchId;
     }
 
-    public void setActionName(String actionName) {
-        this.actionName = actionName;
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
     }
 
-    public String getSceneId() {
-        return sceneId;
+    public String getSceneStr() {
+        return sceneStr;
     }
 
-    public void setSceneId(String sceneId) {
-        this.sceneId = sceneId;
+    public void setSceneStr(String sceneStr) {
+        this.sceneStr = sceneStr;
     }
 
     public String getTicket() {
@@ -85,14 +100,6 @@ public class QrcodeImg implements Serializable {
         this.qrcodeName = qrcodeName;
     }
 
-    public String getPreservation() {
-        return preservation;
-    }
-
-    public void setPreservation(String preservation) {
-        this.preservation = preservation;
-    }
-
     public String getState() {
         return state;
     }
@@ -115,5 +122,21 @@ public class QrcodeImg implements Serializable {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "QrcodeImg{" +
+                "qrcodeSeq='" + qrcodeSeq + '\'' +
+                ", createQISeq='" + createQISeq + '\'' +
+                ", mchId='" + mchId + '\'' +
+                ", sceneStr='" + sceneStr + '\'' +
+                ", ticket='" + ticket + '\'' +
+                ", url='" + url + '\'' +
+                ", qrcodeName='" + qrcodeName + '\'' +
+                ", state='" + state + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
     }
 }

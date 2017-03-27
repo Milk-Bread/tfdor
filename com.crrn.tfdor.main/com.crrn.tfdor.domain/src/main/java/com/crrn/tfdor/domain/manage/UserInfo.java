@@ -2,183 +2,270 @@ package com.crrn.tfdor.domain.manage;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
  * Description: 用户
  * Copyright (c) TLC.
  * All Rights Reserved.
+ *
  * @version 1.0 2016年8月1日 下午1:19:28 by chepeiqing (chepeiqing@icloud.com)
  */
 public class UserInfo extends BaseCodeModel implements Serializable {
-  /** 用户序号 **/
-  private Integer userSeq;
-  /** 用户id **/
-  private String userId;
-  /** 用户名 **/
-  private String userName;
-  /** 密码 **/
-  private String password;
-  /** 性别 **/
-  private String sex;
-  /** 年龄 **/
-  private Integer age;
-  /** 证件类型 **/
-  private String idType;
-  /** 证件号码 **/
-  private String idNo;
-  /** 手机 **/
-  private String mobilePhone;
-  /** 电话 **/
-  private String phone;
-  /** 渠道ID **/
-  private Channel channel;
-  /** 地址 **/
-  private String addr;
-  /** 角色ID **/
-  private Integer roleSeq;
-  /** 创建时间 **/
-  private String createTime;
-  /** 登陆标志 **/
-  public boolean logout;
-  private String sessionId;
-  private Timestamp loginTime;
+    /**
+     * 用户序号
+     **/
+    private Integer userSeq;
+    /**
+     * 用户id
+     **/
+    private String userId;
+    /**
+     * 用户名
+     **/
+    private String userName;
+    /**
+     * 密码
+     **/
+    private String password;
+    /**
+     * 性别
+     **/
+    private String sex;
+    /**
+     * 年龄
+     **/
+    private Integer age;
+    /**
+     * 证件类型
+     **/
+    private String idType;
+    /**
+     * 证件号码
+     **/
+    private String idNo;
+    /**
+     * 手机
+     **/
+    private String mobilePhone;
+    /**
+     * 电话
+     **/
+    private String phone;
+    /**
+     * 渠道ID
+     **/
+    private Channel channel;
+    /**
+     * 地址
+     **/
+    private String addr;
+    /**
+     * 角色ID
+     **/
+    private Integer roleSeq;
+    /**
+     * 创建时间
+     **/
+    private String createTime;
+    /**
+     * 密码错误次数
+     */
+    private String pasdErrorCount;
 
-  public String getSessionId() {
-    return sessionId;
-  }
+    /**
+     * 登陆标志
+     **/
+    public boolean logout;
+    /**
+     * 登陆sessionId
+     */
+    private String sessionId;
+    /**
+     * 用户类型，1-管理员，2-操作员
+     */
+    private String customerType;
+    /**
+     * 商户信息列表
+     */
+    private List<Merchant> merchantList;
+    /**
+     * 是否需要重置密码
+     */
+    private String isReSetPwd;
+    /**
+     * 登陆时间
+     */
+    private Timestamp loginTime;
 
-  public void setSessionId(String sessionId) {
-    this.sessionId = sessionId;
-  }
+    public Timestamp getLoginTime() {
+        return loginTime;
+    }
 
-  public Timestamp getLoginTime() {
-    return loginTime;
-  }
+    public void setLoginTime(Timestamp loginTime) {
+        this.loginTime = loginTime;
+    }
 
-  public void setLoginTime(Timestamp loginTime) {
-    this.loginTime = loginTime;
-  }
+    public String getPasdErrorCount() {
+        return pasdErrorCount;
+    }
 
-  public boolean isLogout() {
-    return logout;
-  }
+    public void setPasdErrorCount(String pasdErrorCount) {
+        this.pasdErrorCount = pasdErrorCount;
+    }
 
-  public void setLogout(boolean logout) {
-    this.logout = logout;
-  }
+    public String getIsReSetPwd() {
+        return isReSetPwd;
+    }
 
-  public String getCreateTime() {
-    return createTime;
-  }
+    public void setIsReSetPwd(String isReSetPwd) {
+        this.isReSetPwd = isReSetPwd;
+    }
 
-  public void setCreateTime(String createTime) {
-    this.createTime = createTime;
-  }
+    public List<Merchant> getMerchantList() {
+        return merchantList;
+    }
 
-  public Integer getRoleSeq() {
-    return roleSeq;
-  }
+    public void setMerchantList(List<Merchant> merchantList) {
+        this.merchantList = merchantList;
+    }
 
-  public void setRoleSeq(Integer roleSeq) {
-    this.roleSeq = roleSeq;
-  }
+    public String getCustomerType() {
+        return customerType;
+    }
 
-  public Integer getUserSeq() {
-    return userSeq;
-  }
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
 
-  public void setUserSeq(Integer userSeq) {
-    this.userSeq = userSeq;
-  }
+    public String getSessionId() {
+        return sessionId;
+    }
 
-  public String getUserId() {
-    return userId;
-  }
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+    public boolean isLogout() {
+        return logout;
+    }
 
-  public String getUserName() {
-    return userName;
-  }
+    public void setLogout(boolean logout) {
+        this.logout = logout;
+    }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+    public String getCreateTime() {
+        return createTime;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public Integer getRoleSeq() {
+        return roleSeq;
+    }
 
-  public String getPhone() {
-    return phone;
-  }
+    public void setRoleSeq(Integer roleSeq) {
+        this.roleSeq = roleSeq;
+    }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
+    public Integer getUserSeq() {
+        return userSeq;
+    }
 
-  public Channel getChannel() {
-    return channel;
-  }
+    public void setUserSeq(Integer userSeq) {
+        this.userSeq = userSeq;
+    }
 
-  public void setChannel(Channel channel) {
-    this.channel = channel;
-  }
+    public String getUserId() {
+        return userId;
+    }
 
-  public String getAddr() {
-    return addr;
-  }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-  public void setAddr(String addr) {
-    this.addr = addr;
-  }
+    public String getUserName() {
+        return userName;
+    }
 
-  public String getSex() {
-    return sex;
-  }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-  public void setSex(String sex) {
-    this.sex = sex;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public Integer getAge() {
-    return age;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setAge(Integer age) {
-    this.age = age;
-  }
+    public String getPhone() {
+        return phone;
+    }
 
-  public String getIdType() {
-    return idType;
-  }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-  public void setIdType(String idType) {
-    this.idType = idType;
-  }
+    public Channel getChannel() {
+        return channel;
+    }
 
-  public String getIdNo() {
-    return idNo;
-  }
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
 
-  public void setIdNo(String idNo) {
-    this.idNo = idNo;
-  }
+    public String getAddr() {
+        return addr;
+    }
 
-  public String getMobilePhone() {
-    return mobilePhone;
-  }
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
 
-  public void setMobilePhone(String mobilePhone) {
-    this.mobilePhone = mobilePhone;
-  }
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getIdType() {
+        return idType;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
 
 
 }

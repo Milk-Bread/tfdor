@@ -1,6 +1,6 @@
 package com.crrn.tfdor.service.manage;
 
-import com.crrn.tfdor.domain.wechat.QrcodeImg;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +26,18 @@ public interface AuditingService {
     public List<Map<String,Object>> queryAuditPerson(Map<String, Object> param);
 
     /**
+     * 待复合记录查询
+     * @param param
+     * @return
+     */
+    public PageInfo<Map<String,Object>> auditingList(Map<String, Object> param);
+
+    /**
      * 复合记录查询
      * @param param
      * @return
      */
-    public List<Map<String,Object>> auditingList(Map<String, Object> param);
+    public PageInfo<Map<String,Object>> audiResultList(Map<String, Object> param);
 
     /**
      * 修改审核流水记录

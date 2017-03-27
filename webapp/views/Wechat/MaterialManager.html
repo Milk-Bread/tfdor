@@ -1,0 +1,59 @@
+<div ng-controller="materialCtrl">
+    <div class="table-responsive" ng-show="isMerch">
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <th width="40%" class="text-center"><span class="losing">*</span>选择商户</th>
+                <td width="60%" class="text-left">
+                    <select class="form-control btn-sm seStyle" ng-model="merchant" ng-options="merchant.mchName for merchant in merchantList">
+                        <option value="">请选择商户</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right"></th>
+                <td class="text-left">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="init();">确 认</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="!isMerch">
+        <div class="table-responsive">
+            <div class="FL material_list">
+                <p>图文列表</p>
+                <div style="position: absolute;width: 18%;height: 500px">
+                    <div name="materialDiv" id="div{{$index}}" class="material_imgdiv" ng-repeat="msg in materList"
+                         ng-click="clickMaterial($index)">
+                        <img src="{{msg.url}}"/>
+                        <div class="title" ng-mouseenter="show = true" ng-mouseleave="show = false">
+                            <span id="title{{$index}}">{{msg.title}}</span>
+                            <div ng-if="show" ng-click="deleteMaterial($index)"
+                                 class="glyphicon glyphicon-trash FR delete"></div>
+                        </div>
+                    </div>
+                    <div class="add" ng-click="addMaterial()">
+                        +
+                    </div>
+                </div>
+            </div>
+            <div class="FL material_content" style="height: 500px">
+                <p>素材内容</p>
+                <input type="text" class="form-control" name="titleContext" ng-model="titleContext" ng-
+                       placeholder="请在这里输入标题">
+                <input type="text" class="form-control" placeholder="请输入作者" ng-model="author">
+                <textarea class="keditor" ng-model="content" data-config="config" cols="30" rows="23"
+                          required></textarea>
+            </div>
+            <div class="FL material_multi-media">
+                <p>多媒体</p>
+                <div style="margin-top: 10px"><span class="glyphicon glyphicon-picture"></span> &nbsp;图片</div>
+                <div><span class="glyphicon glyphicon-facetime-video"></span> &nbsp;视频</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-info" ng-click="doIt();">保 存</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-danger" ng-click="doIt();">取 消</button>
+        </div>
+    </div>
+</div>

@@ -13,5 +13,10 @@
   		<artifactId>com.crrn.tfdor.domain</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+      <dependency>
+          <groupId>org.apache.ant</groupId>
+          <artifactId>ant</artifactId>
+          <version>1.8.2</version>
+      </dependency>
   </dependencies>
 </project>

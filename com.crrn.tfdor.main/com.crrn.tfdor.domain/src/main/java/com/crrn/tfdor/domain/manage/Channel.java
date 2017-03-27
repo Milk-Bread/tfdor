@@ -1,45 +1,17 @@
 package com.crrn.tfdor.domain.manage;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * 渠道
  * @author chepeiqing
  */
 public class Channel implements Serializable {
-	public String channelId;
-	public String channelName;
-	public String appId;
-	public String wxToken;
-	public String appSecret;
-	public String state;
-	public String createTime;
+	private String channelId;
+	private String channelName;
+	private String state;
+	private String createTime;
 
-
-	public String getAppId() {
-		return appId;
-	}
-
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
-
-	public String getWxToken() {
-		return wxToken;
-	}
-
-	public void setWxToken(String wxToken) {
-		this.wxToken = wxToken;
-	}
-
-	public String getAppSecret() {
-		return appSecret;
-	}
-
-	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
-	}
 
 	public String getChannelId() {
 		return channelId;
@@ -71,9 +43,6 @@ public class Channel implements Serializable {
 		return "Channel{" +
 				"channelId='" + channelId + '\'' +
 				", channelName='" + channelName + '\'' +
-				", appId='" + appId + '\'' +
-				", wxToken='" + wxToken + '\'' +
-				", appSecret='" + appSecret + '\'' +
 				", state='" + state + '\'' +
 				", createTime='" + createTime + '\'' +
 				'}';

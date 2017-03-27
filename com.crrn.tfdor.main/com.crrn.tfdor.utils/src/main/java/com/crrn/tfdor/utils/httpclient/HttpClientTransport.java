@@ -1,22 +1,28 @@
 package com.crrn.tfdor.utils.httpclient;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.crrn.tfdor.utils.Constants;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
 import com.crrn.tfdor.utils.common.Transport;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.SSLContext;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyStore;
+import java.util.List;
+import java.util.Map;
 
 public class HttpClientTransport implements Transport {
     private static Logger logger = LoggerFactory.getLogger(HttpClientTransport.class);
@@ -66,14 +72,13 @@ public class HttpClientTransport implements Transport {
             if ("image/jpg".equals(connection.getContentType())) {
                 InputStream inputStream = connection.getInputStream();
                 try {
-                    File file = new File(Constants.PATH_QRCODE_IMAGE);
-                    if(!file.exists()){
-                        file.createNewFile();
+                    File file = new File(sendParam.get("preservation").toString());
+                    if (!file.exists() && !file.isDirectory()) {
+                        file.mkdirs();
                     }
                     byte[] data = new byte[1024];
                     int len = 0;
-                    FileOutputStream fileOutputStream = null;
-                    fileOutputStream = new FileOutputStream(Constants.PATH_QRCODE_IMAGE + "/" + sendParam.get("Name") + ".jpg");
+                    FileOutputStream fileOutputStream = new FileOutputStream(sendParam.get("preservation") + "/" + sendParam.get("qrcodeName") + ".jpg");
                     while ((len = inputStream.read(data)) != -1) {
                         fileOutputStream.write(data, 0, len);
                     }
@@ -104,7 +109,6 @@ public class HttpClientTransport implements Transport {
                 e2.printStackTrace();
             }
         }
-        logger.debug(result);
         return Util.getResponseParam(result);
     }
 
@@ -129,7 +133,7 @@ public class HttpClientTransport implements Transport {
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("Charset", "UTF-8");
+            connection.setRequestProperty("Charset", "utf-8");
             connection.setConnectTimeout(connectTimeout);// 连接超时30秒
             connection.setReadTimeout(readTimeout);// 读取超时30秒
             // 发送POST请求必须设置如下两行
@@ -140,7 +144,7 @@ public class HttpClientTransport implements Transport {
             // 获取URLConnection对象对应的输出流
             out = new DataOutputStream(connection.getOutputStream());
             // 发送请求参数
-            out.writeBytes(Util.mapToJson(sendParam).toString());
+            out.write(Util.mapToJson(sendParam).toString().getBytes("utf-8"));
             // flush输出流的缓冲
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应
@@ -212,6 +216,43 @@ public class HttpClientTransport implements Transport {
             closeIo(out, in);
         }
         return Util.getResponseParam(result);
+    }
+
+    /**
+     * 微信支付
+     *
+     * @param sendParam
+     * @param mchId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        FileInputStream instream = new FileInputStream(new File(Constants.PATH + "/" + mchId + "/cert/apiclient_cert.p12"));
+        keyStore.load(instream, mchId.toCharArray());
+        instream.close();
+        SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray()).build();
+        SSLConnectionSocketFactory sslcsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"}, null, SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslcsf).build();
+        HttpPost httpost = new HttpPost(sendParam.get(Dict.TRANS_NAME).toString());
+        httpost.addHeader("Connection", "keep-alive");
+        httpost.addHeader("Accept", "*/*");
+        httpost.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        httpost.addHeader("Host", "api.mch.weixin.qq.com");
+        httpost.addHeader("X-Requested-With", "XMLHttpRequest");
+        httpost.addHeader("Cache-Control", "max-age=0");
+        httpost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
+        httpost.setEntity(new StringEntity(sendParam.get(Dict.PAY_XML).toString(), "UTF-8"));
+        CloseableHttpResponse response = httpclient.execute(httpost);
+        HttpEntity entity = response.getEntity();
+        String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+        EntityUtils.consume(entity);
+        Map<String, Object> resp = Util.parse(jsonStr);
+        if (!"SUCCESS".equals(resp.get("return_code")) || null == resp.get("result_code") || !"SUCCESS".equals(resp.get("result_code"))) {
+            throw new RuntimeException(resp.get("return_msg").toString());
+        }
+        return resp;
     }
 
     /**

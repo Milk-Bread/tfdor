@@ -5,7 +5,7 @@
             <thead>
             <tr>
                 <th width="45%" class="text-right">渠道名称</th>
-                <td class="text-left"><input type="text" placeholder="输入渠道名称" name="userName" ng-model="userName"/></td>
+                <td class="text-left"><input type="text" placeholder="输入渠道名称" name="channelName" ng-model="channelName"/></td>
             </tr>
             </thead>
             <tr>
@@ -25,9 +25,6 @@
 			<tr>
 				<td class="text-center">ID</td>
 				<td class="text-center">渠道名称</td>
-				<td class="text-center">appId</td>
-				<td class="text-center">微信Token</td>
-				<td class="text-center">app密钥</td>
 				<td class="text-center">创建时间</td>
 				<td class="text-center">修改时间</td>
 				<td class="text-center">状态</td>
@@ -36,15 +33,12 @@
 			<tr ng-repeat="channelInfo in channelInfoList">
 				<td class="text-center">{{channelInfo.channelId}}</td>
 				<td class="text-center">{{channelInfo.channelName}}</td>
-				<td class="text-center">{{channelInfo.appId}}</td>
-				<td class="text-center">{{channelInfo.wxToken}}</td>
-				<td class="text-center">{{channelInfo.appSecret}}</td>
 				<td class="text-center">{{channelInfo.createTime}}</td>
 				<td class="text-center">{{channelInfo.updateTime}}</td>
 				<td class="text-center">{{channelInfo.state | sysCode:'channelState'}}</td>
                 <td class="text-center">
-                    <button class="btn btn-primary btn-xs" ng-if="channelInfo.roleSeq != '1'" ng-click="menuThree('修改用户');modifyChannel(channelInfo);">修改</button>
-                    <button class="btn btn-danger btn-xs" ng-if="channelInfo.roleSeq != '1'" ng-click="menuThree('修改用户');deleteChannel(channelInfo);">删除</button>
+                    <button class="btn btn-primary btn-xs" ng-if="channelInfo.channelId != 'tfdor' && channelInfo.roleSeq != '1'" ng-click="menuThree('修改渠道');modifyChannel(channelInfo);">修改</button>
+                    <button class="btn btn-danger btn-xs" ng-if="channelInfo.channelId != 'tfdor' && channelInfo.roleSeq != '1'" ng-click="menuThree('删除渠道');deleteChannel(channelInfo);">删除</button>
                 </td>
 			</tr>
 		</table>

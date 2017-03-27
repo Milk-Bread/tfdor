@@ -4,8 +4,6 @@ import com.crrn.tfdor.domain.manage.UserInfo;
 import com.crrn.tfdor.utils.configurer.PropertyConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -35,9 +33,9 @@ public class AuditingInterceptor {
 
     public boolean auditing(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getRequestURI();
-        String actionName = request.getParameter("actionName");
+        String transName = request.getParameter("transName");
         for (String actn : getAuditignList()) {
-            if (action.indexOf(actn) > 0 && !"audiAgree.do".equals(actionName)) {
+            if (action.indexOf(actn) > 0 && !"audiAgree.do".equals(transName)) {
                 logger.debug(actn + "交易需复合,提交复合模版");
                 String acName = propertyConfigurer.getMessage(actn);
                 UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");

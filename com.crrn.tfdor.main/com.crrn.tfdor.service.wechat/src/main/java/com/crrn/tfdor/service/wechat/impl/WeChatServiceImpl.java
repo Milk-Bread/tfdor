@@ -1,49 +1,124 @@
 package com.crrn.tfdor.service.wechat.impl;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.crrn.tfdor.dao.WeChantDao;
 import com.crrn.tfdor.domain.manage.Channel;
-import com.crrn.tfdor.utils.Util;
+import com.crrn.tfdor.domain.manage.Merchant;
+import com.crrn.tfdor.domain.wechat.*;
+import com.crrn.tfdor.service.wechat.WeChatService;
+import com.crrn.tfdor.service.wechat.core.MsgEvent;
+import com.crrn.tfdor.service.wechat.core.Transformer;
+import com.crrn.tfdor.utils.*;
+import com.crrn.tfdor.utils.common.Transport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.crrn.tfdor.dao.WeChantDao;
-import com.crrn.tfdor.domain.wechat.Event;
-import com.crrn.tfdor.domain.wechat.MsgType;
-import com.crrn.tfdor.domain.wechat.QrcodeImg;
-import com.crrn.tfdor.service.wechat.WeChatService;
-import com.crrn.tfdor.utils.Dict;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class WeChatServiceImpl implements WeChatService {
     private static Logger logger = LoggerFactory.getLogger(WeChatServiceImpl.class);
     @Autowired
     public WeChantDao weChatDao;
+    @Resource(name = "httpTransport")
+    private Transport transport;
+    @Autowired
+    private Transformer transformer;
+    @Autowired
+    private MsgEvent msgEvent;
 
+    /**
+     * Description:查询 AccessToken
+     * @param appId
+     * @return
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void iAccessToken(Map<String, Object> map) {
-        weChatDao.iAccessToken(map);
+    public String getAccessToken(String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        String accessToken = "";
+        try {
+            Map<String, Object> access = qAccessToken(appId);
+            if (access == null || false == (Boolean) access.get("effective")) {
+                Merchant merch = qMerchant(appId);
+                sendParam.put(Dict.GRANT_TYPE, Constants.CLIENT_CREDENTIAL);
+                sendParam.put(Dict.APPID, merch.getAppId());
+                sendParam.put(Dict.SECRET, merch.getAppSecret());
+                sendParam.put(Dict.TRANS_NAME, WeChat.ACCESS_TOKEN);
+                Map<String, Object> resp = (Map<String, Object>) transport.sendGet(sendParam);
+                sendParam = new HashMap<String, Object>();
+                sendParam.put("accessToken", resp.get("access_token"));
+                sendParam.put("invalidTime", resp.get("expires_in"));
+                sendParam.put("mchId", merch.getMchId());
+                accessToken = (String) resp.get("access_token");
+                if (accessToken != null) {
+                    weChatDao.dAccessToken(merch.getMchId());
+                    weChatDao.iAccessToken(sendParam);
+                }
+            } else {
+                accessToken = (String) access.get("accessToken");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return accessToken;
     }
 
+    /**
+     * Description:查询jsapiTicket
+     * @param appId
+     * @return
+     * @Version1.0 2016年10月8日 下午9:47:31 by chepeiqing (chepeiqing@icloud.com)
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void dAccessToken(String channelId) {
-        weChatDao.dAccessToken(channelId);
+    public String getJsapiTicket(String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        String ticket = "";
+        Map<String, Object> jsTicket = qJsapiTicket(appId);
+        if (jsTicket == null || false == (Boolean) jsTicket.get("effective")) {
+            Merchant merch = qMerchant(appId);
+            sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
+            sendParam.put(Dict.TRANS_NAME, WeChat.JSAPI.GETTICKET);
+            sendParam.put("type","jsapi");
+            Map<String, Object> resp = (Map<String, Object>) transport.sendGet(sendParam);
+            sendParam = new HashMap<String, Object>();
+            sendParam.put("jsapiTicket", resp.get("ticket"));
+            sendParam.put("invalidTime", resp.get("expires_in"));
+            sendParam.put("mchId", merch.getMchId());
+            ticket = (String) resp.get("ticket");
+            if (ticket != null) {
+                weChatDao.dJsapiTicket(merch.getMchId());
+                weChatDao.iJsapiTicket(sendParam);
+            }
+        } else {
+            ticket = (String) jsTicket.get("jsapiTicket");
+        }
+        return ticket;
     }
 
-    @Override
-    public Map<String, Object> qAccessToken(String channelId) throws ParseException {
+    /**
+     * 查询AccessToken
+     *
+     * @param appId
+     * @return
+     * @throws ParseException
+     */
+    private Map<String, Object> qAccessToken(String appId) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Map<String, Object> accessMap = weChatDao.qAccessToken(channelId);
+        Map<String, Object> accessMap = weChatDao.qAccessToken(appId);
         if (accessMap == null) {
             return null;
         }
@@ -62,6 +137,33 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     /**
+     * 查询qJsapiTicket
+     *
+     * @param appId
+     * @return
+     * @throws ParseException
+     */
+    private Map<String, Object> qJsapiTicket(String appId) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Map<String, Object> ticketMap = weChatDao.qJsapiTicket(appId);
+        if (ticketMap == null) {
+            return null;
+        }
+        logger.debug(ticketMap.toString());
+        Timestamp createTime = (Timestamp) ticketMap.get("createTime");
+        String invalidTime = (String) ticketMap.get("invalidTime");
+        long createlong = df.parse(df.format(createTime)).getTime();
+        long time = new Date().getTime() - createlong;
+        long inbalidlong = Long.valueOf(invalidTime) * 1000 - 1000;
+        if (inbalidlong > time) {
+            ticketMap.put("effective", true);
+        } else {
+            ticketMap.put("effective", false);
+        }
+        return ticketMap;
+    }
+
+    /**
      * 查询渠道信息
      *
      * @param channelId
@@ -69,27 +171,31 @@ public class WeChatServiceImpl implements WeChatService {
      */
     @Override
     public Channel qChannel(String channelId) {
-        return null;
+        return weChatDao.qChannel(channelId);
     }
 
     @Override
-    public Map<String, Object> msgType(Map<String, Object> param) {
+    public Map<String, Object> msgType(Map<String, Object> param, HttpServletResponse response, Merchant merchant) throws Exception {
         logger.debug("Enter a message distribution......");
         String msgType = (String) param.get(Dict.MSGTYPE);
         Map<String, Object> msgMap = new HashMap<>();
+        //记录客户信息
+        this.getCustomerInfo(merchant.getMchSeq(),param.get("FromUserName").toString(),merchant.getAppId());
         //微信消息为事件消息
         if (msgType.equals(MsgType.event.toString())) {
             logger.debug("Messages are distributed as event messages");
             String event = (String) param.get(Dict.EVENT);
             if (Event.subscribe.toString().equals(event)) {//事件类型为未关注扫码
                 logger.debug("事件类型为未关注扫码");
-                msgTypeByImage(msgMap, param);
+                param.put("Content", "你好！欢迎关注"+merchant.getMchName());
+                msgEvent.msgTypeByText(msgMap, param);
+                msgEvent.activityByRedPack(msgMap, param, merchant);
             } else if (Event.unsubscribe.toString().equals(event)) {
                 logger.debug("事件类型为取消关注");
 
             } else if (Event.SCAN.toString().equals(event)) {
                 logger.debug("事件类型为扫码(已经关注)");
-                msgTypeByNews(msgMap, param);
+                msgEvent.activityByRedPack(msgMap, param, merchant);
             } else if (Event.VIEW.toString().equals(event)) {
                 logger.debug("事件类型为点击菜单跳转链接时的事件推送");
 
@@ -102,7 +208,7 @@ public class WeChatServiceImpl implements WeChatService {
             }
         } else if (msgType.equals(MsgType.text.toString())) {//微信消息为文本消息
             logger.debug("消息类型为文本消息");
-            msgTypeByText(msgMap, param);
+            msgEvent.msgTypeByText(msgMap, param);
         } else if (msgType.equals(MsgType.image.toString())) {//微信消息为图片消息
             logger.debug("消息类型为图片消息");
 
@@ -128,85 +234,129 @@ public class WeChatServiceImpl implements WeChatService {
     /**
      * Description:记录生成的二维码
      *
-     * @param map
+     * @param qrcodeImg
      */
     @Override
-    public void iQrcodeimg(Map<String, Object> map) {
-        weChatDao.iQrcodeimg(map);
+    public void iQrcodeimg(QrcodeImg qrcodeImg) {
+        weChatDao.iQrcodeimg(qrcodeImg);
     }
 
     /**
-     * 消息类型为文本消息处理方法
+     * 查询商户信息
      *
-     * @param msgMap
-     * @param param
+     * @param appId
+     * @return
      */
-    private void msgTypeByText(Map<String, Object> msgMap, Map<String, Object> param) {
-        msgMap.put("ToUserName", param.get("FromUserName"));
-        msgMap.put("FromUserName", param.get("ToUserName"));
-        msgMap.put("CreateTime", param.get("CreateTime"));
-        msgMap.put("MsgType", "text");
-        msgMap.put("Content", param.get("Content"));
+    @Override
+    public Merchant qMerchant(String appId) {
+        Merchant merch = weChatDao.qMerchant(appId);
+        if (merch == null) {
+            throw new RuntimeException(CHECKMSG.ILLEGAL_REQUEST_PARAMETERS);
+        }
+        return merch;
     }
 
+
     /**
-     * 回复图片消息
+     * 记录生成微信二维码
      *
-     * @param msgMap
-     * @param param
+     * @param createQrcodeImg
      */
-    private void msgTypeByImage(Map<String, Object> msgMap, Map<String, Object> param) {
-        msgMap.put("ToUserName", param.get("FromUserName"));
-        msgMap.put("FromUserName", param.get("ToUserName"));
-        msgMap.put("CreateTime", param.get("CreateTime"));
-        msgMap.put("MsgType", "image");
-        Map<String, Object> image = new HashMap<>();
-        image.put("MediaId", "7W8JfIKXWeS1_QS7ynY4Keklmv2QV1fhWD6uDOI6oiE");
-        msgMap.put("Image", image);
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void addQrcode(CreateQrcodeImg createQrcodeImg, String appId) throws Exception {
+        weChatDao.iCreateQrcodeImage(createQrcodeImg);
+        //生成微信二维码
+        this.generateQrCode(createQrcodeImg, appId);
     }
 
     /**
-     * 回复图文消息
+     * 生成修改二维码参数
      *
-     * @param msgMap
-     * @param param
+     * @param createQrcodeImg
      */
-    private void msgTypeByNews(Map<String, Object> msgMap, Map<String, Object> param) {
-        msgMap.put("ToUserName", param.get("FromUserName"));
-        msgMap.put("FromUserName", param.get("ToUserName"));
-        msgMap.put("CreateTime", param.get("CreateTime"));
-        msgMap.put("MsgType", "news");
-        msgMap.put("ArticleCount", "1");
-        Map<String, Object> articles = new HashMap<>();
-        List<Map<String, Object>> item = new ArrayList<>();
-        Map<String, Object> itMap = new HashMap<>();
-        itMap.put("Title", "扫了又扫送红包");
-        itMap.put("Description", "收红包收的手抽筋");
-        itMap.put("PicUrl", "http://mmbiz.qpic.cn/mmbiz_png/7ic1rPwdWGBtxuzjyvYKXMwZgjmyv6EdakJApDRYV1u3gcDKKPzZUibqgdibGY8aBDhUAWUZLDiaNfQ4rdCO4vdVow/0?wx_fmt=png");
-        itMap.put("Url", "http://mmbiz.qpic.cn/mmbiz_png/7ic1rPwdWGBtxuzjyvYKXMwZgjmyv6EdakJApDRYV1u3gcDKKPzZUibqgdibGY8aBDhUAWUZLDiaNfQ4rdCO4vdVow/0?wx_fmt=png");
-        item.add(itMap);
-        articles.put("item", item);
-        msgMap.put("Articles", articles);
+    @Override
+    public void modifyCreateQrcodeImage(CreateQrcodeImg createQrcodeImg) {
+        weChatDao.modifyCreateQrcodeImage(createQrcodeImg);
     }
 
     /**
-     * 微信普通红包
-     * @param msgMap
-     * @param param
+     * 创建二维码
+     *
+     * @param crQimg
+     * @param appId
+     * @return
      */
-    private void sendRedPack(Map<String, Object> msgMap, Map<String, Object> param){
-        msgMap.put("nonce_str","");//随机字符串 随机字符串，不长于32位
-        msgMap.put("mch_billno","");//商户订单号 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。 接口根据商户订单号支持重入，如出现超时可再调用。
-        msgMap.put("mch_id","");//商户号
-        msgMap.put("wxappid","");//微信分配的公众账号ID（企业号corpid即为此appId）。接口传入的所有appid应该为公众号的appid（在mp.weixin.qq.com申请的）
-        msgMap.put("send_name","");//商户名称
-        msgMap.put("re_openid","");//接受红包的用户 用户在wxappid下的openid
-        msgMap.put("total_amount","");//付款金额，单位分
-        msgMap.put("total_num","1");//红包发放总人数 total_num=1
-        msgMap.put("wishing","");//红包祝福语
-        msgMap.put("client_ip", Util.getLocalIP());//调用接口的机器Ip地址
-        msgMap.put("act_name","");//活动名称  例：猜灯谜抢红包活动
-        msgMap.put("remark","");//备注信息   猜越多得越多，快来抢！
-        msgMap.put("sign", Util.getSignature("key", msgMap));//签名
+    public void generateQrCode(CreateQrcodeImg crQimg, String appId) throws Exception {
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        for (int i = 0; i < crQimg.getNumber(); i++) {
+            String sceneStr = crQimg.getMchId() + Util.getCurrentTime() + Util.getSysJournalNo(8, true);
+            // 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久,QR_LIMIT_STR_SCENE为永久的字符串参数值
+            sendParam.put("action_name", crQimg.getActionName());
+            Map<String, Object> action_info = new HashMap<>();
+            Map<String, Object> scene = new HashMap<>();
+            if (Dict.QR_SCENE.equals(crQimg.getActionName())) {
+                sendParam.put("expire_seconds", Integer.valueOf(crQimg.getExpireSeconds()) * 24 * 60 * 60);
+                scene.put("scene_id", sceneStr);
+            } else if (Dict.QR_LIMIT_STR_SCENE.equals(crQimg.getActionName())) {
+                scene.put("scene_str", sceneStr);
+            } else {
+                throw new RuntimeException(CHECKMSG.QR_CODE_TYPE_ERROR);
+            }
+            action_info.put("scene", scene);
+            sendParam.put("action_info", action_info);
+            sendParam.put(Dict.TRANS_NAME, WeChat.CREAT_QRCODE_IMAGE);
+            sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
+            // 生成二维码ticket
+            Map<String, Object> respTicket = (Map<String, Object>) transport.sendPost(sendParam);
+            Map<String, Object> ticket = new HashMap<String, Object>();
+            ticket.put("ticket", respTicket.get("ticket"));
+            ticket.put("qrcodeName", sceneStr);
+            ticket.put("preservation", crQimg.getPreservation());
+            ticket.put(Dict.TRANS_NAME, WeChat.SHOW_QRCODE);
+            //获取二维码
+            transport.sendGet(ticket);
+            QrcodeImg qrcodeImg = new QrcodeImg();
+            qrcodeImg.setMchId(crQimg.getMchId());
+            qrcodeImg.setCreateQISeq(crQimg.getCreateQISeq());
+            qrcodeImg.setQrcodeName(sceneStr);
+            qrcodeImg.setSceneStr(sceneStr);
+            qrcodeImg.setTicket(respTicket.get("ticket").toString());
+            qrcodeImg.setUrl(respTicket.get("url").toString());
+            weChatDao.iQrcodeimg(qrcodeImg);
+        }
     }
+
+    /**
+     * 获取用户信息
+     * @param openId
+     * @param appId
+     * @return
+     */
+    public void getCustomerInfo(Integer mchSeq,String openId,String appId) throws Exception{
+        Map<String, Object> sendParam = new HashMap<String, Object>();
+        sendParam.put(Dict.TRANS_NAME, WeChat.GET_USERINFO);
+        sendParam.put(Dict.ACCESS_TOKEN, getAccessToken(appId));
+        sendParam.put(Dict.LANG, "zh_CN");
+        sendParam.put("openid", openId);
+        CustomerInfo info = weChatDao.qCustomerInfo(openId);
+        Map<String, Object> customerInfo = (Map<String, Object>) transport.sendGet(sendParam);
+        CustomerInfo custm = BeanUtils.map2Bean(customerInfo, CustomerInfo.class);
+        custm.setOpenId(customerInfo.get("openid").toString());
+        custm.setNickName(customerInfo.get("nickname").toString());
+        custm.setSubscribeTime(customerInfo.get("subscribe_time").toString());
+        custm.setMchSeq(mchSeq);
+        if(info == null) {
+            weChatDao.iCustomerInfo(custm);
+        }else{
+            weChatDao.uCustomerInfo(custm);
+        }
+    }
+
+
+
+
+
+
+
 }
