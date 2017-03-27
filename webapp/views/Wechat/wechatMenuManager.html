@@ -47,16 +47,31 @@
             </ul>
         </div>
         <!--<div class="footer_front"><img src="images/front.png" width="100%" height="100%"></div>-->
-    </d iv>
+    </div>
     <!-- 右边部分 -->
-    <div style="position: fixed; right: 1px; height: 100%;width: 53%;border:1px solid #cccccc;float: left">
+    <div style="position: fixed; right: 1px; height: 100%;width: 53%;border:1px solid #cccccc;float: left;background-color:#F0F0F0">
         <div style="height: 50px;">
             <div style="margin: 20px 0px 5px 20px;">菜单名称: <input type="text" name="userId" ng-model="userId"></div>
             <div style="padding-left: 70px; color:#cccccc">字数不超过4个汉字或8个字母</div>
         </div>
         <hr/>
-        <div>
-            菜单内容: <input type="radio"> 发送消息  <input type="radio"> 跳转网页
+        <div style="margin: 20px;">
+            菜单内容: <input type="radio" name="redio"> 发送消息  <input type="radio" name="redio"> 跳转网页
+        </div>
+
+        <div style="background-color:#FFFFFF;margin: 10px 20px 0px 20px;border:1px solid #E0E0E0;height: 300px;">
+            <div style="border-bottom:1px solid #E0E0E0;height: 50px">
+                <div class="text-center" style="height: 50px;width: 100px;line-height:50px;float: left;"><i class="glyphicon glyphicon-align-justify"></i>&nbsp;图文消息</div>
+                <div class="text-center" style="height: 50px;width: 100px;line-height:50px;float: left;"><i class="glyphicon glyphicon-picture"></i>&nbsp;图片</div>
+            </div>
+            <div style="height: 250px">
+                <div class="material_imgdiv" ng-repeat="msg in materList" ng-click="clickMaterial($index)">
+                    <img src="{{msg.url}}"/>
+                    <div class="title">
+                        <span>{{msg.title}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

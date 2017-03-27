@@ -12,5 +12,14 @@ define(['app', 'service', 'sysCode'], function (app) {
                 }
             });
         });
+        $scope.init = function(){
+            var param = {
+                appId:"wxe7ae25efff1772cb"
+            }
+            service.post2SRV("getBatchGetMaterial.do", param, function (data, status) {
+                $scope.materList = data.item;
+            }, 1000);
+        }
+        $scope.init();
     });
 });
