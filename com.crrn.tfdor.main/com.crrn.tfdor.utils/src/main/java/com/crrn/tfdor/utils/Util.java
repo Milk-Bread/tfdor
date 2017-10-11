@@ -451,7 +451,6 @@ public class Util {
             }
             return new String(buf);
         } catch (Exception e) {
-            // TODO: handle exception
             return null;
         }
     }

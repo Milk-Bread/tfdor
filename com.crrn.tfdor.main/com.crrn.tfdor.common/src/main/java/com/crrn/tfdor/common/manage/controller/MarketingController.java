@@ -5,6 +5,7 @@ package com.crrn.tfdor.common.manage.controller;
  */
 
 import com.crrn.tfdor.domain.manage.UserInfo;
+import com.crrn.tfdor.enumeration.wechat.AmountType;
 import com.crrn.tfdor.service.manage.MarketingService;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
@@ -139,7 +140,7 @@ public class MarketingController {
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
         String totalNum = request.getParameter("totalNum");
-        if(Dict.AMOUNTTYPE_FDAT.equals(request.getParameter("amountType"))){
+        if(AmountType.FDAT.toString().equals(request.getParameter("amountType"))){
             totalNum = "1";
         } else if(totalNum == null || "".equals(totalNum)){
             totalNum = "1";

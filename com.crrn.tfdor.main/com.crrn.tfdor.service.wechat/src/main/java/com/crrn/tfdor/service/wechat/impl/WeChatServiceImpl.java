@@ -3,12 +3,22 @@ package com.crrn.tfdor.service.wechat.impl;
 import com.crrn.tfdor.dao.WeChantDao;
 import com.crrn.tfdor.domain.manage.Channel;
 import com.crrn.tfdor.domain.manage.Merchant;
-import com.crrn.tfdor.domain.wechat.*;
+import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
+import com.crrn.tfdor.domain.wechat.CustomerInfo;
+import com.crrn.tfdor.domain.wechat.QrcodeImg;
+import com.crrn.tfdor.enumeration.wechat.Event;
+import com.crrn.tfdor.enumeration.wechat.MsgType;
 import com.crrn.tfdor.service.wechat.WeChatService;
 import com.crrn.tfdor.service.wechat.core.MsgEvent;
 import com.crrn.tfdor.service.wechat.core.Transformer;
-import com.crrn.tfdor.utils.*;
+import com.crrn.tfdor.utils.BeanUtils;
+import com.crrn.tfdor.utils.CHECKMSG;
+import com.crrn.tfdor.utils.Constants;
+import com.crrn.tfdor.utils.Dict;
+import com.crrn.tfdor.utils.Util;
+import com.crrn.tfdor.utils.WeChat;
 import com.crrn.tfdor.utils.common.Transport;
+import com.crrn.tfdor.utils.configurer.PropertyConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -328,7 +338,7 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息 TODO 用户昵称中文乱码问题待解决
      * @param openId
      * @param appId
      * @return

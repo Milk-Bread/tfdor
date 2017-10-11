@@ -1,4 +1,4 @@
-package com.crrn.tfdor.domain.wechat;
+package com.crrn.tfdor.enumeration.wechat;
 
 /**
  * Created by chepeiqing on 16/10/10.

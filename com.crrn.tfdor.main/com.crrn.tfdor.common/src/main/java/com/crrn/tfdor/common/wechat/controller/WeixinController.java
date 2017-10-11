@@ -6,12 +6,12 @@ import com.crrn.tfdor.domain.wechat.CreateQrcodeImg;
 import com.crrn.tfdor.service.wechat.WeChatService;
 import com.crrn.tfdor.service.wechat.core.TokenService;
 import com.crrn.tfdor.service.wechat.core.Transformer;
-import com.crrn.tfdor.utils.Constants;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
 import com.crrn.tfdor.utils.WeChat;
 import com.crrn.tfdor.utils.aes.WXBizMsgCrypt;
 import com.crrn.tfdor.utils.common.Transport;
+import com.crrn.tfdor.utils.configurer.PropertyConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -71,7 +75,7 @@ public class WeixinController {
         logger.debug("微信request param value" + request.getParameterMap().toString());
         Merchant merch = weChatService.qMerchant(tokenModel.getAppId());
         //验证微信消息
-        tokenService.validate(merch.getWxToken(), tokenModel);
+        //tokenService.validate(merch.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
         if (Dict.ENCRYPT_AES.equals(tokenModel.getEncrypt_type())) {//安全模式
             //微信消息解密工具类
@@ -108,7 +112,8 @@ public class WeixinController {
     public void createQrcodeImage(HttpServletRequest request, CreateQrcodeImg createQrcodeImg) throws Exception {
         String appId = request.getParameter("appId");
         Merchant mch = weChatService.qMerchant(appId);
-        createQrcodeImg.setPreservation(Constants.PATH +"/" + "images" + "/" + mch.getMchId() + "/" + Util.getCurrentTime());
+        String imagesPath = PropertyConfigurer.getMessage("config.imagesPath");
+        createQrcodeImg.setPreservation(imagesPath +"/" + "images" + "/" + mch.getMchId() + "/" + Util.getCurrentTime());
         createQrcodeImg.setMchId(mch.getMchId());
         weChatService.addQrcode(createQrcodeImg, appId);
     }

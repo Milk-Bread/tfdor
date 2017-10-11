@@ -3,6 +3,8 @@ package com.crrn.tfdor.service.wechat.core;
 import com.crrn.tfdor.dao.WeChantDao;
 import com.crrn.tfdor.domain.manage.Merchant;
 import com.crrn.tfdor.domain.wechat.RedPackBean;
+import com.crrn.tfdor.enumeration.wechat.AmountType;
+import com.crrn.tfdor.enumeration.wechat.RedpackType;
 import com.crrn.tfdor.utils.CHECKMSG;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
@@ -18,7 +20,11 @@ import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * @author chepeiqing
@@ -32,7 +38,7 @@ public class MsgEvent {
     private static Logger logger = LoggerFactory.getLogger(MsgEvent.class);
     @Autowired
     public WeChantDao weChatDao;
-    @Resource(name = "httpTransport")
+    @Resource(name = Dict.HTTPTRANSPORT)
     private Transport transport;
     @Autowired
     private Transformer transformer;
@@ -107,16 +113,16 @@ public class MsgEvent {
         msgMap.put("wxappid", merchant.getAppId());//微信分配的公众账号ID（企业号corpid即为此appId）。接口传入的所有appid应该为公众号的appid（在mp.weixin.qq.com申请的）
         msgMap.put("send_name", merchant.getMchName());//商户名称
         msgMap.put("re_openid", param.get("FromUserName"));//接受红包的用户 用户在wxappid下的openid
-        if (Dict.REDPACKTYPE_FNRK.equals(redPackBean.getRedPackType())) {//微信裂变红包
+        if (RedpackType.FNRK.toString().equals(redPackBean.getRedPackType())) {//微信裂变红包
             msgMap.put("amt_type", "ALL_RAND");
             payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDGROUPREDPACK);//裂变红包接口名称
-        } else if (Dict.REDPACKTYPE_OYRK.equals(redPackBean.getRedPackType())) {
+        } else if (RedpackType.OYRK.toString().equals(redPackBean.getRedPackType())) {
             payParam.put(Dict.TRANS_NAME, WeChat.PAY.SENDREDPACK);//现金红包接口名称
         }
         String amount;
-        if (Dict.AMOUNTTYPE_FDAT.equals(redPackBean.getAmountType())) {//固定金额红包
+        if (AmountType.FDAT.toString().equals(redPackBean.getAmountType())) {//固定金额红包
             amount = Util.moneyYuanToFenByRound(redPackBean.getTotalAmount());
-        } else if (Dict.AMOUNTTYPE_RMAT.equals(redPackBean.getAmountType())) {//随机金额红包
+        } else if (AmountType.RMAT.toString().equals(redPackBean.getAmountType())) {//随机金额红包
             String[] totalAmount = redPackBean.getTotalAmount().split("-");
             //精确小数点2位
             NumberFormat formatter = new DecimalFormat("#.##");
