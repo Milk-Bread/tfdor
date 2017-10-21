@@ -141,13 +141,13 @@ public class WeixinController {
     @RequestMapping(value = "getBatchGetMaterial.do", method = RequestMethod.POST)
     public
     @ResponseBody
-    Object getBatchGetMaterial(HttpServletRequest request,String appId) throws Exception {
+    Object getBatchGetMaterial(HttpServletRequest request,String appId,String type) throws Exception {
         Map<String, Object> sendParam = new HashMap<String, Object>();
         sendParam.put(Dict.TRANS_NAME, WeChat.BATCHGET_MATERIAL);
         sendParam.put(Dict.ACCESS_TOKEN, weChatService.getAccessToken(appId));
         sendParam.put("offset", 0);
         sendParam.put("count", 20);
-        sendParam.put("type", "image");
+        sendParam.put("type", type);
         Map map = (Map) transport.sendPost(sendParam);
         return map;
     }

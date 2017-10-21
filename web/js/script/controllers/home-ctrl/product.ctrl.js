@@ -2,7 +2,7 @@ define(['app', 'sysCode', 'directive', 'jquery', 'service'], function (app) {
     "use strict";
     app.controller('ProductCtrl', function ($scope, $ionicHistory, service) {
         $scope.content = "敬请期待";
-        service.post2SRV("http://localhost/webapp/getJsConfigData.action", null, function (data) {
+        service.post2SRV("getJsConfigData.action", null, function (data) {
             console.log(data);
             wx.config({
                 debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
