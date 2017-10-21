@@ -16,8 +16,8 @@ import java.util.Properties;
  * @version 1.0 2016年6月27日 下午4:57:51 by chepeiqing (chepeiqing@icloud.com)
  */
 public class PropertyConfigurer extends PropertyPlaceholderConfigurer {
-  private Map<String, String> myPropertiesMap;
-  private String defaultEncoding = "UTF-8";
+  private static Map<String, String> myPropertiesMap;
+  private static String defaultEncoding = "UTF-8";
 
   @Override
   protected void processProperties(ConfigurableListableBeanFactory factory, Properties props) throws BeansException {
@@ -34,7 +34,7 @@ public class PropertyConfigurer extends PropertyPlaceholderConfigurer {
     }
   }
 
-  public String getMessage(String name) {
+  public static String getMessage(String name) {
     return myPropertiesMap.get(name);
   }
 

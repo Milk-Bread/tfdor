@@ -13,11 +13,6 @@ public class Constants {
      **/
     public static String CLIENT_CREDENTIAL = "client_credential";
     /**
-     * 二维码生成路径
-     **/
-    public static String PATH = "/myData/config";
-//    public static String PATH = "/Users/chepeiqing/Desktop/WeChat/config";
-    /**
      * 图片上传分隔符
      */
     public static String BOUNDARY = "----------1235789009878";

@@ -20,8 +20,8 @@
             </list>
         </property>
     </bean>
- 
-    <!-- 配置数据源 使用的是Druid数据源 -->
+
+	<!-- 配置数据源 使用的是Druid数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
@@ -57,11 +57,12 @@
 		<property name="defaultAutoCommit" value="${jdbc.defaultAutoCommit}" />
 	</bean>
 
-    <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-    	<property name="jndiName">
-    		<value>jndi/db</value>
-    	</property>   
-    </bean> -->
+
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+    	<!--<property name="jndiName">-->
+    		<!--<value>java:comp/env/jndi/crrn</value>-->
+    	<!--</property>-->
+    <!--</bean>-->
 
 	<!-- 配置Mybatis的文件 ，mapperLocations配置**Mapper.xml文件位置，configLocation配置mybatis-config文件位置-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

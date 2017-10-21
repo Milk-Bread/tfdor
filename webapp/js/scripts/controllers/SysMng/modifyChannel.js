@@ -23,6 +23,10 @@ define(['app', 'service','sysCode'], function (app) {
                 showError("错误提示：请输入渠道名称");
                 return;
             }
+            if ($scope.person == null || $scope.person == '') {
+                showError("错误提示：请选择复合人");
+                return;
+            }
             if ($scope.state == null) {
                 $scope.state = 'N';
             }

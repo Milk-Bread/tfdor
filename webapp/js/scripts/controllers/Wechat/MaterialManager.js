@@ -4,20 +4,30 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
         $scope.indexList;
         $scope.showdiv = false;
         $scope.isMerch = false;
+        $scope.appId = undefined;
         $scope.init = function () {
             //查询商户信息
             service.post2SRV("queryMerchant.do", null, function (data, status) {
-                if(data != null && data.length == 0){
+                if (data != null && data.length == 0) {
                     showError("请添加商户");
-                }else if (data.length > 1) {//多个商户 选择商户
+                } else if (data.length > 1) {//多个商户 选择商户
                     $scope.isMerch = true;
                     $scope.merchantList = data;
                 } else {//单个商户直接展示
                     $scope.appId = data[0].appId;
                     $scope.showdiv = true;
                     $scope.queryMessage();
+                    $scope.loadContent();
                 }
             }, 4000);
+
+        };
+
+        $scope.loadContent = function () {
+            if ($scope.merchant == null || $scope.merchant == '') {
+                showError("错误提示：请选择商户");
+                return;
+            }
             $scope.config = {
                 resizeType: 1,
                 //minWidth: '250px',
@@ -35,18 +45,27 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
                     this.html("请输入内容");
                 }
             }
+            $scope.isMerch = false;
+            $scope.appId = $scope.merchant.appId;
+            $scope.showdiv = true;
+            $scope.queryMessage();
         };
 
-        $scope.queryMessage = function () {
-            var param = {
-                appId:$scope.appId
+        $scope.queryMessage = function (type) {
+            if (type == null || type == undefined) {
+                type = "news";
             }
+            var param = {
+                appId: $scope.appId,
+                type: type
+            };
             service.post2SRV("getBatchGetMaterial.do", param, function (data, status) {
                 $scope.materList = data.item;
+                console.log(data);
             }, 1000);
         }
         $scope.addMaterial = function () {
-            if($scope.appId == undefined){
+            if ($scope.appId == undefined) {
                 showError("请添加商户");
                 return null;
             }
@@ -68,8 +87,8 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
             }
         };
 
-        $scope.clickMaterial = function (index) {
-            if(angular.isDefined($scope.appId)){
+        $scope.clickMaterial = function (index,content) {
+            if ($scope.appId == undefined) {
                 showError("请添加商户");
                 return null;
             }
@@ -83,6 +102,7 @@ define(['app', 'service', 'sysCode', 'kindeditorAll', 'kindeditorditor'], functi
                     $("#" + $scope.oldTital.id).text($scope.oldTital.content);
                 }
             }
+            $scope.content = content;
             $scope.oldTital = {"id": "title" + index, "content": $('#title' + index).text()};
             $scope.indexList = 'title' + index;
             $("div[name=materialDiv]").attr("class", "material_imgdiv");

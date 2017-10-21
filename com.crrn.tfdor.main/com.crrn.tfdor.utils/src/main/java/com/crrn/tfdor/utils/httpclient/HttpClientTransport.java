@@ -4,6 +4,7 @@ import com.crrn.tfdor.utils.Constants;
 import com.crrn.tfdor.utils.Dict;
 import com.crrn.tfdor.utils.Util;
 import com.crrn.tfdor.utils.common.Transport;
+import com.crrn.tfdor.utils.configurer.PropertyConfigurer;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -17,7 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyStore;
@@ -90,7 +98,7 @@ public class HttpClientTransport implements Transport {
                 return null;
             }
             // 定义 BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
@@ -229,7 +237,8 @@ public class HttpClientTransport implements Transport {
     @Override
     public Object weChatPay(String mchId, Map<String, Object> sendParam) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File(Constants.PATH + "/" + mchId + "/cert/apiclient_cert.p12"));
+        String certPath = PropertyConfigurer.getMessage("config.certPath");
+        FileInputStream instream = new FileInputStream(new File(certPath + "/" + mchId + "/cert/apiclient_cert.p12"));
         keyStore.load(instream, mchId.toCharArray());
         instream.close();
         SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray()).build();
