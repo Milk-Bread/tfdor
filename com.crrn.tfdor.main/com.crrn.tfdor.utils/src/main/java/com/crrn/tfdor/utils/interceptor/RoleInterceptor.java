@@ -59,7 +59,7 @@ public class RoleInterceptor implements HandlerInterceptor {
                 throw new RuntimeException(CHECKMSG.PLEASE_LOG_IN_AGAIN);
             }
         }
-        logger.debug("TransAction:==>" + action);
+        logger.info("TransAction:==>   [[" + action + "]]");
         return auditing.auditing(request, response);
     }
 
