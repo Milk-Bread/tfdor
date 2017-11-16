@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>    
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">  
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+
+
+
 	<!-- 可以配置多个appender来对应不同的输出，如文件输出，sql输出，控制台输出，邮件输出等 -->  
 	<!-- [控制台STDOUT] 不同的输出类型对应着不同的calss，如控制台输出class对应着 org.apache.log4j.ConsoleAppender -->  
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">  <!-- name提供给logger或者root调用 -->
@@ -31,7 +36,7 @@
 
 	<!-- [debug日志APPENDER] -->  
 	<appender name="DEBUG-APPENDER" class="org.apache.log4j.DailyRollingFileAppender">  
-		<param name="File" value="/myData/logs/controller/debug-log.log" />
+		<param name="File" value="${logPath}/debug-log.log" />
 		<param name="Append" value="true" />  
 		<param name="encoding" value="UTF-8" />  
 		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />  
@@ -81,9 +86,9 @@
 		<!-- 限定记录等级 -->
 		<level value="debug"></level>
 		<!-- 调用记录方式 -->
-		<appender-ref ref="console" />
+		<!--<appender-ref ref="console" />-->
 <!-- 		<appender-ref ref="COMPONENT-APPENDER" /> -->
- 		<!--<appender-ref ref="DEBUG-APPENDER" />-->
+ 		<appender-ref ref="DEBUG-APPENDER" />
 <!-- 		<appender-ref ref="INFO-APPENDER" /> -->
 		<!--<appender-ref ref="console"/>-->
 	</root>  

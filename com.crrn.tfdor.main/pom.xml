@@ -1,19 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>crrn.tfdor.main</groupId>
-  <artifactId>com.crrn.tfdor.main</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>com.crrn.tfdor.dao</module>
-  	<module>com.crrn.tfdor.utils</module>
-  	<module>com.crrn.tfdor.domain</module>
-  	<module>com.crrn.tfdor.service.wechat</module>
-  	<module>com.crrn.tfdor.service.manage</module>
-  	<module>com.crrn.tfdor.common</module>
-  </modules>
-  
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>crrn.tfdor.main</groupId>
+    <artifactId>com.crrn.tfdor.main</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>com.crrn.tfdor.dao</module>
+        <module>com.crrn.tfdor.utils</module>
+        <module>com.crrn.tfdor.domain</module>
+        <module>com.crrn.tfdor.service.wechat</module>
+        <module>com.crrn.tfdor.service.manage</module>
+        <module>com.crrn.tfdor.common</module>
+    </modules>
+
+
     <properties>
         <!--指定Maven用什么编码来读取源码及文档 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +26,8 @@
         <junit.version>4.10</junit.version>
         <!-- mybatis版本号 -->
         <mybatis.version>3.2.1</mybatis.version>
+        <!-- 日志文件名称 -->
+        <log.moduleName>tfdor</log.moduleName>
     </properties>
     <dependencies>
         <!-- 添加Spring依赖 -->
@@ -100,7 +103,7 @@
             <artifactId>mybatis</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
-	
+
         <!-- mybatis/spring包 -->
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -114,20 +117,20 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.29</version>
         </dependency>
-		
-		<!-- 数据源 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.0.12</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.4</version>
-		</dependency>
-		
+        <!-- 数据源 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.4</version>
+        </dependency>
+
         <!-- javaee-api包 注意和项目使用的JDK版本对应 -->
         <dependency>
             <groupId>javax</groupId>
@@ -150,24 +153,24 @@
             <version>5.2.4.Final</version>
         </dependency>
 
-        <!-- Logging -->
+
+        <!-- logback -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.6</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.6.6</version>
-            <scope>runtime</scope>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.6</version>
-            <scope>runtime</scope>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.4</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
@@ -215,9 +218,9 @@
             <version>4.4.5</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.lucee</groupId>-->
-            <!--<artifactId>httpcomponents-httpmime</artifactId>-->
-            <!--<version>4.5.2</version>-->
+        <!--<groupId>org.lucee</groupId>-->
+        <!--<artifactId>httpcomponents-httpmime</artifactId>-->
+        <!--<version>4.5.2</version>-->
         <!--</dependency>-->
         <!-- 添加分布插件的包pagehelper -->
         <dependency>
