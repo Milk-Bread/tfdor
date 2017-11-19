@@ -189,7 +189,7 @@ public class WeChatServiceImpl implements WeChatService {
         logger.debug("Enter a message distribution......");
         String msgType = (String) param.get(Dict.MSGTYPE);
         Map<String, Object> msgMap = new HashMap<>();
-        //记录客户信息 TODO:订阅号没有获取用户信息的权限
+        //记录客户信息
         this.getCustomerInfo(merchant.getMchSeq(),param.get("FromUserName").toString(),merchant.getAppId());
         //微信消息为事件消息
         if (msgType.equals(MsgType.event.toString())) {
@@ -338,7 +338,7 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     /**
-     * 获取用户信息 TODO 用户昵称中文乱码问题待解决
+     * 获取用户信息
      * @param openId
      * @param appId
      * @return
@@ -350,7 +350,13 @@ public class WeChatServiceImpl implements WeChatService {
         sendParam.put(Dict.LANG, "zh_CN");
         sendParam.put("openid", openId);
         CustomerInfo info = weChatDao.qCustomerInfo(openId);
-        Map<String, Object> customerInfo = (Map<String, Object>) transport.sendGet(sendParam);
+        Map<String, Object> customerInfo;
+        try {
+            customerInfo = (Map<String, Object>) transport.sendGet(sendParam);
+        }catch (Exception e){
+            logger.debug("The public number has no authority",e);
+            return;
+        }
         CustomerInfo custm = BeanUtils.map2Bean(customerInfo, CustomerInfo.class);
         custm.setOpenId(customerInfo.get("openid").toString());
         custm.setNickName(customerInfo.get("nickname").toString());

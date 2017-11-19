@@ -75,7 +75,7 @@ public class WeixinController {
         logger.debug("微信request param value" + request.getParameterMap().toString());
         Merchant merch = weChatService.qMerchant(tokenModel.getAppId());
         //验证微信消息
-        //tokenService.validate(merch.getWxToken(), tokenModel);
+        tokenService.validate(merch.getWxToken(), tokenModel);
         Map<String, Object> map = transformer.parse(request);
         if (Dict.ENCRYPT_AES.equals(tokenModel.getEncrypt_type())) {//安全模式
             //微信消息解密工具类
@@ -87,7 +87,7 @@ public class WeixinController {
             String respXml = transformer.former(msgMap);
             //微信返回消息加密
             String respXmlEncryp = ct.encryptMsg(respXml, tokenModel.getTimestamp().toString(), tokenModel.getNonce().toString());
-            logger.debug("安全模式返回报文：" + respXmlEncryp);
+            logger.debug("安全模式返回报文：\\r\\n" + respXmlEncryp);
             //返回微信数据
             response.getWriter().write(respXmlEncryp);
         } else {//明文模式
@@ -298,7 +298,7 @@ public class WeixinController {
 
 
      /**
-     * Description: 查询微信菜单
+     * Description: 查询JSApiTicket
      * @return
      * @throws Exception
      * @Version1.0 2016年10月10日 下午4:37:49 by chepeiqing (chepeiqing@icloud.com)
