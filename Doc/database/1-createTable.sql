@@ -279,6 +279,7 @@ create table WebMenu(
    wmName varchar(10) not null comment 'web 菜单名称',
    wmTransId varchar(30) not null comment '交易ID',
    createTime timestamp default '0000-00-00 00:00:00' comment '创建时间',
+   primary key (wmSeq)
 )
 DEFAULT CHARSET= UTF8 ENGINE = InnoDB;
 alter table WebMenu comment 'web菜单表';
@@ -306,7 +307,7 @@ create table JsapiTicket (
    primary key (ticketSeq)
 )
 DEFAULT CHARSET= UTF8 ENGINE = InnoDB;
-alter table AccessToken comment 'JsapiTicket表';
+alter table JsapiTicket comment 'JsapiTicket表';
 
 
 
