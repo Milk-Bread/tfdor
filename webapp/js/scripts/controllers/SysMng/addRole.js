@@ -94,6 +94,7 @@ define(['app', 'service','sysCode'], function (app) {
             } else {
                 $scope.channelId = service.getUser().channel.channelId;
             }
+            console.log($scope.person);
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示,请选择复合人");
                 return;
@@ -106,6 +107,7 @@ define(['app', 'service','sysCode'], function (app) {
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName//复合人名称
             }
+            return;
             service.post2SRV("addRole.do", formData, function (data, status) {
                 $state.go("Main.RoleManager");
             }, 4000);

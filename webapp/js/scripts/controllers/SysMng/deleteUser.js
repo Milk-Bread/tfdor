@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('deleteUserCtrl', function (service, $scope, $state) {
-        $scope.userInfo = service.getData();
+        $scope.userInfo = service.getDataMap();
         $scope.init = function(){
             $scope.userSeq = $scope.userInfo.userSeq;
 

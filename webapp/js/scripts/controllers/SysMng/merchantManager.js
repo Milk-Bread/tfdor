@@ -14,11 +14,11 @@ define(['app', 'service', 'sysCode'], function (app) {
             $state.go("Main.addMerchant");
         }
         $scope.gotoDetails = function (obj) {
-            service.setData(obj);
+            service.setDataMap(obj);
             $state.go("Main.merchantDetail");
         }
         $scope.modifyMerchant = function (obj) {
-            service.setData(obj);
+            service.setDataMap(obj);
             $state.go("Main.modifyMerchant");
         };
         $scope.deleteMerchant = function (obj) {

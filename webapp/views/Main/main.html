@@ -21,7 +21,8 @@
             </li>
             <li class="list-group-item groupLi" style="padding: 0px 0px;display: none;" id="mainId{{menu.menuIdOne}}">
                 <ul class="list-group" style="padding: 0px;">
-                    <li class="list-group-item twoli" style="padding: 10px 15px; border-top:0px;border-left:0px;border-right:0px;cursor: pointer" ng-click="menuTwo(var.name);" ui-sref=".{{var.url}}" ng-repeat="var in menu.menuTwo">
+                    <li class="list-group-item twoli" style="padding: 10px 15px; border-top:0px;border-left:0px;border-right:0px;cursor: pointer" ng-click="menuTwo(var.name,var.url);" ui-sref=".{{var.url}}"
+                        ng-repeat="var in menu.menuTwo">
                         <div style="padding-left: 20px;">{{var.name}}</div>
                     </li>
                 </ul>
@@ -32,7 +33,7 @@
         <ol class="breadcrumb" ng-show="menuOne1 != null">
             <li>您当前位置:</li>
             <li><a href="">{{menuOne1}}</a></li>
-            <li ng-show="menuTwo1 != null"><a href="">{{menuTwo1}}</a></li>
+            <li ng-show="menuTwo1 != null"><a ng-click="goMenu();">{{menuTwo1}}</a></li>
             <li ng-show="menuThree1 != null" class="active">{{menuThree1}}</li>
         </ol>
         <!-- 主要内容 -->

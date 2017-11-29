@@ -2,7 +2,7 @@ define(['app', 'service', 'sysCode'], function (app) {
     "use strict";
     app.controller('audiDetailsCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            if(service.getData().result == false){
+            if(service.getDataMap().result == false){
                 $scope.result = false;
             }else{
                 $scope.result = true;
@@ -38,7 +38,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             "userSeq"
         ];
         $scope.getAudiData = function () {
-            var auditingData = angular.fromJson(service.getData().auditingData);
+            var auditingData = angular.fromJson(service.getDataMap().auditingData);
             var returnData = {};
             var notShowStr = $scope.notShow.join(",");
             angular.forEach(auditingData, function (value, key) {
@@ -55,7 +55,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             }
         };
         $scope.agree = function () {
-            var obj = service.getData();
+            var obj = service.getDataMap();
             var formData = angular.fromJson(obj.auditingData);
             formData["auditingTrans"] = obj.auditingTrans;
             formData["auditingSeq"] = obj.auditingSeq;
@@ -69,7 +69,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             if(rm == null){
                 return;
             }
-            var obj = service.getData();
+            var obj = service.getDataMap();
             var formData = angular.fromJson(obj.auditingData);
             formData["remarks"] = rm;
             formData["auditingTrans"] = obj.auditingTrans;

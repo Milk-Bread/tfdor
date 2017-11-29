@@ -5,14 +5,14 @@ define(['app', 'service', 'sysCode'], function (app) {
     "use strict";
     app.controller('modifyCreateQrcodeImgCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            $scope.actionName = service.getData().actionName;
-            $scope.mchName = service.getData().mchName;
-            $scope.expireSeconds = service.getData().expireSeconds;
-            $scope.beginDate = service.getData().beginDate;
-            $("#minDate").val(service.getData().endDate);
-            $("#endDate").val(service.getData().endDate);
-            $scope.number = service.getData().number;
-            $scope.state = service.getData().state;
+            $scope.actionName = service.getDataMap().actionName;
+            $scope.mchName = service.getDataMap().mchName;
+            $scope.expireSeconds = service.getDataMap().expireSeconds;
+            $scope.beginDate = service.getDataMap().beginDate;
+            $("#minDate").val(service.getDataMap().endDate);
+            $("#endDate").val(service.getDataMap().endDate);
+            $scope.number = service.getDataMap().number;
+            $scope.state = service.getDataMap().state;
             //查询复合人
             service.post2SRV("queryAuditPerson.do", null, function (data, status) {
                 $scope.auditPerson = data;
@@ -29,7 +29,7 @@ define(['app', 'service', 'sysCode'], function (app) {
                 return;
             }
             var formData = {
-                "createQISeq": service.getData().createQISeq,
+                "createQISeq": service.getDataMap().createQISeq,
                 "endDate": $("#endDate").val(),
                 "state": $scope.state,
                 "auditPersonSeq": $scope.person.userSeq,//复合人Seq

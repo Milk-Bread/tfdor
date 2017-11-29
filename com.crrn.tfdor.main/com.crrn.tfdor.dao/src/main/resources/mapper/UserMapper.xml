@@ -45,7 +45,7 @@
     <select id="queryUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT u.userSeq,u.roleSeq,u.userId,u.userName,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelId,c.channelName,
 	    DATE_FORMAT(u.createTime,'%Y-%m-%d %H:%i:%s') createTime,u.addr
-	    from userinfo u ,channel c WHERE u.channelId = c.channelId AND c.state = 'N'
+	    from userinfo u ,channel c WHERE u.channelId = c.channelId AND c.state = 'N' AND u.ChannelId != 'tfdor'
 	    <if test="userName != null">
             AND u.UserName LIKE CONCAT('%',#{userName},'%')
         </if>
@@ -68,7 +68,7 @@
     <select id="queryChannel" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT channelId,channelName,
         DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
-        DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where 1 = 1
+        DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where channelId != 'tfdor'
         <if test="channelId != null and channelId != ''">
             and channelId = #{channelId} AND state = 'N'
         </if>

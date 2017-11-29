@@ -1,4 +1,4 @@
-define(['app'], function (app) {
+define(['app','service'], function (app) {
     "use strict";
     app.directive('paging', function () {
         return {
@@ -76,6 +76,24 @@ define(['app'], function (app) {
                 scope.$watch('pages+pageNo', function () {
                     build();
                 });
+            }
+        }
+    });
+    app.directive('auditing',function(service){
+        return{
+            replace: true,   //template会覆盖掉自定义标签
+            restrict: 'AE', //指令
+            template: '<select class="form-control btn-sm seStyle" ng-model="person" ng-options="x.userName for x in auditPerson">'
+                        +'<option value="">选择复合人</option>'
+                        +'</select>',
+            scope: {
+                person:'&'
+            },
+            link: function (scope, elem, attrs) {
+                //查询复合人
+                service.post2SRV("queryAuditPerson.do",null,function(data, status){
+                    scope.auditPerson = data;
+                },4000);
             }
         }
     });

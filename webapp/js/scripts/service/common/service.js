@@ -37,6 +37,9 @@ define(['app'], function (app) {
                         $state.go("ResetPasd");
                     }
                 } else {
+                    if(action == 'queryAuditPerson.do' && data == ""){
+                        showError("错误提示：该渠道无符合条件的复核人, 请联系管理员");
+                    }
                     callBack(data, header, config, status);
                 }
             }).error(function (data, header, config, status) {
@@ -57,11 +60,17 @@ define(['app'], function (app) {
                 showInfo("提交成功，请等待【 " + formData['auditPerson'] + " 】复合");
             }
         };
-        this.getData = function () {
+        this.getDataMap = function () {
             return angular.fromJson(sessionStorage.getItem("paramData"));
         };
-        this.setData = function (data) {
+        this.setDataMap = function (data) {
             sessionStorage.setItem("paramData", angular.toJson(data));
+        };
+        this.getData = function (key) {
+            return sessionStorage.getItem(key);
+        };
+        this.setData = function (key,data) {
+            sessionStorage.setItem(key, data);
         };
     });
 });
