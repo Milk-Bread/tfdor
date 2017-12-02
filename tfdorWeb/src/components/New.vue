@@ -1,16 +1,5 @@
 <template>
 	<div>
-		<header class="mint-header">
-			<div class="mint-header-button">
-			</div>
-			<h1 class="mint-header-title">{{title}}</h1>
-			<div class="mint-header-button is-right">
-				<button class="mint-button mint-button--default mint-button--normal">
-						<span class="mint-button-icon"><i class="mintui mintui-more"></i></span>
-						<label class="mint-button-text"></label>
-					</button>
-			</div>
-		</header>
 		<ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
 			<li v-for="item in list">{{ item }}</li>
 		</ul>
@@ -21,8 +10,7 @@
 	export default {
 		data() {
 			return {
-				title: '新品',
-				list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+				list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 			};
 		},
 		methods: {
