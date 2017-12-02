@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('deleteRoleCtrl', function (service, $scope, $state) {
-        // $scope.userInfo = service.getData();
+        // $scope.userInfo = service.getDataMap();
         $scope.init = function(){
             // $scope.userSeq = $scope.userInfo.userSeq;
             var formData = {
@@ -25,14 +25,13 @@ define(['app', 'service','sysCode'], function (app) {
         };
 
         $scope.doId = function () {
-
             if ($scope.person == null || $scope.person == '') {
                 showError("错误提示", "请选择复合人");
                 return;
             }
 
             var formData = {
-                "roleSeq": service.getData(),
+                "roleSeq": service.getDataMap(),
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName//复合人名称
             }

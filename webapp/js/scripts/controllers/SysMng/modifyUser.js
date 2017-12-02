@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('modifyUserCtrl', function (service, $scope, $state) {
-        $scope.userInfo = service.getData();
+        $scope.userInfo = service.getDataMap();
         // 是否显示选择渠道
         $scope.isShow = false;
         // 当前渠道ID

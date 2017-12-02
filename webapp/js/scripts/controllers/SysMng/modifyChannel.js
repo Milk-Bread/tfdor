@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('modifyChannelCtrl', function (service, $scope, $state) {
-        $scope.channelInfo = service.getData();
+        $scope.channelInfo = service.getDataMap();
         $scope.init = function () {
             $scope.channelId = $scope.channelInfo.channelId;
             $scope.channelName = $scope.channelInfo.channelName;

@@ -5,13 +5,13 @@ define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('modifyRoleCtrl', function (service, $scope, $state) {
         $scope.init = function () {
-            $scope.roleInfo = service.getData();
+            $scope.roleInfo = service.getDataMap();
             $scope.roleName = $scope.roleInfo.roleName;
             $scope.isShow = false;
             service.post2SRV("lodeMenu.do", null, function (data, status) {
                 $scope.menuListM = data;
                 var param = {
-                    roleSeq:service.getData().roleSeq
+                    roleSeq:service.getDataMap().roleSeq
                 };
                 service.post2SRV("lodeMenu.do",param,function(data1, status){
                     for (var key in data) {

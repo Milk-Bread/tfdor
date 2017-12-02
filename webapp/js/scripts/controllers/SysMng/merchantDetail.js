@@ -4,9 +4,9 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('merchantDetailCtrl', function (service, $scope, $state) {
-        $scope.merchantInfo = service.getData();
+        $scope.merchantInfo = service.getDataMap();
         $scope.modifyMerchant = function (obj) {
-            service.setData(obj);
+            service.setDataMap(obj);
             $state.go("Main.modifyMerchant");
         }
     });

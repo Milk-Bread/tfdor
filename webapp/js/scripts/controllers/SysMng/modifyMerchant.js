@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('modifyMerchantCtrl', function (service, $scope, $state) {
-        $scope.selectMerchant = service.getData();
+        $scope.selectMerchant = service.getDataMap();
         $scope.isShow = false;
         $scope.init = function () {
             $scope.mchSeq = $scope.selectMerchant.mchSeq;
