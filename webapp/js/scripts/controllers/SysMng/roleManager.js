@@ -20,12 +20,12 @@ define(['app', 'service','sysCode'], function (app) {
 			$state.go("Main.addRole");
 		};
 		$scope.modifyRole = function(obj){
-			service.setDataMap(obj);
+			service.setSessionDate(obj);
 			$state.go("Main.modifyRole");
 		};
 
 		$scope.deleteRole = function(obj){
-			service.setDataMap(obj);
+			service.setSessionDate(obj);
 			var formData = {
 				"roleSeq": obj
 			}

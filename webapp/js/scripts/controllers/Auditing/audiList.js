@@ -20,7 +20,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             }, 4000);
         };
         $scope.gotoDetails = function (obj) {
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.audiDetails");
         };
         $scope.agree = function (obj) {
@@ -37,7 +37,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             if(rm == null){
                 return;
             }
-            var obj = service.getDataMap();
+            var obj = service.getSessionDate();
             var formData = angular.fromJson(obj.auditingData);
             formData["remarks"] = rm;
             formData["auditingTrans"] = obj.auditingTrans;

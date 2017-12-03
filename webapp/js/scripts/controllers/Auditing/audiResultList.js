@@ -21,7 +21,7 @@ define(['app', 'service', 'sysCode'], function (app) {
         };
         $scope.gotoDetails = function (obj) {
             obj["result"] = false;
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.audiDetails");
         };
         $scope.init();

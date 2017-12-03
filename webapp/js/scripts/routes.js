@@ -108,6 +108,11 @@
                 templateUrl: 'views/Marketing/addQrcode.html',
                 dependencies: ['controllers/Marketing/addQrcode'],
                 allowAnonymous: true
+            }, 'Main.addQrcodeCofm': {//添加二维码确认页
+                url: '/addQrcodeCofm',
+                templateUrl: 'views/Marketing/addQrcodeCofm.html',
+                dependencies: ['controllers/Marketing/addQrcodeCofm'],
+                allowAnonymous: true
             }, 'Main.merchantDetail': {//商户详情
                 url: '/merchantDetail',
                 templateUrl: 'views/SysMng/merchantDetail.html',

@@ -60,10 +60,10 @@ define(['app'], function (app) {
                 showInfo("提交成功，请等待【 " + formData['auditPerson'] + " 】复合");
             }
         };
-        this.getDataMap = function () {
+        this.getSessionDate = function () {
             return angular.fromJson(sessionStorage.getItem("paramData"));
         };
-        this.setDataMap = function (data) {
+        this.setSessionDate = function (data) {
             sessionStorage.setItem("paramData", angular.toJson(data));
         };
         this.getData = function (key) {

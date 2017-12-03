@@ -15,16 +15,16 @@ define(['app', 'service', 'sysCode'], function (app) {
             $state.go("Main.addChannel");
         }
         $scope.modifyChannel = function (obj) {
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.modifyChannel", null);
         };
         $scope.deleteChannel = function (obj) {
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.deleteChannel", null);
 
         }
         $scope.deleteUser = function (obj) {
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.deleteUser", null);
         };
         $scope.init();

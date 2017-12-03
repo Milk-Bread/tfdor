@@ -7,7 +7,7 @@ define(['app', 'service', 'sysCode'], function (app) {
         $scope.isAmountType = false;
         $scope.isFNRK = false;
         $scope.init = function () {
-            $scope.redPack = service.getDataMap();
+            $scope.redPack = service.getSessionDate();
             $scope.switchRedPackType();
             //查询复合人
             service.post2SRV("queryAuditPerson.do", null, function (data, status) {

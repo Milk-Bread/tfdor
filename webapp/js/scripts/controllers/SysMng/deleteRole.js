@@ -4,7 +4,7 @@
 define(['app', 'service','sysCode'], function (app) {
     "use strict";
     app.controller('deleteRoleCtrl', function (service, $scope, $state) {
-        // $scope.userInfo = service.getDataMap();
+        // $scope.userInfo = service.getSessionDate();
         $scope.init = function(){
             // $scope.userSeq = $scope.userInfo.userSeq;
             var formData = {
@@ -31,7 +31,7 @@ define(['app', 'service','sysCode'], function (app) {
             }
 
             var formData = {
-                "roleSeq": service.getDataMap(),
+                "roleSeq": service.getSessionDate(),
                 "auditPersonSeq":$scope.person.userSeq,//复合人Seq
                 "auditPerson":$scope.person.userName//复合人名称
             }

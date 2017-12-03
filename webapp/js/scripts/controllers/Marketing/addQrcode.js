@@ -64,6 +64,7 @@ define(['app', 'service', 'sysCode'], function (app) {
             }else{
                 if($scope.appId == null){
                     $scope.appId = $scope.merchant.appId;
+                    $scope.appName = $scope.merchant.mchName;
                 }
             }
             if($scope.redPack == null || $scope.redPack == undefined || $scope.redPack == ''){
@@ -85,10 +86,6 @@ define(['app', 'service', 'sysCode'], function (app) {
             if ($scope.state == null) {
                 $scope.state = 'N';
             }
-            if ($scope.person == null || $scope.person == '') {
-                showError("错误提示：请选择复合人");
-                return;
-            }
             var formData = {
                 "actionName": $scope.actionName,
                 "expireSeconds": $scope.expireSeconds,
@@ -99,12 +96,10 @@ define(['app', 'service', 'sysCode'], function (app) {
                 "actName":$scope.redPack.actName,
                 "state": $scope.state,
                 "appId": $scope.appId,
-                "auditPersonSeq": $scope.person.userSeq,//复合人Seq
-                "auditPerson": $scope.person.userName//复合人名称
+                "appName":$scope.appName
             };
-            service.post2SRV("createQrcodeImg.do", formData, function (data, status) {
-                $state.go("Main.QrCodeManager");
-            }, 4000);
+            service.setSessionDate(formData);
+            $state.go("Main.addQrcodeCofm");
         }
         $scope.init();
     });

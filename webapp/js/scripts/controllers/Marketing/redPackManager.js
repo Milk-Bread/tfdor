@@ -39,7 +39,7 @@ define(['app', 'service', 'sysCode'], function (app) {
         }, 1000);
 
         $scope.modifyRedPack = function (obj) {
-            service.setDataMap(obj);
+            service.setSessionDate(obj);
             $state.go("Main.modifyRedPack");
         };
 

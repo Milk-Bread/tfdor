@@ -12,10 +12,10 @@ define(['app', 'service','sysCode'], function (app) {
             var formData = {
                 pageNo:$scope.pageNo,
                 pageSize:$scope.pageSize,
-                createQISeq:service.getDataMap().createQISeq,
+                createQISeq:service.getSessionDate().createQISeq,
                 state:$scope.state
             };
-            $scope.preservation = service.getDataMap().preservation;
+            $scope.preservation = service.getSessionDate().preservation;
             service.post2SRV("getQrcodeImg.do", formData, function (data, status) {
                 //记录总条数
                 $scope.total = data.total;
