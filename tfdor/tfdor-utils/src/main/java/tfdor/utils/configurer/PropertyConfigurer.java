@@ -13,6 +13,7 @@ import java.util.Properties;
  * Description: 加载properties
  * Copyright (c) TLC.
  * All Rights Reserved.
+ *
  * @version 1.0 2016年6月27日 下午4:57:51 by chepeiqing (chepeiqing@icloud.com)
  */
 public class PropertyConfigurer extends PropertyPlaceholderConfigurer {
@@ -27,7 +28,9 @@ public class PropertyConfigurer extends PropertyPlaceholderConfigurer {
       String keyStr = key.toString();
       String value = props.getProperty(keyStr);
       try {
-        myPropertiesMap.put(keyStr, new String(value.getBytes("ISO-8859-1"), defaultEncoding));
+        if (keyStr != null && value != null) {
+          myPropertiesMap.put(keyStr.trim(), new String(value.trim().getBytes("ISO-8859-1"), defaultEncoding));
+        }
       } catch (UnsupportedEncodingException e) {
         e.printStackTrace();
       }

@@ -324,7 +324,7 @@ public class Util {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
 
     /**

@@ -239,7 +239,7 @@ public class WeixinController {
         Map<String, Object> buttonMap = new HashMap<String, Object>();
         buttonMap.put("name","管理端");
         buttonMap.put("type","view");
-        buttonMap.put("url","https://www.tfdor.cc/webapp/index.html");
+        buttonMap.put("url","http://www.tfdor.cc/webapp/index.html");
         button.add(buttonMap);
 
         Map<String, Object> buttonMap2 = new HashMap<String, Object>();
