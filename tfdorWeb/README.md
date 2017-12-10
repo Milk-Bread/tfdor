@@ -30,6 +30,8 @@ $ vue init webpack my-project
 # 安装依赖
 $ cd my-project
 $ npm install
+# 安装淘宝镜像
+$ npm install -g cnpm --registry=https://registry.npm.taobao.org
 # 安装路由
 $ cnpm install vue-router
 

@@ -60,6 +60,11 @@ public class MsgEvent {
         }
         paramSql.put("sceneStr", eventKey);
         Map<String, Object> qrcodeImg = weChatDao.qQrcodeimgBysCeneStr(paramSql);
+        if(qrcodeImg == null){
+            param.put("Content", "您好,该二维码不能识别");
+            msgTypeByText(msgMap, param);
+            return;
+        }
         Map<String, Object> paramRedPack = new HashMap<>();
         paramRedPack.put("mchId",merchant.getMchId());
         paramRedPack.put("redPackSeq",qrcodeImg.get("redPackSeq"));
