@@ -13,6 +13,10 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:application-common.xml,classpath:service/*.xml</param-value>
   </context-param>
+  <context-param>
+    <param-name/>
+    <param-value/>
+  </context-param>
   <listener>
     <listener-class>com.tfdor.core.interceptor.LoginListenner</listener-class>
   </listener>
