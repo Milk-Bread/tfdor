@@ -236,16 +236,49 @@
             <version>1.8.2</version>
         </dependency>
     </dependencies>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src\main\java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src\main\resources</directory>
+            </resource>
+        </resources>
         <plugins>
+            <!-- 针对资源文件，要指定编码字符集，可以解决部分中文乱码造成编译不能通过 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- 解决编译时报错：xx是 Sun 的专用 API,可能会在未来版本中删除 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
-                    <!-- 指定source和target的版本 -->
+                    <!-- java源文件jdk版本 -->
                     <source>1.7</source>
+                    <!-- class文件jdk版本 -->
                     <target>1.7</target>
+                    <!-- 编译时的encoding -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
         </plugins>
