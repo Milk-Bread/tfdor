@@ -1,0 +1,20 @@
+<div ng-controller="deleteQrCodeCtrl">
+    <div style="width: 50%;margin-left:40px;">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <td class="text-center">指定符合人</td>
+                <td>
+                    <select class="form-control btn-sm seStyle" ng-model="person" ng-options="x.userName for x in auditPerson">
+                        <option value="">选择复合人</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="doId();">确 认</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

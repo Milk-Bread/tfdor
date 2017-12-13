@@ -98,7 +98,8 @@ define(['app'], function (app) {
                 "createQrcodeImg.do": "生成二维码",
                 "addRedPack.do": "新增红包参数",
                 "addMerchant.do": "新增商户",
-                "modifyRedPack.do": "修改红包参数"
+                "modifyRedPack.do": "修改红包参数",
+                "deleteQrCode.do":"二维码删除"
             };
             if (type) {
                 var msg = messages[type][code];

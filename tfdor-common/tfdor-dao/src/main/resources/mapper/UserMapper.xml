@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tfdor.dao.UserDao">
+    <!-- 登陆 -->
+    <select id="loginCheck" parameterType="tfdor.domain.manage.UserInfo" resultType="java.util.Map">
+        select userSeq,userId,userName,sex,age,addr,mobilePhone,password,pasdErrorCount,
+        phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime,u.isReSetPwd
+        from UserInfo u,channel c
+        WHERE u.channelId = c.channelId and userId = #{userId}
+    </select>
+    <!-- 重置密码 -->
+    <update id="resetPasd" parameterType="java.util.Map">
+        UPDATE UserInfo set password = #{password},isReSetPwd = #{isReSetPwd},pasdErrorCount = 0 WHERE userId = #{userId}
+    </update>
+
+    <update id="updateLoginErrorCount" parameterType="java.util.Map">
+        UPDATE userinfo set pasdErrorCount = #{count} WHERE userSeq = #{userSeq}
+    </update>
+
+    <update id="modifyUserinfo" parameterType="java.util.Map">
+        UPDATE userinfo set loginCount = loginCount + 1,isReSetPwd = 'false',pasdErrorCount = 0 where UserSeq = #{userSeq}
+    </update>
+    <!-- 角色查询 -->
+    <select id="roleQuery" parameterType="java.util.Map" resultType="java.util.Map">
+        select c.channelId,c.channelName,r.roleSeq,roleName,DATE_FORMAT(r.createTime,'%Y-%m-%d %H:%i:%s') createTime
+        from role r,channel c
+        where c.channelId = r.channelId AND  r.RoleSeq != 1 AND c.state = 'N'
+        <if test="roleName != null">
+            AND ROLENAME LIKE CONCAT('%',#{roleName},'%')
+        </if>
+        <if test="channelId != null and channelId != '' ">
+            and r.channelId = #{channelId}
+        </if>
+    </select>
+
+    <insert id="addRole" parameterType="java.util.Map" keyProperty="roleSeq" useGeneratedKeys="true">
+        INSERT INTO ROLE(channelId,RoleName,CreateTime) VALUES (#{channelId},#{roleName},now())
+    </insert>
+
+    <insert id="addRolemenurelate" parameterType="java.util.Map">
+        INSERT INTO ROLEMENURELATE(roleSeq,menuId) VALUES (#{roleSeq},#{menuId})
+    </insert>
+    <select id="queryUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT u.userSeq,u.roleSeq,u.userId,u.userName,u.sex,u.age,u.idType,u.idNo,u.mobilePhone,u.phone,c.channelId,c.channelName,
+	    DATE_FORMAT(u.createTime,'%Y-%m-%d %H:%i:%s') createTime,u.addr
+	    from userinfo u ,channel c WHERE u.channelId = c.channelId AND c.state = 'N' AND u.ChannelId != 'tfdor'
+	    <if test="userName != null">
+            AND u.UserName LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="channelId != null and channelId != ''">
+            AND u.channelId = #{channelId}
+        </if>
+    </select>
+    <delete id="deleteRolemenurelate" parameterType="java.util.Map">
+        delete from ROLEMENURELATE where roleSeq = #{roleSeq}
+    </delete>
+
+    <update id="modifyRole" parameterType="java.util.Map">
+        update role set roleName = #{roleName}
+        <if test="channelId != null and channelId != ''">
+            ,channelId = #{channelId}
+        </if>
+        WHERE roleSeq = #{roleSeq}
+    </update>
+
+    <select id="queryChannel" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT channelId,channelName,
+        DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') createTime,
+        DATE_FORMAT(updateTime, '%Y-%m-%d %H:%i:%s') updateTime,state from channel where channelId != 'tfdor'
+        <if test="channelId != null and channelId != ''">
+            and channelId = #{channelId} AND state = 'N'
+        </if>
+        <if test="channelName != null">
+            AND channelName like CONCAT('%',#{channelName},'%')
+        </if>
+        ORDER BY createTime DESC
+    </select>
+
+    <insert id="addUser" parameterType="java.util.Map" keyProperty="userSeq"
+            useGeneratedKeys="true">
+        INSERT INTO UserInfo(
+              roleSeq,
+              userId,
+              userName,
+              password,
+              sex,
+              age,
+              idType,
+              idNo,
+              mobilePhone,
+              phone,
+              channelId,
+              CreateTime,
+              addr,
+              customerType)
+        VALUES (
+              #{roleSeq},
+              #{userId},
+              #{userName},
+              #{password},
+              #{sex},
+              #{age},
+              #{idType},
+              #{idNo},
+              #{mobilePhone},
+              #{phone},
+              #{channelId},
+              now(),
+              #{addr},
+              #{customerType})
+    </insert>
+    <update id="modifyUser" parameterType="java.util.Map">
+        UPDATE USERINFO
+        SET RoleSeq = #{roleSeq},
+        UserName = #{userName},
+        Sex = #{sex},
+        Age = #{age},
+        IdNo = #{idNo},
+        MobilePhone = #{mobilePhone},
+        Phone = #{phone},
+        customerType = #{customerType},
+        <if test="channel.channelId != null and channel.channelId != ''">
+            channelId = #{channel.channelId},
+        </if>
+        Addr = #{addr}
+        WHERE
+        UserSeq = #{userSeq};
+    </update>
+    <insert id="addChannel" parameterType="java.util.Map">
+        INSERT INTO channel(channelId,channelName,createTime,state)
+                VALUES (#{channelId},#{channelName},now(),#{state})
+    </insert>
+    <update id="modifyChannel" parameterType="java.util.Map">
+        UPDATE channel
+                SET channelName = #{channelName},
+                    updateTime = now(),
+                    state = #{state}
+                WHERE
+                    channelId = #{channelId}
+    </update>
+    <delete id="deleteChannel" parameterType="java.util.Map">
+        DELETE FROM channel WHERE channelId = #{channelId}
+    </delete>
+    <delete id="deleteUser" parameterType="java.util.Map">
+        DELETE FROM userInfo WHERE userSeq = #{userSeq}
+    </delete>
+    <select id="queryRoleUserInfo" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM userinfo WHERE roleSeq = #{roleSeq}
+    </select>
+    <delete id="deleteRole" parameterType="java.util.Map">
+        DELETE FROM role WHERE roleSeq = #{roleSeq}
+    </delete>
+    <select id="queryMerchant" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT m.mchSeq,m.mchId, m.mchName,c.channelId, c.channelName, m.appId,m.wxToken,m.appSecret,m.encodingAesKey,m.signatureKey,
+        DATE_FORMAT(m.createTime, '%Y-%m-%d %H:%i:%s') createTime,
+        DATE_FORMAT(m.updateTime, '%Y-%m-%d %H:%i:%s') updateTime,m.state
+        FROM merchant m, channel c WHERE m.channelId = c.channelId
+        <if test="channelId != null and channelId != 'tfdor'">
+            and m.channelId = #{channelId} AND m.state = 'N'
+        </if>
+        <if test="merchantName != null">
+            AND m.mchName LIKE CONCAT('%',#{merchantName},'%')
+        </if>
+        ORDER BY m.channelId,m.createTime DESC
+    </select>
+    <insert id="addMerchant" parameterType="java.util.Map">
+      INSERT INTO merchant(
+              mchId,
+              channelId,
+              mchName,
+              appId,
+              wxToken,
+              appSecret,
+              encodingAesKey,
+              signatureKey,
+              createTime,
+              updateTime,
+              state)
+        VALUES (
+              #{mchId},
+              #{channelId},
+              #{mchName},
+              #{appId},
+              #{wxToken},
+              #{appSecret},
+              #{encodingAesKey},
+              #{signatureKey},
+              now(),
+              now(),
+              #{state})
+    </insert>
+    <update id="modifyMerchant" parameterType="java.util.Map">
+        UPDATE merchant
+        SET channelId = #{channelId},
+        appId = #{appId},
+        wxToken = #{wxToken},
+        appSecret = #{appSecret},
+        encodingAesKey = #{encodingAesKey},
+        signatureKey = #{signatureKey},
+        updateTime = now(),
+        mchId = #{mchId},
+        mchName = #{mchName},
+        state = #{state}
+        WHERE
+        mchSeq = #{mchSeq};
+    </update>
+    
+    <select id="queryUserById" parameterType="java.util.Map" resultType="java.util.Map">
+        select userSeq,userId,userName,sex,age,addr,mobilePhone,
+        phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
+        c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime
+        from UserInfo u,channel c
+        WHERE u.channelId = c.channelId and userId = #{userId} AND c.state = 'N'
+        <if test="channelId != null and channelId != ''">
+            and c.channelId = #{channelId}
+        </if>
+    </select>
+
+    <select id="queryAddUserById" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(userId) FROM userInfo where userId = #{userId}
+    </select>
+</mapper>

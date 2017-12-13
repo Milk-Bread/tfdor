@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	<bean id="httpTransport" class="com.tfdor.communication.httpclient.HttpClientTransport">
+		<property name="readTimeout">
+			<value>${readTimeout}</value>
+		</property>
+		<property name="connectTimeout">
+			<value>${connectTimeout}</value>
+		</property>
+	</bean>
+	<!-- 配置需要复合的交易ID -->
+	<bean id="auditing" class="com.tfdor.core.interceptor.AuditingInterceptor">
+		<property name="auditignList">
+			<list>
+				<value>addRole.do</value>
+				<value>modifyRole.do</value>
+				<value>modifyUser.do</value>
+				<value>addUser.do</value>
+				<value>addChannel.do</value>
+				<value>modifyChannel.do</value>
+				<value>addMerchant.do</value>
+				<value>modifyMerchant.do</value>
+				<value>deleteUser.do</value>
+				<value>deleteRole.do</value>
+				<!--<value>createQrcodeImg.do</value>-->
+				<value>addRedPack.do</value>
+				<value>modifyRedPack.do</value>
+				<value>modifyCreateQrcodeImage.do</value>
+				<value>deleteQrCode.do</value><!-- 删除二维码 -->
+			</list>
+		</property>
+	</bean>
+</beans>

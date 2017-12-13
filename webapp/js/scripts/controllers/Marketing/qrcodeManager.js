@@ -51,6 +51,10 @@ define(['app', 'service','sysCode'], function (app) {
         $scope.goDetail = function (createQISeq,preservation){
             service.setSessionDate({"createQISeq":createQISeq,"preservation":preservation});
             $state.go("Main.qrCodeImg");
+        };
+        $scope.deleteQrCode = function (obj) {
+            service.setSessionDate(obj);
+            $state.go("Main.deleteQrCode");
         }
         $scope.init();
     });
