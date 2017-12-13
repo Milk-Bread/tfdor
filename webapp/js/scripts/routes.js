@@ -163,6 +163,11 @@
                 templateUrl: 'views/Wechat/wechatMenuManager.html',
                 dependencies: ['controllers/wechat/WechatMenuManager'],
                 allowAnonymous: true
+            }, 'Main.deleteQrCode': {//微信菜单管理
+                url: '/deleteQrCode',
+                templateUrl: 'views/Marketing/deleteQrCode.html',
+                dependencies: ['controllers/Marketing/deleteQrCode'],
+                allowAnonymous: true
             }
         }
     };

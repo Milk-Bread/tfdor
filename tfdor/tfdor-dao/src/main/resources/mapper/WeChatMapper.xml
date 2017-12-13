@@ -143,4 +143,12 @@
 	<select id="queryRedPackByMchIdCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 		select count(*) from redpack where mchId = #{mchId}
 	</select>
+	<!-- 删除二维码图片 -->
+	<delete id="deleteQrCodeImg" parameterType="java.lang.String" >
+			DELETE FROM qrcodeimg WHERE CreateQiSeq = #{CreateQiSeq}
+	</delete>
+
+	<delete id="deleteQrCode" parameterType="java.lang.String" >
+		DELETE FROM createqrcodeimg WHERE CreateQiSeq = #{CreateQiSeq}
+	</delete>
 </mapper>

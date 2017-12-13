@@ -187,4 +187,18 @@ public interface WeChantDao {
      * @return
      */
     public List<RedPackBean> queryRedPackList(Map<String, Object> param);
+
+    /**
+     * 删除二维码图片
+     * @param createQiSeq  二维码Seq
+     * @return
+     */
+    public void deleteQrCodeImg(String createQiSeq);
+
+    /**
+     * 删除二维码记录
+     * @param createQiSeq  二维码Seq
+     * @return
+     */
+    public void deleteQrCode(String createQiSeq);
 }

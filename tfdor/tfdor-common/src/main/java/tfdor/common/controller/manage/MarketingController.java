@@ -140,9 +140,9 @@ public class MarketingController {
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
         String totalNum = request.getParameter("totalNum");
-        if(AmountType.FDAT.toString().equals(request.getParameter("amountType"))){
+        if (AmountType.FDAT.toString().equals(request.getParameter("amountType"))) {
             totalNum = "1";
-        } else if(totalNum == null || "".equals(totalNum)){
+        } else if (totalNum == null || "".equals(totalNum)) {
             totalNum = "1";
         }
         param.put("totalNum", totalNum);
@@ -169,7 +169,7 @@ public class MarketingController {
         param.put("remark", request.getParameter("remark"));
         param.put("state", request.getParameter("state"));
         String totalNum = request.getParameter("totalNum");
-        if(totalNum == null || "".equals(totalNum)){
+        if (totalNum == null || "".equals(totalNum)) {
             totalNum = "1";
         }
         param.put("totalNum", totalNum);
@@ -186,9 +186,9 @@ public class MarketingController {
      */
     @RequestMapping(value = "queryRedPackByMchIdCount.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryRedPackByMchIdCount(String mchId) throws Exception{
+    public Object queryRedPackByMchIdCount(String mchId) throws Exception {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("mchId",mchId);
+        param.put("mchId", mchId);
         return marketingService.queryRedPackByMchIdCount(param);
     }
 
@@ -201,14 +201,14 @@ public class MarketingController {
      */
     @RequestMapping(value = "queryRedPackList.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryRedPackList(String mchId) throws Exception{
+    public Object queryRedPackList(String mchId) throws Exception {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("mchId",mchId);
+        param.put("mchId", mchId);
         return marketingService.queryRedPackList(param);
     }
 
 
-        /**
+    /**
      * Description: 根据AppId查询商户信息
      *
      * @return
@@ -217,10 +217,23 @@ public class MarketingController {
      */
     @RequestMapping(value = "qMerchantByAppId.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object qMerchantByAppId(String appId) throws Exception{
+    public Object qMerchantByAppId(String appId) throws Exception {
         return marketingService.qMerchantByAppId(appId);
     }
 
-
+    /**
+     * Description: 删除二维码图片
+     *
+     * @return
+     * @throws Exception
+     * @Version1.0 2017年12月12日20:56:34
+     */
+    @RequestMapping(value = "deleteQrCode.do", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteQrCode(HttpServletRequest request) throws Exception {
+        String createQiSeq = request.getParameter("createQiSeq");
+        marketingService.deleteQrCodeImg(createQiSeq);
+        marketingService.deleteQrCode(createQiSeq);
+    }
 
 }

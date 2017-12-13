@@ -59,6 +59,7 @@
                 <td class="text-center">{{img.state | sysCode : 'state' }}</td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-xs" ng-click="menuThree('修改二维码参数');modifyCreateQrcodeImage(img);">修改</button>
+                    <button class="btn btn-danger btn-xs" ng-click="menuThree('删除二维码');deleteQrCode(img);">删除</button>
                 </td>
             </tr>
         </table>

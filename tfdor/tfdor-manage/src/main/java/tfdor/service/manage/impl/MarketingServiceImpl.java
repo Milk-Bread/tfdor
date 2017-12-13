@@ -106,5 +106,25 @@ public class MarketingServiceImpl implements MarketingService {
         return weChatDao.qMerchant(appId);
     }
 
+    /**
+     * 删除二维码图片
+     * @param createQiSeq
+     * @return
+     */
+    @Override
+    public void deleteQrCodeImg(String createQiSeq) {
+        weChatDao.deleteQrCodeImg(createQiSeq);
+    }
+
+    /**
+     * 删除二维码记录
+     * @param createQiSeq
+     * @return
+     */
+    @Override
+    public void deleteQrCode(String createQiSeq) {
+        weChatDao.deleteQrCode(createQiSeq);
+    }
+
 
 }
