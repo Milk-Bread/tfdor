@@ -7,14 +7,13 @@
     <packaging>pom</packaging>
     <modules>
         <module>tfdor-dao</module>
-        <module>tfdor-utils</module>
         <module>tfdor-tools</module>
         <module>tfdor-core</module>
         <module>tfdor-service</module>
         <module>tfdor-domain</module>
         <module>tfdor-mweb</module>
         <module>tfdor-tfdorweb</module>
-        <module>tfodr-communication</module>
+        <module>tfdor-communication</module>
     </modules>
 
 
