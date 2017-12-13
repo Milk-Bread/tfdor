@@ -3,23 +3,16 @@
 
 ****
 **目录结构**
->[com.crrn.tfdor.main][main_url]
+>tfdor-common - 父级项目
 >
-> * [com.crrn.tfdor.common][common_url]-核心控制器
-> * [com.crrn.tfdor.service.manage][manage_url]-管理端服务
-> * [com.crrn.tfdor.service.wechat][wechat_url]-微信服务
-> * [com.crrn.tfdor.dao][dao_url]-dao层，数据库操作
-> * [com.crrn.tfdor.domain][domain_url]-实体bean
-> * [com.crrn.tfdor.utils][utils_url]-工具类
-
-
-[main_url]: https://https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main
-[common_url]: https://https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.common
-[manage_url]: https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.service.manage
-[wechat_url]: https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.service.wechat
-[dao_url]: https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.dao
-[domain_url]: https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.domain
-[utils_url]: https://github.com/Milk-Bread/tfdor/tree/master/com.crrn.tfdor.main/com.crrn.tfdor.utils
+> * tfdor-mweb -管理端web服务
+> * tfdor-tfdorweb - 微信web服务
+> * tfdor-core -核心服务
+> * tfdor-tools -工具类
+> * tfdor-domain -实体bean
+> * tfdor-dao -数据库操作
+> * tfdor-service -服务提供
+> * tfdor-communication 通讯
 
 
 
