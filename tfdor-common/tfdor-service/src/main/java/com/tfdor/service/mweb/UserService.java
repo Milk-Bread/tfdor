@@ -1,5 +1,6 @@
 package com.tfdor.service.mweb;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    public Map<String, Object> loginCheck(String userId, String password);
+    public Map<String, Object> loginCheck(String userId, String password, HttpSession session) throws Exception;
 
     /**
      * 重置密码

@@ -1,4 +1,4 @@
-package tfdor.domain.wechat;
+package com.tfdor.domain.wechat;
 
 import java.io.Serializable;
 

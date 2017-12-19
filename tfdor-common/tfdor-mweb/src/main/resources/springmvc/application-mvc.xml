@@ -19,6 +19,9 @@
 	<!--<mvc:resources mapping="/js/**" location="/WEB-INF/view/js/"/>-->
 	<!--<mvc:resources mapping="/images/**" location="/WEB-INF/view/images/"/>-->
 	<!--<mvc:resources mapping="/**" location="/WEB-INF/view/"/>-->
+
+
+
 	<!-- 对模型视图添加前后缀 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/" />  
@@ -64,7 +67,9 @@
 	<context:component-scan base-package="com.tfdor.service.wechat.impl" />
 	<context:component-scan base-package="com.tfdor.service.event" />
 	<context:component-scan base-package="com.tfdor.service.mweb.impl" />
+	<context:component-scan base-package="com.tfdor.service.impl" />
 	<context:component-scan base-package="com.tfdor.core.transformer" />
+	<context:component-scan base-package="com.tfdor.core.encrypt" />
 
 	<!-- 事务管理配置 注意:必须跟services放同一个配置文件(不然不会加强事务修饰) -->
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

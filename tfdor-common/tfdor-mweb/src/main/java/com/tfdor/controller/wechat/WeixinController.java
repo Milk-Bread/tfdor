@@ -1,17 +1,17 @@
 package com.tfdor.controller.wechat;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.tfdor.core.configurer.PropertyConfigurer;
+import com.tfdor.core.transformer.Transformer;
+import com.tfdor.core.transport.Transport;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.CheckModel;
+import com.tfdor.domain.wechat.CreateQrcodeImg;
+import com.tfdor.service.wechat.TokenService;
+import com.tfdor.service.wechat.WeChatService;
+import com.tfdor.tools.aes.WXBizMsgCrypt;
+import com.tfdor.tools.dicts.Dict;
+import com.tfdor.tools.dicts.WeChat;
+import com.tfdor.tools.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import tfdor.domain.manage.CheckModel;
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.CreateQrcodeImg;
-
-import com.tfdor.core.configurer.PropertyConfigurer;
-import com.tfdor.core.transformer.Transformer;
-import com.tfdor.core.transport.Transport;
-import com.tfdor.service.wechat.TokenService;
-import com.tfdor.service.wechat.WeChatService;
-import com.tfdor.tools.aes.WXBizMsgCrypt;
-import com.tfdor.tools.dicts.Dict;
-import com.tfdor.tools.dicts.WeChat;
-import com.tfdor.tools.utils.Util;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller

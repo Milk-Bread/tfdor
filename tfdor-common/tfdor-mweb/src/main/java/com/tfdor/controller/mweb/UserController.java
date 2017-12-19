@@ -1,33 +1,31 @@
 package com.tfdor.controller.mweb;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import tfdor.domain.manage.Channel;
-import tfdor.domain.manage.UserInfo;
-
+import com.tfdor.core.encrypt.RSAEncrypt;
+import com.tfdor.domain.RSASecretKey;
+import com.tfdor.domain.manage.Channel;
+import com.tfdor.domain.manage.UserInfo;
+import com.tfdor.enums.LoginState;
+import com.tfdor.service.BaseService;
 import com.tfdor.service.mweb.MenuService;
 import com.tfdor.service.mweb.UserService;
 import com.tfdor.tools.dicts.CheckMsg;
 import com.tfdor.tools.dicts.Dict;
 import com.tfdor.tools.utils.BeanUtils;
 import com.tfdor.tools.utils.EncodeUtil;
-import com.tfdor.tools.utils.SHA1Util;
 import com.tfdor.tools.utils.Util;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -44,6 +42,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private MenuService menuService;
+    @Resource
+    private BaseService baseService;
 
     @RequestMapping(value = "/")
     public ModelAndView getIndex() {
@@ -62,11 +62,11 @@ public class UserController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) {
+    public Object login(HttpServletRequest request, HttpServletResponse response, String userId, String password) throws Exception {
         if (request.getParameter("transName").equals("resetLoginPasd.do")) {
             userId = (String) request.getSession().getAttribute("resetUser");
         }
-        Map<String, Object> userMap = userService.loginCheck(userId, password);
+        Map<String, Object> userMap = userService.loginCheck(userId, password,request.getSession());
         UserInfo user = BeanUtils.map2Bean(userMap, UserInfo.class);
         Channel channel = BeanUtils.map2Bean(userMap, Channel.class);
         if (!"N".equals(channel.getState())) {//用户状态不正确
@@ -82,10 +82,10 @@ public class UserController {
         user.setChannel(channel);
         // 创建session
         request.getSession(true);
-        user.setLogout(false);
+        user.setLoginState(LoginState.N);
         // 将user对象存入session
         user.setLoginTime(new Timestamp(System.currentTimeMillis()));
-        request.getSession().setAttribute("_USER", user);
+        request.getSession().setAttribute(Dict.SESSIONUSERID, user);
         return user;
     }
 
@@ -98,10 +98,18 @@ public class UserController {
      */
     @RequestMapping(value = "resetLoginPasd.do", method = RequestMethod.POST)
     @ResponseBody
-    public void resetLoginPasd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void resetLoginPasd(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = (String) request.getSession().getAttribute("resetUser");
+        if(Util.isEmpty(userId)){
+            throw new RuntimeException(CheckMsg.USER_DOES_NOT_EXIST);
+        }
         String password = request.getParameter("password");
-        String passwordaes = EncodeUtil.aesEncrypt(userId + password);
+        RSASecretKey secretKey = (RSASecretKey) request.getSession().getAttribute(Dict.SECRETKEY);
+        String str = RSAEncrypt.decrypt(secretKey.getPrivateKey(), password);
+        String passwordaes = EncodeUtil.aesEncrypt(userId + str.replace(secretKey.getRandom().toString(), ""));
+        if(!str.startsWith(secretKey.getRandom().toString())){
+            throw new RuntimeException(CheckMsg.ILLEGAL_REQUEST_PARAMETERS);
+        }
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("isReSetPwd", "false");
         param.put("userId", userId);
@@ -121,8 +129,8 @@ public class UserController {
     @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
     public void logout(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
-        user.setLogout(true);
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
+        user.setLoginState(LoginState.O);
         //清除Session的所有信息
         request.getSession().invalidate();
     }
@@ -138,7 +146,7 @@ public class UserController {
     @RequestMapping(value = "lodeMenu.do", method = RequestMethod.POST)
     @ResponseBody
     public Object lodeMenu(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         String roleSeqStr = request.getParameter("roleSeq");
         Integer roleSeq = null;
         if (roleSeqStr == null || "".equals(roleSeqStr)) {
@@ -166,7 +174,7 @@ public class UserController {
     @RequestMapping(value = "lodeAudiMenu.do", method = RequestMethod.POST)
     @ResponseBody
     public Object lodeAudiMenu(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         String channelId = user.getChannel().getChannelId();
         List<Map<String, Object>> _menuList = (List<Map<String, Object>>) request.getSession().getAttribute("_menuListChannel");
         if (_menuList == null) {
@@ -280,11 +288,10 @@ public class UserController {
     @RequestMapping(value = "addUser.do", method = RequestMethod.POST)
     @ResponseBody
     public void addUser(HttpServletRequest request) {
-        String base64sha1 = SHA1Util.b64_sha1("88888888");
-        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + base64sha1);
+        String passwordAes = EncodeUtil.aesEncrypt(request.getParameter("userId") + "88888888");
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", request.getParameter("userId"));
-        param.put("userName", request.getParameter("userName"));
+        param.put(Dict.USERID, request.getParameter(Dict.USERID));
+        param.put(Dict.USERNAME, request.getParameter(Dict.USERNAME));
         param.put("password", passwordAes);
         param.put("roleSeq", request.getParameter("roleSeq"));
         param.put("sex", request.getParameter("sex"));
@@ -310,8 +317,8 @@ public class UserController {
     @ResponseBody
     public void modifyUser(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId", request.getParameter("userId"));
-        param.put("userName", request.getParameter("userName"));
+        param.put(Dict.USERID, request.getParameter(Dict.USERID));
+        param.put(Dict.USERNAME, request.getParameter(Dict.USERNAME));
         param.put("roleSeq", request.getParameter("roleSeq"));
         param.put("sex", request.getParameter("sex"));
         param.put("age", request.getParameter("age"));
@@ -334,7 +341,7 @@ public class UserController {
     @ResponseBody
     public Object queryUserById(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         if (!Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", user.getChannel().getChannelId());
         }
@@ -352,8 +359,7 @@ public class UserController {
     public void resetPwd(HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         String userId = request.getParameter("userId");
-        String base64sha1 = SHA1Util.b64_sha1("88888888");
-        String passwordaes = EncodeUtil.aesEncrypt(userId + base64sha1);
+        String passwordaes = EncodeUtil.aesEncrypt(userId + "88888888");
         param.put("userId", userId);
         param.put("password", passwordaes);
         param.put("isReSetPwd", "true");
@@ -435,7 +441,7 @@ public class UserController {
     @ResponseBody
     public Object queryMerchant(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         map.put("channelId", user.getChannel().getChannelId());
         map.put("merchantName", request.getParameter("merchantName"));
         return userService.queryMerchant(map);
@@ -532,5 +538,15 @@ public class UserController {
         map.put("userId", request.getParameter("userId"));
         userService.queryAddUserById(map);
     }
-
+    /**
+     * Description: 获取加密公钥
+     * @param request
+     * @return
+     * @Version1.0
+     */
+    @RequestMapping(value = "getPublicKey.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getPublicKey(HttpServletRequest request){
+        return baseService.getPublicKey(request.getSession());
+    }
 }

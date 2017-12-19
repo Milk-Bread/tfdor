@@ -90,16 +90,16 @@ alter table RoleMenuRelate comment '角色菜单关联表';
 
 create table UserInfo(
    userSeq              INTEGER not null auto_increment,
-   roleSeq              INTEGER  comment '角色ID',
-   userId               VARCHAR(18)  comment '用户ID',
-   userName             VARCHAR(18) comment '用户名称',
-   password             VARCHAR(200)  comment '密码',
-   customerType         char(1) comment '用户类型，A-管理员，O-操作员',
+   roleSeq              INTEGER  not null comment '角色ID',
+   userId               VARCHAR(18) not null comment '用户ID',
+   userName             VARCHAR(18) not null comment '用户名称',
+   password             VARCHAR(200) not null  comment '密码',
+   customerType         char(1) not null comment '用户类型，A-管理员，O-操作员',
    sex                  char(1)  comment '性别 W-女，M-男 - -未知',
    age                  INTEGER(3) comment '年龄',
-   idType               char(2) comment '证件类型',
-   idNo                 char(18) comment '证件号码',
-   mobilePhone          char(11) comment '手机号码',
+   idType               char(2) not null comment '证件类型',
+   idNo                 char(18) not null comment '证件号码',
+   mobilePhone          char(11) not null comment '手机号码',
    phone                VARCHAR(24) comment '电话-座机',
    channelId            char(20) comment '渠道ID',
    pasdErrorCount       integer default 0 comment '密码错误次数',
@@ -253,7 +253,7 @@ create table Advertisement (
    updateTime timestamp default now() on update now() comment '修改时间',
    primary key (aSeq)
 )
-DEFAULT CHARSET=  ENGINE = InnoDB;
+DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
 alter table Advertisement comment '广告表';
 
 
@@ -296,7 +296,8 @@ create table MerchantMenuAssociation(
 DEFAULT CHARSET= UTF8 ENGINE = InnoDB;
 alter table MerchantMenuAssociation comment 'web菜单商户关联表';
 
---add script
+
+
 create table JsapiTicket (
    ticketSeq             integer not null auto_increment,
    mchId                varchar(20) not null comment '商户ID',

@@ -32,7 +32,7 @@ class PKCS7Encoder {
         }
         // 获得补位所用的字符
         char padChr = chr(amountToPad);
-        String tmp = new String();
+        String tmp = "";
         for (int index = 0; index < amountToPad; index++) {
             tmp += padChr;
         }

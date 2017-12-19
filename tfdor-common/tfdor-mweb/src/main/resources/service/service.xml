@@ -3,6 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+
 	<bean id="httpTransport" class="com.tfdor.communication.httpclient.HttpClientTransport">
 		<property name="readTimeout">
 			<value>${readTimeout}</value>

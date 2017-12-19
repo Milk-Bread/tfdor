@@ -1,13 +1,29 @@
-package tfdor.domain.manage;
+package com.tfdor.domain.wechat;
 
-import java.io.Serializable;
 
-public class CheckModel extends BaseCodeModel implements Serializable {
+import com.tfdor.domain.BaseModel;
+
+/**
+ * @author chepeiqing
+ * @date 2017年12月12日 下午7:11:07
+ * @description 微信接入数据模型
+ * @modifyBy 修改人
+ * @modifyDate 修改时间
+ * @modifyNote 修改说明
+ */
+public class CheckModel extends BaseModel {
+    private static final long serialVersionUID = 1L;
+    /** 微信加密签名 **/
     private String signature;
+    /** 微信密文 **/
     private String msg_signature;
+    /** 加密模式(aes,明文) **/
     private String encrypt_type;
+    /** 时间戳 **/
     private Long timestamp;
+    /** 随机数 **/
     private Long nonce;
+    /** 随机字符串 **/
     private String echostr;
     private String appId;
 
@@ -69,14 +85,7 @@ public class CheckModel extends BaseCodeModel implements Serializable {
 
     @Override
     public String toString() {
-        return "CheckModel{" +
-                "signature='" + signature + '\'' +
-                ", msg_signature='" + msg_signature + '\'' +
-                ", encrypt_type='" + encrypt_type + '\'' +
-                ", timestamp=" + timestamp +
-                ", nonce=" + nonce +
-                ", echostr='" + echostr + '\'' +
-                ", appId='" + appId + '\'' +
-                '}';
+        return "CheckModel{" + "signature='" + signature + '\'' + ", msg_signature='" + msg_signature + '\'' + ", encrypt_type='" + encrypt_type + '\'' + ", timestamp=" + timestamp + ", nonce=" + nonce
+            + ", echostr='" + echostr + '\'' + ", appId='" + appId + '\'' + '}';
     }
 }

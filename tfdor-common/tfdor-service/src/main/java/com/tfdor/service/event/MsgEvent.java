@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.RedPackBean;
-import tfdor.enumeration.wechat.AmountType;
-import tfdor.enumeration.wechat.RedpackType;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.RedPackBean;
+import com.tfdor.enums.AmountType;
+import com.tfdor.enums.RedpackType;
 
 import com.tfdor.core.transformer.Transformer;
 import com.tfdor.core.transport.Transport;

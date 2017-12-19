@@ -1,5 +1,23 @@
 package com.tfdor.communication.httpclient;
 
+import com.tfdor.core.configurer.PropertyConfigurer;
+import com.tfdor.core.transport.Transport;
+import com.tfdor.tools.dicts.Constants;
+import com.tfdor.tools.dicts.Dict;
+import com.tfdor.tools.utils.Util;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -13,26 +31,6 @@ import java.net.URLConnection;
 import java.security.KeyStore;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.tfdor.core.configurer.PropertyConfigurer;
-import com.tfdor.core.transport.Transport;
-import com.tfdor.tools.dicts.Constants;
-import com.tfdor.tools.dicts.Dict;
-import com.tfdor.tools.utils.Util;
 
 public class HttpClientTransport implements Transport {
   private static Logger logger = LoggerFactory.getLogger(HttpClientTransport.class);
@@ -100,7 +98,7 @@ public class HttpClientTransport implements Transport {
       }
       // 定义 BufferedReader输入流来读取URL的响应
       in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-      String line;
+      String line = "";
       while ((line = in.readLine()) != null) {
         result += line;
       }
@@ -157,7 +155,7 @@ public class HttpClientTransport implements Transport {
       out.flush();
       // 定义BufferedReader输入流来读取URL的响应
       in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-      String line;
+      String line = "";
       while ((line = in.readLine()) != null) {
         result += line;
       }
@@ -210,7 +208,7 @@ public class HttpClientTransport implements Transport {
       out.flush();
       // 定义BufferedReader输入流来读取URL的响应
       in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-      String line;
+      String line = "";
       while ((line = in.readLine()) != null) {
         result += line;
       }

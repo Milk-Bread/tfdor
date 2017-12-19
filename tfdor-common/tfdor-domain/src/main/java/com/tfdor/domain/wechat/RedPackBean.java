@@ -1,4 +1,4 @@
-package tfdor.domain.wechat;
+package com.tfdor.domain.wechat;
 
 /**
  * Created by pengyuming on 16/11/2.

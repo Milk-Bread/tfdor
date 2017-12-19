@@ -49,7 +49,7 @@
 			transjnl = #{transjnl}
 		WHERE sceneStr = #{sceneStr}
 	</update>
-	<select id="qChannel" resultType="tfdor.domain.manage.Channel" parameterType="java.lang.String">
+	<select id="qChannel" resultType="com.tfdor.domain.manage.Channel" parameterType="java.lang.String">
 		select * from channel where channelId = #{channelId}
 	</select>
 
@@ -63,12 +63,12 @@
 			and m.channelId = #{channelId} AND m.state = 'N'
 		</if>
 	</select>
-	<select id="queryRedPackByMchId" parameterType="java.util.HashMap" resultType="tfdor.domain.wechat.RedPackBean">
+	<select id="queryRedPackByMchId" parameterType="java.util.HashMap" resultType="com.tfdor.domain.wechat.RedPackBean">
 		SELECT * FROM redpack where mchId = #{mchId} and redPackSeq = #{redPackSeq}
 	</select>
 
 
-	<select id="queryRedPackList" parameterType="java.util.HashMap" resultType="tfdor.domain.wechat.RedPackBean">
+	<select id="queryRedPackList" parameterType="java.util.HashMap" resultType="com.tfdor.domain.wechat.RedPackBean">
 		SELECT * FROM redpack where mchId = #{mchId}
 		<if test="redPackSeq != null and redPackSeq != ''">
 			AND redPackSeq = #{redPackSeq}
@@ -91,7 +91,7 @@
 		ORDER BY c.createTime DESC
 	</select>
 
-	<insert id="iCreateQrcodeImage" parameterType="tfdor.domain.wechat.CreateQrcodeImg" keyProperty="createQISeq" useGeneratedKeys="true">
+	<insert id="iCreateQrcodeImage" parameterType="com.tfdor.domain.wechat.CreateQrcodeImg" keyProperty="createQISeq" useGeneratedKeys="true">
 		INSERT INTO createqrcodeimg (mchId, beginDate, actionName, endDate, expireSeconds, number, preservation, state, createTime, updateTime,redPackSeq)
 		VALUES (#{mchId}, #{beginDate}, #{actionName}, #{endDate}, #{expireSeconds}, #{number}, #{preservation}, #{state}, now(), now(),#{redPackSeq});
 	</insert>
@@ -106,11 +106,11 @@
 		ORDER BY q.CREATETIME DESC
 	</select>
 
-	<update id="modifyCreateQrcodeImage" parameterType="tfdor.domain.wechat.CreateQrcodeImg">
+	<update id="modifyCreateQrcodeImage" parameterType="com.tfdor.domain.wechat.CreateQrcodeImg">
 		UPDATE createqrcodeimg SET endDate = #{endDate},state = #{state} WHERE CreateQISeq = #{createQISeq}
 	</update>
 
-	<select id="qMerchant" parameterType="java.lang.String" resultType="tfdor.domain.manage.Merchant">
+	<select id="qMerchant" parameterType="java.lang.String" resultType="com.tfdor.domain.manage.Merchant">
 		select * FROM merchant where appId = #{appId} AND state = 'N' ORDER BY CREATETIME DESC
 	</select>
 
@@ -126,16 +126,16 @@
 		VALUES (#{redPackType},#{mchId},#{amountType},#{totalAmount},#{wishing},#{actName},#{remark},#{state},now(),now(),#{totalNum})
 	</insert>
 	
-	<select id="qCustomerInfo" parameterType="java.lang.String" resultType="tfdor.domain.wechat.CustomerInfo">
+	<select id="qCustomerInfo" parameterType="java.lang.String" resultType="com.tfdor.domain.wechat.CustomerInfo">
 		SELECT * from CustomerInfo WHERE openId = #{openId}
 	</select>
 
-	<insert id="iCustomerInfo" parameterType="tfdor.domain.wechat.CustomerInfo">
+	<insert id="iCustomerInfo" parameterType="com.tfdor.domain.wechat.CustomerInfo">
 		INSERT INTO customerinfo (openId, mchSeq, nickName, sex, city, country, province, language, headimgurl, subscribeTime)
 		VALUES (#{openId}, #{mchSeq}, #{nickName}, #{sex}, #{city}, #{country}, #{province}, #{language}, #{headimgurl}, #{subscribeTime})
 	</insert>
 
-	<update id="uCustomerInfo" parameterType="tfdor.domain.wechat.CustomerInfo">
+	<update id="uCustomerInfo" parameterType="com.tfdor.domain.wechat.CustomerInfo">
 		UPDATE customerinfo SET nickName = #{nickName}, sex = #{sex}, city = #{city}, country = #{country}, province = #{province}, language = #{language}, headimgurl = #{headimgurl}, subscribeTime = #{subscribeTime}
 		WHERE openId = #{openId}
 	</update>

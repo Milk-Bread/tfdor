@@ -1,9 +1,9 @@
 package com.tfdor.service.wechat;
 
-import tfdor.domain.manage.Channel;
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.CreateQrcodeImg;
-import tfdor.domain.wechat.QrcodeImg;
+import com.tfdor.domain.manage.Channel;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.CreateQrcodeImg;
+import com.tfdor.domain.wechat.QrcodeImg;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;

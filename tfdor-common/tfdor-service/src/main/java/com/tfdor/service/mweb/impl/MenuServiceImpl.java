@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tfdor.domain.manage.Menu;
+import com.tfdor.domain.manage.Menu;
 
 import com.tfdor.dao.MenuDao;
 import com.tfdor.service.mweb.MenuService;

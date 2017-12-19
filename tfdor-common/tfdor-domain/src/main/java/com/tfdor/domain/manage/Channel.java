@@ -1,4 +1,4 @@
-package tfdor.domain.manage;
+package com.tfdor.domain.manage;
 
 import java.io.Serializable;
 

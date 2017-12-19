@@ -1,11 +1,11 @@
 package com.tfdor.dao;
 
-import tfdor.domain.manage.Channel;
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.CreateQrcodeImg;
-import tfdor.domain.wechat.CustomerInfo;
-import tfdor.domain.wechat.QrcodeImg;
-import tfdor.domain.wechat.RedPackBean;
+import com.tfdor.domain.manage.Channel;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.CreateQrcodeImg;
+import com.tfdor.domain.wechat.CustomerInfo;
+import com.tfdor.domain.wechat.QrcodeImg;
+import com.tfdor.domain.wechat.RedPackBean;
 
 import java.util.List;
 import java.util.Map;

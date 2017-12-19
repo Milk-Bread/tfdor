@@ -1,6 +1,6 @@
 package com.tfdor.dao;
 
-import tfdor.domain.manage.UserInfo;
+import com.tfdor.domain.manage.UserInfo;
 
 import java.util.List;
 import java.util.Map;

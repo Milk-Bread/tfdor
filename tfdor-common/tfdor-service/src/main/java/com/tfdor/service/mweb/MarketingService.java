@@ -1,7 +1,7 @@
 package com.tfdor.service.mweb;
 
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.RedPackBean;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.RedPackBean;
 
 import com.github.pagehelper.PageInfo;
 

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<mt-picker :slots="slots"></mt-picker>
-		<router-view></router-view>
+		<mt-spinner :size="100" color="#26a2ff" type="fading-circle"></mt-spinner>
 	</div>
 </template>
 

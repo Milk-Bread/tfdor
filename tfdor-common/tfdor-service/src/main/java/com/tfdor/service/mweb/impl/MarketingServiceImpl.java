@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.RedPackBean;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.RedPackBean;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

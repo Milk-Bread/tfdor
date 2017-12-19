@@ -4,14 +4,9 @@ package com.tfdor.controller.mweb;
  * Created by pengyuming on 16/10/12.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
+import com.tfdor.service.mweb.MarketingService;
+import com.tfdor.tools.dicts.Dict;
+import com.tfdor.tools.utils.Util;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,13 +16,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.tfdor.domain.manage.UserInfo;
+import com.tfdor.enums.AmountType;
 
-import tfdor.domain.manage.UserInfo;
-import tfdor.enumeration.wechat.AmountType;
-
-import com.tfdor.service.mweb.MarketingService;
-import com.tfdor.tools.dicts.Dict;
-import com.tfdor.tools.utils.Util;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Description: 核心控制器
@@ -53,7 +50,7 @@ public class MarketingController {
     @RequestMapping(value = "qCreateQrcodeImg.do", method = RequestMethod.POST)
     @ResponseBody
     public Object qCreateQrcodeImg(HttpServletRequest request) throws Exception {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> param = new HashMap<String, Object>();
         if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", request.getParameter("channelId"));
@@ -94,7 +91,7 @@ public class MarketingController {
     @RequestMapping(value = "queryRedPack.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryRedPack(HttpServletRequest request) throws Exception {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> param = new HashMap<String, Object>();
         if (Dict.BUILT_IN_CHANNEL.equals(user.getChannel().getChannelId())) {
             param.put("channelId", request.getParameter("channelId"));

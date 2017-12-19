@@ -1,4 +1,4 @@
-package tfdor.domain.wechat;
+package com.tfdor.domain.wechat;
 /**
  * 二维码生成配置表实体
  *@author chepeiqing

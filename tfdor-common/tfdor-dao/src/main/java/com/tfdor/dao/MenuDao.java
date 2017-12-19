@@ -1,6 +1,6 @@
 package com.tfdor.dao;
 
-import tfdor.domain.manage.Menu;
+import com.tfdor.domain.manage.Menu;
 
 import java.util.List;
 import java.util.Map;

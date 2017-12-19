@@ -5,44 +5,45 @@ define(['app'], function (app) {
         var b64pad = "";
         var chrsz = 8;
         this.hex_sha1 = function (s) {
-            if(s == null || s == ''){
+            if (s == null || s == '') {
                 return null;
             }
             return binb2hex(core_sha1(str2binb(s), s.length * chrsz));
         }
         this.b64_sha1 = function (s) {
-            if(s == null || s == ''){
+            if (s == null || s == '') {
                 return null;
             }
             return binb2b64(core_sha1(str2binb(s), s.length * chrsz));
         }
         this.str_sha1 = function (s) {
-            if(s == null || s == ''){
+            if (s == null || s == '') {
                 return null;
             }
             return binb2str(core_sha1(str2binb(s), s.length * chrsz));
         }
         this.hex_hmac_sha1 = function (key, data) {
-            if(data == null || key == null){
+            if (data == null || key == null) {
                 return null;
             }
             return binb2hex(core_hmac_sha1(key, data));
         }
         this.b64_hmac_sha1 = function (key, data) {
-            if(data == null || key == null){
+            if (data == null || key == null) {
                 return null;
             }
             return binb2b64(core_hmac_sha1(key, data));
         }
         this.str_hmac_sha1 = function (key, data) {
-            if(data == null || key == null){
+            if (data == null || key == null) {
                 return null;
             }
             return binb2str(core_hmac_sha1(key, data));
         }
-        function sha1_vm_test () {
+        function sha1_vm_test() {
             return hex_sha1("abc") == "a9993e364706816aba3e25717850c26c9cd0d89d";
         }
+
         function core_sha1(x, len) {
             x[len >> 5] |= 0x80 << (24 - len % 32);
             x[((len + 64 >> 9) << 4) + 15] = len;
@@ -102,14 +103,17 @@ define(['app'], function (app) {
             var hash = core_sha1(ipad.concat(str2binb(data)), 512 + data.length * chrsz);
             return core_sha1(opad.concat(hash), 512 + 160);
         }
+
         function safe_add(x, y) {
             var lsw = (x & 0xFFFF) + (y & 0xFFFF);
             var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
             return (msw << 16) | (lsw & 0xFFFF);
         }
+
         function rol(num, cnt) {
             return (num << cnt) | (num >>> (32 - cnt));
         }
+
         function str2binb(str) {
             var bin = Array();
             var mask = (1 << chrsz) - 1;
@@ -117,6 +121,7 @@ define(['app'], function (app) {
                 bin[i >> 5] |= (str.charCodeAt(i / chrsz) & mask) << (24 - i % 32);
             return bin;
         }
+
         function binb2str(bin) {
             var str = "";
             var mask = (1 << chrsz) - 1;
@@ -124,6 +129,7 @@ define(['app'], function (app) {
                 str += String.fromCharCode((bin[i >> 5] >>> (24 - i % 32)) & mask);
             return str;
         }
+
         function binb2hex(binarray) {
             var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
             var str = "";
@@ -132,6 +138,7 @@ define(['app'], function (app) {
             }
             return str;
         }
+
         function binb2b64(binarray) {
             var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
             var str = "";

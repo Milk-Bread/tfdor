@@ -1,7 +1,12 @@
-package tfdor.enumeration.wechat;
+package com.tfdor.enums;
 
 /**
- * Created by chepeiqing on 16/10/10.
+ * @author chepeiqing
+ * @date 2017年12月12日 下午8:54:15
+ * @description 微信时间类型
+ * @modifyBy 修改人
+ * @modifyDate 修改时间
+ * @modifyNote 修改说明
  */
 public enum Event {
     /**

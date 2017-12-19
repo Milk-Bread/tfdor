@@ -1,4 +1,4 @@
-package tfdor.enumeration.wechat;
+package com.tfdor.enums;
 
 /**
  * 红包金额类型

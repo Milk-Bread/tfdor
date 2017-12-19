@@ -1,17 +1,15 @@
 package com.tfdor.service.wechat.impl;
 
-import java.util.Arrays;
-
+import com.tfdor.domain.wechat.CheckModel;
+import com.tfdor.service.wechat.TokenService;
+import com.tfdor.tools.dicts.CheckMsg;
+import com.tfdor.tools.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tfdor.domain.manage.CheckModel;
-
-import com.tfdor.service.wechat.TokenService;
-import com.tfdor.tools.dicts.CheckMsg;
-import com.tfdor.tools.utils.Util;
+import java.util.Arrays;
 
 @Service
 public class TokenServiceImpl implements TokenService {

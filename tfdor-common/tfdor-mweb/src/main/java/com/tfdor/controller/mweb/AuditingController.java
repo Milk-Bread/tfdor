@@ -1,25 +1,23 @@
 package com.tfdor.controller.mweb;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import com.tfdor.service.mweb.AuditingService;
+import com.tfdor.tools.dicts.Dict;
+import com.tfdor.tools.utils.Util;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.tfdor.domain.manage.UserInfo;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import tfdor.domain.manage.UserInfo;
-
-import com.tfdor.service.mweb.AuditingService;
-import com.tfdor.tools.utils.Util;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author chepeiqing
@@ -44,7 +42,7 @@ public class AuditingController {
     @RequestMapping(value = "addAuditing.do", method = RequestMethod.POST)
     @ResponseBody
     public void addAuditing(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo userinfo = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> auditingData = new HashMap<String, Object>();
         Map<String, Object> map = new HashMap<String, Object>();
         Enumeration enu = request.getParameterNames();
@@ -75,7 +73,7 @@ public class AuditingController {
     @RequestMapping(value = "queryAuditPerson.do", method = RequestMethod.POST)
     @ResponseBody
     public Object queryAuditPerson(HttpServletRequest request, HttpServletResponse response) {
-        UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo userinfo = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("channelId", userinfo.getChannel().getChannelId());
         map.put("userSeq", userinfo.getUserSeq());
@@ -92,7 +90,7 @@ public class AuditingController {
     @RequestMapping(value = "auditingList.do", method = RequestMethod.POST)
     @ResponseBody
     public Object auditingList(HttpServletRequest request, HttpServletResponse response) {
-        UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo userinfo = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("auditPersonSeq", userinfo.getUserSeq());
         map.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
@@ -147,7 +145,7 @@ public class AuditingController {
     @RequestMapping(value = "audiResultList.do", method = RequestMethod.POST)
     @ResponseBody
     public Object audiResultList(HttpServletRequest request, HttpServletResponse response) {
-        UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+        UserInfo userinfo = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageNo", Integer.valueOf(request.getParameter("pageNo")));
         map.put("pageSize", Integer.valueOf(request.getParameter("pageSize")));

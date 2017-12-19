@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tfdor.dao.UserDao">
     <!-- 登陆 -->
-    <select id="loginCheck" parameterType="tfdor.domain.manage.UserInfo" resultType="java.util.Map">
+    <select id="loginCheck" parameterType="com.tfdor.domain.manage.UserInfo" resultType="java.util.Map">
         select userSeq,userId,userName,sex,age,addr,mobilePhone,password,pasdErrorCount,
         phone,idType,idNo,roleSeq,DATE_FORMAT(c.createTime,'%Y-%m-%d %H:%i:%s') createTime,
         c.channelId,c.channelName,c.state,u.loginCount,DATE_FORMAT(u.lastLoginTime,'%Y-%m-%d %H:%i:%s') lastLoginTime,u.isReSetPwd

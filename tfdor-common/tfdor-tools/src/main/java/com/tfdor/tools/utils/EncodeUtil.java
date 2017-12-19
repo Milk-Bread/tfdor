@@ -7,7 +7,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.SecureRandom;
-import java.text.MessageFormat;
+import java.util.Random;
 
 
 /**
@@ -122,6 +122,12 @@ public class EncodeUtil {
             return true;
         } else {
             return false;
+        }
+    }
+    public static void main(String[] a){
+        for (int i=0;i<=100;i++) {
+            int keyPair = new Random().nextInt(20);
+            System.out.println(keyPair);
         }
     }
 }

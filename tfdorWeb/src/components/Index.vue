@@ -6,6 +6,9 @@
 			<mt-swipe-item><img src="../assets/images/3.jpeg" width="100%" /></mt-swipe-item>
 			<mt-swipe-item><img src="../assets/images/4.jpg" width="100%" /></mt-swipe-item>
 		</mt-swipe>
+		<div style="width: 100%;text-align: center;">
+			<mt-button type="default" @click="goButtonTest()">跳转</mt-button>
+		</div>
 	</div>
 </template>
 
@@ -14,6 +17,9 @@
 		methods: {
 			goBack: function() {
 				this.$router.go(-1);
+			},
+			goButtonTest: function() {
+				this.$router.push({path: '/Tab/ButtonTest'});
 			}
 		}
 	};

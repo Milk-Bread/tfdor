@@ -593,7 +593,13 @@ public class Util {
     // zipCompressorByAnt("/Users/chepeiqing/Desktop/WeChat/images/1402828602/20161109234019");
     // System.out.println(parse("<xml><ToUserName><![CDATA[gh_716331599724]]></ToUserName><FromUserName><![CDATA[oDPnjwxXE6QhsTr7AmlBzPS4Xul8]]></FromUserName><CreateTime>1478054845</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_25432]]></EventKey><Ticket><![CDATA[gQG_7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3l6aGFvTERscldUVTF4Tk1pQlRJAAIE51IZWAMEAAAAAA==]]></Ticket></xml>"));
     // System.out.println(getOrderId("1402828602",28));
-    String aaa = "qrscene_14028286022016111418232938193543";
-    System.out.println(aaa.indexOf("qrscene_"));
+//    String aaa = "qrscene_14028286022016111418232938193543";
+//    System.out.println(aaa.indexOf("qrscene_"));
+//    System.out.println(getLocalIP());
+    Random rand =new Random(25);
+    System.err.println(rand.nextInt());
+    System.err.println(rand.nextInt(100));
+    System.err.println(rand.nextInt(9999999));
+    System.err.println(rand.nextInt(1000000000));
   }
 }

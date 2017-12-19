@@ -1,19 +1,17 @@
 package com.tfdor.core.interceptor;
 
-import java.io.IOException;
-import java.util.List;
+import com.tfdor.core.configurer.PropertyConfigurer;
+import com.tfdor.tools.dicts.Dict;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.tfdor.domain.manage.UserInfo;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import tfdor.domain.manage.UserInfo;
-
-import com.tfdor.core.configurer.PropertyConfigurer;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 复合交易list
@@ -41,7 +39,7 @@ public class AuditingInterceptor {
             if (action.indexOf(actn) > 0 && !"audiAgree.do".equals(transName)) {
                 logger.debug(actn + "交易需复合,提交复合模版");
                 String acName = propertyConfigurer.getMessage(actn);
-                UserInfo userinfo = (UserInfo) request.getSession().getAttribute("_USER");
+                UserInfo userinfo = (UserInfo) request.getSession().getAttribute(Dict.SESSIONUSERID);
                 request.getSession().setAttribute("auditig"+userinfo.getUserSeq(),actn+","+acName);
                 request.getRequestDispatcher("/addAuditing.do").forward(request, response);
                 return false;

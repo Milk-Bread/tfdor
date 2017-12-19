@@ -19,24 +19,9 @@ export default new Router({
 		name: 'Tab',
 		component: Tab,
 		children: [{
-			path: '',
-			redirect: 'Index'
-		},{
 			path: 'Index', // 二级路由，首页
 			name: 'Index',
-			component: Index,
-			children: [{
-				path: '',
-				redirect: 'InputTest'
-			},{
-				path: 'InputTest', // 三级路由
-				name: 'InputTest',
-				component: InputTest
-			},{
-				path: 'ButtonTest',
-				name: 'ButtonTest',
-				component: ButtonTest
-			}]
+			component: Index
 		},{
 			path: 'Member', // 二级路由,个人中心
 			name: 'Member',
@@ -49,6 +34,14 @@ export default new Router({
 			path: 'New', // 二级路由，新品
 			name: 'New',
 			component: New
+		},{
+			path: 'InputTest',
+			name: 'InputTest',
+			component: InputTest
+		},{
+			path: 'ButtonTest',
+			name: 'ButtonTest',
+			component: ButtonTest
 		}]
 	}]
 });

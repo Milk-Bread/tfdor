@@ -1,32 +1,14 @@
 package com.tfdor.service.wechat.impl;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import tfdor.domain.manage.Channel;
-import tfdor.domain.manage.Merchant;
-import tfdor.domain.wechat.CreateQrcodeImg;
-import tfdor.domain.wechat.CustomerInfo;
-import tfdor.domain.wechat.QrcodeImg;
-import tfdor.enumeration.wechat.Event;
-import tfdor.enumeration.wechat.MsgType;
-
 import com.tfdor.core.transport.Transport;
 import com.tfdor.dao.WeChantDao;
+import com.tfdor.domain.manage.Channel;
+import com.tfdor.domain.manage.Merchant;
+import com.tfdor.domain.wechat.CreateQrcodeImg;
+import com.tfdor.domain.wechat.CustomerInfo;
+import com.tfdor.domain.wechat.QrcodeImg;
+import com.tfdor.enums.Event;
+import com.tfdor.enums.MsgType;
 import com.tfdor.service.event.MsgEvent;
 import com.tfdor.service.wechat.WeChatService;
 import com.tfdor.tools.dicts.CheckMsg;
@@ -35,6 +17,21 @@ import com.tfdor.tools.dicts.Dict;
 import com.tfdor.tools.dicts.WeChat;
 import com.tfdor.tools.utils.BeanUtils;
 import com.tfdor.tools.utils.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class WeChatServiceImpl implements WeChatService {
