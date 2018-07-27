@@ -31,14 +31,14 @@ $ vue init webpack my-project
 $ cd my-project
 $ npm install
 # 安装路由
-$ cnpm install vue-router
+$ npm install vue-router
 
 ```
 ### 四、引入 Mint-ui
 
 ```
 # Vue 2.0
-$ cnpm install mint-ui -S
+$ npm install mint-ui -S
 # 引入全部组件
 import Mint from 'mint-ui'
 Vue.use(Mint)
